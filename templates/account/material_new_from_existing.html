@@ -1,0 +1,25 @@
+{% extends 'account/summary.html' %}
+
+{% block account_right %}
+<h2>Give Your Items:</h2>
+
+<div><label>Count: </label><input></input></div>
+<div><label>Price: </label><input></input></div>
+<div><label>Condition: </label>
+<select>
+<option value="NEW">New</option>
+<option value="LKNE">Like New</option>
+<option value="GO">Good</option>
+</select></div>
+<div><label>Status: </label>
+<select>
+<option value="AC">Active</option>
+<option value="IN">Inactive</option>
+</select>				
+</div>
+<div><label>Note: </label>
+<textarea></textarea>			
+</div>
+
+<div class="button" style="margin-right:30px;"><a href="account-material.htm">Save</a></div>	
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<body class="account">
+
+<div class="contentwrapper">
+		<div class="account-right">
+            {% block account_right %}
+            
+			<p><h2><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></h2>
+			You can complete giver's profile and start listing books/CDs/DVDs.
+
+			<p><h2><a href="{% url 'account_reading_orders' %}">Reading Orders</a></h2>
+			As a Dharma material seeker, you place orders to request material from others.  
+			<ul>
+			<li><b>New Orders: 3</b></li>
+			<li>Shipped Orders: 2</li>
+			<li>Delivered Orders: 3</li>
+			</ul>
+
+			<p><h2><a href="{% url 'account_giving_orders' %}">Giving Orders</a></h2>
+			As a Dharma material distributer/giver, you need to mail materials to others upon request. 
+			<ul>
+			<li><b>New Orders: 3</b></li>
+			<li>Shipped Orders: 2</li>
+			<li>Delivered Orders: 3</li>
+			</ul>
+
+			<p><h2><a href="{% url 'account_material' %}">Give Books/CDs/DVDs</a></h2>
+			As a Dharma material distributer/giver, you need to post your materials so that others can place an order. <br>
+			The seekers are expected to mail you the mailing cost, if specified, after received the material, and encouraged to support your distribution effort, if donation/payment method is specified. 
+			<ul>
+			<li><b>Active Items: 4</b> </li>
+			<li>Inactive Items: 4</li>
+            
+            {% endblock account_right %}
+		</div>
+        
+	</div>
+
+	<div class= "account-left menu">
+		<a href="{% url 'index' %}"><img src="{{ MEDIA_URL }}img/logo-small.png"></a>
+		<ul>
+			<li><a href="{% url 'account_summary' %}">Account Summary</a></li>
+			<li><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></li>
+			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
+			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
+			<li><a href="{% url 'account_material' %}">Give Books/CDs/DVDs</a></li>
+		</ul>
+	</div>
+
+  </body>
+{% endblock %}

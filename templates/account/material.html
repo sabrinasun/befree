@@ -1,0 +1,40 @@
+{% extends 'account/summary.html' %}
+
+{% block account_right %}
+<h2>Books/CDs/DVDs</h2> 
+<div class="button"><a href="{% url 'account_material_new' %}">Add Book/CD/DVD</a></div>
+<table width="100%" cellspacing="1px" cellpadding="6px">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Shipping Cost</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td><a href="">The Method of No-Method: The Chan Practice of Silent Illumination</a></td>
+        <td>Sheng Yen</td>
+        <td>Book</td>
+        <td>$0.00</td>
+        <td>$0.00</td>
+        <td>Active</td>
+    </tr>
+    <tr>
+        <td><a href="">The Method of No-Method: The Chan Practice of Silent Illumination</a></td>
+        <td>Sheng Yen</td>
+        <td>Book</td>
+        <td>$0.00</td>
+        <td>$0.00</td>
+        <td>Active</td>
+    </tr>
+    <tr>
+        <td><a href="">The Method of No-Method: The Chan Practice of Silent Illumination</a></td>
+        <td>Sheng Yen</td>
+        <td>Book</td>
+        <td>$0.00</td>
+        <td>$0.00</td>
+        <td>Active</td>
+    </tr>
+</table>
+{% endblock %}

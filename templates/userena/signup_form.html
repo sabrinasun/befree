@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" action="{% url 'userena_signup' %}" id="register_form">
+    {% csrf_token %}
+
+<div>
+        {% for non_field_error in form.non_field_errors %}
+             {{ non_field_error }}
+        {% endfor %}
+</div>
+
+<h2>Register to Give</h2>
+Please register with information requested for giving, and start listing books to give to others. 
+	<h3>Basic information:</h3>
+	<div><label>Email:</label>{{ form.email }}{{ form.email.errors }} * Private</div> 
+	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }} * Private</div> 
+	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }} * Private</div> 
+	<div><label>Name:</label>{{ form.username }}{{ form.username.errors }} * Public
+	</div>
+	<div>
+	<label>Screen Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * Public, the name of your temple or your teaching practice name.</div>  
+
+	<p><h3>For Giver - Accept Shipping Reimbursement/Donation from Reader:</h3> 
+	Below two fields are required if you need shipping reimbursement, at least one field is required if you don't ship for free. Displayed to reader for shipping reimbersement.
+	<div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>
+	<div><label style="vertical-align: top;">Other Means:</label>{{ form.other_means }}{{ form.other_means.errors }}</div>
+	</p>
+	<label>Free Domestic Shipping</label>{{ form.free_domestic_shipping }}{{ form.free_domestic_shipping.errors }} * If not free, reader contacts you for shipping cost if you are not in USA. USA shipping cost is calculated according to total weight of the shipment. <br>
+	<label>Free International Shipping</label>{{ form.free_international_shipping }}{{ form.free_international_shipping.errors }} * If not free, reader contacts you for shipping cost.<br>
+
+	<br>
+	<div><label>Max Number Per Order:</label>
+	 {{ form.max_number_per_order }}{{ form.max_number_per_order.errors }} * Public, if this number is defined, user will be required to enter why need to order so many. 
+	</div>
+
+	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
+
+</form>
+{% endblock %}
