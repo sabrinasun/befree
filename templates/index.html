@@ -1,50 +1,30 @@
 {% extends 'base.html' %}
+{% load readmore %}
 
 {% block main %}
 <div class ="contentwrapper">
-		<div class="content-outer-column">
-			<div> <!--a row of book-->
-				<div class ="contentwrapper">
-					<div class="content-inner-column">
-					<div class="button"><a href="">Add To Bag</a></div>
-					<div style="float:right; margin-top:3px; margin-right:2px;"><select><option>1</option></select></div>
-					<b>The Method of No-Method: The Chan Practice of Silent Illumination</b> by Sheng Yen  <br>
-					From: <a href="temple-public-profile.htm">Dharma Drum Mountain</a>  &nbsp; 
-					Condition: New &nbsp; Location: New Jersey, USA &nbsp; Quantity: 3 <br>
-					Domestic Shipping:Free &nbsp; International Shipping:No
-					<p>Description: Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings Revered by Buddhists in the United States and China, contemporary  <a>more...</a>
-					</p>
-					</div>
-				</div>
-				<div class="leftcolumn">
-					<div><img src="{{ MEDIA_URL }}img/book1.jpg" height="100px"></div>
-				</div>
-			</div>
+    {% for material in materials %}
+    <div class="content-outer-column">
+        <div> <!--a row of book-->
 
-		</div>
+            <div class ="contentwrapper">
+                <div class="content-inner-column">
+                    <div class="button"><a href="">Add To Bag</a></div>
+                    <div style="float:right; margin-top:3px; margin-right:2px;"><select><option>1</option></select></div>
+                    <b>{{ material.title }}</b> by {{ material.author.name }}  <br>
+                    From: <a href="temple-public-profile.htm">{{ material.publisher.get_full_name|default:material.publisher.username }}</a>  &nbsp;
+                    Condition: New &nbsp; Location: New Jersey, USA &nbsp; Quantity: 3 <br>
+                    Domestic Shipping:Free &nbsp; International Shipping:No
+                    {{ material.description|readmore:40 }}
+                </div>
+            </div>
 
+            <div class="leftcolumn">
+                <div><img src="{{ MEDIA_URL }}img/book1.jpg" height="100px"></div>
+            </div>
 
-		<div class="content-outer-column">
-			<div> <!--a row of book-->
-				<div class ="contentwrapper">
-					<div class="content-inner-column">
-					<div class="button"><a href="">Add To Bag</a></div>
-					<div style="float:right; margin-top:3px; margin-right:2px;"><select><option>1</option></select></div>
-					<b>The Method of No-Method: The Chan Practice of Silent Illumination</b> by Sheng Yen  <br>
-					From <a href="user-public-profile.htm">Sabrina</a> &nbsp; Shipping:$0 &nbsp; 
-					Condition: New &nbsp; Location: New York, USA &nbsp; Quantity: 3 
-					<p>Description: Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings Revered by Buddhists in the United States and China, contemporary Master Sheng-yen shares his wisdom and teachings contemporary Master Sheng-yen shares his wisdom and teachings<a>more...</a>
-					</p>
-					</div>
-				</div>
-				<div class="leftcolumn">
-					<div><img src="{{ MEDIA_URL }}img/book1.jpg" height="100px" /></div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-	
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock main %}
-	

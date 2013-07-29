@@ -23,20 +23,25 @@ PDF_CHOICES = (
     ('PA', 'PA'),
 )
 
+LAN_CHOICES = (
+    ('English', 'English'),
+    ('Chinese', 'Chinese'),
+    ('Other', 'Other'),
+)
 
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author)
     publisher = models.ForeignKey(get_user_model())
-    isbn = models.CharField(max_length=100)
-    publisher_book_id = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=100, blank=True)
+    publisher_book_id = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     pages = models.PositiveIntegerField(default=0)
     weight = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     create_date = models.DateTimeField(default=timezone.now)
-    language = models.CharField(max_length=10)
+    language = models.CharField(max_length=10, choices=LAN_CHOICES, blank=True)
     has_pic = models.BooleanField(default=False)
     pdf = models.CharField(max_length=10, choices=PDF_CHOICES)
 
