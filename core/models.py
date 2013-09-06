@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from userena.utils import get_user_model
-
+from accounts.models import Profile
 
 class Author(models.Model):
     name = models.CharField(max_length=100)
