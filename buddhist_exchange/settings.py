@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'easy_thumbnails',
+    'endless_pagination',
     'accounts',
     'core',
 )
@@ -135,6 +136,17 @@ AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
 )
 
 #~ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -148,7 +160,8 @@ LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
 USERENA_WITHOUT_USERNAMES = False
-USERENA_ACTIVATION_REQUIRED = True
+USERENA_ACTIVATION_REQUIRED = False
+USERENA_SIGNIN_AFTER_SIGNUP = True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

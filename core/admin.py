@@ -3,6 +3,7 @@ from core.models import *
 
 class MaterialAdmin(admin.ModelAdmin):
     filter_horizontal = ('author', )
+    #~ save_as = True
 
 admin.site.register(Material, MaterialAdmin)
 

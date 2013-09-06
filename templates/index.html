@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-{% load readmore %}
+{% load readmore endless %}
 
 {% block main %}
 <div class ="contentwrapper">
+    {% paginate materials %}
     {% for material in materials %}
     <div class="content-outer-column">
         <div> <!--a row of book-->
@@ -11,8 +12,8 @@
                 <div class="content-inner-column">
                     <div class="button"><a href="">Add To Bag</a></div>
                     <div style="float:right; margin-top:3px; margin-right:2px;"><select><option>1</option></select></div>
-                    <b>{{ material.title }}</b> by {{ material.author.name }}  <br>
-                    From: <a href="temple-public-profile.htm">{{ material.publisher.get_full_name|default:material.publisher.username }}</a>  &nbsp;
+                    <b>{{ material.title }}</b> by {{ material.get_author_names }}  <br>
+                    From: <a href="{{ material.publisher.get_absolute_url }}">{{ material.publisher.get_full_name|default:material.publisher.username }}</a>  &nbsp;
                     Condition: New &nbsp; Location: New Jersey, USA &nbsp; Quantity: 3 <br>
                     Domestic Shipping:Free &nbsp; International Shipping:No
                     {{ material.description|readmore:40 }}
@@ -26,5 +27,11 @@
         </div>
     </div>
     {% endfor %}
+    
+    <div class="content-outer-column">
+        <div style="text-align:center">
+            {% show_pages %}
+        </div>
+    </div>
 </div>
 {% endblock main %}

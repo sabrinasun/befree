@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class ="contentwrapper">
+    <div class="content-outer-column">
+        <div>
+            
+            <h2>{{ user.get_full_name|default:user.username }}</h2>
+            <p>Website: <a href="{{ profile.website }}">{{ profile.website }}</a></p>
+            <p>Facebook: <a href="{{ profile.facebook }}">{{ profile.facebook }}</a></p>
+            <p>Location: {{ profile.get_location }}</p>
+            <p>{{ profile.description }}</p>
+            <br />
+            
+            <h3><b>Donation:</b></h3>
+            {% if profile.is_nonprofit %}
+                <p>We are regestired non-profit organization.</p>
+            {% endif %}
+            <p>Paypal Email: {{ profile.paypal_email }}</p>
+            <p>Other Means:</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

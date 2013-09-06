@@ -48,6 +48,8 @@ class Material(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_author_names(self):
+        return ', '.join(a.name for a in self.author.all())
 
 CONDITION_CHOICES = (
     ('NE', 'NE'),

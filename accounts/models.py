@@ -41,3 +41,10 @@ class Profile(UserenaBaseProfile):
     international_free_shipping = models.BooleanField(default=False)
     domestic_free_shipping = models.BooleanField(default=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+
+    def get_location(self):
+        lst = []
+        for attr in ('address1', 'address2', 'city', 'state', 'country'):
+            if hasattr(self, attr) and getattr(self, attr):
+                lst.append(getattr(self, attr))
+        return ', '.join(lst)
