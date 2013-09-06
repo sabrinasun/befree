@@ -21,7 +21,9 @@
                     From: <a href="{{ material.publisher.get_absolute_url }}">{{ material.publisher.get_full_name|default:material.publisher.username }}</a>  &nbsp;
                     Condition: {{ material.condition }} 
                     &nbsp; 
-                    Location: New Jersey, USA &nbsp; Quantity: 3 <br>
+                    Location: New Jersey, USA 
+                    &nbsp; 
+                    Quantity: {{ material.quantity }} <br>
                     Domestic Shipping:{% if material.publisher.get_profile.domestic_free_shipping %}Free{% else %}No{% endif %} 
                     &nbsp; 
                     International Shipping:{% if material.publisher.get_profile.international_free_shipping %}Free{% else %}No{% endif %}

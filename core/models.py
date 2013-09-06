@@ -50,6 +50,7 @@ class Material(models.Model):
     has_pic = models.BooleanField(default=False)
     pdf = models.CharField(max_length=10, choices=PDF_CHOICES)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='New')
+    quantity = models.PositiveIntegerField(default=1)
 
     def __unicode__(self):
         return self.title
