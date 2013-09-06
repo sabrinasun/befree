@@ -19,8 +19,11 @@
                     
                     <b>{{ material.title }}</b> by {{ material.get_author_names }}<br>
                     From: <a href="{{ material.publisher.get_absolute_url }}">{{ material.publisher.get_full_name|default:material.publisher.username }}</a>  &nbsp;
-                    Condition: New &nbsp; Location: New Jersey, USA &nbsp; Quantity: 3 <br>
-                    Domestic Shipping:{% if material.publisher.get_profile.domestic_free_shipping %}Free{% else %}No{% endif %} &nbsp; 
+                    Condition: {{ material.condition }} 
+                    &nbsp; 
+                    Location: New Jersey, USA &nbsp; Quantity: 3 <br>
+                    Domestic Shipping:{% if material.publisher.get_profile.domestic_free_shipping %}Free{% else %}No{% endif %} 
+                    &nbsp; 
                     International Shipping:{% if material.publisher.get_profile.international_free_shipping %}Free{% else %}No{% endif %}
                     {{ material.description|readmore:40 }}
                 </div>

@@ -29,6 +29,11 @@ LAN_CHOICES = (
     ('Other', 'Other'),
 )
 
+CONDITION_CHOICES = (
+    ('New', 'New'),
+    ('Old', 'Old'),
+)
+
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author)
@@ -44,6 +49,7 @@ class Material(models.Model):
     language = models.CharField(max_length=10, choices=LAN_CHOICES, blank=True)
     has_pic = models.BooleanField(default=False)
     pdf = models.CharField(max_length=10, choices=PDF_CHOICES)
+    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='New')
 
     def __unicode__(self):
         return self.title
