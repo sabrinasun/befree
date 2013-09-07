@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django_countries import CountryField
+
 from userena.utils import get_user_model
 from userena.models import UserenaBaseProfile
 
@@ -25,7 +27,7 @@ class Profile(UserenaBaseProfile):
     address2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=50, blank=True)
-    country = models.CharField(max_length=50, blank=True)
+    country = CountryField(max_length=50, blank=True)
 
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     is_nonprofit = models.BooleanField(default=False)
