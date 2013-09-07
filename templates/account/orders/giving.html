@@ -3,22 +3,24 @@
 {% block account_right %}
 <h2>Giving Orders</h2>
 <div class="order-box">
+{% for order in orders %}
     <div class="contentwrapper">
         <div class="right">
-         
-        <div class="button"><a href="">Contact Grace</a></div> 
-        <div class="button"><a href="">Shipped</a></div>
-        The Method of No-Method: The Chan Practice of Silent Illumination &nbsp; Quatity:2 <br>
-        <br><br>
-        Ordered: April 13, 2013  &nbsp; Shipped: April 20, 2013
+            {% if not order.ship_date %}
+            <div class="button"><a href="{% url 'ship_order' order_id=order.id %}?next={{ request.get_full_path }}">Ship</a></div>
+            {% endif %}
+            {{ order.material.title }}<br>
+            Quantity: {{ order.quantity }}<br>
+            Total: ${{ order.get_total_price }}
         </div>
     </div>
     <div class="left">
-        Order # 12345<br>
-        Ordered by Grace Jones<br>
-        Total $3.20<br>
-
-        <b>Shipped</b>
+        Order #{{ order.id }}<br />
+        Reader: <a href="{{ order.reader.get_absolute_url }}">{{ order.reader.get_full_name|default:order.reader.username }}</a><br/>
+        {% if order.ship_date %}<strong style="color:#E47911">Shipped</strong>{% endif %}
     </div>
+{% empty %}
+    No orders.
+{% endfor %}
 </div>
 {% endblock %}

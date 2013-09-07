@@ -1,5 +1,6 @@
 from django import http
 from django.db import transaction
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -44,3 +45,31 @@ def check_out(request):
         'orders': orders,
     }
     return render(request, 'check_out.html', context)
+
+@login_required
+def account_reading_orders(request):
+    orders = Order.objects.filter(reader=request.user)
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'account/orders/reading.html', context)
+
+@login_required
+def account_giving_orders(request):
+    orders = Order.objects.filter(material__giver=request.user)
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'account/orders/giving.html', context)
+
+@login_required
+def ship_order(request, order_id):
+    next = request.GET.get('next', '/')
+    try:
+        order = Order.objects.get(id=order_id, material__giver=request.user)
+    except Order.DoesNotExist:
+        pass
+    else:
+        order.ship_date = timezone.now()
+        order.save(update_fields=['ship_date'])
+    return redirect(next)
