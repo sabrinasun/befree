@@ -101,6 +101,8 @@ class Order(models.Model):
     pay_date = models.DateTimeField(null=True, blank=True)
     payment_detail = models.TextField(blank=True)
 
+    def get_total_price(self):
+        return self.material.price * self.quantity
 
 #~ class OrderDetail(models.Model):
     #~ order = models.ForeignKey(Order)

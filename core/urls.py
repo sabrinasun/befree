@@ -18,4 +18,5 @@ urlpatterns = patterns('core.views',
     url(r'^account/material/new/$', to_template('account/material_new.html'), name='account_material_new'),
     url(r'^account/material/new/existing/$', to_template('account/material_new_from_existing.html'), name='material_new_from_existing'),
     url(r'^users/(?P<username>[\w.@+-]+)/$', 'user_profile', name='user_profile'),
+    url(r'^check_out/$', 'check_out', name='check_out'),
 )
