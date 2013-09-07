@@ -147,6 +147,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
+    'core.context_processors.order',
 )
 
 #~ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
