@@ -1,0 +1,17 @@
+{% extends 'account/summary.html' %}
+
+{% block account_right %}
+<div style="float:left; width:50%;">
+    <h2>Add an Author:</h2>
+    <div></div>
+    
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add" class="button" style="color:#fff;margin-right:30px" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+</div>
+<div style="clear:both"></div>
+{% endblock %}

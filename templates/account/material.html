@@ -12,29 +12,15 @@
         <th>Shipping Cost</th>
         <th>Status</th>
     </tr>
+    {% for material in materials %}
     <tr>
-        <td><a href="">The Method of No-Method: The Chan Practice of Silent Illumination</a></td>
-        <td>Sheng Yen</td>
-        <td>Book</td>
+        <td><a href="{{ material.get_absolute_url }}">{{ material.title }}</a></td>
+        <td>{{ material.get_author_names }}</td>
+        <td>{{ material.type }}</td>
+        <td>${{ material.price }}</td>
         <td>$0.00</td>
-        <td>$0.00</td>
-        <td>Active</td>
+        <td>{{ material.status }}</td>
     </tr>
-    <tr>
-        <td><a href="">The Method of No-Method: The Chan Practice of Silent Illumination</a></td>
-        <td>Sheng Yen</td>
-        <td>Book</td>
-        <td>$0.00</td>
-        <td>$0.00</td>
-        <td>Active</td>
-    </tr>
-    <tr>
-        <td><a href="">The Method of No-Method: The Chan Practice of Silent Illumination</a></td>
-        <td>Sheng Yen</td>
-        <td>Book</td>
-        <td>$0.00</td>
-        <td>$0.00</td>
-        <td>Active</td>
-    </tr>
+    {% endfor %}
 </table>
 {% endblock %}

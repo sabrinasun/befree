@@ -46,6 +46,9 @@
 			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
 			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
 			<li><a href="{% url 'account_material' %}">Give Books/CDs/DVDs</a></li>
+            <li><a href="{% url 'account_material_new' %}">Add Book/CD/DVD</a></li>
+            <li><a href="{% url 'account_add_author' %}?next={{ request.get_full_path }}">Add Author</a></li>
+            <li><a href="{% url 'account_add_publisher' %}?next={{ request.get_full_path }}">Add Publisher</a></li>
 		</ul>
 	</div>
 

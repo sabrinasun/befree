@@ -1,0 +1,16 @@
+{% extends 'account/summary.html' %}
+
+{% block account_right %}
+<div style="float:left; width:50%;">
+    <h2>{% if is_editing %}Editing an Item{% else %}Enter a New Item{% endif %}:</h2>
+    <div></div>
+    
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="{% if is_editing %}Update Item{% else %}Add New Item{% endif %}" class="button" style="color:#fff;margin-right:30px" />
+    </form>
+
+</div>
+<div style="clear:both"></div>
+{% endblock %}

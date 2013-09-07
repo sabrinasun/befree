@@ -18,21 +18,22 @@ class Publisher(models.Model):
         return self.name
 
 TYPE_CHOICES = (
-    ('BO', 'BO'),
+    ('Book', 'Book'),
     ('CD', 'CD'),
     ('DVD', 'DVD'),
-)
-
-PDF_CHOICES = (
-    ('PD', 'PD'),
-    ('BO', 'BO'),
-    ('PA', 'PA'),
 )
 
 LAN_CHOICES = (
     ('English', 'English'),
     ('Chinese', 'Chinese'),
-    ('Other', 'Other'),
+    ('French', 'French'),
+    ('Hindi', 'Hindi'),
+    ('Indonesian', 'Indonesian'),
+    ('Italy', 'Italy'),
+    ('Spanish', 'Spanish'),
+    ('Thai', 'Thai'),
+    ('Tibetan', 'Tibetan'),
+    ('Vietnamese', 'Vietnamese'),
 )
 
 CONDITION_CHOICES = (
@@ -43,6 +44,11 @@ CONDITION_CHOICES = (
     ('Good', 'Good'),
 )
 
+STATUS_CHOICES = (
+    ('Active', 'Active'),
+    ('Inactive', 'Inactive'),
+)
+
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author, null=True, blank=True)
@@ -51,16 +57,17 @@ class Material(models.Model):
     isbn = models.CharField(max_length=100, blank=True)
     publisher_book_id = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='Book')
     pages = models.PositiveIntegerField(default=0)
     weight = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     create_date = models.DateTimeField(default=timezone.now)
     language = models.CharField(max_length=10, choices=LAN_CHOICES, blank=True)
-    has_pic = models.BooleanField(default=False)
-    pdf = models.CharField(max_length=10, choices=PDF_CHOICES)
+    pic = models.ImageField(upload_to='pic', null=True, blank=True, verbose_name="Upload Cover Picture")
+    pdf = models.FileField(upload_to='pdf', null=True, blank=True, verbose_name='Upload PDF File')
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES, default='Good')
     quantity = models.PositiveIntegerField(default=1)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
 
     def __unicode__(self):
         return self.title
@@ -70,12 +77,10 @@ class Material(models.Model):
     
     def get_quantity_nums(self):
         return range(1, self.quantity + 1)
-
-STATUS_CHOICES = (
-    ('ACT', 'ACT'),
-    ('INA', 'INA'),
-)
-
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('account_material_edit', (), dict(material_id=self.id))
 
 class GiverMaterial(models.Model):
     giver = models.ForeignKey(get_user_model())
@@ -87,14 +92,11 @@ class GiverMaterial(models.Model):
     create_date = models.DateTimeField(default=timezone.now)
     note = models.TextField(blank=True)
 
-
 class Order(models.Model):
     reader = models.ForeignKey(get_user_model())
     material = models.ForeignKey(Material)
     quantity = models.PositiveIntegerField(default=1)
     
-    #~ reader = models.ForeignKey(get_user_model(), related_name='reader_orders')
-    #~ giver = models.ForeignKey(get_user_model(), related_name='giver_orders')
     shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     order_date = models.DateTimeField(default=timezone.now)
     ship_date = models.DateTimeField(null=True, blank=True)
@@ -103,10 +105,3 @@ class Order(models.Model):
 
     def get_total_price(self):
         return self.material.price * self.quantity
-
-#~ class OrderDetail(models.Model):
-    #~ order = models.ForeignKey(Order)
-    #~ giver_material = models.ForeignKey(GiverMaterial)
-    #~ material = models.ForeignKey(Material)
-    #~ count = models.PositiveIntegerField(default=0)
-
