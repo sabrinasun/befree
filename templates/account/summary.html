@@ -13,25 +13,25 @@
 			<p><h2><a href="{% url 'account_reading_orders' %}">Reading Orders</a></h2>
 			As a Dharma material seeker, you place orders to request material from others.  
 			<ul>
-			<li><b>New Orders: 3</b></li>
-			<li>Shipped Orders: 2</li>
-			<li>Delivered Orders: 3</li>
+			<li><b>New Orders: {{ reading_orders_new }}</b></li>
+			<li>Shipped Orders: {{ reading_orders_shipped }}</li>
+			<li>Delivered Orders: {{ reading_orders_delivered }}</li>
 			</ul>
 
 			<p><h2><a href="{% url 'account_giving_orders' %}">Giving Orders</a></h2>
 			As a Dharma material distributer/giver, you need to mail materials to others upon request. 
 			<ul>
-			<li><b>New Orders: 3</b></li>
-			<li>Shipped Orders: 2</li>
-			<li>Delivered Orders: 3</li>
+			<li><b>New Orders: {{ giving_orders_new }}</b></li>
+			<li>Shipped Orders: {{ giving_orders_shipped }}</li>
+			<li>Delivered Orders: {{ giving_orders_delivered }}</li>
 			</ul>
 
 			<p><h2><a href="{% url 'account_material' %}">Give Books/CDs/DVDs</a></h2>
 			As a Dharma material distributer/giver, you need to post your materials so that others can place an order. <br>
 			The seekers are expected to mail you the mailing cost, if specified, after received the material, and encouraged to support your distribution effort, if donation/payment method is specified. 
 			<ul>
-			<li><b>Active Items: 4</b> </li>
-			<li>Inactive Items: 4</li>
+			<li><b>Active Items: {{ materials_active }}</b></li>
+			<li>Inactive Items: {{ materials_inactive }}</li>
             
             {% endblock account_right %}
 		</div>

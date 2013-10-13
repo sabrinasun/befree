@@ -82,16 +82,6 @@ class Material(models.Model):
     def get_absolute_url(self):
         return ('account_material_edit', (), dict(material_id=self.id))
 
-class GiverMaterial(models.Model):
-    giver = models.ForeignKey(get_user_model())
-    material = models.ForeignKey(Material)
-    count = models.PositiveIntegerField(default=0)
-    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
-    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
-    create_date = models.DateTimeField(default=timezone.now)
-    note = models.TextField(blank=True)
-
 class Order(models.Model):
     reader = models.ForeignKey(get_user_model())
     material = models.ForeignKey(Material)
