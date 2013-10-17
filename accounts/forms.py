@@ -1,4 +1,7 @@
+import time
 from django import forms
+from django.db import IntegrityError
+from django.utils.text import slugify
 from userena.forms import SignupForm as UserenaSignupForm
 
 NUM_CHOICES = (
@@ -20,11 +23,18 @@ BOOL_CHOICES = (
 
 class SignupForm(UserenaSignupForm):
     screen_name = forms.CharField(required=False)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
     paypal_email = forms.EmailField(required=False)
     other_means = forms.CharField(widget=forms.Textarea, required=False)
     free_domestic_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
     free_international_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
-    max_number_per_order = forms.ChoiceField(choices=NUM_CHOICES)
+    max_number_per_order = forms.ChoiceField(choices=NUM_CHOICES, initial='5')
+
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+        self.fields['username'].required = False
+        self.fields['username'].widget = forms.HiddenInput()
 
     def clean_free_domestic_shipping(self):
         return True if self.cleaned_data['free_domestic_shipping']=='True' else False
@@ -32,8 +42,29 @@ class SignupForm(UserenaSignupForm):
     def clean_free_international_shipping(self):
         return True if self.cleaned_data['free_international_shipping']=='True' else False
 
+    def clean(self):
+        data = self.cleaned_data
+        screen_name = data.get('screen_name', '')
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
+        if screen_name:
+            data['username'] = slugify(screen_name)
+        elif first_name + last_name:
+            data['username'] = slugify(first_name + last_name)
+        else:
+            raise forms.ValidationError('Please input either screen-name or first/last names')
+        return data
+
     def save(self):
-        user = super(SignupForm, self).save()
+        try:
+            user = super(SignupForm, self).save()
+        except IntegrityError:
+            self.cleaned_data['username'] += str(int(time.time()))
+            user = super(SignupForm, self).save()
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+        
         profile = user.get_profile()
         profile.screen_name = self.cleaned_data['screen_name']
         profile.paypal_email = self.cleaned_data['paypal_email']

@@ -1,26 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<style type="text/css">
+    ul.errorlist {padding-left:130px;color:#f00}
+</style>
+
 <form method="post" action="{% url 'userena_signup' %}" id="register_form">
-    {% csrf_token %}
+{% csrf_token %}
 
-<div>
-        {% for non_field_error in form.non_field_errors %}
-             {{ non_field_error }}
-        {% endfor %}
-</div>
+<h2>Register</h2>
 
-<h2>Register to Give</h2>
-Please register with information requested for giving, and start listing books to give to others. 
+{% if form.non_field_errors %}
+<ul class="errorlist">
+    {% for non_field_error in form.non_field_errors %}
+        <li>{{ non_field_error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 	<h3>Basic information:</h3>
 	<div><label>Email:</label>{{ form.email }}{{ form.email.errors }} * Private</div> 
 	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }} * Private</div> 
 	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }} * Private</div> 
-	<div><label>Name:</label>{{ form.username }}{{ form.username.errors }} * Public
-	</div>
-	<div>
-	<label>Screen Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * Public, the name of your temple or your teaching practice name.</div>  
-
+	<br />
+    
+	<div><label>Screen Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * Public. The name of your temple or your teaching practice name.</div>
+    <div><label>Or</label></div>
+    <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }} * Public</div>
+	<div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }} * Public</div>
+    
 	<p><h3>For Giver - Accept Shipping Reimbursement/Donation from Reader:</h3> 
 	Below two fields are required if you need shipping reimbursement, at least one field is required if you don't ship for free. Displayed to reader for shipping reimbersement.
 	<div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>
