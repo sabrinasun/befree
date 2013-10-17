@@ -3,6 +3,8 @@ from django import forms
 from django.db import IntegrityError
 from django.utils.text import slugify
 from userena.forms import SignupForm as UserenaSignupForm
+from userena.forms import EditProfileForm as UserenaEditProfileForm
+from accounts.models import Profile
 
 NUM_CHOICES = (
     ('-1', 'Unlimitted'),
@@ -75,3 +77,8 @@ class SignupForm(UserenaSignupForm):
         profile.status = 'REG'
         profile.save()
         return user
+
+class EditProfileForm(UserenaEditProfileForm):
+    class Meta:
+        model = Profile
+        exclude = ('user', 'status', 'privacy')

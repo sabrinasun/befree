@@ -2,10 +2,6 @@
 
 {% block content %}
 
-<style type="text/css">
-    ul.errorlist {padding-left:130px;color:#f00}
-</style>
-
 <form method="post" action="{% url 'userena_signup' %}" id="register_form">
 {% csrf_token %}
 
