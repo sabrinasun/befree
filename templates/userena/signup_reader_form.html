@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post" action="{% url 'userena_signup_reader' %}" id="register_form">
+{% csrf_token %}
+
+<h2>Register</h2>
+
+{% if form.non_field_errors %}
+<ul class="errorlist">
+    {% for non_field_error in form.non_field_errors %}
+        <li>{{ non_field_error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if form.errors %}
+<div id="form-error">
+	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
+	<ul>
+	{% for field in form %}
+	<li>{{field.name}}{{ field.errors|striptags }}</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
+	<h3>Basic information:</h3>
+	<div><label>Username:</label>{{ form.username }}{{ form.username.errors }}</div> 
+	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }}</div> 
+	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }}</div> 
+	<div><label>Email:</label>{{ form.email }}{{ form.email.errors }}</div> 	
+	<br />
+    
+	<p><h3>For Reader - Mailing Information:</h3> 
+    <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
+	<div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>	
+	<div><label>Address1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>	
+	<div><label>Address2:</label>{{ form.address2 }}{{ form.address2.errors }}</div>	
+	<div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>	
+	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
+	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>						
+
+	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
+
+</form>
+{% endblock %}
