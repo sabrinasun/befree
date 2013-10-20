@@ -8,22 +8,15 @@ from django.contrib.auth import get_user_model
 from core.models import Material, Order
 from core.forms import MaterialForm, AuthorForm, PublisherForm
 from accounts.models import Profile
-
+                  
 def index(request):
-    if request.method == 'POST' and request.user.is_authenticated():
+    if request.method == 'POST':
         material = get_object_or_404(Material, id=request.POST.get('material_id'))
-        quantity = request.POST.get('quantity')
-        print material, quantity
-        with transaction.commit_on_success():
-            quantity = int(quantity)
-            if Order.objects.filter(reader=request.user, material=material):
-                order = Order.objects.filter(reader=request.user, material=material)[0]
-                order.quantity += quantity
-                order.save(update_fields=['quantity'])
-            else:
-                Order.objects.create(reader=request.user, material=material, quantity=quantity)
-            material.quantity -= quantity
-            material.save(update_fields=['quantity'])
+        cart = request.session.get("cart",{})
+        quantity = int(request.POST.get('quantity', 0)) + cart.get(material, 0)
+        cart[material] = quantity
+        request.session["cart"] = cart
+        
     context = {
         'materials': Material.objects.all(),
     }
@@ -39,13 +32,37 @@ def user_profile(request, username):
     }
     return render(request, 'account/user_profile.html', context)
 
-@login_required
 def check_out(request):
+    #if not login, need to redirect to reader login page
+    if not request.user.is_authenticated(): 
+        return redirect('/accounts/signup_reader')
+    
+    #if already login, need to validate the order
+    
+    #loop through the car to display order.
+    
     orders = Order.objects.filter(reader=request.user)
     context = {
         'orders': orders,
     }
     return render(request, 'check_out.html', context)
+
+@login_required
+def confirm_check_out(request):
+    """
+    with transaction.commit_on_success():
+        quantity = int(quantity)
+        if Order.objects.filter(reader=request.user, material=material):
+            order = Order.objects.filter(reader=request.user, material=material)[0]
+            order.quantity += quantity
+            order.save(update_fields=['quantity'])
+        else:
+            Order.objects.create(reader=request.user, material=material, quantity=quantity)
+        material.quantity -= quantity
+        material.save(update_fields=['quantity'])
+    """
+    pass
+
 
 @login_required
 def account_summary(request):

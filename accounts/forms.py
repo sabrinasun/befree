@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from userena.forms import SignupForm as UserenaSignupForm
 from userena.forms import EditProfileForm as UserenaEditProfileForm
 from accounts.models import Profile
+from django_countries import countries 
 
 NUM_CHOICES = (
     ('-1', 'Unlimitted'),
@@ -23,6 +24,15 @@ BOOL_CHOICES = (
     (False, False),
 )
 
+class SignupReaderForm(UserenaSignupForm):
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    address1 = forms.CharField(max_length=255)
+    address2 = forms.CharField(max_length=255)
+    city = forms.CharField(max_length=50)
+    state = forms.CharField(max_length=50)
+    country = forms.ChoiceField(choices = countries.COUNTRIES)    
+    
 class SignupForm(UserenaSignupForm):
     screen_name = forms.CharField(required=False)
     first_name = forms.CharField(required=False)

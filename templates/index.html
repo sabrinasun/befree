@@ -10,7 +10,7 @@
 
             <div class ="contentwrapper">
                 <div class="content-inner-column">
-                    {% if user.is_authenticated and material.quantity %}
+                    {% if  material.quantity %}
                     <form method="post" action="">
                         {% csrf_token %}
                         <input type="hidden" name="material_id" value="{{ material.id }}" />
