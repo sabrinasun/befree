@@ -163,6 +163,7 @@ LOGOUT_URL = '/accounts/signout/'
 USERENA_WITHOUT_USERNAMES = False
 USERENA_ACTIVATION_REQUIRED = False
 USERENA_SIGNIN_AFTER_SIGNUP = True
+USERENA_REDIRECT_ON_SIGNOUT = '/?msg=signout'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

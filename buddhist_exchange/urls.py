@@ -10,7 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/signup/$', 'userena.views.signup', 
-            {'signup_form': SignupForm},
+            {'signup_form': SignupForm, "success_url": "/?msg=signup"},
             name='userena_signup'),
     url(r'^accounts/signup_reader/$', 'userena.views.signup', 
             {'signup_form': SignupReaderForm, "success_url": "/check_out/", "template_name": "userena/signup_reader_form.html"},
