@@ -14,15 +14,44 @@ from accounts.models import Profile
 def index(request):
     if request.method == 'POST':
         material = get_object_or_404(Material, id=request.POST.get('material_id'))
-        cart = request.session.get("cart",{})
-        quantity = int(request.POST.get('quantity', 0)) + cart.get(material, 0)
-        cart[material] = quantity
-        request.session["cart"] = cart
-        
+        quantity = int(request.POST.get('quantity', 0))
+
+        if request.user.is_authenticated():
+            update_orders(request.user, material, quantity)
+        else:
+            cart = request.session.get("cart", {})
+            cart[material] = quantity + cart.get(material, 0)
+            request.session["cart"] = cart
+
     context = {
         'materials': Material.objects.all(),
     }
     return render(request, 'index.html', context)
+
+def update_orders(user, material, quantity):
+    if material.quantity < quantity:
+        quantity = material.quantity
+
+    if quantity == 0:
+        return False
+
+    with transaction.commit_on_success():
+        material.quantity -= quantity
+        material.save(update_fields=['quantity'])
+        try:
+            order = Order.objects.get(reader=user, material=material)
+        except Order.DoesNotExist:
+            Order.objects.create(reader=user, material=material, quantity=quantity)
+        except Order.MultipleObjectsReturned:
+            orders = Order.objects.filter(reader=user, material=material)
+            for o in orders[1:]:
+                orders[0].quantity += o.quantity
+                o.delete()
+            orders[0].quantity += quantity
+            orders[0].save(update_fields=['quantity'])
+        else:
+            order.quantity += quantity
+            order.save(update_fields=['quantity'])
 
 def user_profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
@@ -36,13 +65,14 @@ def user_profile(request, username):
 
 def check_out(request):
     #if not login, need to redirect to reader login page
-    if not request.user.is_authenticated(): 
+    if not request.user.is_authenticated():
         return redirect('/accounts/signup_reader/')
-    
-    #if already login, need to validate the order
-    
-    #loop through the car to display order.
-    
+
+    # if already login, need to validate the order
+    # loop through the car to display order.
+    for material, quantity in request.session.pop('cart', {}).items():
+        update_orders(request.user, material, quantity)
+
     orders = Order.objects.filter(reader=request.user)
     context = {
         'orders': orders,
