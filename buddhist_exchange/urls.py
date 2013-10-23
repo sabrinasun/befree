@@ -9,10 +9,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/signup/$', 'userena.views.signup', 
-            {'signup_form': SignupForm, "success_url": "/?msg=signup"},
+    url(r'^accounts/signup/$', 'core.views.signup', 
+            {'signup_form': SignupForm, "success_url": "/"},
             name='userena_signup'),
-    url(r'^accounts/signup_reader/$', 'userena.views.signup', 
+    url(r'^accounts/signup_reader/$', 'core.views.signup', 
             {'signup_form': SignupReaderForm, "success_url": "/check_out/", "template_name": "userena/signup_reader_form.html"},
             name='userena_signup_reader'),
     url(r'^accounts/(?P<username>[\.\w-]+)/edit/$',

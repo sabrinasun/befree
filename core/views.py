@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from userena.views import signup as userena_signup
 
 from core.models import Material, Order
 from core.forms import MaterialForm, AuthorForm, PublisherForm
@@ -35,7 +37,7 @@ def user_profile(request, username):
 def check_out(request):
     #if not login, need to redirect to reader login page
     if not request.user.is_authenticated(): 
-        return redirect('/accounts/signup_reader')
+        return redirect('/accounts/signup_reader/')
     
     #if already login, need to validate the order
     
@@ -161,3 +163,10 @@ def account_add_publisher(request):
     else:
         form = PublisherForm()
     return render(request, 'account/add_publisher.html', {'form': form, 'next': next})
+
+def signup(request, **kwargs):
+    response = userena_signup(request, **kwargs)
+    if response.status_code == 302:
+        messages.success(request, 'You have been signed up.')
+    return response
+
