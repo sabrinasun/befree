@@ -31,8 +31,42 @@ class SignupReaderForm(UserenaSignupForm):
     address2 = forms.CharField(max_length=255)
     city = forms.CharField(max_length=50)
     state = forms.CharField(max_length=50)
-    country = forms.ChoiceField(choices = countries.COUNTRIES)    
-    
+    country = forms.ChoiceField(choices = countries.COUNTRIES)
+
+    def __init__(self, *args, **kwargs):
+        super(SignupReaderForm, self).__init__(*args, **kwargs)
+        self.fields['username'].required = False
+        self.fields['username'].widget = forms.HiddenInput()
+
+    def clean(self):
+        data = self.cleaned_data
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
+        if first_name + last_name:
+            data['username'] = slugify(first_name + last_name)
+        else:
+            raise forms.ValidationError('Please input either first or last name')
+        return data
+
+    def save(self):
+        try:
+            user = super(SignupReaderForm, self).save()
+        except IntegrityError:
+            self.cleaned_data['username'] += str(int(time.time()))
+            user = super(SignupReaderForm, self).save()
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+
+        profile = user.get_profile()
+        profile.address1 = self.cleaned_data['address1']
+        profile.address2 = self.cleaned_data['address2']
+        profile.city = self.cleaned_data['city']
+        profile.state = self.cleaned_data['state']
+        profile.country = self.cleaned_data['country']
+        profile.save()
+        return user
+
 class SignupForm(UserenaSignupForm):
     screen_name = forms.CharField(required=False)
     first_name = forms.CharField(required=False)
