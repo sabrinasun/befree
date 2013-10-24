@@ -31,12 +31,13 @@ class SignupReaderForm(UserenaSignupForm):
     address2 = forms.CharField(max_length=255)
     city = forms.CharField(max_length=50)
     state = forms.CharField(max_length=50)
-    country = forms.ChoiceField(choices = countries.COUNTRIES)
+    country = forms.ChoiceField(choices = countries.COUNTRIES, initial="US", )
 
     def __init__(self, *args, **kwargs):
         super(SignupReaderForm, self).__init__(*args, **kwargs)
         self.fields['username'].required = False
         self.fields['username'].widget = forms.HiddenInput()
+        self.fields['country'].initial = "US"
 
     def clean(self):
         data = self.cleaned_data
