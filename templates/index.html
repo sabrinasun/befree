@@ -27,7 +27,10 @@
                     {% endif %}
                     
                     <b>{{ material.title }}</b> by {{ material.get_author_names }}<br>
-                    From: <a href="{{ material.giver.get_absolute_url }}">{{ material.giver.get_full_name|default:material.giver.username }}</a>  &nbsp;
+                    From: <a href="{{ material.givermaterial_set.all.0.giver.get_absolute_url  }}">
+                        {% if material.givermaterial_set.all %}
+                            {{ material.givermaterial_set.all.0.giver.get_full_name|default:material.givermaterial_set.all.0.giver.username }}</a>  &nbsp;
+                        {% endif %}
                     Condition: {{ material.condition }} 
                     &nbsp; 
                     Location: {{ material.giver.get_profile.get_location }}
