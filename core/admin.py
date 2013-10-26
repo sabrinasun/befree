@@ -6,6 +6,7 @@ class MaterialAdmin(admin.ModelAdmin):
     #~ save_as = True
 
 admin.site.register(Material, MaterialAdmin)
+admin.site.register(GiverMaterial)
 
 admin.site.register(Author)
 

@@ -5,7 +5,7 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
-        exclude = ('giver', 'create_date')
+        exclude = ('create_date')
 
 class AuthorForm(forms.ModelForm):
     

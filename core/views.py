@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from userena.views import signup as userena_signup
 
-from core.models import Material, Order
+from core.models import Material, GiverMaterial, Order
 from core.forms import MaterialForm, AuthorForm, PublisherForm
 from accounts.models import Profile
                   
@@ -99,8 +99,9 @@ def confirm_check_out(request):
 @login_required
 def account_summary(request):
     reading_orders = Order.objects.filter(reader=request.user)
-    giving_orders = Order.objects.filter(material__giver=request.user)
-    materials = Material.objects.filter(giver=request.user)
+    giver_materials = GiverMaterial.objects.filter(giver=request.user)
+    giving_orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
+    materials = Material.objects.filter(id__in=[g.material.pk for g in giver_materials])
     context = {
         'reading_orders_new': reading_orders.filter(ship_date=None, pay_date=None).count(),
         'reading_orders_shipped': reading_orders.exclude(ship_date=None).filter(pay_date=None).count(),
@@ -108,14 +109,15 @@ def account_summary(request):
         'giving_orders_new': giving_orders.filter(ship_date=None, pay_date=None).count(),
         'giving_orders_shipped': giving_orders.exclude(ship_date=None).filter(pay_date=None).count(),
         'giving_orders_delivered': giving_orders.exclude(pay_date=None).count(),
-        'materials_active': materials.filter(status='Active').count(),
-        'materials_inactive': materials.filter(status='Inactive').count(),
+        'materials_active': giver_materials.filter(status='Active').count(),
+        'materials_inactive': giver_materials.filter(status='Inactive').count(),
     }
     return render(request, 'account/summary.html', context)
 
 @login_required
 def account_reading_orders(request):
-    orders = Order.objects.filter(reader=request.user)
+    giver_materials = GiverMaterial.objects.filter(giver=request.user)
+    orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
     context = {
         'orders': orders,
     }
@@ -123,7 +125,8 @@ def account_reading_orders(request):
 
 @login_required
 def account_giving_orders(request):
-    orders = Order.objects.filter(material__giver=request.user)
+    giver_materials = GiverMaterial.objects.filter(giver=request.user)
+    orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
     context = {
         'orders': orders,
     }
@@ -143,7 +146,10 @@ def ship_order(request, order_id):
 
 @login_required
 def account_material(request):
-    materials = Material.objects.filter(giver=request.user)
+    reading_orders = Order.objects.filter(reader=request.user)
+    giver_materials = GiverMaterial.objects.filter(giver=request.user)
+    giving_orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
+    materials = Material.objects.filter(id__in=[g.material.pk for g in giver_materials])
     context = {
         'materials': materials,
     }
