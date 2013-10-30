@@ -1,14 +1,17 @@
 from django import http
+from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.views.generic.edit import CreateView
+
 from userena.views import signup as userena_signup
 
 from core.models import Material, GiverMaterial, Order
-from core.forms import MaterialForm, AuthorForm, PublisherForm
+from core.forms import MaterialForm, AuthorForm, PublisherForm, GiverMaterialForm
 from accounts.models import Profile
                   
 def index(request):
@@ -101,7 +104,8 @@ def account_summary(request):
     reading_orders = Order.objects.filter(reader=request.user)
     giver_materials = GiverMaterial.objects.filter(giver=request.user)
     giving_orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
-    materials = Material.objects.filter(id__in=[g.material.pk for g in giver_materials])
+    materials = Material.objects.filter(id__in=
+                [g.material.pk for g in giver_materials if g.material])
     context = {
         'reading_orders_new': reading_orders.filter(ship_date=None, pay_date=None).count(),
         'reading_orders_shipped': reading_orders.exclude(ship_date=None).filter(pay_date=None).count(),
@@ -149,7 +153,8 @@ def account_material(request):
     reading_orders = Order.objects.filter(reader=request.user)
     giver_materials = GiverMaterial.objects.filter(giver=request.user)
     giving_orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
-    materials = Material.objects.filter(id__in=[g.material.pk for g in giver_materials])
+    materials = Material.objects.filter(id__in=
+                [g.material.pk for g in giver_materials if g.material])
     context = {
         'materials': materials,
     }
@@ -205,4 +210,16 @@ def signup(request, **kwargs):
     if response.status_code == 302:
         messages.success(request, 'You have been signed up.')
     return response
+    
+
+class GiverMaterialCreateView(CreateView):
+    model = GiverMaterial
+    form_class = GiverMaterialForm
+    success_url = reverse_lazy("account_material")
+    template_name = "account/givermaterial_form.html"
+    
+    def get_initial(self):
+        initial = super(GiverMaterialCreateView, self).get_initial()
+        initial['giver'] = self.request.user
+        return initial
 

@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Material, Author, Publisher
+from core.models import Material, GiverMaterial, Author, Publisher
 
 class MaterialForm(forms.ModelForm):
     
@@ -7,6 +7,17 @@ class MaterialForm(forms.ModelForm):
         model = Material
         exclude = ('create_date')
 
+        
+class GiverMaterialForm(forms.ModelForm):
+    
+    class Meta:
+        model = GiverMaterial
+        exclude = ('create_date')
+        widgets = {
+        'giver': forms.HiddenInput(attrs={'readonly':'True'})
+        }
+        
+        
 class AuthorForm(forms.ModelForm):
     
     class Meta:
