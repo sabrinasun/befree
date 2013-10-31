@@ -5,21 +5,23 @@
 <div class="button"><a href="{% url 'account_material_new' %}">Add Book/CD/DVD</a></div>
 <table width="100%" cellspacing="1px" cellpadding="6px">
     <tr>
-        <th>Title</th>
+        <th>Material</th>
         <th>Author</th>
         <th>Type</th>
-        <th>Price</th>
-        <th>Shipping Cost</th>
+        <th>Quantity</th>
+        <th>Condition</th>
         <th>Status</th>
+		<th>Inventory Management</th>
     </tr>
     {% for material in materials %}
     <tr>
         <td><a href="{{ material.get_absolute_url }}">{{ material.title }}</a></td>
         <td>{{ material.get_author_names }}</td>
-        <td>{{ material.type }}</td>
-        <td>${{ material.price }}</td>
-        <td>$0.00</td>
-        <td>{{ material.status }}</td>
+        <td>{{ material.typ }}</td>
+        <td>${{ material.givermaterial.quantity }}</td>
+        <td>{{ material.givermaterial.condition }}</td>
+        <td>{{ material.givermaterial.status }}</td>
+		<td><a href="{% url 'giver_material_edit' pk=material.givermaterial.pk %}">edit</a></td>
     </tr>
     {% endfor %}
 </table>

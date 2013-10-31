@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from userena.views import signup as userena_signup
 
@@ -222,4 +222,15 @@ class GiverMaterialCreateView(CreateView):
         initial = super(GiverMaterialCreateView, self).get_initial()
         initial['giver'] = self.request.user
         return initial
+        
+        
+class GiverMaterialEditView(UpdateView):
+    model = GiverMaterial
+    form_class = GiverMaterialForm
+    success_url = reverse_lazy("account_material")
+    template_name = "account/givermaterial_form.html"
+    
+    def get_object(self, queryset=None):
+        obj = GiverMaterial.objects.get(pk=self.kwargs['pk'])
+        return obj
 
