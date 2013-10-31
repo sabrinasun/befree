@@ -78,7 +78,7 @@ class Material(models.Model):
 
 class GiverMaterial(models.Model):
     giver = models.ForeignKey(get_user_model())
-    material = models.ForeignKey(Material, blank=True, null=True)
+    material = models.OneToOneField(Material, blank=True, null=True)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES, default="Good")
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     quantity = models.PositiveIntegerField(default=1)
