@@ -18,10 +18,17 @@
         <td><a href="{{ material.get_absolute_url }}">{{ material.title }}</a></td>
         <td>{{ material.get_author_names }}</td>
         <td>{{ material.typ }}</td>
-        <td>${{ material.givermaterial.quantity }}</td>
-        <td>{{ material.givermaterial.condition }}</td>
-        <td>{{ material.givermaterial.status }}</td>
-		<td><a href="{% url 'giver_material_edit' pk=material.givermaterial.pk %}">edit</a></td>
+		{% if material.givermaterial %}
+	        <td>${{ material.givermaterial.quantity }}</td>
+	        <td>{{ material.givermaterial.condition }}</td>
+	        <td>{{ material.givermaterial.status }}</td>
+			<td><a href="{% url 'giver_material_edit' pk=material.givermaterial.pk %}">edit</a></td>
+		{% else %}
+	        <td>-</td>
+	        <td>-</td>
+	        <td>-</td>
+			<td><a href="{% url 'giver_material_new' %}?material={{material.pk}}">add</a></td>
+		{% endif %}
     </tr>
     {% endfor %}
 </table>
