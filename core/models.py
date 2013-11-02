@@ -64,7 +64,7 @@ class Material(models.Model):
     language = models.CharField(max_length=10, choices=LAN_CHOICES, blank=True)
     pic = models.ImageField(upload_to='pic', null=True, blank=True, verbose_name="Upload Cover Picture")
     pdf = models.FileField(upload_to='pdf', null=True, blank=True, verbose_name='Upload PDF File')
-
+    
     def __unicode__(self):
         return u"{0}".format(self.title)
 
