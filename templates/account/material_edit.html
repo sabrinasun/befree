@@ -3,7 +3,6 @@
 {% block account_right %}
 <div style="float:left; width:50%;">
     <h2>{% if is_editing %}Editing an Item{% else %}Enter a New Item{% endif %}:</h2>
-    <div style="color:red;">{% if error_msg %}{{ error_msg }}{% endif %}</div>
     
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}

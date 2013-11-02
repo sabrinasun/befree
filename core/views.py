@@ -166,21 +166,7 @@ def account_material_edit(request, material_id=None):
         material = get_object_or_404(Material, id=material_id)
     if request.method == 'POST':
         form = MaterialForm(request.POST, request.FILES, instance=material)
-        if form.is_valid():
-            authors_list = []
-            materials = Material.objects.filter(title=form.instance.title)
-            for mater in materials:
-                for author in mater.author.values("pk"):
-                    authors_list.append(author["pk"])
-            form_author_list = [a.pk for a in form.cleaned_data['author']]
-            if authors_list == form_author_list:
-                form = MaterialForm(request.POST, request.FILES)
-                context = {
-                    'form': form,
-                    'is_editing': material is not None,
-                    'error_msg': "The material with this title and author alredy exist."
-                }
-                return render(request, 'account/material_edit.html', context)
+        if form.is_valid():        
             new_material = form.save(commit=False)
             new_material.save()
             form.save_m2m()
