@@ -8,7 +8,7 @@
             {% block account_right %}
             
 			<p><h2><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></h2>
-			You can complete giver's profile and start listing books/CDs/DVDs.
+			You can complete giver's profile and start listing Inventory.
 
 			<p><h2><a href="{% url 'account_reading_orders' %}">Reading Orders</a></h2>
 			As a Dharma material seeker, you place orders to request material from others.  
@@ -26,7 +26,7 @@
 			<li>Delivered Orders: {{ giving_orders_delivered }}</li>
 			</ul>
 
-			<p><h2><a href="{% url 'account_material' %}">Give Books/CDs/DVDs</a></h2>
+			<p><h2><a href="{% url 'account_material' %}">Inventory</a></h2>
 			As a Dharma material distributer/giver, you need to post your materials so that others can place an order. <br>
 			The seekers are expected to mail you the mailing cost, if specified, after received the material, and encouraged to support your distribution effort, if donation/payment method is specified. 
 			<ul>
@@ -45,7 +45,7 @@
 			<li><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></li>
 			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
 			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
-			<li><a href="{% url 'account_material' %}">Give Books/CDs/DVDs</a></li>
+			<li><a href="{% url 'account_material' %}">Inventory</a></li>
             <li><a href="{% url 'account_material_new' %}">Add Book/CD/DVD</a></li>
 			<li><a href="{% url 'giver_material_new' %}">Give Material</a></li>
             <li><a href="{% url 'account_add_author' %}?next={{ request.get_full_path }}">Add Author</a></li>
