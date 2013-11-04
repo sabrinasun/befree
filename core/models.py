@@ -4,14 +4,14 @@ from userena.utils import get_user_model
 from accounts.models import Profile
 
 class Author(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
 
     def __unicode__(self):
         return self.name
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
 
     def __unicode__(self):
