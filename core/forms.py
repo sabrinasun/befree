@@ -1,10 +1,16 @@
 from django import forms
 from core.models import Material, GiverMaterial, Author, Publisher
+from core.widgets import SelectWithPopUp
+
 
 class MaterialForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MaterialForm, self).__init__(*args, **kwargs)
         self.fields['typ'].label = "Type"
+        self.fields['author'].help_text = ''
+        self.fields['author'] = forms.ModelChoiceField(Author.objects.all(), widget=SelectWithPopUp)
+        self.fields['publisher'] = forms.ModelChoiceField(Publisher.objects.all(), widget=SelectWithPopUp)
+        
     
     class Meta:
         model = Material
