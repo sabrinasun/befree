@@ -2,16 +2,18 @@
 <html>
 <head>
 <title>Add {{ field }}</title>
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />
     <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
 </head>
 <body>
-    <h1>Add {{ field }}</h1>
-    <form method="POST" action="/add/{{ field }}">
+    <h1 style="text-align:center; margin-top:5px;">Add {{ field }}</h1>
+    <form method="POST" action="/add/{{ field }}" style="margin-left:100px;">
         {% csrf_token %}
         <table>
         {{ form }}
         </table>
-        <p><input type="submit" /> | <a href="javascript:window.close()">Cancel</a></p>
+        <p><input type="submit" class="button" style="float:left;"/> | <a href="javascript:window.close()">Cancel</a></p>
     </form>
 </body>
 </html>
