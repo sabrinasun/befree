@@ -1,7 +1,4 @@
-<a
-    href="/add/{{ model }}/"
+ <a href="javascript:void(0)"
     class="add-another"
     id="add_id_{{ field }}"
-    onclick="return showAddAnotherPopup(this);">
-+add {{ model }}
-</a>
+    onclick="javascript: window.open('/add/{{ model }}/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=320, left=200, top=60');">add {{ model }}</a>
