@@ -3,22 +3,22 @@
 
 {% block main %}
 <div class ="contentwrapper">
-    {% paginate materials %}
-    {% for material in materials %}
+    {% paginate inventories %}
+    {% for inventory in inventories %}
     <div class="content-outer-column">
         <div> <!--a row of book-->
 
             <div class ="contentwrapper">
                 <div class="content-inner-column">
-                    {% if  material.quantity %}
+                    {% if  inventory.quantity %}
                     <form method="post" action="">
                         {% csrf_token %}
-                        <input type="hidden" name="material_id" value="{{ material.id }}" />
-                        <button class="button" type="submit" style="padding:0;color:#fff;">Add To Bag</button>
+                        <input type="hidden" name="inventory_id" value="{{ inventory.id }}" />
+                        <button class="button" type="submit" >Add To Bag</button>
                         
                         <div style="float:right; margin-top:3px; margin-right:2px;">
                             <select name="quantity">
-                            {% for i in material.get_quantity_nums %}
+                            {% for i in inventory.get_quantity_nums %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                             </select>
@@ -26,20 +26,20 @@
                     </form>
                     {% endif %}
                     
-                    <b>{{ material.title }}</b> by {{ material.get_author_names }}<br>
-                    From: <a href="{{ material.givermaterial_set.all.0.giver.get_absolute_url  }}">
-                        {% if material.givermaterial_set.all %}
-                            {{ material.givermaterial_set.all.0.giver.get_full_name|default:material.givermaterial_set.all.0.giver.username }}</a>  &nbsp;
-                        {% endif %}
-                    Condition: {{ material.condition }} 
+                    <b>{{ inventory.material.title }}</b> by {{ inventory.material.get_author_names }}<br>
+                    From: <a href="{{ inventory.giver.get_absolute_url  }}">
+                          {{ inventory.giver}}
+                          </a>  &nbsp;
+
+                    Condition: {{ inventory.condition }} 
                     &nbsp; 
-                    Location: {{ material.giver.get_profile.get_location }}
+                    Location: {{ inventory.giver.get_profile.get_location }}
                     &nbsp; 
-                    Quantity: {{ material.quantity }} <br>
-                    Domestic Shipping:{% if material.giver.get_profile.domestic_free_shipping %}Free{% else %}No{% endif %} 
+                    Quantity: {{ inventory.quantity }} <br>
+                    Domestic Shipping:{% if inventory.giver.get_profile.domestic_free_shipping %}Free{% else %}No{% endif %} 
                     &nbsp; 
-                    International Shipping:{% if material.giver.get_profile.international_free_shipping %}Free{% else %}No{% endif %}
-                    {{ material.description|readmore:40 }}
+                    International Shipping:{% if inventory.giver.get_profile.international_free_shipping %}Free{% else %}No{% endif %}
+                    {{ inventory.material.description|readmore:40 }}
                 </div>
             </div>
 

@@ -8,7 +8,7 @@ class MaterialForm(forms.ModelForm):
         super(MaterialForm, self).__init__(*args, **kwargs)
         self.fields['typ'].label = "Type"
         self.fields['author'].help_text = ''
-        self.fields['author'] = forms.ModelChoiceField(Author.objects.all(), widget=SelectWithPopUp)
+        #self.fields['author'] = forms.ModelChoiceField(Author.objects.all(), widget=SelectWithPopUp)
         self.fields['publisher'] = forms.ModelChoiceField(Publisher.objects.all(), widget=SelectWithPopUp)
         
     
@@ -26,7 +26,7 @@ class MaterialForm(forms.ModelForm):
             for mater in materials:
                 for auth in mater.author.values("pk"):
                     authors_list.append(auth["pk"])
-            form_author_list = [a.pk for a in author]
+            form_author_list = author
             if authors_list == form_author_list:
                 if self.instance.pk:
                     if list(self.instance.author.all()) == list(author):

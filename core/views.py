@@ -23,7 +23,7 @@ from accounts.models import Profile
                   
 def index(request):
     if request.method == 'POST':
-        material = get_object_or_404(Material, id=request.POST.get('material_id'))
+        material = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
         quantity = int(request.POST.get('quantity', 0))
 
         if request.user.is_authenticated():
@@ -32,9 +32,11 @@ def index(request):
             cart = request.session.get("cart", {})
             cart[material] = quantity + cart.get(material, 0)
             request.session["cart"] = cart
-
+    
+    inventories =  GiverMaterial.objects.all().order_by('material__title')
+    
     context = {
-        'materials': Material.objects.all(),
+        'inventories': inventories,
     }
     return render(request, 'index.html', context)
 

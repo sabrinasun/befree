@@ -46,7 +46,10 @@ class Profile(UserenaBaseProfile):
 
     def get_location(self):
         lst = []
+        """
         for attr in ('address1', 'address2', 'city', 'state', 'country'):
             if hasattr(self, attr) and getattr(self, attr):
                 lst.append(getattr(self, attr))
-        return ', '.join(lst)
+        """
+        location = self.state + ", " + self.get_country_display()
+        return location
