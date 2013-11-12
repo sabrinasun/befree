@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>View Bag</h2>
+<h3>Your orders:</h3>
+
+<div class="order-box">
+{% for order in orders %}
+    <div class="contentwrapper">
+        <div class="right">
+         	{% for details in order.order_details %}
+          		{{ details.inventory.material.title }}<br>
+         		Quantity: {{ details.quantity }}
+         	{% endfor %}
+        </div>
+    </div>
+    <div class="left">
+        Given by <a href="{{ order.giver.get_absolute_url }}">{{ order.giver.get_profile.get_display_name }}</a> <br>
+        Total: ${{ order.price }}<br>
+    </div>
+    <div  class="button">
+    	<a href="{% url 'check_out' %}">Confirm Order</a>
+    </div>
+    
+{% empty %}
+    Sorry no orders were found. 
+{% endfor %}
+</div>
+
+{% endblock content %}
