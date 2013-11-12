@@ -25,8 +25,8 @@ BOOL_CHOICES = (
 )
 
 class SignupReaderForm(UserenaSignupForm):
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
     address1 = forms.CharField(max_length=255)
     address2 = forms.CharField(max_length=255)
     city = forms.CharField(max_length=50)
@@ -70,13 +70,13 @@ class SignupReaderForm(UserenaSignupForm):
 
 class SignupForm(UserenaSignupForm):
     screen_name = forms.CharField(required=False)
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
     paypal_email = forms.EmailField(required=False)
     other_means = forms.CharField(widget=forms.Textarea, required=False)
     free_domestic_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
     free_international_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
     max_number_per_order = forms.ChoiceField(choices=NUM_CHOICES, initial='5')
+    state = forms.CharField(max_length=50, required = True)
+    country = forms.ChoiceField(choices = countries.COUNTRIES, initial="US", required = True)    
 
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
@@ -99,7 +99,7 @@ class SignupForm(UserenaSignupForm):
         elif first_name + last_name:
             data['username'] = slugify(first_name + last_name)
         else:
-            raise forms.ValidationError('Please input either screen-name or first/last names')
+            raise forms.ValidationError('Please input screen name.')
         return data
 
     def save(self):
@@ -120,10 +120,15 @@ class SignupForm(UserenaSignupForm):
         profile.international_free_shipping = self.cleaned_data['free_international_shipping']
         profile.max_per_order = self.cleaned_data['max_number_per_order']
         profile.status = 'REG'
+        profile.state = self.cleaned_data['state']
+        profile.country = self.cleaned_data['country']        
+        
         profile.save()
         return user
 
 class EditProfileForm(UserenaEditProfileForm):
+    max_per_order = forms.ChoiceField(choices=NUM_CHOICES, initial='5')
+    
     class Meta:
         model = Profile
-        exclude = ('user', 'status', 'privacy')
+        exclude = ('user', 'status', 'privacy','create_date')

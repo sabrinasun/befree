@@ -52,7 +52,7 @@ label {
 }
 
 b {
-   color: #E47911;
+   /*color: #E47911;*/
 }
 
 .main-header {
@@ -173,6 +173,7 @@ b {
 	margin:1px;
 	border:0;
 	color:#fff;
+	cursor: pointer;
 
 }
 

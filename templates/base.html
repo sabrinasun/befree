@@ -77,8 +77,7 @@
 		<div>
 			<div style="float:left;"><img width="50px" valign="top" src="{{ MEDIA_URL }}img/bag.jpg"></div> 
 			<div>
-				<div style="width:200px;">{{ order_items_count }} Items In Your Bag</div> 
-				<div style="padding-left:-200px;text-align:left"><div style="float:right;" class="button"><a href="{% url 'check_out' %}">Check Out</a></div></div>
+				<div style="padding-left:-200px;text-align:left"><div style="float:right;" class="button"><a href="{% url 'view_bag' %}">My Bag ( {{ order_items_count }} Items ) </a></div></div>
 			</div>
 		</div>
 
@@ -100,15 +99,15 @@
 					<div class="button"><a href="#" onclick="document.getElementById('login_form').submit();return false">Login</a></div>
 				</div>
 				<div style="clear:both;">
-				New User: <a href="{% url 'userena_signup' %}">Register</a>
+				New User: <a href="{% url 'userena_signup' %}">Register to Give</a>
 				</div>
                     </form>
 			</div>
                 {% else %}
-                    <div class="header">Welcome {{ user.username }}</div>
+                    <div class="header">Welcome {{ user.get_profile.get_display_name }}</div>
                     <div class="bluebox-content">
                         <div class="row">
-					You name: {{ user.username }}
+					You name: {{ user.get_profile.get_display_name }}
 				</div>
                         <div class="row">
 					<a href="{% url 'userena_signout' %}">Log out</a>

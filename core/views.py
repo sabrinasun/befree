@@ -17,21 +17,23 @@ from django.views.generic.edit import CreateView, UpdateView
 
 from userena.views import signup as userena_signup
 
-from core.models import Material, GiverMaterial, Order
+from core.models import Material, GiverMaterial, Order, OrderDetail
 from core.forms import MaterialForm, AuthorForm, PublisherForm, GiverMaterialForm
 from accounts.models import Profile
                   
 def index(request):
     if request.method == 'POST':
-        material = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
+        inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
         quantity = int(request.POST.get('quantity', 0))
-
+        
+        """
         if request.user.is_authenticated():
             update_orders(request.user, material, quantity)
         else:
-            cart = request.session.get("cart", {})
-            cart[material] = quantity + cart.get(material, 0)
-            request.session["cart"] = cart
+        """
+        cart = request.session.get("cart", {})
+        cart[inventory.pk] = quantity + cart.get(inventory, 0)
+        request.session["cart"] = cart
     
     inventories =  GiverMaterial.objects.all().order_by('material__title')
     
@@ -39,31 +41,6 @@ def index(request):
         'inventories': inventories,
     }
     return render(request, 'index.html', context)
-
-def update_orders(user, material, quantity):
-    if material.quantity < quantity:
-        quantity = material.quantity
-
-    if quantity == 0:
-        return False
-
-    with transaction.commit_on_success():
-        material.quantity -= quantity
-        material.save(update_fields=['quantity'])
-        try:
-            order = Order.objects.get(reader=user, material=material)
-        except Order.DoesNotExist:
-            Order.objects.create(reader=user, material=material, quantity=quantity)
-        except Order.MultipleObjectsReturned:
-            orders = Order.objects.filter(reader=user, material=material)
-            for o in orders[1:]:
-                orders[0].quantity += o.quantity
-                o.delete()
-            orders[0].quantity += quantity
-            orders[0].save(update_fields=['quantity'])
-        else:
-            order.quantity += quantity
-            order.save(update_fields=['quantity'])
 
 def user_profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
@@ -75,6 +52,29 @@ def user_profile(request, username):
     }
     return render(request, 'account/user_profile.html', context)
 
+def get_order_from_bag(cart):
+    inventories = GiverMaterial.objects.filter( pk__in = [ int(id) for id in cart ] ).order_by('giver__username', 'material__title')
+
+    orders = {}
+    for item in inventories:
+        username = item.giver.username    
+        order_details = orders.get(username)
+        detail = {"inventory": item, "quantity": cart[item.pk]}
+        if order_details: 
+            order_details.append(detail)
+        else:
+            order_details = [detail]
+        orders[username]=order_details
+    ret = [{"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":20 } for key in orders ]    
+    return ret
+    
+def view_bag(request):
+    cart = request.session.get("cart", {})    
+    ret = get_order_from_bag(cart)
+    context = { "orders": ret } 
+    return render(request, 'show_order.html', context)    
+    
+
 def check_out(request):
     #if not login, need to redirect to reader login page
     if not request.user.is_authenticated():
@@ -82,14 +82,28 @@ def check_out(request):
 
     # if already login, need to validate the order
     # loop through the car to display order.
-    for material, quantity in request.session.pop('cart', {}).items():
-        update_orders(request.user, material, quantity)
+    cart = request.session.pop('cart', {})
+    orders = get_order_from_bag( cart)
+    
+    #[{'giver': <User: sunnywebtimes>,'order_details': [{'inventory': <GiverMaterial: GiverMaterial object>,'quantity': 1}],'price': 20}
+    reader = request.user
+    for one_order in orders: 
+        with transaction.commit_on_success():
+            order = Order.objects.create(reader=reader, giver = one_order['giver'])
+            order.save()
+                                
+            for item in one_order['order_details']: 
+                inventory = item['inventory']
+                quantity  = item['quantity']
+                inventory.quantity -= quantity
+                inventory.save(update_fields=['quantity'])
+                detail = OrderDetail.objects.create(order=order, inventory=inventory, quantity=quantity)
+                detail.save()
 
-    orders = Order.objects.filter(reader=request.user)
     context = {
-        'orders': orders,
+        'orders': orders
     }
-    return render(request, 'check_out.html', context)
+    return render(request, 'show_order.html', context)
 
 @login_required
 def confirm_check_out(request):
@@ -112,7 +126,7 @@ def confirm_check_out(request):
 def account_summary(request):
     reading_orders = Order.objects.filter(reader=request.user)
     giver_materials = GiverMaterial.objects.filter(giver=request.user)
-    giving_orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
+    giving_orders = Order.objects.filter(giver=request.user)
     materials = Material.objects.filter(id__in=
                 [g.material.pk for g in giver_materials if g.material])
     context = {
@@ -129,20 +143,30 @@ def account_summary(request):
 
 @login_required
 def account_reading_orders(request):
-    giver_materials = GiverMaterial.objects.filter(giver=request.user)
-    orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
+    order_details = OrderDetail.objects.filter(order__reader = request.user )
+    orders = Order.objects.filter(reader = request.user).order_by('order_date')
+    
+    ret = [{'order':order, 'detail': order_details.filter(order = order) } for order in orders]
+        
+    #{'orders': [{'details': [<OrderDetail: OrderDetail object>], 'order': <Order: Order object>}]}    
     context = {
-        'orders': orders,
+        'orders': ret
     }
+    
     return render(request, 'account/orders/reading.html', context)
 
 @login_required
 def account_giving_orders(request):
-    giver_materials = GiverMaterial.objects.filter(giver=request.user)
-    orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
+    order_details = OrderDetail.objects.filter(order__giver = request.user )
+    orders = Order.objects.filter(giver = request.user).order_by('order_date')
+    
+    ret = [{'order':order, 'detail': order_details.filter(order = order) } for order in orders]
+        
+    #{'orders': [{'details': [<OrderDetail: OrderDetail object>], 'order': <Order: Order object>}]}    
     context = {
-        'orders': orders,
+        'orders': ret
     }
+
     return render(request, 'account/orders/giving.html', context)
 
 @login_required
@@ -159,9 +183,9 @@ def ship_order(request, order_id):
 
 @login_required
 def account_material(request):
-    reading_orders = Order.objects.filter(reader=request.user)
+
     giver_materials = GiverMaterial.objects.filter(giver=request.user)
-    giving_orders = Order.objects.filter(material__id__in=[m.pk for m in giver_materials])
+
     materials = Material.objects.all()
     context = {
         'materials': materials,
@@ -209,8 +233,7 @@ def add_new_model(request, model_name):
                             new_obj = None
                     
                         if new_obj:
-                            return HttpResponse('<script type="text/javascript">opener.dismissAddAnotherPopup(window, "%s", "%s");</script>' % \
-                                                            (escape(new_obj._get_pk_val()), escape(new_obj)))
+                            return HttpResponse('<script type="text/javascript">opener.location.reload();window.close();</script>')
                 else:
                     form = form()
                 page_context = {'form': form, 'field': normal_model_name}

@@ -14,8 +14,14 @@
                     <form method="post" action="">
                         {% csrf_token %}
                         <input type="hidden" name="inventory_id" value="{{ inventory.id }}" />
-                        <button class="button" type="submit" >Add To Bag</button>
                         
+						<div style="float:right">
+						    <button class="button" type="submit" style="float:none;width:120px;">Add To Bag</button><br>
+						    {% if inventory.material.pdf %}
+						    	<div style="float:none;width:100px;padding:6px 0px 6px 20px;" class="button"><a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">Download PDF</a></div>
+						    {% endif %}
+						</div>                        
+                                                
                         <div style="float:right; margin-top:3px; margin-right:2px;">
                             <select name="quantity">
                             {% for i in inventory.get_quantity_nums %}
@@ -27,24 +33,24 @@
                     {% endif %}
                     
                     <b>{{ inventory.material.title }}</b> by {{ inventory.material.get_author_names }}<br>
-                    From: <a href="{{ inventory.giver.get_absolute_url  }}">
-                          {{ inventory.giver}}
-                          </a>  &nbsp;
+                    From: <a href="{{ inventory.giver.get_absolute_url  }}">{{ inventory.giver.get_profile.get_display_name}}</a>  &nbsp;
 
                     Condition: {{ inventory.condition }} 
                     &nbsp; 
                     Location: {{ inventory.giver.get_profile.get_location }}
                     &nbsp; 
                     Quantity: {{ inventory.quantity }} <br>
-                    Domestic Shipping:{% if inventory.giver.get_profile.domestic_free_shipping %}Free{% else %}No{% endif %} 
-                    &nbsp; 
-                    International Shipping:{% if inventory.giver.get_profile.international_free_shipping %}Free{% else %}No{% endif %}
+				 	Price: {% if inventory.price = 0 %} Free {% else %} {{ inventory.price }} {% endif %}		
+                    {% if inventory.giver.get_profile.international_free_shipping %} Shipping: Free Internationally
+                    {% else %}
+                    {% if inventory.giver.get_profile.domestic_free_shipping %} Shipping: Free domestically{% endif %}                     
+                    {% endif %}
                     {{ inventory.material.description|readmore:40 }}
                 </div>
             </div>
 
             <div class="leftcolumn">
-                <div><img src="{{ MEDIA_URL }}img/book1.jpg" height="100px"></div>
+                <div><img src="{{ MEDIA_URL }}{{ inventory.material.pic }}" height="100px"></div>
             </div>
 
         </div>

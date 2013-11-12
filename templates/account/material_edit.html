@@ -6,7 +6,31 @@
     
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+
+	    <div><label>Title:</label>{{ form.title }}{{ form.title.errors }}</div> 
+	    <div><label>Author:</label>{{ form.author }}{{ form.author.errors }}
+	    <a href="javascript:void(0)" 
+	       class="add-another" 
+           onclick="javascript: window.open('/add/author/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=320, left=200, top=60');">Add Author</a>
+	    </div> 	    
+	    <div><label>Publisher:</label>{{ form.publisher }}{{ form.publisher.errors }}
+	    <a href="javascript:void(0)" 
+	       class="add-another" 
+           onclick="javascript: window.open('/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=320, left=200, top=60');">Add Publisher</a>
+	    </div> 	    	    
+  
+	    <div><label>ISBN:</label>{{ form.isbn }}{{ form.isbn.errors }}</div> 
+	    <div><label>Publisher Book ID:</label>{{ form.publisher_book_id }}{{ form.publisher_book_id.errors }}</div> 		    
+	    <div><label>Description:</label>{{ form.description }}{{ form.description.errors }}</div> 	
+	    <div><label>Type:</label>{{ form.typ }}{{ form.typ.errors }}</div> 
+	    <div><label>Pages:</label>{{ form.pages }}{{ form.pages.errors }}</div> 	
+	    <div><label>Weight (oz):</label>{{ form.weight }}{{ form.weight.errors }}</div> 
+	    <div><label>Price ($):</label>{{ form.price }}{{ form.price.errors }}</div> 
+	    <div><label>Language:</label>{{ form.language }}{{ form.language.errors }}</div> 
+	    <div><label>Upload Cover Picture:</label>{{ form.pic }}{{ form.pic.error }}</div> 	    	    		  	    	    	
+	    <div><label>Upload PDF File:</label>{{ form.pdf }}{{ form.pdf.error }}</div> 	 
+	    	    	      	    	  	     
+    
         <input type="submit" value="{% if is_editing %}Update Item{% else %}Add New Item{% endif %}" class="button" style="color:#fff;margin-right:30px" />
     </form>
 

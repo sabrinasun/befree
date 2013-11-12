@@ -7,17 +7,19 @@
     <div class="contentwrapper">
         <div class="right">
             {% if not order.ship_date %}
-            <div class="button"><a href="{% url 'ship_order' order_id=order.id %}?next={{ request.get_full_path }}">Ship</a></div>
+            <div class="button"><a href="{% url 'ship_order' order_id=order.order.id %}?next={{ request.get_full_path }}">Ship</a></div>
             {% endif %}
-            {{ order.material.title }}<br>
-            Quantity: {{ order.quantity }}<br>
-            Total: ${{ order.get_total_price }}
+            {% for detail in order.detail%}
+	            {{ detail.inventory.material.title }}<br>
+	            Quantity: {{ detail.quantity }}<br>
+	            Total: need to work on order.get_total_price 
+	       	{% endfor %}      
         </div>
     </div>
     <div class="left">
-        Order #{{ order.id }}<br />
-        Reader: <a href="{{ order.reader.get_absolute_url }}">{{ order.reader.get_full_name|default:order.reader.username }}</a><br/>
-        {% if order.ship_date %}<strong style="color:#E47911">Shipped</strong>{% endif %}
+        Order #{{ order.order.id }}<br />
+        Reader: <a href="{{ order.order.reader.get_absolute_url }}">{{ order.order.reader.get_full_name|default:order.order.reader.username }}</a><br/>
+        {% if order.order.ship_date %}<strong style="color:#E47911">Shipped</strong>{% endif %}
     </div>
 {% empty %}
     No orders.

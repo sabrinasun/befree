@@ -6,15 +6,17 @@
 {% for order in orders %}
     <div class="contentwrapper">
         <div class="right">
-        {{ order.material.title }}<br>
-        Quantity: {{ order.quantity }}<br>
-        Total: ${{ order.get_total_price }}
+        {% for detail in order.detail%}
+	        {{ detail.inventory.material.title }}<br>
+	        Quantity: {{ detail.quantity }}<br>
+	        Price: need more work
+	    {% endfor %} 
         </div>
     </div>
     <div class="left">
-        Order #{{ order.id }}<br />
-        Given by <a href="{{ order.material.giver.get_absolute_url }}">{{ order.material.giver.get_full_name|default:order.material.giver.username }}</a><br/>
-        {% if order.ship_date %}<strong style="color:#E47911">Shipped</strong>{% endif %}
+        Order #{{ order.order.id }}<br />
+        Given by <a href="{{ order.giver.get_absolute_url }}">{{ order.order.giver.get_full_name|default:order.order.giver.username }}</a><br/>
+        {% if order.order.ship_date %}<strong style="color:#E47911">Shipped</strong>{% endif %}
     </div>
 {% empty %}
     No orders.

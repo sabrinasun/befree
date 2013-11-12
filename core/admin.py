@@ -11,5 +11,9 @@ admin.site.register(GiverMaterial)
 admin.site.register(Author)
 
 admin.site.register(Order,
-    list_display = ('reader', 'material', 'quantity'),
+    list_display = ('reader', 'giver'),
 )
+
+admin.site.register(OrderDetail)
+
+admin.site.register(Publisher)

@@ -49,6 +49,12 @@ STATUS_CHOICES = (
     ('Inactive', 'Inactive'),
 )
 
+def cover_pic_name(instance, filename):
+    return "pic/book_"+str(instance.pk)+"_cover_"+filename
+
+def pdf_name(instance, filename):
+    return "pdf/book_"+str(instance.pk)+"_pdf_"+filename
+
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author, null=True, blank=True)
@@ -62,8 +68,8 @@ class Material(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     create_date = models.DateTimeField(default=timezone.now)
     language = models.CharField(max_length=10, choices=LAN_CHOICES, blank=True)
-    pic = models.ImageField(upload_to='pic', null=True, blank=True, verbose_name="Upload Cover Picture")
-    pdf = models.FileField(upload_to='pdf', null=True, blank=True, verbose_name='Upload PDF File')
+    pic = models.ImageField(upload_to=cover_pic_name, null=True, blank=True,  verbose_name="Upload Cover Picture")
+    pdf = models.FileField(upload_to=pdf_name, null=True, blank=True, verbose_name='Upload PDF File')
     
     def __unicode__(self):
         return u"{0}".format(self.title)
@@ -91,15 +97,19 @@ class GiverMaterial(models.Model):
 
 
 class Order(models.Model):
-    reader = models.ForeignKey(get_user_model())
-    material = models.ForeignKey(Material)
-    quantity = models.PositiveIntegerField(default=1)
-    
+    reader = models.ForeignKey(get_user_model(), related_name = 'reader')
+    giver = models.ForeignKey(get_user_model(), related_name = 'giver')
+        
     shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    total_price =   models.DecimalField(max_digits=8, decimal_places=2, default=0)    
     order_date = models.DateTimeField(default=timezone.now)
     ship_date = models.DateTimeField(null=True, blank=True)
     pay_date = models.DateTimeField(null=True, blank=True)
     payment_detail = models.TextField(blank=True)
 
-    def get_total_price(self):
-        return self.material.price * self.quantity
+class OrderDetail(models.Model):
+    order     = models.ForeignKey(Order)
+    inventory = models.ForeignKey(GiverMaterial)
+    quantity = models.PositiveIntegerField(default=1)
+    
+

@@ -13,12 +13,12 @@ label {
 </head>
 <body>
     <h2 style="margin-left:15px;margin-top:10px;">Add {{ field }}:</h2>
-    <form method="POST" action="/add/{{ field }}" >
+    <form method="POST" action="/add/{{ field }}" name="addForm" >
         {% csrf_token %}
         <table>
         {{ form.as_p }}
         </table>
-        <input type="submit" class="button" value="Save" /> 
+        <input type="button" class="button" value="Save" onclick="javascript:document.forms['addForm'].submit()"/> 
         <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/> 
 
     </form>

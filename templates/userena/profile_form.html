@@ -4,7 +4,7 @@
 
 {% block title %}{% trans "Account setup" %}{% endblock %}
 
-{% block content_title %}<h2>{% blocktrans with profile.user.username as username %}Account &raquo; {{ username }}{% endblocktrans %}</h2>{% endblock %}
+{% block content_title %}<h2>{% blocktrans with profile.userget_profile.get_display_name as username %}Account &raquo; {{ username }}{% endblocktrans %}</h2>{% endblock %}
 
 {% block account_right %}
 
@@ -16,10 +16,38 @@
     <li class="last"><a href="{% url 'userena_email_change' user.username %}">{% trans "Change email" %}</a></li>
   </ul>-->
   {% csrf_token %}
-  <fieldset>
-    <legend>{% trans "Edit Profile" %}</legend>
-    {{ form.as_p }}
-  </fieldset>
+      
+    <h2>{% trans "Edit Profile" %}:</h2>
+    <h3>Section 1. Your Location - required:  </h3>
+    <div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>          
+    <div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>   
+          
+    <h3>Section 2. Reader Profile - Information required for mailing materials to you:</h3>
+    <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }}</div> 
+    <div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>    
+    <div><label>Address 1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>    
+    <div><label>Address 2:</label>{{ form.address2 }}{{ form.address2.errors }}</div>             
+    <div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>        
+    Please make sure your state and country information defined is correct. 
+    
+    <h3>Section 3. Giver Profile - Information required for distributing Dharma Materials:</h3>    
+    <div><label>Name Shown by the Public:</label>{{ form.screen_name }}{{ form.screen_name.errors }} *This can be your nick name, real name, the name of your organization, whatever you wish to be known. </div>   
+    <div><label>Max Free Items Per Order:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }}</div>   
+    <div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>   
+    <div><label>Other payment methods:</label>{{ form.payment_description }}{{ form.payment_description.errors }}</div> 
+            
+    <h3>Section 4. Public Profile - Information required for displaying your profile to public:</h3>
+    <div><label>Entity Type:</label>{{ form.type }}{{ form.type.errors }}</div>   
+    <div><label>Is Non-profit:</label>{{ form.is_nonprofit }}{{ form.is_nonprofit.errors }} * Whether donation to you is tax deductible.</div>       
+    <div><label>Is Publisher:</label>{{ form.is_publisher }}{{ form.is_publisher.errors }}</div>
+    <div><label>Your Profile Picture:</label>{{ form.mugshot }}{{ form.mugshot.errors }}</div>
+    <div><label>Your Website:</label>{{ form.website }}{{ form.website.errors }}</div>
+    <div><label>Your Facebook page:</label>{{ form.facebook }}{{ form.facebook.errors }}</div>        
+    <div><label>The Bodhi path of your organization or yourself:</label>{{ form.description }}{{ form.description.errors }}</div>             
+    
+
+
+
   <input type="submit" value="{% trans "Save changes" %}" />
 </form>
 {% endblock %}

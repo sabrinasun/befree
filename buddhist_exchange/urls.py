@@ -17,7 +17,7 @@ urlpatterns = patterns('',
             name='userena_signup_reader'),
     url(r'^accounts/(?P<username>[\.\w-]+)/edit/$',
        'userena.views.profile_edit',
-       {'edit_profile_form': EditProfileForm},
+       {'edit_profile_form': EditProfileForm, 'success_url':"/account/summary"},
        name='userena_profile_edit'),
 
     url(r'^accounts/', include('userena.urls')),

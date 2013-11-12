@@ -26,10 +26,10 @@ class Profile(UserenaBaseProfile):
     address1 = models.CharField(max_length=255, blank=True)
     address2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=50, blank=True)
-    state = models.CharField(max_length=50, blank=True)
-    country = CountryField(max_length=50, blank=True)
+    state = models.CharField(max_length=50)
+    country = CountryField(max_length=50)
 
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES, blank=True)
     is_nonprofit = models.BooleanField(default=False)
     is_publisher = models.BooleanField(default=False)
     paypal_email = models.EmailField(max_length=100, blank=True)
@@ -53,3 +53,14 @@ class Profile(UserenaBaseProfile):
         """
         location = self.state + ", " + self.get_country_display()
         return location
+    
+    def get_display_name(self):
+        ret = self.screen_name
+        if not ret: 
+            ret = self.user.first_name
+        if not ret: 
+            ret = self.user.username
+        return ret
+        
+        
+            

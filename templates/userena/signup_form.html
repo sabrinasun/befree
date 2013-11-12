@@ -20,13 +20,11 @@
 	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }} * Private</div> 
 	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }} * Private</div> 
 	<br />
-    
-	<div><label>Screen Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * Public. The name of your temple or your teaching practice name.</div>
-    <div><label>Or</label></div>
-    <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }} * Public</div>
-	<div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }} * Public</div>
-    
+        
 	<p><h3>For Giver - Accept Shipping Reimbursement/Donation from Reader:</h3> 
+	<div><label>Screen Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * Public. The name of your temple or your teaching practice name.</div>	
+	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
+	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>					
 	Below two fields are required if you need shipping reimbursement, at least one field is required if you don't ship for free. Displayed to reader for shipping reimbersement.
 	<div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>
 	<div><label style="vertical-align: top;">Other Means:</label>{{ form.other_means }}{{ form.other_means.errors }}</div>
