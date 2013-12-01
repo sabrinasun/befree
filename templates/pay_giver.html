@@ -1,0 +1,59 @@
+{% load staticfiles %}
+{% load readmore endless %}
+
+<html>
+<head>
+<title>Paid {{user.get_profile.get_display_name}} </title>
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />
+    <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
+<style>
+label {
+  width:80px;
+}
+</style>    
+</head>
+<body>
+    <h2 style="margin-left:15px;margin-top:10px;">Paid {{user.get_profile.get_display_name}}:</h2>
+    
+<!--  div id="form-error">
+	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
+	<ul>
+	{% for field in form %}
+	<li>{{field.label}}  - {{ field.errors|striptags }}</li>
+	{% endfor %}
+	</ul>
+</div-->
+    
+    <div style="padding:0 20px 20px 20px;">
+    <form method="POST" action="{% url 'pay_giver' %}" >
+    {% csrf_token %}
+    {% if user.get_profile.paypal_email %}
+    {{ form.order_id }}
+    {% if form.pay_method.errors %}
+    	{{ form.pay_method.errors }} <br>  
+    {% endif %}
+    <input type="radio" name = "pay_method" >Paid by Paypal: {{ user.get_profile.paypal_email }} *Paypal provides buyer's protection. <br>
+    {% endif %}
+    {% if user.get_profile.payment_description %}
+    <input type="radio" name = "pay_method" >Paid by Other Means:<br>
+    <textarea cols=40 rows=3 readonly style="vertical-align:top;">{{ user.get_profile.payment_description }} </textarea>
+     <br> 
+    {% endif %}
+    Notes to the Giver:<br>
+    {{ form.message }}
+	<br>
+    
+    <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>     
+    <input type="submit" class="button" value="Save" /> 
+
+    </form>
+    </div>
+</body>
+<script language="javascript">
+
+window.onblur = function() {
+	//window.close();
+};
+</script>
+</html>
