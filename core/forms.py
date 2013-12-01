@@ -1,11 +1,25 @@
 from django import forms
 from core.models import Material, GiverMaterial, Author, Publisher
 from core.widgets import SelectWithPopUp
+from accounts.models import Profile
 
-
+class ContactForm(forms.Form):
+    user_id = forms.IntegerField(widget=forms.HiddenInput)
+    message = forms.CharField(widget = forms.Textarea)
+    
+class PayForm(forms.Form):
+    order_id   = forms.IntegerField(widget=forms.HiddenInput)
+    pay_method = forms.CharField(widget = forms.RadioSelect) 
+    message = forms.CharField(widget = forms.Textarea, required=False)  
+    
+class ShippingCostForm(forms.Form):
+    order_id   = forms.IntegerField(widget=forms.HiddenInput)
+    shipping_cost = forms.DecimalField(max_digits=8, decimal_places=2)     
+    
 class MaterialForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MaterialForm, self).__init__(*args, **kwargs)
+        #self.fields['print_free_distribution_id'].choices = [(r.id,r.get_display_name()) for r in Profile.objects.filter(print_free_distribution=True)]
         #self.fields['typ'].label = "Type"
         #self.fields['author'].help_text = ''
         #self.fields['author'] = forms.ModelChoiceField(Author.objects.all(), widget=SelectWithPopUp)
@@ -37,7 +51,10 @@ class MaterialForm(forms.ModelForm):
 
         
 class GiverMaterialForm(forms.ModelForm):
-    
+    def __init__(self, *args, **kwargs):
+        super(GiverMaterialForm, self).__init__(*args, **kwargs)    
+        self.fields['note'].label = "Why did you choose this book? Do you have any thought to share about this book:"
+        
     class Meta:
         model = GiverMaterial
         exclude = ('create_date')

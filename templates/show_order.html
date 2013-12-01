@@ -2,29 +2,96 @@
 
 {% block content %}
 <h2>View Bag</h2>
+{% if action = "view_bag" %}
+Please view your order and then confirm the order. 
+{% else %}
+You order has been successfully processed. 
+{% endif %}
+<div id="message"></div>
 <h3>Your orders:</h3>
 
+<form action="{% url 'check_out' %}" method="POST">
+{% csrf_token %}
 <div class="order-box">
 {% for order in orders %}
+    {% for warning in order.warning %}
+    <div class = "warning" style="display:inline;">	{{warning}} </div>
+    {% endfor %}
+    
+    <div style="display:inline;float:right;">
+       <a href="javascript:void(0)" class="add-another" 
+          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Giver {{ order.giver.get_profile.get_display_name }}</a> 		    	
+   	</div>    
+    {% if order.order_details|length > details.inventory.giver.%}
+    {% endif %}
     <div class="contentwrapper">
         <div class="right">
          	{% for details in order.order_details %}
-          		{{ details.inventory.material.title }}<br>
-         		Quantity: {{ details.quantity }}
+         	    <div style="clear:both;">
+         	    	<div style="display:inline;">
+		          		{{ details.inventory.material.title }}  &nbsp; by {{ details.inventory.material.get_author_names }} 
+		          		&nbsp; &nbsp; Giver Price: ${{ details.inventory.price }}
+
+				    </div>
+
+			    	
+		    	</div>   		
+          		
+          		<div style="clear:both;">
+          			<div style="display:inline;">
+	         			Quantity: {{ details.quantity }}&nbsp; &nbsp;
+	         		</div>
+			        {% if action = "view_bag" %}
+			        <div style="display:inline;float:right;">
+			       		<a href="{% url 'view_bag_delete' inventory_id=details.inventory.pk %}">Delete</a> 	  
+			    	</div>
+			    	{% endif %} 
+			    </div>
+			    
+		    	        		
          	{% endfor %}
+
+         	{% if order.order_details|length == 1 and order.shipping_cost_wave %}
+         	<br>
+         	{% endif %}
         </div>
+
     </div>
-    <div class="left">
-        Given by <a href="{{ order.giver.get_absolute_url }}">{{ order.giver.get_profile.get_display_name }}</a> <br>
-        Total: ${{ order.price }}<br>
-    </div>
-    <div  class="button">
-    	<a href="{% url 'check_out' %}">Confirm Order</a>
+    
+    <div class="left">  
+        Ship From: {{ order.giver.get_profile.get_location }}<br>
+        {% if order.shipping_cost == -1 %} 
+          Can't determine shipping cost, please contact Giver 
+        {% else %}
+          Total: ${{ order.total }} ( ${{ order.price }}  + Shipping ${{order.shipping_cost}} ) 
+        {% endif %}
+        
+        <br>
+        {% if action == "view_bag" and order.shipping_cost_wave %}
+        <input type="checkbox" value="{{order.giver.id}}" name="shipping_wave"> Please wave shipping cost. <br>
+		{% endif %}	
+
     </div>
     
 {% empty %}
     Sorry no orders were found. 
 {% endfor %}
 </div>
+
+<div  class="button">
+    {% if action = "view_bag" %}
+	<input type="submit" value="Confirm Order" /> 
+	{% else %}
+	<a href="/">Continue Browsing</a>    	
+    {% endif %}
+</div>
+
+</form>
+
+<script language = "javascript">
+function showMessage(msg) {
+	$( "#message" ).text(msg);
+}
+</script>
 
 {% endblock content %}

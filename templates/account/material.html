@@ -13,22 +13,30 @@
         <th>Status</th>
 		<th>Inventory Management</th>
     </tr>
+    {% for item in inventory %}
+    <tr>
+        <td><a href="{{ item.material.get_absolute_url }}">{{ item.material.title }}</a></td>
+        <td>{{ item.material.get_author_names }}</td>
+        <td>{{ item.material.typ }}</td>
+
+	    <td>{{ item.quantity }}</td>
+	    <td>{{ item.condition }}</td>
+	    <td>{{ item.status }}</td>
+	    <td><a href="{% url 'giver_material_edit' pk=item.id %}">edit</a></td>
+
+    </tr>
+    {% endfor %}    
+    
     {% for material in materials %}
     <tr>
         <td><a href="{{ material.get_absolute_url }}">{{ material.title }}</a></td>
         <td>{{ material.get_author_names }}</td>
         <td>{{ material.typ }}</td>
-		{% if material.givermaterial %}
-	        <td>${{ material.givermaterial.quantity }}</td>
-	        <td>{{ material.givermaterial.condition }}</td>
-	        <td>{{ material.givermaterial.status }}</td>
-			<td><a href="{% url 'giver_material_edit' pk=material.givermaterial.pk %}">edit</a></td>
-		{% else %}
-	        <td>-</td>
-	        <td>-</td>
-	        <td>-</td>
-			<td><a href="{% url 'giver_material_new' %}?material={{material.pk}}">add</a></td>
-		{% endif %}
+	    <td>-</td>
+	    <td>-</td>
+	    <td>-</td>
+	    <td><a href="{% url 'giver_material_new' %}?material={{material.pk}}">add</a></td>
+
     </tr>
     {% endfor %}
 </table>

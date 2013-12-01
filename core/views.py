@@ -16,10 +16,14 @@ from django.contrib import messages
 from django.views.generic.edit import CreateView, UpdateView
 
 from userena.views import signup as userena_signup
+from math import ceil
+from decimal import Decimal
 
 from core.models import Material, GiverMaterial, Order, OrderDetail
-from core.forms import MaterialForm, AuthorForm, PublisherForm, GiverMaterialForm
+from core.forms import MaterialForm, AuthorForm, PublisherForm, GiverMaterialForm, ContactForm, PayForm, ShippingCostForm
 from accounts.models import Profile
+
+from django.core.mail import send_mail
                   
 def index(request):
     if request.method == 'POST':
@@ -32,7 +36,7 @@ def index(request):
         else:
         """
         cart = request.session.get("cart", {})
-        cart[inventory.pk] = quantity + cart.get(inventory, 0)
+        cart[inventory.pk] = quantity + cart.get(inventory.pk, 0)
         request.session["cart"] = cart
     
     inventories =  GiverMaterial.objects.all().order_by('material__title')
@@ -45,14 +49,39 @@ def index(request):
 def user_profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     profile = get_object_or_404(Profile, user=user)
+    inventory = GiverMaterial.objects.filter(giver = user)
     context = {
         'username': username,
         'user': user,
         'profile': profile,
+        'inventory': inventory
     }
     return render(request, 'account/user_profile.html', context)
 
-def get_order_from_bag(cart):
+"""
+up to 1 pound: $2.53 + Packaging: $0.50
+Up to 2 pounds: $2.98 + Packaging: $0.50
+Up to 3 pounds: $3.43 + Packaging: $1.00
+Up to 4 pounds: $3.88 + Packaging: $1.10
+Up to 5 pounds: $4.33 + Packaging: $1.20
+Up to 6 pounds: $4.78 + Packaging: $1.30
+Up to 7 pounds: $5.23 + Packaging: $1.40
+The increments for shipping cost are 43 cents per pound, plus packaing cost 10 cents, all the way up to $32.32 for the 70 lbs max. 
+"""
+def get_shipping_cost(weight):
+    weight = ceil(weight/16)
+    shipping_cost = 0
+    packaging_cost = 0
+    if weight <= 7:
+        shipping_cost = {0:0, 1:2.53, 2:2.98, 3:3.43, 4:3.88, 5:4.33, 6:4.78,7:5.23}[weight]
+        packaging_cost= {0:0, 1:0.50, 2:0.50, 3:1.00, 4:1.10, 5:1.20, 6:1.30, 7:1.40}[weight]
+    else:
+        shipping_cost = 5.23 + .43 * ( weight - 7) 
+        packaging_cost = 1.40 + (weight-7)*.10
+            
+    return shipping_cost+packaging_cost
+
+def get_order_from_bag(cart, user):
     inventories = GiverMaterial.objects.filter( pk__in = [ int(id) for id in cart ] ).order_by('giver__username', 'material__title')
 
     orders = {}
@@ -65,17 +94,101 @@ def get_order_from_bag(cart):
         else:
             order_details = [detail]
         orders[username]=order_details
-    ret = [{"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":20 } for key in orders ]    
+        
+    ret = []
+    for key in orders: 
+        order_details = orders[key]
+        weight = 0 
+        price = 0
+        free_count = 0
+        
+        for detail in order_details: 
+            weight += detail['inventory'].material.weight
+            price += detail['inventory'].price
+            
+            if price == 0:
+                free_count += detail['quantity']
+
+        #shipping cost according to location
+        giver = detail['inventory'].giver
+        shipping_cost = -1
+        giver_country = giver.get_profile().country
+        user_country = user.get_profile().country
+        
+        if giver_country == 'US' and  user_country == 'US':
+            shipping_cost = get_shipping_cost(weight)
+
+        shipping_cost_wave = False            
+        if giver_country == user_country:
+            if giver.get_profile().domestic_free_shipping:
+                shipping_cost_wave = True
+        elif giver.get_profile().international_free_shipping:
+            shipping_cost_wave = True
+
+        
+        warning = []
+        if shipping_cost == -1: 
+            warning.append("We can't determine shipping cost. Please contact giver for shipping cost. ")
+        
+        if free_count > giver.get_profile().max_per_order:
+            warning.append("You ordered %s items, which are more than %s free items in one order, please contact giver after you place the order." % (free_count, giver.get_profile().max_per_order)  )
+            
+        ret.append( {"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":price, "shipping_cost":shipping_cost,"total":"%.2f" % (price+Decimal(shipping_cost)), "weight":weight, "warning":warning, "shipping_cost_wave":shipping_cost_wave }) 
+
     return ret
+
+def validate_orders():
+    pass
     
 def view_bag(request):
     cart = request.session.get("cart", {})    
-    ret = get_order_from_bag(cart)
-    context = { "orders": ret } 
+    
+    if not request.user.is_authenticated():
+        return redirect('/accounts/signup_reader/')
+        
+    orders = get_order_from_bag(cart, request.user)
+    #validate orders
+    
+    context = { "orders": orders, "action":"view_bag" } 
     return render(request, 'show_order.html', context)    
     
+def view_bag_delete(request, inventory_id):
+    #delete everything from cart that has inventory id 1
+    cart = request.session.get("cart", {})
+    del cart[int(inventory_id)] 
+    request.session["cart"] = cart    
+    orders = get_order_from_bag(cart, request.user)
+    context = { "orders": orders, "action":"view_bag" }     
+    return render(request, 'show_order.html', context)   
+
+def contact_user(request):
+    user_id = None
+    user = None
+    contact_form  = None
+
+    if request.method == "POST": 
+        contact_form = ContactForm(data = request.POST)
+        if contact_form.is_valid(): 
+            user = get_object_or_404(get_user_model(), id = contact_form.cleaned_data['user_id'] )       
+            message =  contact_form.cleaned_data['message']
+            email = user.email
+            send_mail('Email from '+ request.user.get_profile().get_display_name()+" via BuddhistExchange",  \
+                      message, request.user.email,[email], fail_silently=False)
+            return HttpResponse('<script type="text/javascript">opener.showMessage("You email message has been sent.");window.close();</script>')
+
+    else: 
+        user_id = int(request.GET.get('user_id'))
+        user = get_object_or_404(get_user_model(), id = user_id )        
+        contact_form  = ContactForm(initial = request.GET)
+    
+    context = {"form": contact_form, 
+               "user": user}
+    return render(request, 'contact.html', context)   
 
 def check_out(request):
+    shipping_wave = request.POST.getlist('shipping_wave')
+    shipping_wave = [int(i) for i in shipping_wave]
+
     #if not login, need to redirect to reader login page
     if not request.user.is_authenticated():
         return redirect('/accounts/signup_reader/')
@@ -83,15 +196,30 @@ def check_out(request):
     # if already login, need to validate the order
     # loop through the car to display order.
     cart = request.session.pop('cart', {})
-    orders = get_order_from_bag( cart)
+    orders = get_order_from_bag( cart, request.user)
     
     #[{'giver': <User: sunnywebtimes>,'order_details': [{'inventory': <GiverMaterial: GiverMaterial object>,'quantity': 1}],'price': 20}
     reader = request.user
     for one_order in orders: 
         with transaction.commit_on_success():
-            order = Order.objects.create(reader=reader, giver = one_order['giver'])
+            giver = one_order['giver']
+            order = Order.objects.create(reader=reader, giver = giver)
+            
+            shipping_cost = one_order['shipping_cost']
+            status = 'NEW'
+            if giver.id in shipping_wave:
+                shipping_cost = 0
+                one_order['shipping_cost'] = 0
+                one_order['total'] = one_order['price'] 
+            if shipping_cost == -1:
+                status = "PENDING"
+                
+            order.shipping_cost = shipping_cost
+            order.total_price = one_order['price']            
+            order.status = status
+            
             order.save()
-                                
+                                           
             for item in one_order['order_details']: 
                 inventory = item['inventory']
                 quantity  = item['quantity']
@@ -99,9 +227,17 @@ def check_out(request):
                 inventory.save(update_fields=['quantity'])
                 detail = OrderDetail.objects.create(order=order, inventory=inventory, quantity=quantity)
                 detail.save()
+    
+    for one_order in orders: 
+        giver = one_order['giver']
+        message = 'An order was placed by '+ reader.get_profile().get_display_name()+" via BuddhistExchange. "
+        
+        send_mail('An order was placed by '+ reader.get_profile().get_display_name()+" via BuddhistExchange",  \
+                  message, "no-reply@buddhistexchange.com",[giver.email], fail_silently=False)
 
     context = {
-        'orders': orders
+        'orders': orders, 
+        'action': "check_out"
     }
     return render(request, 'show_order.html', context)
 
@@ -143,8 +279,21 @@ def account_summary(request):
 
 @login_required
 def account_reading_orders(request):
+    order_id = request.GET.get('order_id')
+    status   = request.GET.get('status')
+    
+    if order_id:
+        order_id = int(order_id)
+        order = Order.objects.get(id = order_id)
+        order.status = status
+        if status == 'PAID': 
+            order.pay_date = timezone.now()
+        elif status == 'CANCEL':
+            order.cancel_date = timezone.now()
+        order.save()
+    
     order_details = OrderDetail.objects.filter(order__reader = request.user )
-    orders = Order.objects.filter(reader = request.user).order_by('order_date')
+    orders = Order.objects.filter(reader = request.user).order_by('-order_date')
     
     ret = [{'order':order, 'detail': order_details.filter(order = order) } for order in orders]
         
@@ -157,8 +306,30 @@ def account_reading_orders(request):
 
 @login_required
 def account_giving_orders(request):
-    order_details = OrderDetail.objects.filter(order__giver = request.user )
-    orders = Order.objects.filter(giver = request.user).order_by('order_date')
+    order_id = request.GET.get('order_id')
+    status   = request.GET.get('status')
+    
+    if order_id:
+        order_id = int(order_id)
+        order = Order.objects.get(id = order_id)
+        order.status = status
+        if status == "SHIPPED":
+            order.ship_date = timezone.now()
+        if status == "CANCEL":
+            order.cancel_date = timezone.now()
+        order.save() #order.save(update_fields=['ship_date'])
+    
+    shipping_form = None    
+    if request.method == "POST":
+        shipping_form = ShippingCostForm(data=request.POST)
+        if shipping_form.is_valid():
+            order = Order.objects.get(id=shipping_form.cleaned_data['order_id'])
+            order.shipping_cost = shipping_form.cleaned_data['shipping_cost']
+            order.status = 'NEW'
+            order.save()
+                
+    order_details = OrderDetail.objects.filter(order__reader = request.user )
+    orders = Order.objects.filter(reader = request.user).order_by('-order_date')
     
     ret = [{'order':order, 'detail': order_details.filter(order = order) } for order in orders]
         
@@ -166,29 +337,25 @@ def account_giving_orders(request):
     context = {
         'orders': ret
     }
+    
+    if shipping_form and not shipping_form.is_valid():
+        context['form'] = shipping_form
+        context['form_order_id'] = shipping_form.cleaned_data['order_id']
 
     return render(request, 'account/orders/giving.html', context)
 
-@login_required
-def ship_order(request, order_id):
-    next = request.GET.get('next', '/')
-    try:
-        order = Order.objects.get(id=order_id, material__giver=request.user)
-    except Order.DoesNotExist:
-        pass
-    else:
-        order.ship_date = timezone.now()
-        order.save(update_fields=['ship_date'])
-    return redirect(next)
 
 @login_required
 def account_material(request):
+    inventory = GiverMaterial.objects.filter(giver=request.user)
+    inventory_ids = [item.material.id for item in inventory]
 
-    giver_materials = GiverMaterial.objects.filter(giver=request.user)
-
-    materials = Material.objects.all()
+    materials = Material.objects.exclude(id__in=inventory_ids) 
+    
     context = {
-        'materials': materials,
+       'inventory': inventory,        
+       'materials': materials
+
     }
     return render(request, 'account/material.html', context)
 
@@ -263,7 +430,7 @@ class GiverMaterialCreateView(CreateView):
     form_class = GiverMaterialForm
     success_url = reverse_lazy("account_material")
     template_name = "account/givermaterial_form.html"
-    
+
     def get_initial(self):
         initial = super(GiverMaterialCreateView, self).get_initial()
         material_pk = self.request.GET.get('material', '')
@@ -272,14 +439,39 @@ class GiverMaterialCreateView(CreateView):
         initial['giver'] = self.request.user
         return initial
         
-        
 class GiverMaterialEditView(UpdateView):
     model = GiverMaterial
     form_class = GiverMaterialForm
     success_url = reverse_lazy("account_material")
     template_name = "account/givermaterial_form.html"
-    
+
     def get_object(self, queryset=None):
         obj = GiverMaterial.objects.get(pk=self.kwargs['pk'])
         return obj
 
+
+def pay_giver(request):
+    pay_form =  None 
+    if request.method == "POST": 
+        pay_form = PayForm(data = request.POST)
+        if pay_form.is_valid(): 
+            order_id = pay_form.cleaned_data['order_id']
+            order = Order.objects.get(id=order_id)
+            pay_method = pay_form.cleaned_data['pay_method']
+            message = pay_form.cleaned_data['message']            
+            giver_email = order.giver.email
+            #order.payment_detail ="Paid with %s. Message: %s " % (pay_method, message)
+            order.status = 'PAID'
+            order.save()
+
+            return HttpResponse('<script type="text/javascript">opener.location="/account/orders/reading/";window.close();</script>') 
+  
+    else:     
+        pay_form  = PayForm(initial = request.GET)            
+              
+    context = {"form": pay_form}
+    return render(request, 'pay_giver.html', context)   
+
+def file_claim(request):
+    context = {}
+    return render(request, 'file_claim.html', context)

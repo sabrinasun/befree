@@ -22,20 +22,20 @@
 	<br />
         
 	<p><h3>For Giver - Accept Shipping Reimbursement/Donation from Reader:</h3> 
-	<div><label>Screen Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * Public. The name of your temple or your teaching practice name.</div>	
+	<div><label>Public Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * This can be your nick name, real name, the name of your organization, whatever you wish to be known. </div>	
 	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
 	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>					
-	Below two fields are required if you need shipping reimbursement, at least one field is required if you don't ship for free. Displayed to reader for shipping reimbersement.
+	<label>Free Domestic Shipping:</label>{{ form.free_domestic_shipping }}{{ form.free_domestic_shipping.errors }}  <br>
+	<label>Free International Shipping:</label>{{ form.free_international_shipping }}{{ form.free_international_shipping.errors }} <br>
+	<div><label>Max Free Items Per Order:</label>
+	 {{ form.max_number_per_order }}{{ form.max_number_per_order.errors }} * Reader is required to contact you if ordering more than this number of free items. 
+	</div>	
+	
+	
 	<div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>
 	<div><label style="vertical-align: top;">Other Means:</label>{{ form.other_means }}{{ form.other_means.errors }}</div>
 	</p>
-	<label>Free Domestic Shipping</label>{{ form.free_domestic_shipping }}{{ form.free_domestic_shipping.errors }} * If not free, reader contacts you for shipping cost if you are not in USA. USA shipping cost is calculated according to total weight of the shipment. <br>
-	<label>Free International Shipping</label>{{ form.free_international_shipping }}{{ form.free_international_shipping.errors }} * If not free, reader contacts you for shipping cost.<br>
 
-	<br>
-	<div><label>Max Number Per Order:</label>
-	 {{ form.max_number_per_order }}{{ form.max_number_per_order.errors }} * Public, if this number is defined, user will be required to enter why need to order so many. 
-	</div>
 
 	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
 

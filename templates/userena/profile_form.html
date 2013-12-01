@@ -8,13 +8,25 @@
 
 {% block account_right %}
 
+{% if form.errors %}
+<!-- div id="form-error">
+	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
+	<ul>
+	{% for field in form %}
+	<li>{{field.label}}  - {{ field.errors|striptags }}</li>
+	{% endfor %}
+	</ul>
+</div-->
+{% endif %}
+
+
 <form action="" enctype="multipart/form-data" method="post">
-  <!--<ul id="box-nav">
+  <ul id="box-nav">
     <li class="first"><a href="{% url 'userena_profile_detail' user.username %}"><span>{% trans 'View profile' %}</span></a></li>
     <li class="selected"><a href="{% url 'userena_profile_edit' user.username %}">{% trans "Edit profile" %}</a></li>
     <li><a href="{% url 'userena_password_change' user.username %}">{% trans "Change password" %}</a></li>
     <li class="last"><a href="{% url 'userena_email_change' user.username %}">{% trans "Change email" %}</a></li>
-  </ul>-->
+  </ul>
   {% csrf_token %}
       
     <h2>{% trans "Edit Profile" %}:</h2>
@@ -27,19 +39,23 @@
     <div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>    
     <div><label>Address 1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>    
     <div><label>Address 2:</label>{{ form.address2 }}{{ form.address2.errors }}</div>             
-    <div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>        
-    Please make sure your state and country information defined is correct. 
+    <div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>       
+    <div><label>Zip Code:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>             
     
     <h3>Section 3. Giver Profile - Information required for distributing Dharma Materials:</h3>    
-    <div><label>Name Shown by the Public:</label>{{ form.screen_name }}{{ form.screen_name.errors }} *This can be your nick name, real name, the name of your organization, whatever you wish to be known. </div>   
-    <div><label>Max Free Items Per Order:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }}</div>   
+    <div><label>Public Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * This can be your nick name, real name, the name of your organization, whatever you wish to be known. </div>   
+
+	<div><label>Free Domestic Shipping:</label>{{ form.domestic_free_shipping }}{{ form.free_domestic_shipping.errors }}  </div>
+	<div><label>Free International Shipping:</label>{{ form.international_free_shipping }}{{ form.free_international_shipping.errors }} </div>
+
+    <div><label>Max Free Items Per Order:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }} *Reader is required to contact you if ordering more than this number of free items.</div>   
     <div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>   
     <div><label>Other payment methods:</label>{{ form.payment_description }}{{ form.payment_description.errors }}</div> 
             
     <h3>Section 4. Public Profile - Information required for displaying your profile to public:</h3>
     <div><label>Entity Type:</label>{{ form.type }}{{ form.type.errors }}</div>   
     <div><label>Is Non-profit:</label>{{ form.is_nonprofit }}{{ form.is_nonprofit.errors }} * Whether donation to you is tax deductible.</div>       
-    <div><label>Is Publisher:</label>{{ form.is_publisher }}{{ form.is_publisher.errors }}</div>
+    <div><label>Free Book Publisher:</label>{{ form.publisher_id }}{{ form.publisher_id.errors }} * Whether print and distribute free books. </div>
     <div><label>Your Profile Picture:</label>{{ form.mugshot }}{{ form.mugshot.errors }}</div>
     <div><label>Your Website:</label>{{ form.website }}{{ form.website.errors }}</div>
     <div><label>Your Facebook page:</label>{{ form.facebook }}{{ form.facebook.errors }}</div>        

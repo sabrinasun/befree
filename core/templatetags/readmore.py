@@ -29,8 +29,8 @@ def readmore(txt, showwords=40):
         words.insert(showwords+3, '</span>')
 
     # Wrap with <p>
-    words.insert(0, '<p>')
-    words.append('</p>')
+    #words.insert(0, '<p>')
+    #words.append('</p>')
 
     return mark_safe(' '.join(words))
 

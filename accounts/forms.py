@@ -28,8 +28,9 @@ class SignupReaderForm(UserenaSignupForm):
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
     address1 = forms.CharField(max_length=255)
-    address2 = forms.CharField(max_length=255)
+    address2 = forms.CharField(max_length=255, required = False)
     city = forms.CharField(max_length=50)
+    zipcode = forms.CharField(max_length=50)
     state = forms.CharField(max_length=50)
     country = forms.ChoiceField(choices = countries.COUNTRIES, initial="US", )
 
@@ -38,17 +39,16 @@ class SignupReaderForm(UserenaSignupForm):
         self.fields['username'].required = False
         self.fields['username'].widget = forms.HiddenInput()
         self.fields['country'].initial = "US"
-
+    
     def clean(self):
         data = self.cleaned_data
         first_name = data.get('first_name', '')
         last_name = data.get('last_name', '')
-        if first_name + last_name:
-            data['username'] = slugify(first_name + last_name)
-        else:
-            raise forms.ValidationError('Please input either first or last name')
-        return data
 
+        data['username'] = slugify(first_name + last_name)
+
+        return data
+    
     def save(self):
         try:
             user = super(SignupReaderForm, self).save()
@@ -69,7 +69,9 @@ class SignupReaderForm(UserenaSignupForm):
         return user
 
 class SignupForm(UserenaSignupForm):
-    screen_name = forms.CharField(required=False)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    screen_name = forms.CharField(required=False)  
     paypal_email = forms.EmailField(required=False)
     other_means = forms.CharField(widget=forms.Textarea, required=False)
     free_domestic_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
@@ -82,6 +84,8 @@ class SignupForm(UserenaSignupForm):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields['username'].required = False
         self.fields['username'].widget = forms.HiddenInput()
+        
+               
 
     def clean_free_domestic_shipping(self):
         return True if self.cleaned_data['free_domestic_shipping']=='True' else False
@@ -99,7 +103,7 @@ class SignupForm(UserenaSignupForm):
         elif first_name + last_name:
             data['username'] = slugify(first_name + last_name)
         else:
-            raise forms.ValidationError('Please input screen name.')
+            raise forms.ValidationError('Please input Public Name.')
         return data
 
     def save(self):

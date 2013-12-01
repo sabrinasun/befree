@@ -32,5 +32,8 @@ urlpatterns = patterns('core.views',
     url(r'^users/(?P<username>[\w.@+-]+)/$', 'user_profile', name='user_profile'),
     url(r'^check_out/$', 'check_out', name='check_out'),
     url(r'^view_bag/$', 'view_bag', name='view_bag'),    
-    url(r'^order/(?P<order_id>\d+)/ship/$', 'ship_order', name='ship_order'),
+    url(r'^view_bag/delete/(?P<inventory_id>\d+)/$', 'view_bag_delete', name='view_bag_delete'),        
+    url(r'^contact_user/$', 'contact_user', name='contact_user'),           
+    url(r'^pay_giver/$', 'pay_giver', name='pay_giver'), 
+    url(r'^file_claim/$', 'file_claim', name='file_claim')
 )

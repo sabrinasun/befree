@@ -4,6 +4,7 @@ from django_countries import CountryField
 
 from userena.utils import get_user_model
 from userena.models import UserenaBaseProfile
+from core.models import Publisher
 
 TYPE_CHOICES = (
     ('TEM/ORG', 'Temple/Organization'),
@@ -27,11 +28,12 @@ class Profile(UserenaBaseProfile):
     address2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=50)
+    zipcode = models.CharField(max_length=50)
     country = CountryField(max_length=50)
 
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, blank=True)
     is_nonprofit = models.BooleanField(default=False)
-    is_publisher = models.BooleanField(default=False)
+    publisher_id = models.ForeignKey(Publisher, null=True, blank=True)
     paypal_email = models.EmailField(max_length=100, blank=True)
     facebook = models.URLField(max_length=255, blank=True)
     website = models.URLField(max_length=255, blank=True)

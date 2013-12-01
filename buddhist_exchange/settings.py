@@ -165,7 +165,7 @@ USERENA_ACTIVATION_REQUIRED = False
 USERENA_SIGNIN_AFTER_SIGNUP = True
 USERENA_REDIRECT_ON_SIGNOUT = '/'
 USERENA_SIGNIN_REDIRECT_URL = '/account/summary'
-USERENA_USE_MESSAGES = True
+USERENA_USE_MESSAGES = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

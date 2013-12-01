@@ -2,11 +2,28 @@
 
 {% block content %}
 
+<div style="width:480px;">
+
+Please login, or register if you don't have an login yet. 
+<h2>Login</h2>
+<form method="post" action="{% url 'userena_signin' %}?next=/view_bag/" id="login_form">
+     {% csrf_token %}
+	<div class="row">
+		<label>Email: </label><input type="text" name="identification" />
+	</div>
+	<div class="row">
+		<label>Password:  </label><input type="password" name="password" />
+	</div>
+	<br>
+	<div class="row" style="text-align:right">
+		<input type="submit" value="login" class="button">
+	</div>
+</form>
+
+<br><br>
+<h2>Register as Reader</h2>
 <form method="post" action="{% url 'userena_signup_reader' %}" id="register_form">
 {% csrf_token %}
-
-<h2>Register</h2>
-
 {% if form.non_field_errors %}
 <ul class="errorlist">
     {% for non_field_error in form.non_field_errors %}
@@ -16,33 +33,36 @@
 {% endif %}
 
 {% if form.errors %}
-<div id="form-error">
+<!--div id="form-error">
 	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
 	<ul>
 	{% for field in form %}
 	<li>{{field.name}}{{ field.errors|striptags }}</li>
 	{% endfor %}
 	</ul>
-</div>
+</div-->
 {% endif %}
 
-	<h3>Basic information:</h3>
+	<h3>Please enter login information:</h3>
     {{ form.username }}
 	<div><label>Email:</label>{{ form.email }}{{ form.email.errors }}</div> 	
 	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }}</div> 
 	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }}</div> 
 	<br />
     
-	<p><h3>For Reader - Mailing Information:</h3> 
+	<p><h3>Please enter shipping information:</h3> 
     <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
 	<div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>	
 	<div><label>Address1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>	
 	<div><label>Address2:</label>{{ form.address2 }}{{ form.address2.errors }}</div>	
+	<div><label>Zip Code:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>	
 	<div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>	
 	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
 	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>						
-
+	<br>
 	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
 
 </form>
+
+</div>
 {% endblock %}

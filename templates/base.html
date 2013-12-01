@@ -13,49 +13,21 @@
     <script src="{{ MEDIA_URL }}js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
     
-    
-<style type="text/css">
-    ul.errorlist {padding-left:130px;color:#f00}
-
-    ul.messagelist {
-        padding: 0 0 5px 0;
-        margin: 0;
-    }
-
-    ul.messagelist li {
-        font-size: 12px;
-        display: block;
-        padding: 4px 5px 4px 25px;
-        margin: 0 0 3px 0;
-        border-bottom: 1px solid #ddd;
-        color: #666;
-        background: #ffc url({{ STATIC_URL }}admin/img/icon_success.gif) 5px .3em no-repeat;
-    }
-
-    ul.messagelist li.warning{
-        background-image: url({{ STATIC_URL }}admin/img/icon_alert.gif);
-    }
-
-    ul.messagelist li.error{
-        background-image: url({{ STATIC_URL }}admin/img/icon_error.gif);
-    }
-</style>
-
 <head>
 
 {% block body %}
 <body>
 
 <div class="main-header menu">
-	<img src="{{ MEDIA_URL }}img/logo.png">
-        <div style="margin-left:250px;"><h1>- Free Dharma Book/CD/DVD Exchange</h1></div>
+	<a href="/"><img src="{{ MEDIA_URL }}img/logo.png"></a>
+        <div style="text-align:right;margin-right:50px;margin-top:-40px; margin-bottom:40px;""></div>
 	<ul>
 	    <li><a href="/">Home</a></li>
 		<li><a href="{% url 'to_giver' %}">To Giver</a></li>
 		<li><a href="{% url 'to_reader' %}">To Reader</a></li>
 		<li><a href="{% url 'shipping' %}">Shipping</a></li>
 		<li><a href="{% url 'help' %}">How To Help</a></li>
-		<li><a href="{% url 'account_summary' %} ">My Account</a></li> 
+		{% if user.is_authenticated %}<li><a href="{% url 'account_summary' %} ">My Account</a></li>{% endif %} 
 	</ul>
 </div>
 
@@ -98,8 +70,9 @@
 				<div class="row" style="text-align:right">
 					<div class="button"><a href="#" onclick="document.getElementById('login_form').submit();return false">Login</a></div>
 				</div>
-				<div style="clear:both;">
-				New User: <a href="{% url 'userena_signup' %}">Register to Give</a>
+				<div style="clear:both;text-align:right;">
+				 <a href="{% url 'userena_signup' %}">Register to Give</a>|
+				 <a href="/accounts/password/reset/">Reset Password</a>
 				</div>
                     </form>
 			</div>

@@ -21,16 +21,17 @@ h2 {
     font-size: 18px;
     font-weight: normal; 
     line-height: 1.167;
-    margin: 0;
+    margin: 3px;
 }
 
 h3 {
 	color: #E47911;
     font-weight: normal; 
+    margin-bottom:4px;
 }
 
 th { 
-	background-color: #AED2EE;
+	background-color: #000099;
 	height: 20px;
 	color: white;
 	font-weight: bold;
@@ -48,11 +49,14 @@ label {
 	text-align: right; 
 	padding-right:10px;
 	vertical-align: top;
-
 }
 
 b {
-   /*color: #E47911;*/
+   color: #e47911;
+}
+
+input {
+    vertical-align:middle;
 }
 
 .main-header {
@@ -124,14 +128,14 @@ b {
 }
 
 .bluebox {
-    border: 1px solid #C9E1F4;
+    border: 1px solid #000099;
     margin-bottom: 20px;
 	border-radius:5px;
 	clear:both;
 }
 
 .bluebox .header { 
-	background-color: #AED2EE;
+	background-color: #000099;
 	height: 20px;
 	color: white;
 	font-weight: bold;
@@ -156,7 +160,7 @@ b {
 	margin:3px 0;
 }
 
-.button, button {
+.button, button, input[type="submit"] {
 	float:right;
     background: #f7cd80; /* Old browsers */
     background: -moz-linear-gradient(top,  #f7cd80 0%, #f79621 100%); /* FF3.6+ */
@@ -216,7 +220,7 @@ b {
 .order-box .left {
     float: left;
 	margin-left: -100%;
-	width:200px;
+	width:300px;
 	padding:6px;
 
 
@@ -224,7 +228,33 @@ b {
 
 .order-box .right {
 	padding:6px;
-	margin-left: 200px;
+	margin-left: 300px;
 	border-left: 1px solid #E5E5E5;
+}
+
+ul.errorlist {color:#f00;display:inline;}
+ul.errorlist li {display:inline;}
+
+ul.messagelist {
+    padding: 0 0 5px 0;
+    margin: 0;
+}
+
+ul.messagelist li {
+    font-size: 12px;
+    display: block;
+    padding: 4px 5px 4px 25px;
+    margin: 0 0 3px 0;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+    background: #ffc url({{ STATIC_URL }}admin/img/icon_success.gif) 5px .3em no-repeat;
+}
+
+ul.messagelist li.warning{
+    background-image: url({{ STATIC_URL }}admin/img/icon_alert.gif);
+}
+
+ul.messagelist li.error{
+    background-image: url({{ STATIC_URL }}admin/img/icon_error.gif);
 }
 
