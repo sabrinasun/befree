@@ -1,34 +1,37 @@
 {% extends 'account/summary.html' %}
 
 {% block account_right %}
-<div style="float:left; width:50%;">
+<div style="float:left; ">
     <h2>{% if is_editing %}Editing an Item{% else %}Enter a New Item{% endif %}:</h2>
     
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
 	    <div><label>Title:</label>{{ form.title }}{{ form.title.errors }}</div> 
-	    <div><label>Author:</label>{{ form.author }}{{ form.author.errors }}
+	    <div><label>Author:</label>{{ form.author }}
 	    <a href="javascript:void(0)" 
 	       class="add-another" 
            onclick="javascript: window.open('/add/author/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=320, left=200, top=60');">Add Author</a>
+	    {{ form.author.errors }}
 	    </div> 	    
-	    <div><label>Publisher:</label>{{ form.publisher }}{{ form.publisher.errors }}
+	    <div><label>Publisher:</label>{{ form.publisher }}
 	    <a href="javascript:void(0)" 
 	       class="add-another" 
            onclick="javascript: window.open('/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=320, left=200, top=60');">Add Publisher</a>
+	    {{ form.publisher.errors }}
 	    </div> 	    	    
-  
-	    <div><label>ISBN:</label>{{ form.isbn }}{{ form.isbn.errors }}</div> 
-	    <div><label>Publisher Book ID:</label>{{ form.publisher_book_id }}{{ form.publisher_book_id.errors }}</div> 		    
-	    <div><label>Description:</label>{{ form.description }}{{ form.description.errors }}</div> 	
-	    <div><label>Type:</label>{{ form.typ }}{{ form.typ.errors }}</div> 
-	    <div><label>Pages:</label>{{ form.pages }}{{ form.pages.errors }}</div> 	
-	    <div><label>Weight (oz):</label>{{ form.weight }}{{ form.weight.errors }}</div> 
-	    <div><label>Original Price ($):</label>{{ form.price }}{{ form.price.errors }}</div> 
+  	    <div><label>Weight (oz):</label>{{ form.weight }}{{ form.weight.errors }}</div> 
+	    <div><label>Publisher Price ($):</label>{{ form.price }}{{ form.price.errors }}</div> 
 	    <div><label>Language:</label>{{ form.language }}{{ form.language.errors }}</div> 
-	    <div><label>Upload Cover Picture:</label>{{ form.pic }}{{ form.pic.error }}</div> 	    	    		  	    	    	
-	    <div><label>Upload PDF File:</label>{{ form.pdf }}{{ form.pdf.error }}</div> 	 
+	    <div><label>Pages:</label>{{ form.pages }}{{ form.pages.errors }}</div> 	    
+	    <div><label>ISBN-10:</label>{{ form.isbn_10 }}{{ form.isbn_10.errors }}</div> 
+	    <div><label>ISBN-13:</label>{{ form.isbn_13 }}{{ form.isbn_13.errors }}</div> 	   
+	    <div><label>Publisher Book ID:</label>{{ form.publisher_book_id }}{{ form.publisher_book_id.errors }}</div> 		    
+	    <div><label>Description:</label>{{ form.description }}{{ form.description.errors }}</div> 
+	    <div><label>Web Version:</label>{{ form.website }}{{ form.website.errors }}</div> 		
+	    <div style="margin-left:160px;"><label style="margin-left:-160px;margin-top:4px">Upload Cover Picture:</label>{{ form.pic }}{{ form.pic.error }}</div> 	    	    		  	    	    	
+	    <div style="margin-left:160px;">
+	    <label style="margin-left:-160px;margin-top:4px">Upload PDF File:</label>{{ form.pdf }}{{ form.pdf.error }}</div> 	 
 	    	    	      	    	  	     
     
         <input type="submit" value="{% if is_editing %}Update Item{% else %}Add New Item{% endif %}" class="button" style="color:#fff;margin-right:30px" />

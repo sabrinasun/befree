@@ -26,6 +26,7 @@ label {
 </div-->
     
     <div style="padding:0 20px 20px 20px;">
+    Please pay the giver offline, and inform the giver how did you send payment with this form.<br><br>
     <form method="POST" action="{% url 'pay_giver' %}" >
     {% csrf_token %}
     {% if user.get_profile.paypal_email %}
@@ -40,7 +41,7 @@ label {
     <textarea cols=40 rows=3 readonly style="vertical-align:top;">{{ user.get_profile.payment_description }} </textarea>
      <br> 
     {% endif %}
-    Notes to the Giver:<br>
+    Additional information about your payment:<br>
     {{ form.message }}
 	<br>
     

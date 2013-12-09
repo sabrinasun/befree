@@ -27,13 +27,12 @@ class Profile(UserenaBaseProfile):
     address1 = models.CharField(max_length=255, blank=True)
     address2 = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=50)
-    zipcode = models.CharField(max_length=50)
     country = CountryField(max_length=50)
 
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, blank=True)
     is_nonprofit = models.BooleanField(default=False)
-    publisher_id = models.ForeignKey(Publisher, null=True, blank=True)
     paypal_email = models.EmailField(max_length=100, blank=True)
     facebook = models.URLField(max_length=255, blank=True)
     website = models.URLField(max_length=255, blank=True)
@@ -45,6 +44,10 @@ class Profile(UserenaBaseProfile):
     international_free_shipping = models.BooleanField(default=False)
     domestic_free_shipping = models.BooleanField(default=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    
+    is_reader = models.BooleanField(default=False)
+    is_giver  = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=False)
 
     def get_location(self):
         lst = []

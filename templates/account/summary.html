@@ -3,8 +3,14 @@
 {% block body %}
 <body class="account">
 
-<div class="contentwrapper">
+<div class="contentwrapper">	
 		<div class="account-right">
+			{% if msg == "password_success" %}
+			<div class="msg">Your password has been successfully updated. Please use your new password from now on.</div> 
+			{% endif %}
+			{% if msg == "email_success" %}
+			<div class="msg">An email was sent to your new email address. Please follow the instruction to activate your new email.</div> 
+			{% endif %}		
             {% block account_right %}
             
 			<p><h2><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></h2>
@@ -42,8 +48,13 @@
 		<a href="{% url 'index' %}"><img src="{{ MEDIA_URL }}img/logo-small.png"></a>
 		<ul>
 			<li><a href="{% url 'account_summary' %}">Account Summary</a></li>
+			<hr />
 			<li><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></li>
+			<li><a href="{% url 'userena_email_change' username=user.username %}">Change Email</a></li>			
+			<li><a href="{% url 'userena_password_change' username=user.username %}">Change Password</a></li>
+			<hr />
 			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
+			<hr />
 			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
 			<li><a href="{% url 'account_material' %}">Inventory</a></li>
 			<!-- Hide these items for now. Till we have time to create a whole page for the management of each table.   

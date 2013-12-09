@@ -150,22 +150,41 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'core.context_processors.order',
 )
 
-#~ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = join(ROOT, 'email_files')
 
+
+"""
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = True
+# Host for sending e-mail.
+EMAIL_HOST = 'smtp.gmail.com'
+# Port for sending e-mail.
+EMAIL_PORT = 587
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = 'sabrinanyu@gmail.com'
+EMAIL_HOST_PASSWORD = 'montclair'
+
+DEFAULT_FROM_EMAIL = 'sabrinanyu@gmail.com'
+SERVER_EMAIL = 'sabrinanyu@gmail.com'
+"""
+
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.Profile'
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_REDIRECT_URL = '/account/summary'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
-USERENA_WITHOUT_USERNAMES = False
-USERENA_ACTIVATION_REQUIRED = False
-USERENA_SIGNIN_AFTER_SIGNUP = True
+USERENA_WITHOUT_USERNAMES = True
+USERENA_ACTIVATION_REQUIRED = True
+USERENA_SIGNIN_AFTER_SIGNUP = False
 USERENA_REDIRECT_ON_SIGNOUT = '/'
 USERENA_SIGNIN_REDIRECT_URL = '/account/summary'
 USERENA_USE_MESSAGES = False
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

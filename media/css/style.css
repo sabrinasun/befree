@@ -52,9 +52,14 @@ label {
 }
 
 b {
-   color: #e47911;
+    color: #e47911;
 }
 
+.msg {
+    margin: 12px;
+    color: #e47911;	
+
+}
 input {
     vertical-align:middle;
 }

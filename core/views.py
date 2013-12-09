@@ -23,9 +23,11 @@ from core.models import Material, GiverMaterial, Order, OrderDetail
 from core.forms import MaterialForm, AuthorForm, PublisherForm, GiverMaterialForm, ContactForm, PayForm, ShippingCostForm
 from accounts.models import Profile
 
+from django.conf import settings
 from django.core.mail import send_mail
                   
 def index(request):
+    msg = None
     if request.method == 'POST':
         inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
         quantity = int(request.POST.get('quantity', 0))
@@ -38,11 +40,14 @@ def index(request):
         cart = request.session.get("cart", {})
         cart[inventory.pk] = quantity + cart.get(inventory.pk, 0)
         request.session["cart"] = cart
-    
-    inventories =  GiverMaterial.objects.all().order_by('material__title')
+    else:
+        msg = request.GET.get('msg','')
+
+    inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE')
     
     context = {
         'inventories': inventories,
+        'msg': msg
     }
     return render(request, 'index.html', context)
 
@@ -233,7 +238,7 @@ def check_out(request):
         message = 'An order was placed by '+ reader.get_profile().get_display_name()+" via BuddhistExchange. "
         
         send_mail('An order was placed by '+ reader.get_profile().get_display_name()+" via BuddhistExchange",  \
-                  message, "no-reply@buddhistexchange.com",[giver.email], fail_silently=False)
+                  message, settings.EMAIL_HOST_USER,[giver.email], fail_silently=False)
 
     context = {
         'orders': orders, 
@@ -274,6 +279,7 @@ def account_summary(request):
         'giving_orders_delivered': giving_orders.exclude(pay_date=None).count(),
         'materials_active': giver_materials.filter(status='Active').count(),
         'materials_inactive': giver_materials.filter(status='Inactive').count(),
+        'msg': request.GET.get('msg')
     }
     return render(request, 'account/summary.html', context)
 
@@ -381,6 +387,7 @@ def account_material_edit(request, material_id=None):
 
 @login_required
 def add_new_model(request, model_name):
+
     if (model_name.lower() == model_name):
             normal_model_name = model_name.capitalize()
     else:

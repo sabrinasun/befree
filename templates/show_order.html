@@ -5,7 +5,7 @@
 {% if action = "view_bag" %}
 Please view your order and then confirm the order. 
 {% else %}
-You order has been successfully processed. 
+You orders have been successfully processed. If require a payment, kindly pay as soon as you can so that the giver will ship it.  
 {% endif %}
 <div id="message"></div>
 <h3>Your orders:</h3>
@@ -82,9 +82,14 @@ You order has been successfully processed.
     {% if action = "view_bag" %}
 	<input type="submit" value="Confirm Order" /> 
 	{% else %}
-	<a href="/">Continue Browsing</a>    	
+	<a href="/account/orders/reading/">Pay Now</a>
     {% endif %}
 </div>
+
+<div  class="button">
+	<a href="/">Continue Browsing</a>  	
+</div>
+
 
 </form>
 

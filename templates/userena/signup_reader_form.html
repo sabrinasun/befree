@@ -22,7 +22,7 @@ Please login, or register if you don't have an login yet.
 
 <br><br>
 <h2>Register as Reader</h2>
-<form method="post" action="{% url 'userena_signup_reader' %}" id="register_form">
+<form method="post" action="{% url 'userena_signup_reader' %}" id="register_form" style="width:600px;">
 {% csrf_token %}
 {% if form.non_field_errors %}
 <ul class="errorlist">
@@ -60,6 +60,8 @@ Please login, or register if you don't have an login yet.
 	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
 	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>						
 	<br>
+	
+	<div><label></label>{{form.tos}} I agree to <a href="{% url 'tos' %}">Term of Service</a> .{{form.tos.errors}}</div>	
 	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
 
 </form>

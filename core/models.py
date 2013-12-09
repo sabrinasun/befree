@@ -13,10 +13,11 @@ class Author(models.Model):
         return self.name
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name    = models.CharField(max_length=100, unique=True)
     website = models.URLField(max_length=255, null=True, blank=True)    
     description = models.TextField(blank=True)
     publish_free_book = models.BooleanField(default=False)
+    #contact = models.ForeignKey(get_user_model(), null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -41,16 +42,14 @@ LAN_CHOICES = (
 )
 
 CONDITION_CHOICES = (
-    ('NE', 'NE'),
-    ('LN', 'LN'),
-    ('GO for New', 'GO for New'),
-    ('Like New', 'Like New'),
-    ('Good', 'Good'),
+    ('NEW', 'New' ),
+    ('LN', 'Like New'),
+    ('GOOD','Good'),
 )
 
 STATUS_CHOICES = (
-    ('Active', 'Active'),
-    ('Inactive', 'Inactive'),
+    ('ACTIVE', 'Active'),
+    ('INACTIVE', 'Inactive'),
 )
 
 def cover_pic_name(instance, filename):
@@ -61,21 +60,23 @@ def pdf_name(instance, filename):
 
 class Material(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ManyToManyField(Author, null=True, blank=True)
-    publisher = models.ForeignKey(Publisher, null=True, blank=True)
-    isbn = models.CharField(max_length=100, blank=True)
+    author = models.ManyToManyField(Author)
+    publisher = models.ForeignKey(Publisher)
+    isbn_10 = models.CharField(max_length=100, blank=True, null=True)
+    isbn_13 = models.CharField(max_length=100, blank=True, null=True)
     publisher_book_id = models.CharField(max_length=100, null=True, blank=True)
-    print_free_distribution_id = models.ForeignKey(get_user_model(), null = True, blank = True)
-    description = models.TextField(blank=True)
-    typ = models.CharField(max_length=10, choices=TYPE_CHOICES, default='Book')
+    description = models.TextField(blank=True, null=True)
     pages = models.PositiveIntegerField(default=0)
-    weight = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    create_date = models.DateTimeField(default=timezone.now)
-    language = models.CharField(max_length=10, choices=LAN_CHOICES, blank=True)
+    weight = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2,default=0)
+    language = models.CharField(max_length=10, choices=LAN_CHOICES)
     pic = models.ImageField(upload_to=cover_pic_name, null=True, blank=True,  verbose_name="Upload Cover Picture")
     pdf = models.FileField(upload_to=pdf_name, null=True, blank=True, verbose_name='Upload PDF File')
     website = models.URLField(max_length=255,null=True, blank=True)  
+    paperback = models.BooleanField(default=False)
+    publish_date = models.DateTimeField(blank=True, null = True)   
+    size =  models.CharField(max_length=100, blank=True, null = True)
+    create_date = models.DateTimeField(default=timezone.now)       
     
     def __unicode__(self):
         return u"{0}".format(self.title)
@@ -90,7 +91,7 @@ class Material(models.Model):
 
 class GiverMaterial(models.Model):
     giver = models.ForeignKey(get_user_model())
-    material = models.ForeignKey(Material, blank=True, null=True)
+    material = models.ForeignKey(Material)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES, default="Good")
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     quantity = models.PositiveIntegerField(default=1)
@@ -100,6 +101,9 @@ class GiverMaterial(models.Model):
 
     def get_quantity_nums(self):
         return range(1, self.quantity + 1)
+    
+    def __unicode__(self):
+        return "%s - %s " % (self.giver.get_profile().get_display_name() , self.material )
 
 
 class Order(models.Model):
@@ -118,7 +122,9 @@ class Order(models.Model):
     
     def get_total_cost(self):
         return self.total_price + self.shipping_cost
-
+    
+    def __unicode__(self):
+        return str(self.id)
 
 class OrderDetail(models.Model):
     order     = models.ForeignKey(Order)
