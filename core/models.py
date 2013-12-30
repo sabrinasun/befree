@@ -68,6 +68,7 @@ class Material(models.Model):
     description = models.TextField(blank=True, null=True)
     pages = models.PositiveIntegerField(default=0)
     weight = models.DecimalField(max_digits=8, decimal_places=2)
+    weight_is_estimated = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2,default=0)
     language = models.CharField(max_length=10, choices=LAN_CHOICES)
     pic = models.ImageField(upload_to=cover_pic_name, null=True, blank=True,  verbose_name="Upload Cover Picture")
@@ -122,6 +123,9 @@ class Order(models.Model):
     
     def get_total_cost(self):
         return self.total_price + self.shipping_cost
+    
+    def get_paypal_cost(self):       
+        return float ( self.shipping_cost ) * 1.029 + 0.3
     
     def __unicode__(self):
         return str(self.id)

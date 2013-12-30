@@ -46,6 +46,16 @@ class MaterialForm(forms.ModelForm):
                     if list(self.instance.author.all()) == list(author):
                         return cleaned_data
                 raise forms.ValidationError("The material with this title and author alredy exist.")
+            
+        pages = cleaned_data.get('pages')
+        weight = cleaned_data.get('weight')    
+        if weight == 0:
+            raise forms.ValidationError("This book should weight more than 0 lb.")
+                
+        if pages==0: 
+            raise forms.ValidationError("This book should have more than one page.")
+
+        
         return cleaned_data
         
 
@@ -59,7 +69,8 @@ class GiverMaterialForm(forms.ModelForm):
         model = GiverMaterial
         exclude = ('create_date')
         widgets = {
-        'giver': forms.HiddenInput(attrs={'readonly':'True'})
+        'giver': forms.HiddenInput(attrs={'readonly':'True'}),
+        'price': forms.HiddenInput(attrs={'readonly':'True'})
         }
         
         

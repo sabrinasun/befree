@@ -1,0 +1,58 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{% trans "Signin" %}{% endblock %}
+
+{% block content %}
+
+<<style>
+<!--
+
+.bluebox-content label {
+	width:100px;
+}
+-->
+</style>
+
+
+<div class="bluebox" style="width:300px;margin:0 auto;">
+                
+	<div class="header">Login</div>
+	<div class="bluebox-content">
+
+		<form action="" method="post">
+		  {% csrf_token %}
+		
+		
+		    {{ form.non_field_errors }}
+		    {% for field in form %}
+		    {{ field.errors }}
+		    {% comment %} Displaying checkboxes differently {% endcomment %}
+		    {% if field.name == 'remember_me' %}
+		    <p class="checkbox">
+		    <label for="id_{{ field.name }}"> {{ field.label }}</label>
+		    {{ field }}
+		    </p>
+		    {% else %}
+		    <p>
+		    {{ field.label_tag }}
+		    {{ field }}
+		    </p>
+		    {% endif %}
+		    {% endfor %}
+		
+		  <input type="submit" value="{% trans "Signin" %}" />
+		  {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+		</form>
+	</div>
+	<br>
+	<p class="forgot-password" style="text-align:right;"><a href="{% url 'userena_password_reset' %}" title="{% trans 'Forgot your password?' %}">{% trans "Forgot your password?" %}</a> &nbsp; </p>
+	
+</div>
+
+
+
+
+
+{% endblock %}

@@ -459,11 +459,12 @@ class GiverMaterialEditView(UpdateView):
 
 def pay_giver(request):
     pay_form =  None 
+    order = None
     if request.method == "POST": 
         pay_form = PayForm(data = request.POST)
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(id=order_id)
         if pay_form.is_valid(): 
-            order_id = pay_form.cleaned_data['order_id']
-            order = Order.objects.get(id=order_id)
             pay_method = pay_form.cleaned_data['pay_method']
             message = pay_form.cleaned_data['message']            
             giver_email = order.giver.email
@@ -474,9 +475,11 @@ def pay_giver(request):
             return HttpResponse('<script type="text/javascript">opener.location="/account/orders/reading/";window.close();</script>') 
   
     else:     
+        order_id = request.GET.get('order_id')
+        order = Order.objects.get(id=order_id)
         pay_form  = PayForm(initial = request.GET)            
               
-    context = {"form": pay_form}
+    context = {"form": pay_form, "order":order}
     return render(request, 'pay_giver.html', context)   
 
 def file_claim(request):

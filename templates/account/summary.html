@@ -11,6 +11,13 @@
 			{% if msg == "email_success" %}
 			<div class="msg">An email was sent to your new email address. Please follow the instruction to activate your new email.</div> 
 			{% endif %}		
+			{% if msg == "activate_success" %}
+			<div class="msg">Your account has been activated.</div> 
+			{% endif %}		
+			{% if msg == "email_change_success" %}
+			<div class="msg">Your email address has been changed.</div> 
+			{% endif %}								
+			
             {% block account_right %}
             
 			<p><h2><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></h2>

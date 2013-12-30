@@ -2,7 +2,11 @@
 
 {% block account_right %}
 <h2>Inventory</h2> 
-<div class="button"><a href="{% url 'account_material_new' %}">Add Book/CD/DVD</a></div>
+Here lists all books entered by all users, you can click on the link add to add your inventory. 
+If you need to list a new book never listed by others before, please Add Book first. <br>
+Thanks for giving your book to others. 
+
+<div class="button"><a href="{% url 'account_material_new' %}">Add Book</a></div>
 <table width="100%" cellspacing="1px" cellpadding="6px">
     <tr>
         <th>Material</th>

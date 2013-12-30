@@ -3,6 +3,13 @@
 {% block account_right %}
 <div style="float:left; ">
     <h2>{% if is_editing %}Editing an Item{% else %}Enter a New Item{% endif %}:</h2>
+    <p>Buddhistexchange maintains only one book index, your book registered can be updated by other members. <br>Please help us to maintain our book index with information as accurate as possible. Thanks.</p>
+    
+    <div class="error">
+    {% for error in form.non_field_errors %}
+    	{{ error }}<br>
+    {% endfor %}
+    </div>
     
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
@@ -20,7 +27,8 @@
            onclick="javascript: window.open('/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=320, left=200, top=60');">Add Publisher</a>
 	    {{ form.publisher.errors }}
 	    </div> 	    	    
-  	    <div><label>Weight (oz):</label>{{ form.weight }}{{ form.weight.errors }}</div> 
+  	    <div><label>Weight (oz):</label>{{ form.weight }} <a href="#estimate">*Estimate the weight of a book.</a> {{ form.weight.errors }}</div> 
+	    <div><label>Weight is Estimated:</label>{{ form.weight_is_estimated }}{{ form.weight_is_estimated.errors }}</div> 	    
 	    <div><label>Publisher Price ($):</label>{{ form.price }}{{ form.price.errors }}</div> 
 	    <div><label>Language:</label>{{ form.language }}{{ form.language.errors }}</div> 
 	    <div><label>Pages:</label>{{ form.pages }}{{ form.pages.errors }}</div> 	    
@@ -36,6 +44,18 @@
     
         <input type="submit" value="{% if is_editing %}Update Item{% else %}Add New Item{% endif %}" class="button" style="color:#fff;margin-right:30px" />
     </form>
+    <br>
+    <p>
+    <a name="estimate" style="text-decoration:none;color:black;"><b>Estimate Book Weight:</b></a><br>
+    1. A book weights about one to two pounds. If you have a lot of books, please get a shipping scale.<br><br>
+    2. If you don't have a scale, you can estimate by the number of pages in the book and the size of the book: <br>
+       A regular sized book (size about 6x8 inches), weights 1 oz for every 12.5 sheets. Count the number of sheets in a book to estimate the weight.<br>
+       a. For pages with number on it, find number on the last page, divide that number by two. <br>
+       b. For pages without number on it, count the number of sheets. <br>
+       Add up a and b, and you have the total number of sheets.  <br><br>
+    3. Formula: <b>Weight = ([number of sheets without page number]+[number of pages]/2 )/12.5 (oz)</b>
+       If your book is ony half the size of the regular sized book, say size 4x6 inches, then divide above result by two again. <br>
+    </p>
 
 </div>
 <div style="clear:both"></div>

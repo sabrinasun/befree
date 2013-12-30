@@ -3,7 +3,9 @@
 {% block content %}
 <h2>View Bag</h2>
 {% if action = "view_bag" %}
-Please view your order and then confirm the order. 
+Please view your order and then confirm the order. If the giver offers free shipping, you need to check Please wave shipping cost, to get free shipping. 
+<br>If you use paypal to pay, you will need to pay additional paypal fees of 2.9% + 0.3. If you shipping cost is about $3, the paypal fee is about 38 cents.   
+
 {% else %}
 You orders have been successfully processed. If require a payment, kindly pay as soon as you can so that the giver will ship it.  
 {% endif %}
@@ -30,13 +32,9 @@ You orders have been successfully processed. If require a payment, kindly pay as
          	    <div style="clear:both;">
          	    	<div style="display:inline;">
 		          		{{ details.inventory.material.title }}  &nbsp; by {{ details.inventory.material.get_author_names }} 
-		          		&nbsp; &nbsp; Giver Price: ${{ details.inventory.price }}
-
+		          		&nbsp; &nbsp; 
 				    </div>
-
-			    	
 		    	</div>   		
-          		
           		<div style="clear:both;">
           			<div style="display:inline;">
 	         			Quantity: {{ details.quantity }}&nbsp; &nbsp;
@@ -63,7 +61,7 @@ You orders have been successfully processed. If require a payment, kindly pay as
         {% if order.shipping_cost == -1 %} 
           Can't determine shipping cost, please contact Giver 
         {% else %}
-          Total: ${{ order.total }} ( ${{ order.price }}  + Shipping ${{order.shipping_cost}} ) 
+          Total: Shipping ${{order.shipping_cost}}  
         {% endif %}
         
         <br>
@@ -78,17 +76,17 @@ You orders have been successfully processed. If require a payment, kindly pay as
 {% endfor %}
 </div>
 
-<div  class="button">
+
     {% if action = "view_bag" %}
 	<input type="submit" value="Confirm Order" /> 
 	{% else %}
 	<a href="/account/orders/reading/">Pay Now</a>
     {% endif %}
-</div>
 
-<div  class="button">
-	<a href="/">Continue Browsing</a>  	
-</div>
+
+
+	<input type="button" class="button" value="Continue Browsing" onclick="javascript: document.location='/';" />
+
 
 
 </form>

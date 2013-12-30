@@ -26,7 +26,7 @@
 		    {% endfor %}
 		    <div style="text-align:right">
 		    	{% if order.order.status == 'NEW' %}
-		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=390, left=200, top=60');" >Pay {{ order.order.giver.get_profile.get_display_name }}</a>
+		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=430, left=200, top=60');" >Pay {{ order.order.giver.get_profile.get_display_name }}</a>
 		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
 		    	{% endif %}
 

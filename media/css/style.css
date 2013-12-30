@@ -237,7 +237,7 @@ input {
 	border-left: 1px solid #E5E5E5;
 }
 
-ul.errorlist {color:#f00;display:inline;}
+ul.errorlist, .error {color:#f00;display:inline;}
 ul.errorlist li {display:inline;}
 
 ul.messagelist {

@@ -7,12 +7,9 @@
 
 <div class ="contentwrapper">
 	{% if msg == "signup_success" %}
-	<div class="msg">You have successfully signed up. Please check your email follow the instruction to login.</div> 
+	<div class="msg">You have successfully signed up. Please check your email and follow the instruction to login.</div> 
 	{% endif %}
-    &nbsp; &nbsp; Enjoy getting free Dhama materials from temples? 
-    Now online... you can request, or give any buddhism book to others, membership is free. <br>
-    &nbsp; &nbsp; You can price your book (lower than publisher price) if you need to.   
-    Enjoy, and feel free to donate to free buddhism book publishers to print more free books. <br><br>
+    &nbsp; &nbsp; Books are free, you may even choose to wave shipping if the giver offers free shipping. <br><br>
     {% paginate inventories %}
     {% for inventory in inventories %}
     <div class="content-outer-column">
@@ -59,8 +56,7 @@
                     {% endif %}  
                     <br>
                     <i>Condition:</i> {{ inventory.condition|title }} 
-                    &nbsp;                 
-				 	<i>Price:</i> {% if inventory.price = 0 %} Free {% else %} {{ inventory.price }} {% endif %} &nbsp;		
+                    &nbsp;                 	
                     <i>Shipping:</i>{% if inventory.giver.get_profile.international_free_shipping %} Free Internationally
                     {% else %}
                        {% if inventory.giver.get_profile.domestic_free_shipping %} Free domestically 
