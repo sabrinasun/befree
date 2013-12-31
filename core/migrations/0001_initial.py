@@ -11,27 +11,44 @@ class Migration(SchemaMigration):
         # Adding model 'Author'
         db.create_table(u'core_author', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('facebook', self.gf('django.db.models.fields.URLField')(max_length=255, null=True, blank=True)),
+            ('website', self.gf('django.db.models.fields.URLField')(max_length=255, null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal(u'core', ['Author'])
+
+        # Adding model 'Publisher'
+        db.create_table(u'core_publisher', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('website', self.gf('django.db.models.fields.URLField')(max_length=255, null=True, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('publish_free_book', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        ))
+        db.send_create_signal(u'core', ['Publisher'])
 
         # Adding model 'Material'
         db.create_table(u'core_material', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('publisher', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('isbn', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('publisher_book_id', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('publisher', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Publisher'])),
+            ('isbn_10', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('isbn_13', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('publisher_book_id', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('pages', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-            ('weight', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
+            ('weight', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
+            ('weight_is_estimated', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('price', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
-            ('create_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('language', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('has_pic', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('pdf', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('pic', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
+            ('pdf', self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True, blank=True)),
+            ('website', self.gf('django.db.models.fields.URLField')(max_length=255, null=True, blank=True)),
+            ('paperback', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('publish_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('size', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('create_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
         ))
         db.send_create_signal(u'core', ['Material'])
 
@@ -49,25 +66,28 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('giver', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('material', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Material'])),
-            ('count', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-            ('condition', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('condition', self.gf('django.db.models.fields.CharField')(default='Good', max_length=10)),
             ('price', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
-            ('status', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('quantity', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
+            ('status', self.gf('django.db.models.fields.CharField')(default='Active', max_length=10)),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('note', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('note', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'core', ['GiverMaterial'])
 
         # Adding model 'Order'
         db.create_table(u'core_order', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('reader', self.gf('django.db.models.fields.related.ForeignKey')(related_name='reader_orders', to=orm['auth.User'])),
-            ('giver', self.gf('django.db.models.fields.related.ForeignKey')(related_name='giver_orders', to=orm['auth.User'])),
+            ('reader', self.gf('django.db.models.fields.related.ForeignKey')(related_name='reader', to=orm['auth.User'])),
+            ('giver', self.gf('django.db.models.fields.related.ForeignKey')(related_name='giver', to=orm['auth.User'])),
             ('shipping_cost', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
-            ('order_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('ship_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('pay_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('total_price', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
             ('payment_detail', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('status', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('order_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('ship_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('pay_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('cancel_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'core', ['Order'])
 
@@ -75,8 +95,8 @@ class Migration(SchemaMigration):
         db.create_table(u'core_orderdetail', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('order', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Order'])),
-            ('giver_material', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.GiverMaterial'])),
-            ('count', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('inventory', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.GiverMaterial'])),
+            ('quantity', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
         ))
         db.send_create_signal(u'core', ['OrderDetail'])
 
@@ -84,6 +104,9 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         # Deleting model 'Author'
         db.delete_table(u'core_author')
+
+        # Deleting model 'Publisher'
+        db.delete_table(u'core_publisher')
 
         # Deleting model 'Material'
         db.delete_table(u'core_material')
@@ -141,56 +164,74 @@ class Migration(SchemaMigration):
         u'core.author': {
             'Meta': {'object_name': 'Author'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'facebook': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'website': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         u'core.givermaterial': {
             'Meta': {'object_name': 'GiverMaterial'},
-            'condition': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
-            'count': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'condition': ('django.db.models.fields.CharField', [], {'default': "'Good'", 'max_length': '10'}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'giver': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'material': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Material']"}),
-            'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'note': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
-            'status': ('django.db.models.fields.CharField', [], {'max_length': '10'})
+            'quantity': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
+            'status': ('django.db.models.fields.CharField', [], {'default': "'Active'", 'max_length': '10'})
         },
         u'core.material': {
             'Meta': {'object_name': 'Material'},
             'author': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['core.Author']", 'symmetrical': 'False'}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'has_pic': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'isbn': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'isbn_10': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'isbn_13': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'language': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             'pages': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
-            'pdf': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'paperback': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pdf': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'pic': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
-            'publisher': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'publisher_book_id': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'publish_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'publisher': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Publisher']"}),
+            'publisher_book_id': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'size': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
-            'weight': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'})
+            'website': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'weight': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
+            'weight_is_estimated': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'core.order': {
             'Meta': {'object_name': 'Order'},
-            'giver': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'giver_orders'", 'to': u"orm['auth.User']"}),
+            'cancel_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'giver': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'giver'", 'to': u"orm['auth.User']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'order_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'pay_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'pay_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'payment_detail': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'reader': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reader_orders'", 'to': u"orm['auth.User']"}),
-            'ship_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'shipping_cost': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'})
+            'reader': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reader'", 'to': u"orm['auth.User']"}),
+            'ship_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'shipping_cost': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
+            'status': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'total_price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'})
         },
         u'core.orderdetail': {
             'Meta': {'object_name': 'OrderDetail'},
-            'count': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
-            'giver_material': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.GiverMaterial']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'order': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Order']"})
+            'inventory': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.GiverMaterial']"}),
+            'order': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Order']"}),
+            'quantity': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'})
+        },
+        u'core.publisher': {
+            'Meta': {'object_name': 'Publisher'},
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'publish_free_book': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'website': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         }
     }
 
