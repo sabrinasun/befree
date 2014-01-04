@@ -3,13 +3,12 @@
 {% block account_right %}
 <h2>Reading Orders</h2>
 <br>
+You order will be shipped after you pay the giver. Sorry BuddhistExchange doesn't support payment yet, please pay by paypal or other methods specified by giver. <br>
+
 <div class="order-box">
 {% for order in orders %}
 	<div style="clear:both;">
 	    <div class = "warning" style="display:inline;">	
-		{% if order.order.status == 'NEW'%}
-	    You order will be shipped after you pay the giver. 
-	    {% endif %}
 	    
 		{% if order.order.status == 'PAID'%}
 	    Waiting for giver to ship. 
@@ -26,8 +25,12 @@
 		    {% endfor %}
 		    <div style="text-align:right">
 		    	{% if order.order.status == 'NEW' %}
-		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=430, left=200, top=60');" >Pay {{ order.order.giver.get_profile.get_display_name }}</a>
+		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=430, left=200, top=60');" >How to Pay {{ order.order.giver.get_profile.get_display_name }}</a>
 		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+		    	{% elif order.order.status == 'PENDING' %}
+		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+		    	{% else %}
+		    	<br>
 		    	{% endif %}
 
 		    	<!-- a href="{% url 'file_claim' %}?order_id={{order.order.id}}">File Claim</a-->
@@ -50,7 +53,7 @@
 	        <b>Cancelled</b>: {{ order.order.cancel_date|date:"M d, Y"}}
 	        {% endif %} 
 	        
-	        Total: ${{ order.order.get_total_cost }} <br />
+	        Total: {% if order.order.get_total_cost == -1 %}TBD{% else %}${{ order.order.get_total_cost }}{% endif %} <br />
 
 	    </div>
 	</div>

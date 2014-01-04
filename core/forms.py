@@ -9,7 +9,7 @@ class ContactForm(forms.Form):
     
 class PayForm(forms.Form):
     order_id   = forms.IntegerField(widget=forms.HiddenInput)
-    pay_method = forms.CharField(widget = forms.RadioSelect) 
+    pay_method = forms.CharField(widget = forms.RadioSelect, error_messages = {'required': "Please select one payment method that applies."}) 
     message = forms.CharField(widget = forms.Textarea, required=False)  
     
 class ShippingCostForm(forms.Form):
@@ -22,7 +22,7 @@ class MaterialForm(forms.ModelForm):
         #self.fields['print_free_distribution_id'].choices = [(r.id,r.get_display_name()) for r in Profile.objects.filter(print_free_distribution=True)]
         #self.fields['typ'].label = "Type"
         #self.fields['author'].help_text = ''
-        #self.fields['author'] = forms.ModelChoiceField(Author.objects.all(), widget=SelectWithPopUp)
+        #self.fields['author'] = forms.ModelChoiceField(Author.objects.all())
         #self.fields['publisher'] = forms.ModelChoiceField(Publisher.objects.all(), widget=SelectWithPopUp)
         
     

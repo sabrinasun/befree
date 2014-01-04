@@ -17,14 +17,14 @@
 	    </div>
 	    <div style="display:inline;float:right;">
 	       <a href="javascript:void(0)" class="add-another" 
-	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Reader {{ order.order.reader.get_profile.get_display_name }}</a> 		    	
+	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.reader.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Reader {{ order.order.reader.get_profile.get_display_name }}</a> 		    	
 	   	</div>  
 	    <div class="contentwrapper">
 	        <div class="right" >
 	        {% for detail in order.detail%}
 			        {{ detail.inventory.material.title }} &nbsp; Quantity: {{ detail.quantity }}<br>
 		    {% endfor %}
-		    <div style="text-align:right">
+		    <div style="text-align:right; margin-top:-12px;">
 		        {% if order.order.status == 'PENDING' %}
 		        {% if form_order_id == order.order.id %}
 		        {{ form.shipping_cost.errors }}
@@ -36,12 +36,14 @@
 		        <input type="submit" value="Save"></a>
 		        </form>
 		        {% endif %}
-		    	{% if order.order.status == 'NEW' %}
-		    	<a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+		    	{% if order.order.status == 'NEW' or order.order.status == 'PENDING' %}
+		    	<br><a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+		    	{% elif order.order.status == 'PAID' %}
+		    	<br><a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=SHIPPED">Shipped</a>
+		    	{% else %}
+		    	<br><br>
 		    	{% endif %}
-		    	{% if order.order.status == 'PAID' %}
-		    	<a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=SHIPPED">Shipped</a>
-		    	{% endif %}
+		    	
 
 		    	<!-- a href="{% url 'file_claim' %}?order_id={{order.order.id}}">File Claim</a-->
 
@@ -63,7 +65,7 @@
 	        {% if order.order.status == 'CANCEL' %} 
 	        <b>Cancelled</b>: {{ order.order.cancel_date|date:"M d, Y"}}
 	        {% endif %}  	        
-	        Total: ${{ order.order.get_total_cost }} <br />
+	        Total: {% if order.order.get_total_cost == -1 %}TBD{% else %}${{ order.order.get_total_cost }}{% endif %} <br />
 
 	    </div>
 	</div>

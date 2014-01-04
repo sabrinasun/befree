@@ -27,10 +27,7 @@
         <div style="text-align:right;margin-right:50px;margin-top:-40px; margin-bottom:40px;""></div>
 	<ul>
 	    <li><a href="/">Home</a></li>
-		<li><a href="{% url 'to_giver' %}">To Giver</a></li>
-		<li><a href="{% url 'to_reader' %}">To Reader</a></li>
-		<li><a href="{% url 'shipping' %}">Shipping</a></li>
-		<li><a href="{% url 'help' %}">How To Help</a></li>
+		<li><a href="{% url 'help' %}">How it works</a></li>
 		{% if user.is_authenticated %}<li><a href="{% url 'account_summary' %} ">My Account</a></li>{% endif %} 
 	</ul>
 </div>
@@ -94,28 +91,31 @@
                 {% endif %}
 		</div>
 
-		<div class="bluebox" style="padding-bottom:30px;">
+		<div class="bluebox" style="padding-bottom:10px;">
 			<div class="header">Feature Survey</div>
 			<div class="bluebox-content">
-			Which feature is important to you? 
-			<ul style="margin-left:-20px;">
-			<li>Online library books, user receive for free, hold books up to 3 months, agree to send to others on request after 3 months.</li>	
-			<li>If ISBN is present, automaticlaly bring in book information.</li>
-			<li>Enable online payment.</li>
-			<li>User can review books.</li>			
-			<li>Better support for countries other than US.</li> 				
-			<li>Other feature requests.</li> 	
-			
-			</ul>
-			
+				Which feature is important to you? 
+				<ul style="margin-left:-20px;">
+				<li>Support assigning book categories and tags.</li> 
+				<li>Support book search, browsing and pagination.</li>			
+				<li>Support Online library, user receives book for free, can hold books up to 3 months, then send the book to others on request after 3 months.</li>	
+				<li>If ISBN is present, automaticlaly bring in book information.</li>
+				<li>Enable online payment.</li>
+				<li>User can review books.</li>			
+				<li>Better support for countries other than US.</li> 									
+				<li>Other feature requests.</li> 	
+				</ul>
+			    Please send your comments to:
+			    support@buddhistexchange.com
 			</div>
 		</div>
 	</div>
     {% endblock right %}
     
 {% endblock content %}
-	<div style="text-align:center; clear:both; margin-top:100px;">
-	Bug Report | <a href="{% url 'tos' %}">Term of Service</a> 
+
+	<div style="text-align:center; clear:both; padding-top:50px;">
+	Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a> 
 	</div>
 
 

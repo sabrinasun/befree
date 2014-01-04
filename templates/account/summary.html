@@ -19,32 +19,58 @@
 			{% endif %}								
 			
             {% block account_right %}
-            
-			<p><h2><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></h2>
-			You can complete giver's profile and start listing Inventory.
+            <b>Welcome {{ user.get_profile.get_display_name }}!</b>
+			<br>
+		
+			{% if user.get_profile.is_reader %}
+			    If you have pending items in your shopping bag, you can proceed to <a href="{% url 'view_bag' %}">view bag</a>.
+			{% else %}
+			    Do you also want to request books from others? Please complete reader's profile in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a>.
+			{% endif %}
+			<br>			
+			
+			{% if user.get_profile.is_giver %}
+			   To giver books, please first add books to your <a href="{% url 'account_material' %}">inventory</a>. You will receive an email when readers place an order, which will also show up in <a href="{% url 'account_giving_orders' %}">giving orders</a>.
+			{% else %}
+			   Want to give books to others? Please complete giver's profile in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a> to start giving. 
+			{% endif %}
+			<br>
+			
 
+			
+			{% if user.get_profile.is_reader %}
 			<p><h2><a href="{% url 'account_reading_orders' %}">Reading Orders</a></h2>
 			As a Dharma material seeker, you place orders to request material from others.  
 			<ul>
 			<li><b>New Orders: {{ reading_orders_new }}</b></li>
 			<li>Shipped Orders: {{ reading_orders_shipped }}</li>
-			<li>Delivered Orders: {{ reading_orders_delivered }}</li>
+			<!-- li>Delivered Orders: {{ reading_orders_delivered }}</li-->
 			</ul>
-
+			</p>
+			{% endif %}
+			
+			{% if user.get_profile.is_giver %}			
+			<p><h2><a href="{% url 'account_material' %}">Inventory</a></h2>
+			BuddhistExchange maintains a public index of books, so please check if you book has already been entered by others. 
+			If nobody has entered your book, you can enter it in the <a href="{% url 'account_material' %}">inventory</a> 
+			with Add Book action. After your book shows up in the book index, you can add or edit your own inventory of this book. 
+			<ul>
+			<li><b>Active Items: {{ materials_active }}</b></li>
+			<li>Inactive Items: {{ materials_inactive }}</li>	
+			</ul>
+			</p>
+		
 			<p><h2><a href="{% url 'account_giving_orders' %}">Giving Orders</a></h2>
-			As a Dharma material distributer/giver, you need to mail materials to others upon request. 
+			Once you entered your inventory, it will show up in the public listing. Others may start requesting books from you. Orders from 
+			readers will show up in <a href="{% url 'account_giving_orders' %}">giving orders</a>. 
 			<ul>
 			<li><b>New Orders: {{ giving_orders_new }}</b></li>
 			<li>Shipped Orders: {{ giving_orders_shipped }}</li>
-			<li>Delivered Orders: {{ giving_orders_delivered }}</li>
+			<!-- li>Delivered Orders: {{ giving_orders_delivered }}</li -->
 			</ul>
+			</p>
 
-			<p><h2><a href="{% url 'account_material' %}">Inventory</a></h2>
-			As a Dharma material distributer/giver, you need to post your materials so that others can place an order. <br>
-			The seekers are expected to mail you the mailing cost, if specified, after received the material, and encouraged to support your distribution effort, if donation/payment method is specified. 
-			<ul>
-			<li><b>Active Items: {{ materials_active }}</b></li>
-			<li>Inactive Items: {{ materials_inactive }}</li>
+			{% endif %}
             
             {% endblock account_right %}
 		</div>
@@ -55,15 +81,26 @@
 		<a href="{% url 'index' %}"><img src="{{ MEDIA_URL }}img/logo-small.png"></a>
 		<ul>
 			<li><a href="{% url 'account_summary' %}">Account Summary</a></li>
+			
+			{% if user.get_profile.is_reader %}
+			<hr />
+			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
+			{% endif %}
+			{% if user.get_profile.is_giver %}
+			<hr />
+			<li><a href="{% url 'account_material' %}">Inventory</a></li>			
+			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
+			{% endif %}
+
 			<hr />
 			<li><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></li>
 			<li><a href="{% url 'userena_email_change' username=user.username %}">Change Email</a></li>			
 			<li><a href="{% url 'userena_password_change' username=user.username %}">Change Password</a></li>
+			
 			<hr />
-			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
-			<hr />
-			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
-			<li><a href="{% url 'account_material' %}">Inventory</a></li>
+			<li><a href="{% url 'userena_signout' %}">Logout</a></li>
+			
+			
 			<!-- Hide these items for now. Till we have time to create a whole page for the management of each table.   
             <li><a href="{% url 'account_material_new' %}">Add Book/CD/DVD</a></li>
 			<li><a href="{% url 'giver_material_new' %}">Give Material</a></li>

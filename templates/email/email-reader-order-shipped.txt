@@ -1,0 +1,23 @@
+Dear {{reader_name}}:
+Order No.{{order_number}} has been shipped, per information from giver {{giver_name}}: 
+
+Order Number: {{order_number}}
+{% if payment_note %}
+Additional Information from {{reader_name}}: {{payment_note}}
+{% endif %}
+Shipping Cost: {{shipping_cost}}
+Order Details: 
+{% for item in order_details %} 
+{{item.inventory.material.title}}  Quantity:{{item.quantity}}
+{% endfor %}
+
+The standard shipping method is USPS media mail. 
+
+You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_reading_orders' %}. 
+
+Thanks for using BuddhistExchange.com! 
+
+
+With Metta, 
+
+BuddistExchange.com 

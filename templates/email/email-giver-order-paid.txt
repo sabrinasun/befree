@@ -1,0 +1,23 @@
+Dear {{giver_name}}:
+Order No.{{order_number}} was paid, per information from reader {{reader_name}}: 
+
+Order Number: {{order_number}}
+Payment Method: {{payment_method}}
+{% if payment_note %}
+Additional Information from {{reader_name}}: {{payment_note}}
+{% endif %}
+Shipping Cost: {{shipping_cost}}
+Order Details: 
+{% for item in order_details %} 
+{{item.inventory.material.title}}  Quantity:{{item.quantity}}
+{% endfor %}
+Please proceed to ship the order to {{reader_name}} at your earliest convenience. 
+
+You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_giving_orders' %}. 
+
+Thanks for giving! 
+
+
+With Metta, 
+
+BuddistExchange.com 

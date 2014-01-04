@@ -14,7 +14,7 @@ label {
 </style>    
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">Pay {{order.giver.get_profile.get_display_name}}:</h2>
+    <h2 style="margin-left:15px;margin-top:10px;">How to Pay {{order.giver.get_profile.get_display_name}}:</h2>
     
 <!--  div id="form-error">
 	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
@@ -26,20 +26,21 @@ label {
 </div-->
     
     <div style="padding:0 20px 20px 20px;">
-    Please pay the giver offline first, and then inform the giver about your payment with this form. 
+    Please pay the giver outside BuddhistExchange before informing the giver about the payment.   
+    Please choose the payment method you used: <br>
     <form method="POST" action="{% url 'pay_giver' %}" >
     {% csrf_token %}
     {% if order.giver.get_profile.paypal_email %}
     {{ form.order_id }}
-    Please inform the user which payment method you used: <br>
+
     {% if form.pay_method.errors %}
     	{{ form.pay_method.errors }} <br>  
     {% endif %}
      
-    <input type="radio" name = "pay_method" >Pay by Paypal to {{ order.giver.get_profile.paypal_email }}: <br> &nbsp; &nbsp; &nbsp; &nbsp; Pay ${{ order.get_paypal_cost | floatformat:2}} (${{ order.get_total_cost }} + paypal fees )   <br>
+    <input type="radio" name = "pay_method" value="paypal">Paid by Paypal to {{ order.giver.get_profile.paypal_email }}: <br> &nbsp; &nbsp; &nbsp; &nbsp; Pay ${{ order.get_paypal_cost | floatformat:2}} (${{ order.get_total_cost }} + paypal fees )   <br>
     {% endif %}
     {% if order.giver.get_profile.payment_description %}
-    <input type="radio" name = "pay_method" >Paid by Other Means:<br>
+    <input type="radio" name = "pay_method" value="other">Paid by Other Means:<br>
     <textarea cols=40 rows=3 readonly style="vertical-align:top;">{{ order.giver.get_profile.payment_description }} </textarea>
      <br> 
     {% endif %}
@@ -48,7 +49,7 @@ label {
 	<br>
     
     <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>     
-    <input type="submit" class="button" value="Save" /> 
+    <input type="submit" class="button" value="Inform Payment" /> 
 
     </form>
     </div>

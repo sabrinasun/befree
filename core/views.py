@@ -25,7 +25,14 @@ from accounts.models import Profile
 
 from django.conf import settings
 from django.core.mail import send_mail
-                  
+from django.template.loader import get_template
+from django.template import Context
+                     
+def send_email(template, context, title, to_address):
+    template = get_template('email/' + template)
+    content = template.render(context)      
+    send_mail(title, content, settings.EMAIL_HOST_USER,[to_address], fail_silently=False)  
+                      
 def index(request):
     msg = None
     if request.method == 'POST':
@@ -133,7 +140,7 @@ def get_order_from_bag(cart, user):
         
         warning = []
         if shipping_cost == -1: 
-            warning.append("We can't determine shipping cost. Please contact giver for shipping cost. ")
+            warning.append("We can't determine shipping cost. Wait for giver's advice after placing order. ")
         
         if free_count > giver.get_profile().max_per_order:
             warning.append("You ordered %s items, which are more than %s free items in one order, please contact giver after you place the order." % (free_count, giver.get_profile().max_per_order)  )
@@ -150,6 +157,8 @@ def view_bag(request):
     
     if not request.user.is_authenticated():
         return redirect('/accounts/signup_reader/')
+    elif not request.user.get_profile().is_reader: 
+        return redirect('/account/summary/')
         
     orders = get_order_from_bag(cart, request.user)
     #validate orders
@@ -174,12 +183,15 @@ def contact_user(request):
     if request.method == "POST": 
         contact_form = ContactForm(data = request.POST)
         if contact_form.is_valid(): 
-            user = get_object_or_404(get_user_model(), id = contact_form.cleaned_data['user_id'] )       
+            to_user = get_object_or_404(get_user_model(), id = contact_form.cleaned_data['user_id'] )       
             message =  contact_form.cleaned_data['message']
-            email = user.email
-            send_mail('Email from '+ request.user.get_profile().get_display_name()+" via BuddhistExchange",  \
-                      message, request.user.email,[email], fail_silently=False)
-            return HttpResponse('<script type="text/javascript">opener.showMessage("You email message has been sent.");window.close();</script>')
+            context = Context({'to_user': to_user.get_profile().get_display_name(), 
+                               'from_user': request.user.get_profile().get_display_name(), 
+                               'message': message
+                              })
+            title = "User %s has sent you a message via BuddhistExchange. "
+            send_email('contact-user.txt', context, title, to_user.email)
+            return HttpResponse('<script type="text/javascript">window.close();opener.alert("You email message has been sent.");</script>')
 
     else: 
         user_id = int(request.GET.get('user_id'))
@@ -216,6 +228,8 @@ def check_out(request):
                 shipping_cost = 0
                 one_order['shipping_cost'] = 0
                 one_order['total'] = one_order['price'] 
+            if shipping_cost == 0:
+                status = "PAID"
             if shipping_cost == -1:
                 status = "PENDING"
                 
@@ -233,12 +247,18 @@ def check_out(request):
                 detail = OrderDetail.objects.create(order=order, inventory=inventory, quantity=quantity)
                 detail.save()
     
-    for one_order in orders: 
-        giver = one_order['giver']
-        message = 'An order was placed by '+ reader.get_profile().get_display_name()+" via BuddhistExchange. "
-        
-        send_mail('An order was placed by '+ reader.get_profile().get_display_name()+" via BuddhistExchange",  \
-                  message, settings.EMAIL_HOST_USER,[giver.email], fail_silently=False)
+            giver = one_order['giver']
+            context = Context({ 'giver_name': giver.get_profile().get_display_name(),
+                                'reader_name': reader.get_profile().get_display_name(), 
+                                'order_number': order.pk,
+                                'shipping_cost': order.shipping_cost, 
+                                'order_details': OrderDetail.objects.filter(order=order)})
+
+            title = 'Order %s was placed by %s via BuddhistExchange.' % ( order.pk , reader.get_profile().get_display_name())                
+            send_email('email-giver-order-placed.txt', context, title,giver.email)
+            
+            title = 'You have placed an order via BuddhistExchange.'
+            send_email('email-reader-order-placed.txt', context, title, reader.email)
 
     context = {
         'orders': orders, 
@@ -292,11 +312,24 @@ def account_reading_orders(request):
         order_id = int(order_id)
         order = Order.objects.get(id = order_id)
         order.status = status
-        if status == 'PAID': 
-            order.pay_date = timezone.now()
-        elif status == 'CANCEL':
+
+        if status == 'CANCEL':
             order.cancel_date = timezone.now()
         order.save()
+
+        context = Context(
+                  {'reader_name': order.reader.get_profile().get_display_name(),
+                   'order_number': order_id,
+                   'giver_name': order.giver.get_profile().get_display_name(),
+                   'shipping_cost': order.shipping_cost,
+                   'order_details': OrderDetail.objects.filter(order=order)
+                    })
+        
+        title = "Your order %s has been cancelled. " % order.pk
+        send_email('email-reader-order-cancelled-by-reader.txt', context, title, order.reader.email)    
+        title = "You have cancelled order %s. " % order.pk
+        send_email('email-giver-order-cancelled-by-reader.txt', context, title, order.giver.email)
+
     
     order_details = OrderDetail.objects.filter(order__reader = request.user )
     orders = Order.objects.filter(reader = request.user).order_by('-order_date')
@@ -324,7 +357,27 @@ def account_giving_orders(request):
         if status == "CANCEL":
             order.cancel_date = timezone.now()
         order.save() #order.save(update_fields=['ship_date'])
-    
+        
+        
+        context = Context(
+                  {'reader_name': order.reader.get_profile().get_display_name(),
+                   'order_number': order_id,
+                   'giver_name': request.user.get_profile().get_display_name(),
+                   'shipping_cost': order.shipping_cost,
+                   'order_details': OrderDetail.objects.filter(order=order)
+                    })
+        #here send email for changing status. 
+        if status == "SHIPPED":
+            title = "Your order %s has been shipped. " % order.pk
+            send_email('email-reader-order-shipped.txt', context, title, order.reader.email)
+         
+        elif status == "CANCEL": 
+            title = "Your order %s has been cancelled. " % order.pk
+            send_email('email-reader-order-cancelled-by-giver.txt', context, title, order.reader.email)    
+            title = "You have cancelled order %s. " % order.pk
+            send_email('email-giver-order-cancelled-by-giver.txt', context, title, order.giver.email)
+                            
+    #below happens when pending
     shipping_form = None    
     if request.method == "POST":
         shipping_form = ShippingCostForm(data=request.POST)
@@ -333,9 +386,20 @@ def account_giving_orders(request):
             order.shipping_cost = shipping_form.cleaned_data['shipping_cost']
             order.status = 'NEW'
             order.save()
+            
+            context = Context(
+                      {'reader_name': order.reader.get_profile().get_display_name(),
+                       'order_number': order.pk,
+                       'giver_name': order.giver.get_profile().get_display_name(),
+                       'shipping_cost': order.shipping_cost,
+                       'order_details': OrderDetail.objects.filter(order=order)
+                        })            
+            title = "The shipping cost for your order %s is $%s. " % ( order.pk, order.shipping_cost)
+            send_email('email-reader-order-shipping-cost.txt', context, title, order.reader.email)
+
                 
-    order_details = OrderDetail.objects.filter(order__reader = request.user )
-    orders = Order.objects.filter(reader = request.user).order_by('-order_date')
+    order_details = OrderDetail.objects.filter(order__giver = request.user )
+    orders = Order.objects.filter(giver = request.user).order_by('-order_date')
     
     ret = [{'order':order, 'detail': order_details.filter(order = order) } for order in orders]
         
@@ -456,22 +520,38 @@ class GiverMaterialEditView(UpdateView):
         obj = GiverMaterial.objects.get(pk=self.kwargs['pk'])
         return obj
 
-
 def pay_giver(request):
     pay_form =  None 
     order = None
+    user_display_name = request.user.get_profile().get_display_name()
+    
     if request.method == "POST": 
         pay_form = PayForm(data = request.POST)
         order_id = request.POST.get('order_id')
         order = Order.objects.get(id=order_id)
         if pay_form.is_valid(): 
             pay_method = pay_form.cleaned_data['pay_method']
-            message = pay_form.cleaned_data['message']            
+            if pay_method == "other": 
+                pay_method = "'other payment method' you specified in your giver's profile"
+            message = pay_form.cleaned_data['message']
             giver_email = order.giver.email
-            #order.payment_detail ="Paid with %s. Message: %s " % (pay_method, message)
+            order.payment_detail ="Type: %s. Message: %s " % (pay_method, message)
             order.status = 'PAID'
             order.save()
+            
+            context = Context({'giver_name': order.giver.get_profile().get_display_name(), 
+                       'order_number':order.pk,
+                       'reader_name': user_display_name,
+                       'payment_method': pay_method ,
+                       'payment_note': message,
+                       'shipping_cost': order.shipping_cost,
+                       'order_details': OrderDetail.objects.filter(order=order) })
+            
+            title = 'Order No.%s is paid per reader %s ' % ( order.pk , user_display_name )
 
+            send_email('email-giver-order-paid.txt', context, title, giver_email)
+            #send_email('email-reader-order-paid.txt', context, title, request.user.email)
+            
             return HttpResponse('<script type="text/javascript">opener.location="/account/orders/reading/";window.close();</script>') 
   
     else:     

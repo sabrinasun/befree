@@ -1,0 +1,23 @@
+Dear {{giver_name}}:
+An order was placed by reader {{reader_name}}: 
+
+Order Number: {{order_number}}
+Shipping Cost: {% if shipping_cost != -1 %}${{shipping_cost}}{% else %}TBD{% endif %}
+Order Details: 
+{% for item in order_details %} 
+{{item.inventory.material.title}}  Quantity:{{item.quantity}}
+{% endfor %}{% if shipping_cost > 0 %}
+You will receive another email when the user confirms payment for shipping cost, you can ship after that.
+{% elif shipping_cost == 0 %}
+Since shipping is free, please proceed to ship this order. 
+{% elif shipping_cost == -1 %}
+BuddhistExchange can only determine the shipping cost for orders within USA. Please advice shipping cost on http://www.buddhistexchange.com{% url 'account_giving_orders' %}
+{% endif %}
+You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_giving_orders' %}. 
+
+Thanks for giving! 
+
+
+With Metta, 
+
+BuddistExchange.com 

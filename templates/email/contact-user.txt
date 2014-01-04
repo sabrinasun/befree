@@ -1,0 +1,23 @@
+Dear {{to_user}}: 
+{{from_user}} sent you below message. 
+You can reply {{from_user}} from your orders page in your account. 
+
+With Metta, 
+BuddhistExchange.com
+--------------------------------------------------------------------------------------
+{{message}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

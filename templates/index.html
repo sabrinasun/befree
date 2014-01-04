@@ -7,9 +7,9 @@
 
 <div class ="contentwrapper">
 	{% if msg == "signup_success" %}
-	<div class="msg">You have successfully signed up. Please check your email and follow the instruction to login.</div> 
+	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div> 
 	{% endif %}
-    &nbsp; &nbsp; Books are free, you may even choose to wave shipping if the giver offers free shipping. <br><br>
+    &nbsp; &nbsp; Thanks to givers for giving free books! Readers may even choose to wave shipping if the giver also offers the option of free shipping. <br><br>
     {% paginate inventories %}
     {% for inventory in inventories %}
     <div class="content-outer-column">
@@ -51,7 +51,7 @@
                       {% if inventory.material.publisher.website %}
                       <a href='{{inventory.material.publisher.website}}' target="_blank">{{inventory.material.publisher.name}}</a>
                       {% else %}
-                      {{inventory.material.publisher.website}}
+                      {{inventory.material.publisher.name}}
                       {% endif %}
                     {% endif %}  
                     <br>

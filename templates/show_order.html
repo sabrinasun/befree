@@ -59,7 +59,7 @@ You orders have been successfully processed. If require a payment, kindly pay as
     <div class="left">  
         Ship From: {{ order.giver.get_profile.get_location }}<br>
         {% if order.shipping_cost == -1 %} 
-          Can't determine shipping cost, please contact Giver 
+          Can't determine shipping cost, giver will advise. 
         {% else %}
           Total: Shipping ${{order.shipping_cost}}  
         {% endif %}
@@ -77,17 +77,19 @@ You orders have been successfully processed. If require a payment, kindly pay as
 </div>
 
 
-    {% if action = "view_bag" %}
-	<input type="submit" value="Confirm Order" /> 
-	{% else %}
-	<a href="/account/orders/reading/">Pay Now</a>
-    {% endif %}
+
 
 
 
 	<input type="button" class="button" value="Continue Browsing" onclick="javascript: document.location='/';" />
 
 
+
+    {% if action = "view_bag" %}
+	<input type="submit" value="Confirm Order" /> 
+	{% else %}
+	<input type="button" class="button" value="Pay Now" onclick="javascript: document.location='/account/orders/reading/';" />
+    {% endif %}
 
 </form>
 
