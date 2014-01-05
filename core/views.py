@@ -136,14 +136,13 @@ def get_order_from_bag(cart, user):
                 shipping_cost_wave = True
         elif giver.get_profile().international_free_shipping:
             shipping_cost_wave = True
-
         
         warning = []
         if shipping_cost == -1: 
             warning.append("We can't determine shipping cost. Wait for giver's advice after placing order. ")
         
         if free_count > giver.get_profile().max_per_order:
-            warning.append("You ordered %s items, which are more than %s free items in one order, please contact giver after you place the order." % (free_count, giver.get_profile().max_per_order)  )
+            warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (free_count, giver.get_profile().max_per_order)  )
             
         ret.append( {"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":price, "shipping_cost":shipping_cost,"total":"%.2f" % (price+Decimal(shipping_cost)), "weight":weight, "warning":warning, "shipping_cost_wave":shipping_cost_wave }) 
 
@@ -238,17 +237,27 @@ def check_out(request):
             order.status = status
             
             order.save()
-                                           
+            
+            total_free_item = 0                               
             for item in one_order['order_details']: 
                 inventory = item['inventory']
                 quantity  = item['quantity']
                 inventory.quantity -= quantity
                 inventory.save(update_fields=['quantity'])
+                total_free_item += quantity
                 detail = OrderDetail.objects.create(order=order, inventory=inventory, quantity=quantity)
                 detail.save()
+            
+            max_per_order = giver.get_profile().max_per_order
+            if total_free_item > max_per_order: 
+                order.status = "PENDING"
+                order.save() 
     
             giver = one_order['giver']
-            context = Context({ 'giver_name': giver.get_profile().get_display_name(),
+            context = Context({ 'shipping_address': order.reader.get_profile().get_shipping_address(),
+                                'total_free_item': total_free_item, 
+                                'max_per_order': max_per_order,
+                                'giver_name': giver.get_profile().get_display_name(),
                                 'reader_name': reader.get_profile().get_display_name(), 
                                 'order_number': order.pk,
                                 'shipping_cost': order.shipping_cost, 
@@ -358,7 +367,6 @@ def account_giving_orders(request):
             order.cancel_date = timezone.now()
         order.save() #order.save(update_fields=['ship_date'])
         
-        
         context = Context(
                   {'reader_name': order.reader.get_profile().get_display_name(),
                    'order_number': order_id,
@@ -376,6 +384,12 @@ def account_giving_orders(request):
             send_email('email-reader-order-cancelled-by-giver.txt', context, title, order.reader.email)    
             title = "You have cancelled order %s. " % order.pk
             send_email('email-giver-order-cancelled-by-giver.txt', context, title, order.giver.email)
+            
+        elif status == "NEW":
+            title = "Your order %s has been approved. " % order.pk
+            send_email('email-reader-order-approved.txt', context, title, order.reader.email)    
+            title = "You have approved order %s. " % order.pk
+            send_email('email-giver-order-approved.txt', context, title, order.giver.email)           
                             
     #below happens when pending
     shipping_form = None    
@@ -384,7 +398,16 @@ def account_giving_orders(request):
         if shipping_form.is_valid():
             order = Order.objects.get(id=shipping_form.cleaned_data['order_id'])
             order.shipping_cost = shipping_form.cleaned_data['shipping_cost']
-            order.status = 'NEW'
+            
+            #check the total quantity of the order
+            quantity = 0
+            for detail in OrderDetail.objects.filter(order=order): 
+                quantity += detail.quantity
+            
+            if quantity > order.giver.get_profile().max_per_order:
+                order.status = 'PENDING'
+            else:
+                order.status = 'NEW'
             order.save()
             
             context = Context(
@@ -392,7 +415,8 @@ def account_giving_orders(request):
                        'order_number': order.pk,
                        'giver_name': order.giver.get_profile().get_display_name(),
                        'shipping_cost': order.shipping_cost,
-                       'order_details': OrderDetail.objects.filter(order=order)
+                       'order_details': OrderDetail.objects.filter(order=order), 
+                       'order_status': order.status
                         })            
             title = "The shipping cost for your order %s is $%s. " % ( order.pk, order.shipping_cost)
             send_email('email-reader-order-shipping-cost.txt', context, title, order.reader.email)
@@ -539,7 +563,8 @@ def pay_giver(request):
             order.status = 'PAID'
             order.save()
             
-            context = Context({'giver_name': order.giver.get_profile().get_display_name(), 
+            context = Context({'shipping_address': order.reader.get_profile().get_shipping_address(),
+                       'giver_name': order.giver.get_profile().get_display_name(), 
                        'order_number':order.pk,
                        'reader_name': user_display_name,
                        'payment_method': pay_method ,
@@ -550,7 +575,7 @@ def pay_giver(request):
             title = 'Order No.%s is paid per reader %s ' % ( order.pk , user_display_name )
 
             send_email('email-giver-order-paid.txt', context, title, giver_email)
-            #send_email('email-reader-order-paid.txt', context, title, request.user.email)
+            send_email('email-reader-order-paid.txt', context, title, request.user.email)
             
             return HttpResponse('<script type="text/javascript">opener.location="/account/orders/reading/";window.close();</script>') 
   

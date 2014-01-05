@@ -2,6 +2,7 @@ Dear {{giver_name}}:
 An order was placed by reader {{reader_name}}: 
 
 Order Number: {{order_number}}
+Shipping Address: {{shipping_address}}
 Shipping Cost: {% if shipping_cost != -1 %}${{shipping_cost}}{% else %}TBD{% endif %}
 Order Details: 
 {% for item in order_details %} 
@@ -13,6 +14,8 @@ Since shipping is free, please proceed to ship this order.
 {% elif shipping_cost == -1 %}
 BuddhistExchange can only determine the shipping cost for orders within USA. Please advice shipping cost on http://www.buddhistexchange.com{% url 'account_giving_orders' %}
 {% endif %}
+{% if total_free_item > max_per_order %}Reader {{reader_name}} is ordering totally {{total_free_item}} items, more than {{max_per_order}} items that you specified for small quantity shipment, the order is in pending status and will need your approval before the reader can pay for it. {% endif %}
+
 You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_giving_orders' %}. 
 
 Thanks for giving! 

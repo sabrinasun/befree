@@ -1,0 +1,25 @@
+Dear {{giver_name}}:
+You have approved pending Order No.{{order_number}} for its quantity: 
+
+Order Number: {{order_number}}
+Shipping Cost: {% if shipping_cost == -1%}TBD{% else %}${{shipping_cost}}{% endif %}
+Order Details: 
+{% for item in order_details %} 
+{{item.inventory.material.title}}  Quantity:{{item.quantity}}
+{% endfor %}
+{% if shippting_cost > 0 %}
+You can wait for the reader to pay for shipping cost, before your ship it. 
+{% elif shipping_cost == 0 %}
+Since shipping is waved, you can ship it now. 
+{% elif shipping_cost == -1 %}
+The shipping cost is undetermined, please advice the shipping cost in http://www.buddhistexchange.com{% url 'account_reading_orders' %}.
+{% endif %}
+
+You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_reading_orders' %}. 
+
+Thanks for using BuddhistExchange.com! 
+
+
+With Metta, 
+
+BuddistExchange.com 

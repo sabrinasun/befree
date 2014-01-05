@@ -1,5 +1,5 @@
-Dear {{giver_name}}:
-Order No.{{order_number}} was paid, per information from reader {{reader_name}}: 
+Dear {{reader_name}}:
+You have informed giver {{giver_name}} Order No.{{order_number}} was paid: 
 
 Order Number: {{order_number}}
 Shipping Address: {{shipping_address}}
@@ -12,9 +12,9 @@ Order Details:
 {% for item in order_details %} 
 {{item.inventory.material.title}}  Quantity:{{item.quantity}}
 {% endfor %}
-Please proceed to ship the order to {{reader_name}} at your earliest convenience. 
+Giver has been advised to ship the order. 
 
-You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_giving_orders' %}. 
+You can review more details or contact the reader from http://www.buddhistexchange.com{% url 'account_reading_orders' %}. 
 
 Thanks for giving! 
 

@@ -1,0 +1,25 @@
+Dear {{giver_name}}:
+You has assigned the shipping cost for your order No.{{order_number}}: 
+
+Order Number: {{order_number}}
+Shipping Cost: ${{shipping_cost}}
+Order Details: 
+{% for item in order_details %} 
+{{item.inventory.material.title}}  Quantity:{{item.quantity}}
+{% endfor %}{% if order_status == "New" %}
+	{% if shipping_cost > 0 %}
+	Please go ahead to pay the giver at your earliest convenience. 
+	{% elif shipping_cost == 0 %}
+	Since shipping is waived, giver should ship it soon. 
+	{% endif %}
+{% elif order_status == "PENDING" %}
+The order is however still in pending status, since the quantity ordered is larger than the maximum number of items per order your specified. Please approve it in your account ordering page.
+{% endif %}
+You can review more details or contact the giver from http://www.buddhistexchange.com{% url 'account_giving_orders' %}. 
+
+Thanks for giving! 
+
+
+With Metta, 
+
+BuddistExchange.com 

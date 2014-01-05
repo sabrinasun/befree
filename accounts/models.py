@@ -49,6 +49,15 @@ class Profile(UserenaBaseProfile):
     is_giver  = models.BooleanField(default=False)
     is_public = models.BooleanField(default=False)
 
+    def get_shipping_address(self):
+        ret = self.user.first_name + " " + self.user.last_name + ", "
+        ret += self.address1 +", "
+        if self.address2: 
+            ret += self.address2+", "
+        ret += self.city  + ", " + self.state  + " " + self.zipcode + ", "
+        ret += self.get_country_display()
+        return ret
+    
     def get_location(self):
         lst = []
         """

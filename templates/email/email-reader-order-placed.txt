@@ -2,6 +2,7 @@ Dear {{reader_name}}:
 You have placed below order via BuddhistExchange.com: 
 
 Order Number: {{order_number}}
+Shipping Address: {{shipping_address}}
 Shipping Cost: {% if shipping_cost != -1 %}${{shipping_cost}}{% else %}TBD{% endif %}
 Giver: {{giver_name}}
 Order Details: 
@@ -14,6 +15,9 @@ Since shipping is free, the giver should ship your order soon.
 {% elif shipping_cost == -1 %}
 The giver {{giver_name}} will update the shipping cost. You can also contact the giver regarding the shipping cost. 
 {% endif %}
+{% if total_free_item > max_per_order %}You are ordering totally {{total_free_item}} items, more than {{max_per_order}} items that giver {{giver_name}} specified for small quantity shipment, the order is in pending status and will need your approval before the you can pay for it. {% endif %}
+You can cancel or contact the giver, when an order is pending.
+
 You can review more details or contact the giver from http://www.buddhistexchange.com{% url 'account_reading_orders' %}. 
 
 Thanks for ordering from BuddhistExchange.com! 

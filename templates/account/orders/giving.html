@@ -6,7 +6,7 @@
 <div class="order-box">
 {% for order in orders %}
 	<div style="clear:both;">
-	    <div class = "warning" style="display:inline;">	
+	    <div class = "warning" >	
 		{% if order.order.status == 'NEW'%}
 	    Waiting for reader to pay. 
 	    {% endif %}
@@ -15,6 +15,7 @@
 	    You need to ship this order. 
 	    {% endif %}	    
 	    </div>
+	    <div style="display:inline;">Ship To: {{order.order.reader.get_profile.get_shipping_address}}</div>
 	    <div style="display:inline;float:right;">
 	       <a href="javascript:void(0)" class="add-another" 
 	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.reader.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Reader {{ order.order.reader.get_profile.get_display_name }}</a> 		    	
@@ -25,7 +26,7 @@
 			        {{ detail.inventory.material.title }} &nbsp; Quantity: {{ detail.quantity }}<br>
 		    {% endfor %}
 		    <div style="text-align:right; margin-top:-12px;">
-		        {% if order.order.status == 'PENDING' %}
+		        {% if order.order.shipping_cost == -1 %}
 		        {% if form_order_id == order.order.id %}
 		        {{ form.shipping_cost.errors }}
 		        {% endif%}
@@ -36,8 +37,12 @@
 		        <input type="submit" value="Save"></a>
 		        </form>
 		        {% endif %}
+		        
 		    	{% if order.order.status == 'NEW' or order.order.status == 'PENDING' %}
-		    	<br><a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+			    	<br>{% if order.order.shipping_cost != -1 and order.order.status == 'PENDING' %}
+			    		<a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=NEW">Approve Quantity</a>
+			    	{% endif %}
+		    	<a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
 		    	{% elif order.order.status == 'PAID' %}
 		    	<br><a href="{% url 'account_giving_orders' %}?order_id={{order.order.id}}&status=SHIPPED">Shipped</a>
 		    	{% else %}
