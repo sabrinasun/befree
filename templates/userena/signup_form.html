@@ -35,8 +35,8 @@
         
 	<p><h3>For Giver - Accept Shipping Reimbursement/Donation from Reader:</h3> 
 	<div><label>Public Name:</label>{{ form.screen_name }} * This can be your nick name, real name, the name of your organization, whatever you wish to be known. {{ form.screen_name.errors }} </div>	
-	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
-	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>					
+	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>		    
+    <div><label>State:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>   			
 	<label>Free Domestic Shipping:</label>{{ form.free_domestic_shipping }}{{ form.free_domestic_shipping.errors }}  <br>
 	<label>Free International Shipping:</label>{{ form.free_international_shipping }}{{ form.free_international_shipping.errors }} <br>
 	<div><label>Max Free Items Per Order:</label>
@@ -53,4 +53,10 @@
 	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
 
 </form>
+
+<script language ="javascript">
+$(function() {
+	countryStateInit();
+});
+</script>
 {% endblock %}

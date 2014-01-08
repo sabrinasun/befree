@@ -44,7 +44,7 @@
     
     <h3>Section 1. Your Location - required:  </h3>
     <div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>          
-    <div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>   
+    <div><label>State:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>   
     <div><label>I am a Reader:</label>
     {% if not form.is_reader.value %}
     	{{ form.is_reader }}{{ form.is_reader.errors }} * Complete reader profile to order books.
@@ -92,4 +92,10 @@
 
   <input type="submit" value="{% trans "Save changes" %}" />
 </form>
+
+<script language ="javascript">
+$(function() {
+	countryStateInit();
+});
+</script>
 {% endblock %}

@@ -56,7 +56,7 @@ Please login, or register if you don't have an login yet.
 	<div><label>Address1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>	
 	<div><label>Address2:</label>{{ form.address2 }}{{ form.address2.errors }}</div>	
 	<div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>	
-	<div><label>State:</label>{{ form.state }}{{ form.state.errors }}</div>	
+    <div><label>State:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>  
 	<div><label>Zip Code:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>		
 	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>						
 	<br>
@@ -67,4 +67,10 @@ Please login, or register if you don't have an login yet.
 </form>
 
 </div>
+
+<script language ="javascript">
+$(function() {
+	countryStateInit();
+});
+</script>
 {% endblock %}

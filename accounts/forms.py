@@ -101,8 +101,9 @@ class UserenaSignupFormBase(UserenaSignupForm):
     """ Add a Terms of Service button to the ``SignupForm``. """
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict), \
                              label='I have read and agree to the Terms of Service', \
-                             error_messages={'required': 'You must agree to the terms to register.'})
-    state =  forms.ChoiceField(choices = STATE_CHOICES)      
+                             error_messages={'required': 'You must agree to the terms to register.'}) 
+    us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)           
+    state = forms.CharField(max_length = 50)
         
     country = forms.ChoiceField(choices = countries.COUNTRIES, initial="US", required = True)  
     
@@ -188,7 +189,7 @@ class SignupForm(UserenaSignupFormBase):
 
 class EditProfileForm(UserenaEditProfileForm):
     max_per_order = forms.ChoiceField(choices = NUM_CHOICES, initial='5')
-    state = forms.ChoiceField(choices = STATE_CHOICES)    
+    us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)    
 
     def clean(self):
         data = self.cleaned_data

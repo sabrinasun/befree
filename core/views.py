@@ -35,6 +35,7 @@ def send_email(template, context, title, to_address):
                       
 def index(request):
     msg = None
+    lang = None
     if request.method == 'POST':
         inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
         quantity = int(request.POST.get('quantity', 0))
@@ -49,12 +50,14 @@ def index(request):
         request.session["cart"] = cart
     else:
         msg = request.GET.get('msg','')
-
-    inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE')
+        lang = request.GET.get('lang','en')
+        
+    inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE', material__language=lang)
     
     context = {
         'inventories': inventories,
-        'msg': msg
+        'msg': msg, 
+        'lang':lang
     }
     return render(request, 'index.html', context)
 

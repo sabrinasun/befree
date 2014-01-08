@@ -11,6 +11,13 @@
 	{% endif %}
     &nbsp; &nbsp; Thanks to givers for giving free books! Readers may even choose to wave shipping if the giver also offers the option of free shipping. <br><br>
     {% paginate inventories %}
+    
+ &nbsp; &nbsp; Language: &nbsp; <select name="language">
+ <option value="en" {% if lang == 'en' %} selected {% endif %} >English  </option>
+ <option value="zh" {% if lang == 'zh' %} selected {% endif %}>Chinese </option>
+ <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
+ </select>
+<br><br>    
     {% for inventory in inventories %}
     <div class="content-outer-column">
         <div> <!--a row of book-->
@@ -65,7 +72,7 @@
                        {% endif %}                     
                     {% endif %}
                     &nbsp;
-                    <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->{{ inventory.giver.get_profile.get_display_name}}<!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
+                    <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->{{ inventory.giver.get_profile.get_display_name}},<!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
                     
                     {% if inventory.note %}
                     &nbsp;<div style="margin-top:4px;"><i>Giver's Comments:</i> {{ inventory.note|readmore:40 }}<br></div>
@@ -86,4 +93,16 @@
     
 
 </div>
+
+<script language ="javascript">
+$(function() {
+	$("select").change(function() {
+		 var language = $("select option:selected").val();
+		 document.location = "/?lang="+language;
+	});
+
+});
+
+</script>
+
 {% endblock main %}

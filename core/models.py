@@ -28,17 +28,11 @@ TYPE_CHOICES = (
     ('DVD', 'DVD'),
 )
 
+#http://www.science.co.il/Language/Locale-codes.asp
 LAN_CHOICES = (
-    ('English', 'English'),
-    ('Chinese', 'Chinese'),
-    ('French', 'French'),
-    ('Hindi', 'Hindi'),
-    ('Indonesian', 'Indonesian'),
-    ('Italy', 'Italy'),
-    ('Spanish', 'Spanish'),
-    ('Thai', 'Thai'),
-    ('Tibetan', 'Tibetan'),
-    ('Vietnamese', 'Vietnamese'),
+    ('en', 'English'),
+    ('zh', 'Chinese'), 
+    ('o','Other')
 )
 
 CONDITION_CHOICES = (
