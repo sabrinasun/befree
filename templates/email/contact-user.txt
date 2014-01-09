@@ -1,6 +1,7 @@
 Dear {{to_user}}: 
-{{from_user}} sent you below message. 
-You can reply {{from_user}} from your orders page in your account. 
+{{from_user}} sent you below message from buddhistexchange.com. 
+You can reply {{from_user}} from this link: http://www.buddhistexchange.com{% url 'contact_user' %}?user_id={{from_user_id}}
+
 
 With Metta, 
 BuddhistExchange.com

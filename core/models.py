@@ -39,6 +39,7 @@ CONDITION_CHOICES = (
     ('NEW', 'New' ),
     ('LN', 'Like New'),
     ('GOOD','Good'),
+    ('OK', 'OK')
 )
 
 STATUS_CHOICES = (

@@ -2,7 +2,7 @@ Dear {{reader_name}}:
 The shipping cost for your order No.{{order_number}} is ${{shipping_cost}}: 
 
 Order Number: {{order_number}}
-Shipping Cost: {{shipping_cost}}
+Shipping Cost: ${{shipping_cost}}
 Order Details: 
 {% for item in order_details %} 
 {{item.inventory.material.title}}  Quantity:{{item.quantity}}

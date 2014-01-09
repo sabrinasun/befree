@@ -138,6 +138,7 @@ class SignupReaderForm(UserenaSignupFormBase):
         profile.address2 = self.cleaned_data['address2']
         profile.city = self.cleaned_data['city']
         profile.is_reader = True
+        profile.zipcode = self.cleaned_data['zipcode']
         profile.save()
         return user
 

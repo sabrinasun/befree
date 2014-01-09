@@ -7,7 +7,7 @@ Payment Method: {{payment_method}}
 {% if payment_note %}
 Additional Information from {{reader_name}}: {{payment_note}}
 {% endif %}
-Shipping Cost: {{shipping_cost}}
+Shipping Cost: ${{shipping_cost}}
 Order Details: 
 {% for item in order_details %} 
 {{item.inventory.material.title}}  Quantity:{{item.quantity}}

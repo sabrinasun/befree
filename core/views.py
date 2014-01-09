@@ -35,7 +35,7 @@ def send_email(template, context, title, to_address):
                       
 def index(request):
     msg = None
-    lang = None
+    lang = request.session.get("lang","en")
     if request.method == 'POST':
         inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
         quantity = int(request.POST.get('quantity', 0))
@@ -51,6 +51,7 @@ def index(request):
     else:
         msg = request.GET.get('msg','')
         lang = request.GET.get('lang','en')
+        request.session["lang"]=lang
         
     inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE', material__language=lang)
     
@@ -189,11 +190,12 @@ def contact_user(request):
             message =  contact_form.cleaned_data['message']
             context = Context({'to_user': to_user.get_profile().get_display_name(), 
                                'from_user': request.user.get_profile().get_display_name(), 
+                               'from_user_id': request.user.pk,
                                'message': message
                               })
-            title = "User %s has sent you a message via BuddhistExchange. "
+            title = "User %s has sent you a message via BuddhistExchange. " % request.user.get_profile().get_display_name()
             send_email('contact-user.txt', context, title, to_user.email)
-            return HttpResponse('<script type="text/javascript">window.close();opener.alert("You email message has been sent.");</script>')
+            return HttpResponse('<script type="text/javascript">document.write("Your message has been sent.");window.close();opener.alert("You email message has been sent.");</script>')
 
     else: 
         user_id = int(request.GET.get('user_id'))
@@ -202,6 +204,10 @@ def contact_user(request):
     
     context = {"form": contact_form, 
                "user": user}
+
+    if not request.user.is_authenticated():         
+        return HttpResponse('<script type="text/javascript">alert("Please login to your account before you access the contact link.");document.location="/";</script>')
+        
     return render(request, 'contact.html', context)   
 
 def check_out(request):

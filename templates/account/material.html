@@ -2,8 +2,9 @@
 
 {% block account_right %}
 <h2>Inventory</h2> 
-Here lists all books entered by all users, you can click on the link add to add your inventory. 
-If you need to list a new book never listed by others before, please Add Book first. <br>
+Here lists all books entered by all users, you can click on the link Register My Inventory to register your inventory. 
+If you need to list a new book never listed by others yet, please click on Add Book button. After you add a book, 
+you can then register your inventory for that book. <br>
 Thanks for giving your book to others. 
 
 <div class="button"><a href="{% url 'account_material_new' %}">Add Book</a></div>
@@ -26,7 +27,7 @@ Thanks for giving your book to others.
 	    <td>{{ item.quantity }}</td>
 	    <td>{{ item.condition }}</td>
 	    <td>{{ item.status }}</td>
-	    <td><a href="{% url 'giver_material_edit' pk=item.id %}">edit</a></td>
+	    <td><a href="{% url 'giver_material_edit' pk=item.id %}">Update</a></td>
 
     </tr>
     {% endfor %}    
@@ -39,7 +40,7 @@ Thanks for giving your book to others.
 	    <td>-</td>
 	    <td>-</td>
 	    <td>-</td>
-	    <td><a href="{% url 'giver_material_new' %}?material={{material.pk}}">add</a></td>
+	    <td><a href="{% url 'giver_material_new' %}?material={{material.pk}}">Register My Inventory</a></td>
 
     </tr>
     {% endfor %}
