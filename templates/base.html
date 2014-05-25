@@ -14,7 +14,6 @@
     <script src="{{ MEDIA_URL }}js/common.js"></script>
 	<script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
     
-    
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />    
@@ -74,7 +73,6 @@
 					<div class="button"><a href="#" onclick="document.getElementById('login_form').submit();return false">Login</a></div>
 				</div>
 				<div style="clear:both;text-align:right;">
-				 <a href="{% url 'userena_signup' %}">Register to Give</a>|
 				 <a href="/accounts/password/reset/">Reset Password</a>
 				</div>
                     </form>
@@ -92,7 +90,24 @@
                 {% endif %}
 		</div>
 
-		<div class="bluebox" style="padding-bottom:10px;">
+		<div class="bluebox" style="padding-bottom:25px;">
+			<div class="header">Signup to Give</div>
+			<div class="bluebox-content">
+				Why give? 
+				<ul style="margin-left:-20px;">
+				<li>Giving is pleasure</li> 
+				<li>Resuse precious dharma text</li>			
+				<li>Spread the message of buddhism</li>	
+				<li>Cultivate merits</li>
+				<li>Free publisher may bring in donation for more free books</li>	
+				</ul>
+				<div style="margin-top:-6px;" class="row">
+					<div class="button"><a href="{% url 'userena_signup' %}">Signup to Give</a></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- div class="bluebox" style="padding-bottom:10px;">
 			<div class="header">Feature Survey</div>
 			<div class="bluebox-content">
 				Which feature is important to you? 
@@ -109,7 +124,7 @@
 			    Please send your comments to:
 			    support@buddhistexchange.com
 			</div>
-		</div>
+		</div-->
 	</div>
     {% endblock right %}
     
