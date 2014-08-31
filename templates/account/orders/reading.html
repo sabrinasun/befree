@@ -1,9 +1,7 @@
 {% extends 'account/summary.html' %}
 
 {% block account_right %}
-<h2>Reading Orders</h2>
-<br>
-You order will be shipped after you pay the giver. Sorry BuddhistExchange doesn't support payment yet, please pay by paypal or other methods specified by giver. <br>
+<h2>Books I am Receiving</h2>
 
 <div class="order-box">
 {% for order in orders %}
@@ -25,7 +23,7 @@ You order will be shipped after you pay the giver. Sorry BuddhistExchange doesn'
 		    {% endfor %}
 		    <div style="text-align:right">
 		    	{% if order.order.status == 'NEW' %}
-		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=430, left=200, top=60');" >How to Pay {{ order.order.giver.get_profile.get_display_name }}</a>
+		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=430, left=200, top=60');" >Pay {{ order.order.giver.get_profile.get_display_name }}</a>
 		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
 		    	{% elif order.order.status == 'PENDING' %}
 		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
@@ -58,7 +56,12 @@ You order will be shipped after you pay the giver. Sorry BuddhistExchange doesn'
 	    </div>
 	</div>
 {% empty %}
-    No orders.
+    {% if user.get_profile.has_reader_profile %} 
+	  No book found. 
+	{% else %}
+	  You need to first update your profile with receiver's mailing information, before you request a book. 
+	{% endif %}
+    
 {% endfor %}
 </div>
 

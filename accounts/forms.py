@@ -6,6 +6,7 @@ from userena.forms import SignupFormOnlyEmail as UserenaSignupForm
 from userena.forms import EditProfileForm as UserenaEditProfileForm
 from accounts.models import Profile
 from django_countries import countries 
+from core.models import Order, GiverMaterial
 
 NUM_CHOICES = (
     ('-1', 'Unlimitted'),
@@ -102,8 +103,11 @@ class UserenaSignupFormBase(UserenaSignupForm):
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict), \
                              label='I have read and agree to the Terms of Service', \
                              error_messages={'required': 'You must agree to the terms to register.'}) 
+    screen_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Your real name or nick name.'}))     
+    
     us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)           
     state = forms.CharField(max_length = 50)
+
         
     country = forms.ChoiceField(choices = countries.COUNTRIES, initial="US", required = True)  
     
@@ -137,17 +141,17 @@ class SignupReaderForm(UserenaSignupFormBase):
         profile.address1 = self.cleaned_data['address1']
         profile.address2 = self.cleaned_data['address2']
         profile.city = self.cleaned_data['city']
-        profile.is_reader = True
+        #profile.is_reader = True
         profile.zipcode = self.cleaned_data['zipcode']
         profile.save()
         return user
-
+"""
 class SignupForm(UserenaSignupFormBase):
     first_name = forms.CharField(required=False) #first name/last name not required
     last_name = forms.CharField(required=False)    
-    screen_name = forms.CharField()  
+    screen_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Your real name or nick name.'}))  
     paypal_email = forms.EmailField(required=False)
-    other_means = forms.CharField(widget=forms.Textarea, required=False)
+    other_means = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Ask users to mail you a check, provide instruction and mailing address here. '}), required=False)
     free_domestic_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
     free_international_shipping = forms.ChoiceField(widget=forms.CheckboxInput, required=False, choices=BOOL_CHOICES)
     max_number_per_order = forms.ChoiceField(choices=NUM_CHOICES, initial='5')
@@ -183,39 +187,49 @@ class SignupForm(UserenaSignupFormBase):
         profile.status = 'REG'
         profile.state = self.cleaned_data['state']
         profile.country = self.cleaned_data['country']      
-        profile.is_giver = True  
+        #profile.is_giver = True  
         
         profile.save()
         return user
-
+"""
 class EditProfileForm(UserenaEditProfileForm):
     max_per_order = forms.ChoiceField(choices = NUM_CHOICES, initial='5')
     us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)    
-
+    validate_receiver = forms.CharField()
+    
+    
+    def __init__(self, *args, **kwargs):
+        if len(args)>0:
+            self.validate_receiver= args[0].get('validate_receiver')
+            self.validate_giver    = args[0].get('validate_giver')
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        
     def clean(self):
         data = self.cleaned_data
-        is_reader = data.get('is_reader', '')
-        is_giver = data.get('is_giver', '')
-        if not is_reader and not is_giver:
-            raise forms.ValidationError('Please select either "I am a giver" or "I am a reader".')
+
+        user = super(UserenaEditProfileForm, self).save()
         
-        reader_fields = {'first_name':"First Name",
-                         'last_name':"Last Name",
-                         'address1':"Address 1",
-                         'city':"City",
-                         'zipcode':"Zip Code"}
-        if is_reader:
-            for key in reader_fields.keys(): 
-                value = data.get(key, '')
-                if not value:
-                    raise forms.ValidationError('Field '+reader_fields[key]+" is required for reader profile. ")
+        #check if have pending reader order 
+        is_reading = Order.objects.filter(reader = user, status__in = ('NEW','PENDING','PAID',) ).count()
         
-        if is_giver:
-            if not data.get("screen_name"):
-                raise forms.ValidationError("Field Public Name is required for giver profile. ")
-            if not data.get("paypal_email") and not data.get("email_description"):
-                raise forms.ValidationError("Either Paypal Email or Other Payment Methods is required for giver profile. ")
-       
+        #check if have pending giver order or displayed giver inventory
+        is_giving = Order.objects.filter(giver = user, status__in = ('NEW','PENDING',) ).count()> 0 or   \
+            GiverMaterial.objects.filter(giver=user, status__in =('ACTIVE') ).count() >0 
+        
+                  
+        if is_reading or self.validate_receiver: # if have pending reader orders in the last month
+            self.instance.validate_reader(data['first_name'],data['last_name'], data['address1'],data['city'],data['zipcode'])
+
+        if is_giving or self.validate_giver: # if have pending giver orders or inventory
+            self.instance.validate_giver(data['local_pickup'], \
+                                         data['domestic_pay_shipping'], \
+                                         data['domestic_free_shipping'],\
+                                         data['international_free_shipping'], \
+                                         data['pickup_description'], \
+                                         data['paypal_email'],\
+                                         data['payment_description']
+                                         )
+         
         return data    
     
     class Meta:

@@ -47,6 +47,14 @@ STATUS_CHOICES = (
     ('INACTIVE', 'Inactive'),
 )
 
+ORDER_STATUS_CHOICES = (
+    ('NEW', 'New'),
+    ('PENDING', 'Pending'), 
+    ('CANCEL', 'Cancel'),
+    ('PAID','Paid'),
+    ('SHIPPED','Shipped'),
+)
+
 def cover_pic_name(instance, filename):
     return "pic/book_"+str(instance.pk)+"_cover_"+filename
 
@@ -63,7 +71,7 @@ class Material(models.Model):
     description = models.TextField(blank=True, null=True)
     pages = models.PositiveIntegerField(default=0)
     weight = models.DecimalField(max_digits=8, decimal_places=2)
-    weight_is_estimated = models.BooleanField(default=False)
+    #weight_is_estimated = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2,default=0)
     language = models.CharField(max_length=10, choices=LAN_CHOICES)
     pic = models.ImageField(upload_to=cover_pic_name, null=True, blank=True,  verbose_name="Upload Cover Picture")
@@ -110,7 +118,7 @@ class Order(models.Model):
     total_price =   models.DecimalField(max_digits=8, decimal_places=2, default=0)   
     payment_detail = models.TextField(blank=True)    
     
-    status =  models.CharField(max_length=10)     
+    status =  models.CharField(max_length=10, choices=ORDER_STATUS_CHOICES, default="NEW")     
     order_date = models.DateTimeField(default=timezone.now)
     ship_date = models.DateTimeField(null=True, blank=True)
     pay_date = models.DateTimeField(null=True, blank=True)

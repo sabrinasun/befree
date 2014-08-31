@@ -22,7 +22,8 @@
 {% block body %}
 <body>
 
-<div class="main-header menu">
+<!--  div class="main-header menu">
+   
 	<a href="/"><img src="{{ MEDIA_URL }}img/logo.png"></a>
         <div style="text-align:right;margin-right:50px;margin-top:-40px; margin-bottom:40px;""></div>
 	<ul>
@@ -30,6 +31,40 @@
 		<li><a href="{% url 'help' %}">How it works</a></li>
 		{% if user.is_authenticated %}<li><a href="{% url 'account_summary' %} ">My Account</a></li>{% endif %} 
 	</ul>
+</div-->
+
+<div class="main-header">
+  <div class="title" onclick="javascript:  window.location.href = '/';">
+  </div>
+
+  <div class="small-menu" >
+    <a href="/">Home</a> |
+    {% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">My Account</a> | {% endif %} 
+	<div class="cart-menu" onclick="document.location='{% url 'view_bag' %}'; ">
+		<div class="cart">
+		  <img src="{{ MEDIA_URL }}img/cart.png"> <!--a href="{% url 'view_bag' %}"></a-->
+		  <div class="cart-number">{{ order_items_count }}</div>
+		</div><div class="cart-title"> Cart</div>
+	</div>  
+    
+    | <a href="{% url 'help' %}">Help</a>
+
+    
+	<div style="position:relative;left:5px;display:none;">
+      <div class="arrow-content"></div>
+      <div class="arrow-up-border"></div>
+	  <div class="arrow-up"></div>
+    </div>
+  </div>
+
+  <!-- div class="header-input">
+      <div style="display:inline-block"><input placeholder="Search" style="height:18px;border:solid 1px white;"></input></div><div style="display:inline-block;border:1px solid white;background:#FFFFFF;height:20px;width:20px;vertical-align: top;"><img src="{{ MEDIA_URL }}img/search.png" style="width:16px;height:16px;margin:2px;"></img></div>
+  </div-->
+
+</div>
+<div class="sub-header">
+{% block subheader %}
+{% endblock subheader %}
 </div>
 
 <div class="content">
@@ -48,13 +83,7 @@
     
     {% block right %}
         <div class="rightcolumn">
-		<div>
-			<div style="float:left;"><img width="50px" valign="top" src="{{ MEDIA_URL }}img/bag.jpg"></div> 
-			<div>
-				<div style="padding-left:-200px;text-align:left"><div style="float:right;" class="button"><a href="{% url 'view_bag' %}">My Bag ( {{ order_items_count }} Items ) </a></div></div>
-			</div>
-		</div>
-
+   
             
 		<div class="bluebox">
                 {% if not user.is_authenticated %}
@@ -73,6 +102,7 @@
 					<div class="button"><a href="#" onclick="document.getElementById('login_form').submit();return false">Login</a></div>
 				</div>
 				<div style="clear:both;text-align:right;">
+				<a href="{% url 'userena_signup' %}">Register</a>
 				 <a href="/accounts/password/reset/">Reset Password</a>
 				</div>
                     </form>
@@ -90,49 +120,16 @@
                 {% endif %}
 		</div>
 
-		<div class="bluebox" style="padding-bottom:25px;">
-			<div class="header">Signup to Give</div>
-			<div class="bluebox-content">
-				Why give? 
-				<ul style="margin-left:-20px;">
-				<li>Giving is pleasure</li> 
-				<li>Resuse precious dharma text</li>			
-				<li>Spread the message of buddhism</li>	
-				<li>Cultivate merits</li>
-				<li>Free publisher may bring in donation for more free books</li>	
-				</ul>
-				<div style="margin-top:-6px;" class="row">
-					<div class="button"><a href="{% url 'userena_signup' %}">Signup to Give</a></div>
-				</div>
-			</div>
-		</div>
 
-		<!-- div class="bluebox" style="padding-bottom:10px;">
-			<div class="header">Feature Survey</div>
-			<div class="bluebox-content">
-				Which feature is important to you? 
-				<ul style="margin-left:-20px;">
-				<li>Support assigning book categories and tags.</li> 
-				<li>Support book search, browsing and pagination.</li>			
-				<li>Support Online library, user receives book for free, can hold books up to 3 months, then send the book to others on request after 3 months.</li>	
-				<li>If ISBN is present, automaticlaly bring in book information.</li>
-				<li>Enable online payment.</li>
-				<li>User can review books.</li>			
-				<li>Better support for countries other than US.</li> 									
-				<li>Other feature requests.</li> 	
-				</ul>
-			    Please send your comments to:
-			    support@buddhistexchange.com
-			</div>
-		</div-->
 	</div>
     {% endblock right %}
     
+</div>
 {% endblock content %}
 
-	<div style="text-align:center; clear:both; padding-top:50px;">
-	Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a> 
-	</div>
+<div class='footer' >
+Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a> 
+</div>
 
 
 </body>

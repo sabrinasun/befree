@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<h2>View Bag</h2>
+{% block main %}
+
+
+<h2>Orders in Your Cart:</h2>
+
+
 {% if action = "view_bag" %}
-Please view your order and then confirm the order. If the giver offers free shipping, you need to check Please wave shipping cost, to get free shipping. 
+<!--  Please view your order and then confirm the order. If the giver offers free shipping, you need to check Please wave shipping cost, to get free shipping. 
 <br>If you use paypal to pay, you will need to pay additional paypal fees of 2.9% + 0.3. If you shipping cost is about $3, the paypal fee is about 38 cents.   
+-->
 
 {% else %}
 You orders have been successfully processed. If require a payment, kindly pay as soon as you can so that the giver will ship it.  
 {% endif %}
 <div id="message"></div>
-<h3>Your orders:</h3>
+
 
 <form action="{% url 'check_out' %}" method="POST">
 {% csrf_token %}
@@ -22,7 +27,7 @@ You orders have been successfully processed. If require a payment, kindly pay as
     
     <div style="display:inline;float:right;">
        <a href="javascript:void(0)" class="add-another" 
-          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Giver {{ order.giver.get_profile.get_display_name }}</a> 		    	
+          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=450,height=280, left=200, top=60');">Contact Giver {{ order.giver.get_profile.get_display_name }}</a> 		    	
    	</div>    
     {% if order.order_details|length > details.inventory.giver.%}
     {% endif %}
@@ -37,7 +42,10 @@ You orders have been successfully processed. If require a payment, kindly pay as
 		    	</div>   		
           		<div style="clear:both;">
           			<div style="display:inline;">
-	         			Quantity: {{ details.quantity }}&nbsp; &nbsp;
+	         			Quantity: {{ details.quantity }}&nbsp; &nbsp; 
+	         			{% if details.inventory.id == outofstock_id %}
+	         			  <span class="error">Sorry only {{ details.inventory.quantity }} copy left in stock.  </span>
+	         			{% endif %}
 	         		</div>
 			        {% if action = "view_bag" %}
 			        <div style="display:inline;float:right;">
@@ -72,24 +80,20 @@ You orders have been successfully processed. If require a payment, kindly pay as
     </div>
     
 {% empty %}
-    Sorry no orders were found. 
+    You currently have no order.
 {% endfor %}
 </div>
 
 
-
-
-
-
 	<input type="button" class="button" value="Continue Browsing" onclick="javascript: document.location='/';" />
 
-
-
-    {% if action = "view_bag" %}
-	<input type="submit" value="Confirm Order" /> 
-	{% else %}
-	<input type="button" class="button" value="Pay Now" onclick="javascript: document.location='/account/orders/reading/';" />
-    {% endif %}
+    {% if orders|length > 0 %}
+	    {% if action = "view_bag"  %}
+		<input type="submit" value="Confirm Order"/>
+		{% else  %}
+		<input type="button" class="button" value="Pay Now" onclick="javascript: document.location='/account/orders/reading/';" />
+	    {% endif %}
+	{% endif %}
 
 </form>
 
@@ -99,4 +103,4 @@ function showMessage(msg) {
 }
 </script>
 
-{% endblock content %}
+{% endblock main %}

@@ -45,6 +45,7 @@ Please login, or register if you don't have an login yet.
 
 	<h3>Please enter login information:</h3>
     {{ form.username }}
+	<div><label>User Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }}</div> 	    
 	<div><label>Email:</label>{{ form.email }}{{ form.email.errors }}</div> 	
 	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }}</div> 
 	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }}</div> 

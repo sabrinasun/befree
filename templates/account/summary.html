@@ -22,14 +22,14 @@
             <b>Welcome {{ user.get_profile.get_display_name }}!</b>
 			<br>
 		
-			{% if user.get_profile.is_reader %}
+			{% if user.get_profile.has_reader_profile %}
 			    If you have pending items in your shopping bag, you can proceed to <a href="{% url 'view_bag' %}">view bag</a>.
 			{% else %}
-			    Do you also want to request books from others? Please complete reader's profile in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a>.
+			    To request books, please enter your mailing address in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a>.
 			{% endif %}
 			<br>			
 			
-			{% if user.get_profile.is_giver %}
+			{% if user.get_profile.has_giver_profile %}
 			   To giver books, please first add books to your <a href="{% url 'account_material' %}">inventory</a>. You will receive an email when readers place an order, which will also show up in <a href="{% url 'account_giving_orders' %}">giving orders</a>.
 			{% else %}
 			   Want to give books to others? Please complete giver's profile in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a> to start giving. 
@@ -38,8 +38,8 @@
 			
 
 			
-			{% if user.get_profile.is_reader %}
-			<p><h2><a href="{% url 'account_reading_orders' %}">Reading Orders</a></h2>
+			{% if user.get_profile.has_reader_profile %}
+			<p><h2>Books I am receiving</h2>
 			As a Dharma material seeker, you place orders to request material from others.  
 			<ul>
 			<li><b>New Orders: {{ reading_orders_new }}</b></li>
@@ -49,7 +49,7 @@
 			</p>
 			{% endif %}
 			
-			{% if user.get_profile.is_giver %}			
+			{% if user.get_profile.has_giver_profile %}			
 			<p><h2><a href="{% url 'account_material' %}">Inventory</a></h2>
 			BuddhistExchange maintains a public index of books, so please check if you book has already been entered by others. 
 			If nobody has entered your book, you can enter it in the <a href="{% url 'account_material' %}">inventory</a> 
@@ -78,22 +78,22 @@
 	</div>
 
 	<div class= "account-left menu">
-		<a href="{% url 'index' %}"><img src="{{ MEDIA_URL }}img/logo-small.png"></a>
+		  <div class="title" onclick="javascript:  window.location.href = '/';">
+          </div>
 		<ul>
 			<li><a href="{% url 'account_summary' %}">Account Summary</a></li>
 			
-			{% if user.get_profile.is_reader %}
-			<hr />
-			<li><a href="{% url 'account_reading_orders' %}">Reading Orders</a></li>
-			{% endif %}
-			{% if user.get_profile.is_giver %}
-			<hr />
-			<li><a href="{% url 'account_material' %}">Inventory</a></li>			
-			<li><a href="{% url 'account_giving_orders' %}">Giving Orders</a></li>
-			{% endif %}
 
 			<hr />
-			<li><a href="{% url 'userena_profile_edit' username=user.username %}">Profile</a></li>
+			<li><a href="{% url 'account_reading_orders' %}">Books I am Receiving</a></li>
+
+			<hr />
+			<li><a href="{% url 'account_material' %}">My Inventory</a></li>			
+			<li><a href="{% url 'account_giving_orders' %}">Books I need to Send</a></li>
+
+
+			<hr />
+			<li><a href="{% url 'userena_profile_edit' username=user.username %}">Update Profile</a></li>
 			<li><a href="{% url 'userena_email_change' username=user.username %}">Change Email</a></li>			
 			<li><a href="{% url 'userena_password_change' username=user.username %}">Change Password</a></li>
 			

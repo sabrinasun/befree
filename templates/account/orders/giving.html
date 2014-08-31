@@ -75,7 +75,12 @@
 	    </div>
 	</div>
 {% empty %}
-    No orders.
+    {% if user.get_profile.has_giver_profile %} 
+	  No book found. 
+	{% else %}
+	  You need to first update your profile with giver's information, before you can post your inventory. You will then
+	  see book requests in this page.  
+	{% endif %}
 {% endfor %}
 </div>
 

@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf import settings
-from accounts.forms import SignupForm, SignupReaderForm
+from accounts.forms import UserenaSignupFormBase, SignupReaderForm
 from accounts.forms import EditProfileForm
 
 admin.autodiscover()
@@ -10,7 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/signup/$', 'core.views.signup', 
-            {'signup_form': SignupForm, "success_url": "/?msg=signup_success"},
+            {'signup_form': UserenaSignupFormBase, "success_url": "/?msg=signup_success"},
             name='userena_signup'),
     url(r'^accounts/signup_reader/$', 'core.views.signup', 
             {'signup_form': SignupReaderForm, "success_url": "/?msg=signup_success", "template_name": "userena/signup_reader_form.html"},
@@ -19,6 +19,14 @@ urlpatterns = patterns('',
        'userena.views.profile_edit',
        {'edit_profile_form': EditProfileForm, 'success_url':"/account/summary"},
        name='userena_profile_edit'),
+    url(r'^accounts/(?P<username>[\.\w-]+)/edit/from_view_bag$',
+       'userena.views.profile_edit',
+       {'edit_profile_form': EditProfileForm, 'success_url':"/view_bag", 'extra_context':{'validate_receiver':True}},
+       name='userena_profile_edit_from_view_bag'), #from view_bag for logged in accounts                       
+    url(r'^accounts/(?P<username>[\.\w-]+)/edit/from_inventory$',
+       'userena.views.profile_edit',
+       {'edit_profile_form': EditProfileForm, 'success_url':"/account/material", 'extra_context':{'validate_giver': True}},
+       name='userena_profile_edit_from_inventory'), #from Book I am receiving for logged in accounts                       
 
     url(r'^accounts/(?P<username>[\.\w-]+)/email/$',
        'userena.views.email_change',{'success_url':"/account/summary/?msg=email_success", "template_name": "userena/email_form.html"},

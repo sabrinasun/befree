@@ -13,6 +13,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -22,6 +23,17 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
+    }
+}
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+        'NAME': 'befree',                      
+        'USER': 'sabrina',
+        'PASSWORD': 'ilucky',
+        'HOST': '127.0.0.1'
     }
 }
 
@@ -159,6 +171,7 @@ EMAIL_FILE_PATH = join(ROOT, 'email_files')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_USE_TLS = True
+"""
 # Host for sending e-mail.
 EMAIL_HOST = 'smtp.gmail.com'
 # Port for sending e-mail.
@@ -170,7 +183,7 @@ EMAIL_HOST_PASSWORD = 'montclair'
 
 DEFAULT_FROM_EMAIL = 'sabrinanyu@gmail.com'
 SERVER_EMAIL = 'sabrinanyu@gmail.com'
-"""
+
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.Profile'

@@ -31,7 +31,7 @@
   </ul -->
   {% csrf_token %}
       
-    <h2>{% trans "Edit Profile" %}:</h2>
+    <h2>{% trans "Update Profile" %}:</h2>
     
 	{% if form.non_field_errors %}
 	<ul class="errorlist">
@@ -41,29 +41,17 @@
 	</ul>
 	{% endif %}    
     
+    <input type="hidden" name="validate_receiver" value="{{validate_receiver}}">
+    <input type="hidden" name="validate_giver" value="{{validate_giver}}">    
     
-    <h3>Section 1. Your Location - required:  </h3>
+    <h3>Section 1. Membership Information:  </h3>
+    <div><label>User Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }}  </div>       
     <div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>          
     <div><label>State:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>   
-    <div><label>I am a Reader:</label>
-    {% if not form.is_reader.value %}
-    	{{ form.is_reader }}{{ form.is_reader.errors }} * Complete reader profile to order books.
-    {% else %}
-        Yes 
-        <input type="hidden" name="is_reader" value="on">
-    {% endif %}
-    </div>   
-    <div><label>I am a Giver:</label>
-    {% if not form.is_giver.value %}
-		{{ form.is_giver }}{{ form.is_giver.errors }} * Complete giver profile to give books. 
-	{% else %}
-		Yes 
-        <input type="hidden" name="is_giver"  value="on">		
-	{% endif %}
-	</div>   
+
     <!-- div><label>Show my public profile:</label>{{ form.is_public }}{{ form.is_public.errors }} * Complete public profile to let users know more about you.</div-->               
           
-    <h3>Section 2. Reader Profile - Information required for mailing materials to you:</h3>
+    <h3>Section 2. Mailing Information:</h3>
     <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }}</div> 
     <div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>    
     <div><label>Address 1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>    
@@ -71,15 +59,24 @@
     <div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>       
     <div><label>Zip Code:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>             
     
-    <h3>Section 3. Giver Profile - Information required for distributing Dharma Materials:</h3>    
-    <div><label>Public Name:</label>{{ form.screen_name }}{{ form.screen_name.errors }} * This can be your nick name, real name, the name of your organization, whatever you wish to be known. </div>   
+    <h3>Section 3. Shipping and Payment Information:</h3>    
 
-	<div><label>Free Domestic Shipping:</label>{{ form.domestic_free_shipping }}{{ form.free_domestic_shipping.errors }}  </div>
-	<div><label>Free International Shipping:</label>{{ form.international_free_shipping }}{{ form.free_international_shipping.errors }} </div>
+	<div><label>Distribution Methods:</label>{{ form.local_pickup }} Local Pickup: Receiver picks up books from your location. <br>
+	<label> </label>{{ form.domestic_free_shipping }} Free Domestic Shipping: Sender covers domestic shipping expenses. <br>  
+	<label> </label>{{ form.domestic_pay_shipping }} Receive Payment for Domestic Shipping: Receiver pays shipping expenses upfront.  <br>
+	<label> </label>{{ form.international_free_shipping }} Free International Shipping: Sender covers international shipping expenses. 
+	<label></label>{{ form.free_domestic_shipping.errors }} {{ form.free_international_shipping.errors }} 
+	</div>
+    <div><label>How to Pickup Locally:</label>{{ form.pickup_description }}{{ form.pickup_description.errors }}</div> 
 
-    <div><label>Max Free Items Per Order:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }} *Reader is required to contact you if ordering more than this number of free items.</div>   
+    <div><label>Max Free Items Per shipment:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }} *Receiver is required to contact sender if ordering more than this number of free books.</div>   
+    <div><label>How to Donate/How is receipt returned:</label>{{ form.donation }}{{ form.donation.errors }}</div> 
+    <br>
+    <div><label></label>Payment methods:</div>   
+   
     <div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>   
     <div><label>Other payment methods:</label>{{ form.payment_description }}{{ form.payment_description.errors }}</div> 
+    <div><label>Use for Donation:</label>{{ form.payinfo_for_donation }}Use above payment methods for donation.</div>   
             
     <!--  >Section 4. Public Profile - Information required for displaying your profile to public:</h3>
     <div><label>Entity Type:</label>{{ form.type }}{{ form.type.errors }}</div>   

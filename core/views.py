@@ -35,11 +35,13 @@ def send_email(template, context, title, to_address):
                       
 def index(request):
     msg = None
+    inventories = None
     lang = request.session.get("lang","en")
+    
     if request.method == 'POST':
         inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
-        quantity = int(request.POST.get('quantity', 0))
-        
+        #quantity = int(request.POST.get('quantity', 0))
+        quantity = 1
         """
         if request.user.is_authenticated():
             update_orders(request.user, material, quantity)
@@ -50,10 +52,12 @@ def index(request):
         request.session["cart"] = cart
     else:
         msg = request.GET.get('msg','')
-        lang = request.GET.get('lang','en')
+        lang = request.GET.get('lang','')
         request.session["lang"]=lang
-        
-    inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE', material__language=lang)
+    
+    inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE')
+    if lang: 
+        inventories = inventories.filter(material__language=lang);
     
     context = {
         'inventories': inventories,
@@ -155,18 +159,19 @@ def get_order_from_bag(cart, user):
 def validate_orders():
     pass
     
-def view_bag(request):
+def view_bag(request):  
+    outofstock_id = request.GET.get('outofstock_id','-1')
     cart = request.session.get("cart", {})    
-    
+        
     if not request.user.is_authenticated():
         return redirect('/accounts/signup_reader/')
-    elif not request.user.get_profile().is_reader: 
-        return redirect('/account/summary/')
+    elif not request.user.get_profile().has_reader_profile(): 
+        return redirect(reverse_lazy('userena_profile_edit_from_view_bag', args=[request.user.username]) )
         
     orders = get_order_from_bag(cart, request.user)
     #validate orders
     
-    context = { "orders": orders, "action":"view_bag" } 
+    context = { "orders": orders, "action":"view_bag", "outofstock_id": int(outofstock_id) } 
     return render(request, 'show_order.html', context)    
     
 def view_bag_delete(request, inventory_id):
@@ -218,13 +223,26 @@ def check_out(request):
     if not request.user.is_authenticated():
         return redirect('/accounts/signup_reader/')
 
-    # if already login, need to validate the order
-    # loop through the car to display order.
-    cart = request.session.pop('cart', {})
+ 
+    cart = request.session['cart']
     orders = get_order_from_bag( cart, request.user)
     
     #[{'giver': <User: sunnywebtimes>,'order_details': [{'inventory': <GiverMaterial: GiverMaterial object>,'quantity': 1}],'price': 20}
     reader = request.user
+    for one_order in orders: 
+        for item in one_order['order_details']: 
+            inventory = item['inventory']
+            quantity  = item['quantity']     
+            left = inventory.quantity - quantity
+
+            if ( left <0):
+                return redirect('/view_bag?outofstock_id=' + str(inventory.id) )    
+
+    # if already login, need to validate the order
+    # loop through the car to display order.
+    
+    cart = request.session.pop('cart', {})
+    
     for one_order in orders: 
         with transaction.commit_on_success():
             giver = one_order['giver']
@@ -247,7 +265,8 @@ def check_out(request):
             
             order.save()
             
-            total_free_item = 0                               
+            total_free_item = 0                   
+                                    
             for item in one_order['order_details']: 
                 inventory = item['inventory']
                 quantity  = item['quantity']
@@ -325,7 +344,7 @@ def account_summary(request):
 def account_reading_orders(request):
     order_id = request.GET.get('order_id')
     status   = request.GET.get('status')
-    
+        
     if order_id:
         order_id = int(order_id)
         order = Order.objects.get(id = order_id)
@@ -450,6 +469,9 @@ def account_giving_orders(request):
 
 @login_required
 def account_material(request):
+
+    if not request.user.get_profile().has_giver_profile():
+        return redirect(reverse_lazy('userena_profile_edit_from_inventory', args=[request.user.username]))    
     inventory = GiverMaterial.objects.filter(giver=request.user)
     inventory_ids = [item.material.id for item in inventory]
 

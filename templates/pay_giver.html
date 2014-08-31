@@ -14,7 +14,7 @@ label {
 </style>    
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">How to Pay {{order.giver.get_profile.get_display_name}}:</h2>
+    <h2 style="margin-left:15px;margin-top:10px;">Pay {{order.giver.get_profile.get_display_name}}:</h2>
     
 <!--  div id="form-error">
 	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
@@ -26,7 +26,8 @@ label {
 </div-->
     
     <div style="padding:0 20px 20px 20px;">
-    Please pay the giver outside BuddhistExchange before informing the giver about the payment.   
+    Sorry BuddhistExchange doesn't support online payment yet. Please pay the giver directly, and then inform the giver about the payment below. 
+    <br><br>
     Please choose the payment method you used: <br>
     <form method="POST" action="{% url 'pay_giver' %}" >
     {% csrf_token %}

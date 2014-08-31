@@ -1,6 +1,85 @@
 {% extends 'base.html' %}
 {% load readmore endless %}
 
+{% block subheader %}
+    <div style="float:left;"><span style="color:#996633;font-size:14px;"> </div>
+	<div style="position:absolute;right:10px;color:#996633">
+	Location: <select style="color:black;font-weight:normal;font:12px;width:100px;">
+				<option selected="selected" value="">-----All-----</option>
+				<option value="AL">Alabama</option>
+				<option value="AK">Alaska</option>
+				<option value="AS">American Samoa</option>
+				<option value="AZ">Arizona</option>
+				<option value="AR">Arkansas</option>
+				<option value="AA">Armed Forces Americas</option>
+				<option value="AE">Armed Forces Europe</option>
+				<option value="AP">Armed Forces Pacific</option>
+				<option value="CA">California</option>
+				<option value="CO">Colorado</option>
+				<option value="CT">Connecticut</option>
+				<option value="DE">Delaware</option>
+				<option value="DC">District of Columbia</option>
+				<option value="FM">Federated States of Micronesia</option>
+				<option value="FL">Florida</option>
+				<option value="GA">Georgia</option>
+				<option value="GU">Guam</option>
+				<option value="HI">Hawaii</option>
+				<option value="ID">Idaho</option>
+				<option value="IL">Illinois</option>
+				<option value="IN">Indiana</option>
+				<option value="IA">Iowa</option>
+				<option value="KS">Kansas</option>
+				<option value="KY">Kentucky</option>
+				<option value="LA">Louisiana</option>
+				<option value="ME">Maine</option>
+				<option value="MH">Marshall Islands</option>
+				<option value="MD">Maryland</option>
+				<option value="MA">MA</option>
+				<option value="MI">Michigan</option>
+				<option value="MN">Minnesota</option>
+				<option value="MS">Mississippi</option>
+				<option value="MO">Missouri</option>
+				<option value="MT">Montana</option>
+				<option value="NE">Nebraska</option>
+				<option value="NV">Nevada</option>
+				<option value="NH">New Hampshire</option>
+				<option value="NJ">New Jersey</option>
+				<option value="NM">New Mexico</option>
+				<option value="NY">New York</option>
+				<option value="NC">North Carolina</option>
+				<option value="ND">North Dakota</option>
+				<option value="MP">Northern Mariana Islands</option>
+				<option value="OH">Ohio</option>
+				<option value="OK">Oklahoma</option>
+				<option value="OR">Oregon</option>
+				<option value="PW">Palau</option>
+				<option value="PA">Pennsylvania</option>
+				<option value="PR">Puerto Rico</option>
+				<option value="RI">Rhode Island</option>
+				<option value="SC">South Carolina</option>
+				<option value="SD">South Dakota</option>
+				<option value="TN">Tennessee</option>
+				<option value="TX">Texas</option>
+				<option value="UM">U.S. Minor Outlying Islands</option>
+				<option value="UT">Utah</option>
+				<option value="VT">Vermont</option>
+				<option value="VI">Virgin Islands</option>
+				<option value="VA">Virginia</option>
+				<option value="WA">Washington</option>
+				<option value="WV">West Virginia</option>
+				<option value="WI">Wisconsin</option>
+				<option value="WY">Wyoming</option>
+	</select> 
+	Language: <select style="color:black;font-weight:normal;font:12px;" name="language">
+    <option value="" {% if lang == '' %} selected {% endif %} >All </option>	
+    <option value="en" {% if lang == 'en' %} selected {% endif %} >English  </option>
+    <option value="zh" {% if lang == 'zh' %} selected {% endif %}>Chinese </option>
+    <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
+    </select>
+
+	</div>
+{% endblock subheader %}
+
 {% block main %}
 
 <!-- language page isbn weblink -->
@@ -9,15 +88,9 @@
 	{% if msg == "signup_success" %}
 	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div> 
 	{% endif %}
-    &nbsp; &nbsp; Thanks to givers for giving free books! Readers may even choose to wave shipping if the giver also offers the option of free shipping. <br><br>
     {% paginate inventories %}
     
- &nbsp; &nbsp; Language: &nbsp; <select name="language">
- <option value="en" {% if lang == 'en' %} selected {% endif %} >English  </option>
- <option value="zh" {% if lang == 'zh' %} selected {% endif %}>Chinese </option>
- <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
- </select>
-<br><br>    
+    <div class="msg">Total {{ inventories.count }} book{{ inventories.count|pluralize }}. </div> 
     {% for inventory in inventories %}
     <div class="content-outer-column">
         <div> <!--a row of book-->
@@ -34,13 +107,13 @@
 
 						</div>                        
                                                 
-                        <div style="float:right; margin-top:3px; margin-right:2px;">
+                        <!-- div style="float:right; margin-top:3px; margin-right:2px;">
                             <select name="quantity">
                             {% for i in inventory.get_quantity_nums %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                             </select>
-                        </div>
+                        </div-->
                     </form>
                     {% endif %}
                     
@@ -63,17 +136,30 @@
                     {% endif %}  
                     <br>
                     <i>Condition:</i> {{ inventory.condition|title }} 
-                    &nbsp;                 	
+                    &nbsp;            
+                    <i>Price:</i> <span class="success">Free</span>     	
+                    <i>Local Pickup:</i> <span>{% if inventory.giver.get_profile.local_pickup %}
+                    <span title="{{inventory.giver.get_profile.pickup_description}}"><a style="text-decoration:underline;">Yes</a></span>
+                    {% else %}
+                    No
+                    {% endif %}
+                    </span>
                     <i>Shipping:</i>{% if inventory.giver.get_profile.international_free_shipping %} Free Internationally
                     {% else %}
                        {% if inventory.giver.get_profile.domestic_free_shipping %} Free domestically 
                        {% else %}
-                       Standard
+                         {% if inventory.giver.get_profile.domestic_pay_shipping %}
+                           Standard
+                         {% else %}
+                           No
+                         {% endif %}
                        {% endif %}                     
                     {% endif %}
                     &nbsp;
                     <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->{{ inventory.giver.get_profile.get_display_name}},<!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
-                    
+                    {% if inventory.giver.get_profile.donation %}
+                    <span title="{{inventory.giver.get_profile.donation}}"><a style="text-decoration:underline;">Donation Welcome</a></span>
+                    {% endif %}
                     {% if inventory.note %}
                     &nbsp;<div style="margin-top:4px;"><i>Giver's Comments:</i> {{ inventory.note|readmore:40 }}<br></div>
                     {% endif %}
@@ -96,9 +182,14 @@
 
 <script language ="javascript">
 $(function() {
-	$("select").change(function() {
-		 var language = $("select option:selected").val();
-		 document.location = "/?lang="+language;
+	$("select").eq(0).change(function() {
+	    var location = $("select:eq(0) option:selected").val();
+		document.location = "/?loc="+location;
+	});
+	
+	$("select").eq(1).change(function(){
+	    var language = $("select:eq(1) option:selected").val();
+		document.location = "/?lang="+language;	     	
 	});
 
 });
