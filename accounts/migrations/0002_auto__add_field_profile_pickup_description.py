@@ -8,41 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Profile'
-        db.create_table(u'accounts_profile', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('mugshot', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
-            ('privacy', self.gf('django.db.models.fields.CharField')(default='registered', max_length=15)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
-            ('screen_name', self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True)),
-            ('state', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('country', self.gf('django_countries.fields.CountryField')(max_length=50)),
-            ('address1', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('address2', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('city', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
-            ('zipcode', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=10, blank=True)),
-            ('paypal_email', self.gf('django.db.models.fields.EmailField')(max_length=100, blank=True)),
-            ('facebook', self.gf('django.db.models.fields.URLField')(max_length=255, blank=True)),
-            ('website', self.gf('django.db.models.fields.URLField')(max_length=255, blank=True)),
-            ('create_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('payment_description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('max_per_order', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-            ('local_pickup', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('domestic_pay_shipping', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('domestic_free_shipping', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('international_free_shipping', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('payinfo_for_donation', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('donation', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('status', self.gf('django.db.models.fields.CharField')(max_length=10)),
-        ))
-        db.send_create_signal(u'accounts', ['Profile'])
+        # Adding field 'Profile.pickup_description'
+        db.add_column(u'accounts_profile', 'pickup_description',
+                      self.gf('django.db.models.fields.TextField')(default='', blank=True),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'Profile'
-        db.delete_table(u'accounts_profile')
+        # Deleting field 'Profile.pickup_description'
+        db.delete_column(u'accounts_profile', 'pickup_description')
 
 
     models = {
@@ -66,6 +40,7 @@ class Migration(SchemaMigration):
             'payinfo_for_donation': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'payment_description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'paypal_email': ('django.db.models.fields.EmailField', [], {'max_length': '100', 'blank': 'True'}),
+            'pickup_description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'privacy': ('django.db.models.fields.CharField', [], {'default': "'registered'", 'max_length': '15'}),
             'screen_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '50'}),

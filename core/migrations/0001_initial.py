@@ -39,7 +39,6 @@ class Migration(SchemaMigration):
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('pages', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
             ('weight', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
-            ('weight_is_estimated', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('price', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
             ('language', self.gf('django.db.models.fields.CharField')(max_length=10)),
             ('pic', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
@@ -83,7 +82,7 @@ class Migration(SchemaMigration):
             ('shipping_cost', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
             ('total_price', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=8, decimal_places=2)),
             ('payment_detail', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('status', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('status', self.gf('django.db.models.fields.CharField')(default='NEW', max_length=10)),
             ('order_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('ship_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('pay_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
@@ -201,8 +200,7 @@ class Migration(SchemaMigration):
             'size': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'website': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'weight': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
-            'weight_is_estimated': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
+            'weight': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'})
         },
         u'core.order': {
             'Meta': {'object_name': 'Order'},
@@ -215,7 +213,7 @@ class Migration(SchemaMigration):
             'reader': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reader'", 'to': u"orm['auth.User']"}),
             'ship_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'shipping_cost': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'}),
-            'status': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'status': ('django.db.models.fields.CharField', [], {'default': "'NEW'", 'max_length': '10'}),
             'total_price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '2'})
         },
         u'core.orderdetail': {
