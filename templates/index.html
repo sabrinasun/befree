@@ -5,7 +5,7 @@
     <div style="float:left;"><span style="color:#996633;font-size:14px;"> </div>
 	<div style="position:absolute;right:10px;color:#996633">
 	Location: <select style="color:black;font-weight:normal;font:12px;width:100px;">
-				<option selected="selected" value="">-----All-----</option>
+				<option selected="selected" value="all">-----All-----</option>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AS">American Samoa</option>
@@ -71,7 +71,7 @@
 				<option value="WY">Wyoming</option>
 	</select> 
 	Language: <select style="color:black;font-weight:normal;font:12px;" name="language">
-    <option value="" {% if lang == '' %} selected {% endif %} >All </option>	
+    <option value="all" {% if lang == 'all' %} selected {% endif %} >All </option>	
     <option value="en" {% if lang == 'en' %} selected {% endif %} >English  </option>
     <option value="zh" {% if lang == 'zh' %} selected {% endif %}>Chinese </option>
     <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
@@ -158,7 +158,7 @@
                     &nbsp;
                     <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->{{ inventory.giver.get_profile.get_display_name}},<!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
                     {% if inventory.giver.get_profile.donation %}
-                    <span title="{{inventory.giver.get_profile.donation}}"><a style="text-decoration:underline;">Donation Welcome</a></span>
+                    <span><a style="text-decoration:underline;" title="{{inventory.giver.get_profile.donation}}">Donation Welcome</a></span>
                     {% endif %}
                     {% if inventory.note %}
                     &nbsp;<div style="margin-top:4px;"><i>Giver's Comments:</i> {{ inventory.note|readmore:40 }}<br></div>
@@ -191,6 +191,14 @@ $(function() {
 	    var language = $("select:eq(1) option:selected").val();
 		document.location = "/?lang="+language;	     	
 	});
+
+	var doc = $( document );
+
+	
+	doc.tooltip();
+	
+	$("select:eq(0) option").removeAttr('selected');
+	$("select:eq(0) option[value='{{location}}']").prop("selected", true);
 
 });
 

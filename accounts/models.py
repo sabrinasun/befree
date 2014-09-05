@@ -42,7 +42,7 @@ class Profile(UserenaBaseProfile):
     description = models.TextField(blank=True)
     payment_description = models.TextField(blank=True)
     pickup_description = models.TextField(blank=True)
-    max_per_order = models.PositiveIntegerField(default=0)
+    max_per_order = models.PositiveIntegerField(default=5)
     
     local_pickup = models.BooleanField(default=False)
     domestic_pay_shipping  = models.BooleanField(default=False)

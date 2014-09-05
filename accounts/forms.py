@@ -9,7 +9,7 @@ from django_countries import countries
 from core.models import Order, GiverMaterial
 
 NUM_CHOICES = (
-    ('-1', 'Unlimitted'),
+    ('0', 'Unlimitted'), #nobody will choose 0 for this, so it means unlimitted. 
     ('1', '1'),
     ('3', '3'),
     ('5', '5'),
@@ -116,6 +116,7 @@ class UserenaSignupFormBase(UserenaSignupForm):
         profile = user.get_profile()
         profile.state = self.cleaned_data['state']
         profile.country = self.cleaned_data['country']    
+        profile.screen_name = self.cleaned_data['screen_name']
         profile.save()
         
         return user
@@ -195,13 +196,14 @@ class SignupForm(UserenaSignupFormBase):
 class EditProfileForm(UserenaEditProfileForm):
     max_per_order = forms.ChoiceField(choices = NUM_CHOICES, initial='5')
     us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)    
-    validate_receiver = forms.CharField()
+    #validate_receiver = forms.CharField()
     
     
     def __init__(self, *args, **kwargs):
         if len(args)>0:
             self.validate_receiver= args[0].get('validate_receiver')
             self.validate_giver    = args[0].get('validate_giver')
+
         super(EditProfileForm, self).__init__(*args, **kwargs)
         
     def clean(self):

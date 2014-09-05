@@ -25,14 +25,14 @@
 			{% if user.get_profile.has_reader_profile %}
 			    If you have pending items in your shopping bag, you can proceed to <a href="{% url 'view_bag' %}">view bag</a>.
 			{% else %}
-			    To request books, please enter your mailing address in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a>.
+			    To request books, please enter your mailing address in <a href="{% url 'userena_profile_edit_from_view_bag' username=user.username %}">profile</a>.
 			{% endif %}
 			<br>			
 			
 			{% if user.get_profile.has_giver_profile %}
 			   To giver books, please first add books to your <a href="{% url 'account_material' %}">inventory</a>. You will receive an email when readers place an order, which will also show up in <a href="{% url 'account_giving_orders' %}">giving orders</a>.
 			{% else %}
-			   Want to give books to others? Please complete giver's profile in <a href="{% url 'userena_profile_edit' username=user.username %}">profile</a> to start giving. 
+			   Want to give books to others? Please complete giver's profile in <a href="{% url 'userena_profile_edit_from_inventory' username=user.username %}">profile</a> to start giving. 
 			{% endif %}
 			<br>
 			

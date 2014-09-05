@@ -36,7 +36,8 @@ def send_email(template, context, title, to_address):
 def index(request):
     msg = None
     inventories = None
-    lang = request.session.get("lang","en")
+    lang = ""
+    location = ""
     
     if request.method == 'POST':
         inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
@@ -52,17 +53,25 @@ def index(request):
         request.session["cart"] = cart
     else:
         msg = request.GET.get('msg','')
-        lang = request.GET.get('lang','')
-        request.session["lang"]=lang
+        lang=request.GET.get('lang',None) or request.session.get('lang','')
+        location=request.GET.get('loc',None) or request.session.get("location",'')
     
     inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE')
-    if lang: 
-        inventories = inventories.filter(material__language=lang);
+    if lang != 'all' and lang != '': 
+        inventories = inventories.filter(material__language=lang)
+    
+    if location != 'all' and location != '':
+        users = [p.user for p in Profile.objects.all().filter(state=location)]
+        inventories = inventories.filter(giver__in=users)
+            
+    request.session["lang"] = lang
+    request.session["location"] = location
     
     context = {
         'inventories': inventories,
         'msg': msg, 
-        'lang':lang
+        'lang':lang, 
+        'location':location
     }
     return render(request, 'index.html', context)
 
@@ -149,8 +158,9 @@ def get_order_from_bag(cart, user):
         if shipping_cost == -1: 
             warning.append("We can't determine shipping cost. Wait for giver's advice after placing order. ")
         
-        if free_count > giver.get_profile().max_per_order:
-            warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (free_count, giver.get_profile().max_per_order)  )
+        max_per_order = giver.get_profile().max_per_order
+        if max_per_order != 0 and free_count > max_per_order:
+            warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (max_per_order)  )
             
         ret.append( {"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":price, "shipping_cost":shipping_cost,"total":"%.2f" % (price+Decimal(shipping_cost)), "weight":weight, "warning":warning, "shipping_cost_wave":shipping_cost_wave }) 
 
@@ -277,7 +287,7 @@ def check_out(request):
                 detail.save()
             
             max_per_order = giver.get_profile().max_per_order
-            if total_free_item > max_per_order: 
+            if max_per_order != 0 and total_free_item > max_per_order: 
                 order.status = "PENDING"
                 order.save() 
     
@@ -432,7 +442,8 @@ def account_giving_orders(request):
             for detail in OrderDetail.objects.filter(order=order): 
                 quantity += detail.quantity
             
-            if quantity > order.giver.get_profile().max_per_order:
+            max_per_order = order.giver.get_profile().max_per_order
+            if max_per_order != 0 and quantity > max_per_order:
                 order.status = 'PENDING'
             else:
                 order.status = 'NEW'
