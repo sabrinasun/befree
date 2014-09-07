@@ -2,11 +2,14 @@ import time
 from django import forms
 from django.db import IntegrityError
 from django.utils.text import slugify
-from userena.forms import SignupFormOnlyEmail as UserenaSignupForm
+from userena.forms import SignupForm as UserenaSignupForm
 from userena.forms import EditProfileForm as UserenaEditProfileForm
 from accounts.models import Profile
 from django_countries import countries 
 from core.models import Order, GiverMaterial
+
+USERNAME_RE = r'^[\.\w]+$'
+
 
 NUM_CHOICES = (
     ('0', 'Unlimitted'), #nobody will choose 0 for this, so it means unlimitted. 
@@ -103,7 +106,7 @@ class UserenaSignupFormBase(UserenaSignupForm):
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict), \
                              label='I have read and agree to the Terms of Service', \
                              error_messages={'required': 'You must agree to the terms to register.'}) 
-    screen_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Your real name or nick name.'}))     
+    #username = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Your real name or nick name.'}))     
     
     us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)           
     state = forms.CharField(max_length = 50)
@@ -116,7 +119,6 @@ class UserenaSignupFormBase(UserenaSignupForm):
         profile = user.get_profile()
         profile.state = self.cleaned_data['state']
         profile.country = self.cleaned_data['country']    
-        profile.screen_name = self.cleaned_data['screen_name']
         profile.save()
         
         return user
@@ -193,24 +195,59 @@ class SignupForm(UserenaSignupFormBase):
         profile.save()
         return user
 """
+        
+from userena import settings as userena_settings
+from userena.models import UserenaSignup
+from userena.utils import get_profile_model, get_user_model
+
 class EditProfileForm(UserenaEditProfileForm):
     max_per_order = forms.ChoiceField(choices = NUM_CHOICES, initial='5')
-    us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)    
-    #validate_receiver = forms.CharField()
-    
-    
-    def __init__(self, *args, **kwargs):
-        if len(args)>0:
-            self.validate_receiver= args[0].get('validate_receiver')
-            self.validate_giver    = args[0].get('validate_giver')
+    us_state = forms.ChoiceField(choices = STATE_CHOICES)    
+    username = forms.RegexField(regex=USERNAME_RE,
+                                max_length=30,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                error_messages={'invalid': 'Username must contain only letters, numbers, dots and underscores.'})
 
+    
+    #validate_receiver = forms.CharField()
+    check_receiver = forms.BooleanField()
+    check_giver  = forms.BooleanField()
+    
+    def __init__(self, *args, **kwargs):       
+        if len(args)>0:
+            self.validate_receiver = args[0].get('validate_receiver', False)  
+            self.validate_giver =  args[0].get('validate_giver', False)  
+       
         super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields['username'].initial = self.instance.user.username
+
+    def clean_username(self):
+        """
+        Validate that the username is alphanumeric and is not already in use.
+        Also validates that the username is not listed in
+        ``USERENA_FORBIDDEN_USERNAMES`` list.
+
+        """
+        
+        try:
+            user = get_user_model().objects.get(username__iexact=self.cleaned_data['username'])
+        except get_user_model().DoesNotExist:
+            pass
+        else:
+            if UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+                raise forms.ValidationError('This username is already taken but not confirmed. Please check you email for verification steps.')
+            raise forms.ValidationError('This username is already taken.')
+        if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
+            raise forms.ValidationError('This username is not allowed.')
+        return self.cleaned_data['username']
+
+
         
     def clean(self):
+        rawdata = self.data
         data = self.cleaned_data
-
-        user = super(UserenaEditProfileForm, self).save()
-        
+        user = self.instance.user
+              
         #check if have pending reader order 
         is_reading = Order.objects.filter(reader = user, status__in = ('NEW','PENDING','PAID',) ).count()
         
@@ -219,10 +256,10 @@ class EditProfileForm(UserenaEditProfileForm):
             GiverMaterial.objects.filter(giver=user, status__in =('ACTIVE') ).count() >0 
         
                   
-        if is_reading or self.validate_receiver: # if have pending reader orders in the last month
+        if is_reading or self.validate_receiver or rawdata.get('check_receiver',False): # if have pending reader orders in the last month
             self.instance.validate_reader(data['first_name'],data['last_name'], data['address1'],data['city'],data['zipcode'])
 
-        if is_giving or self.validate_giver: # if have pending giver orders or inventory
+        if is_giving or self.validate_giver or rawdata.get('check_giver', False): # if have pending giver orders or inventory
             self.instance.validate_giver(data['local_pickup'], \
                                          data['domestic_pay_shipping'], \
                                          data['domestic_free_shipping'],\
@@ -233,6 +270,11 @@ class EditProfileForm(UserenaEditProfileForm):
                                          )
          
         return data    
+    
+    def save(self):
+        user = super(UserenaEditProfileForm, self).save()
+        user.user.username = self.cleaned_data['username']
+        user.user.save()
     
     class Meta:
         model = Profile

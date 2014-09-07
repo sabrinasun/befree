@@ -23,7 +23,7 @@ STATUS_CHOICES = (
 
 class Profile(UserenaBaseProfile):
     user = models.ForeignKey(get_user_model(), unique=True)
-    screen_name = models.CharField(max_length=100, blank=True, default='')
+    #screen_name = models.CharField(max_length=100, blank=True, default='')
     state = models.CharField(max_length=50)
     country = CountryField(max_length=50)    
 
@@ -35,6 +35,8 @@ class Profile(UserenaBaseProfile):
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, blank=True)
     #is_nonprofit = models.BooleanField(default=False)
     paypal_email = models.EmailField(max_length=100, blank=True)
+    pay_url = models.URLField(max_length=255, blank=True)
+    donate_url = models.URLField(max_length=255, blank=True)
     facebook = models.URLField(max_length=255, blank=True)
     website = models.URLField(max_length=255, blank=True)
 
@@ -79,11 +81,10 @@ class Profile(UserenaBaseProfile):
         return location
     
     def get_display_name(self):
-        ret = self.screen_name
+        ret = self.user.username
         if not ret: 
             ret = self.user.first_name
-        if not ret: 
-            ret = self.user.username
+
         return ret
     
     def validate_reader(self,first_name, last_name, address1, city, zipcode):

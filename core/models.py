@@ -102,6 +102,9 @@ class GiverMaterial(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
     create_date = models.DateTimeField(default=timezone.now)
     note = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        unique_together = ('giver', 'material',)    
 
     def get_quantity_nums(self):
         return range(1, self.quantity + 1)
