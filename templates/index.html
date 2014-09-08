@@ -84,7 +84,16 @@
 
 <!-- language page isbn weblink -->
 
-<div class ="contentwrapper">
+<div class ="contentwrapper" style="width:100%;">
+	<div style="margin-right:220px;  margin-bottom:4px; ">
+	  <div class="box info-box " ><b>title1</b></div>
+	  <div class="box info-box " ><b>title 2</b></div>	  
+
+	    <!-- img src="{{ MEDIA_URL }}img/monk.jpg" style="width:10%;" -->
+
+	  <div style="clear:both;"></div>
+	</div>
+
 	{% if msg == "signup_success" %}
 	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div> 
 	{% endif %}
@@ -157,8 +166,15 @@
                     {% endif %}
                     &nbsp;
                     <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->{{ inventory.giver.get_profile.get_display_name}},<!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
+                    {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+                    <span><a style="text-decoration:underline;" title="
+                    {% if inventory.giver.get_profile.donate_url %}
+                    <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Online Donation</a>
+                    {% endif %}
                     {% if inventory.giver.get_profile.donation %}
-                    <span><a style="text-decoration:underline;" title="{{inventory.giver.get_profile.donation}}">Donation Welcome</a></span>
+                    Details: {{inventory.giver.get_profile.donation}}
+                    {% endif %}
+                    ">Donate</a></span>
                     {% endif %}
                     {% if inventory.note %}
                     &nbsp;<div style="margin-top:4px;"><i>Giver's Comments:</i> {{ inventory.note|readmore:40 }}<br></div>
@@ -192,13 +208,20 @@ $(function() {
 		document.location = "/?lang="+language;	     	
 	});
 
-	var doc = $( document );
 
-	
-	doc.tooltip();
 	
 	$("select:eq(0) option").removeAttr('selected');
 	$("select:eq(0) option[value='{{location}}']").prop("selected", true);
+
+		
+	$( "[title]" ).bind( "mouseleave", 
+			             function( event ) { event.stopImmediatePropagation(); 
+			             				     var fixed = setTimeout('$("[title]").tooltip("close")', 500); 
+			             				     $(".ui-tooltip").hover( function(){clearTimeout (fixed);}, 
+			             				    		       function(){$("[title]").tooltip("close");} ); }) 
+			             				    		         .tooltip({content:function(){return $(this).prop('title');}});	
+	
+	
 
 });
 

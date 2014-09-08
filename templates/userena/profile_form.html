@@ -76,6 +76,8 @@
     <div><label></label>Payment methods:</div>   
    
     <div><label>Paypal Email:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>   
+    <div><label>Online Payment Url:</label>{{ form.pay_url }}{{ form.pay_url.errors }}</div>    
+    <div><label>Online Donation Url:</label>{{ form.donate_url }}{{ form.donate_url.errors }}</div>          
     <div><label>Other payment methods:</label>{{ form.payment_description }}{{ form.payment_description.errors }}</div> 
     <div><label>Use for Donation:</label>{{ form.payinfo_for_donation }}Use above payment methods for donation.</div>   
             

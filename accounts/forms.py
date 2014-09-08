@@ -228,18 +228,21 @@ class EditProfileForm(UserenaEditProfileForm):
         ``USERENA_FORBIDDEN_USERNAMES`` list.
 
         """
-        
-        try:
-            user = get_user_model().objects.get(username__iexact=self.cleaned_data['username'])
+        username = self.cleaned_data['username']
+        user = None
+        try:                
+            user = get_user_model().objects.get(username__iexact=username)
         except get_user_model().DoesNotExist:
             pass
+        
         else:
-            if UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
+            if UserenaSignup.objects.filter(user__username__iexact=username).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
                 raise forms.ValidationError('This username is already taken but not confirmed. Please check you email for verification steps.')
-            raise forms.ValidationError('This username is already taken.')
-        if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
+            if user.id != self.instance.user.id:
+                raise forms.ValidationError('This username is already taken.')
+        if username.lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError('This username is not allowed.')
-        return self.cleaned_data['username']
+        return username
 
 
         
@@ -272,9 +275,9 @@ class EditProfileForm(UserenaEditProfileForm):
         return data    
     
     def save(self):
-        user = super(UserenaEditProfileForm, self).save()
-        user.user.username = self.cleaned_data['username']
-        user.user.save()
+        profile = super(UserenaEditProfileForm, self).save()
+        profile.user.username = self.cleaned_data['username']
+        profile.user.save()
     
     class Meta:
         model = Profile

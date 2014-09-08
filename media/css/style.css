@@ -64,6 +64,19 @@ input {
     vertical-align:middle;
 }
 
+div {
+	box-sizing: border-box;
+}
+
+.info-box {
+	float:left; 
+	clear:none; 
+	width:40%; 
+	height:100px; 
+	margin-right:1%; 
+	margin-left:2%;
+	text-align: center;
+}
 
 .button, button, input[type="submit"] {
 	float:right;
@@ -152,11 +165,11 @@ input {
 .small-menu .cart-title {
   display:inline;
   background:#336699;
-  padding-top:9px;
+  padding-top:12px;
 }
 
 .small-menu img {
-    width: 30px;
+    width: 34px;
 }
 
 .small-menu div a img:hover {
@@ -219,15 +232,14 @@ input {
 }
 
 
-.bluebox {
+.box {
     border-radius: 5px; 
 	border: solid #DAD1B2 3px;
     margin-bottom: 20px;
-	clear:both;
-	box
+	/*clear:both;*/
 }
 
-.bluebox .header { 
+.box .header { 
 	background-color: #EBEBD6;
 	border-bottom: solid 1px #DAD1B2;
 	border-top: solid 1px #DAD1B2;
@@ -238,20 +250,20 @@ input {
 	padding: 2px;  
 }
 
-.bluebox-content {
+.box-content {
 	padding:6px;
 }
 
-.bluebox-content input {
+.box-content input {
 	width:100px;
 }
 
-.bluebox-content label {
+.box-content label {
 	width:60px;
 	display: inline-block;
 }
 
-.bluebox-content .row {
+.box-content .row {
 	margin:3px 0;
 }
 

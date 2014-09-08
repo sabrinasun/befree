@@ -37,9 +37,15 @@ label {
     {% if form.pay_method.errors %}
     	{{ form.pay_method.errors }} <br>  
     {% endif %}
-     
+    
+
     <input type="radio" name = "pay_method" value="paypal">Paid by Paypal to {{ order.giver.get_profile.paypal_email }}: <br> &nbsp; &nbsp; &nbsp; &nbsp; Pay ${{ order.get_paypal_cost | floatformat:2}} (${{ order.get_total_cost }} + paypal fees )   <br>
     {% endif %}
+
+    {% if order.giver.get_profile.pay_url %} 
+    <input type="radio" name = "pay_method" value="payurl">Paid though <a href="{{order.giver.get_profile.pay_url}}" target="_blank">Online Payment</a><br>
+    {% endif %}    
+    
     {% if order.giver.get_profile.payment_description %}
     <input type="radio" name = "pay_method" value="other">Paid by Other Means:<br>
     <textarea cols=40 rows=3 readonly style="vertical-align:top;">{{ order.giver.get_profile.payment_description }} </textarea>

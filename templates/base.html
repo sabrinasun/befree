@@ -86,10 +86,10 @@
         <div class="rightcolumn">
    
             
-		<div class="bluebox">
+		<div class="box">
                 {% if not user.is_authenticated %}
 			<div class="header">Login</div>
-			<div class="bluebox-content">
+			<div class="box-content">
                     <form method="post" action="{% url 'userena_signin' %}" id="login_form">
                         {% csrf_token %}
 				<div class="row">
@@ -110,7 +110,7 @@
 			</div>
                 {% else %}
                     <div class="header">Welcome {{ user.get_profile.get_display_name }}</div>
-                    <div class="bluebox-content">
+                    <div class="box-content">
                         <div class="row">
 					You name: {{ user.get_profile.get_display_name }}
 				</div>
