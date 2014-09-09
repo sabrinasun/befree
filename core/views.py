@@ -27,6 +27,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
+
+from django.db.models import Q
                      
 def send_email(template, context, title, to_address):
     template = get_template('email/' + template)
@@ -61,8 +63,10 @@ def index(request):
         inventories = inventories.filter(material__language=lang)
     
     if location != 'all' and location != '':
-        users = [p.user for p in Profile.objects.all().filter(state=location)]
+        users = [p.user for p in Profile.objects.all().filter( Q(state=location) | Q(domestic_pay_shipping='TRUE') | Q(domestic_free_shipping='TRUE') | Q(international_free_shipping='TRUE') )]
         inventories = inventories.filter(giver__in=users)
+    
+            
             
     request.session["lang"] = lang
     request.session["location"] = location
