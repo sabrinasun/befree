@@ -1,4 +1,5 @@
 # Django settings for buddhist_exchange project.
+#/home/befree/webapps/buddhistexchange_app/myproject/static/admin/js
 
 from os.path import dirname, abspath, join
 
@@ -191,7 +192,7 @@ LOGIN_REDIRECT_URL = '/account/summary'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
-USERENA_WITHOUT_USERNAMES = True
+USERENA_WITHOUT_USERNAMES = False
 USERENA_ACTIVATION_REQUIRED = True
 USERENA_SIGNIN_AFTER_SIGNUP = False
 USERENA_REDIRECT_ON_SIGNOUT = '/'
