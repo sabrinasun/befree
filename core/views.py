@@ -63,9 +63,9 @@ def index(request):
         inventories = inventories.filter(material__language=lang)
     
     if location != 'all' and location != '':
-        users = [p.user for p in Profile.objects.all().filter( Q(state=location) | Q(domestic_pay_shipping='TRUE') | Q(domestic_free_shipping='TRUE') | Q(international_free_shipping='TRUE') )]
-        inventories = inventories.filter(giver__in=users)
-    
+        #users = [p.user for p in Profile.objects.all().filter( Q(state=location) | Q(domestic_pay_shipping='TRUE') | Q(domestic_free_shipping='TRUE') | Q(international_free_shipping='TRUE') )]
+        #inventories = inventories.filter(giver__in=users)
+        inventories = inventories.filter(Q(giver__profile__state=location) | Q(giver__profile__domestic_pay_shipping='TRUE') | Q(giver__profile__domestic_free_shipping='TRUE') | Q(giver__profile__international_free_shipping='TRUE'))
             
             
     request.session["lang"] = lang
@@ -164,7 +164,7 @@ def get_order_from_bag(cart, user):
         
         max_per_order = giver.get_profile().max_per_order
         if max_per_order != 0 and free_count > max_per_order:
-            warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (max_per_order)  )
+            warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (free_count,max_per_order)  )
             
         ret.append( {"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":price, "shipping_cost":shipping_cost,"total":"%.2f" % (price+Decimal(shipping_cost)), "weight":weight, "warning":warning, "shipping_cost_wave":shipping_cost_wave }) 
 
@@ -336,6 +336,9 @@ def confirm_check_out(request):
 
 @login_required
 def account_summary(request):
+    cart = request.session.get('cart', {})
+    test = cart.values()
+    pending_items = len (cart.values())
     reading_orders = Order.objects.filter(reader=request.user)
     giver_materials = GiverMaterial.objects.filter(giver=request.user)
     giving_orders = Order.objects.filter(giver=request.user)
@@ -350,7 +353,8 @@ def account_summary(request):
         'giving_orders_delivered': giving_orders.exclude(pay_date=None).count(),
         'materials_active': giver_materials.filter(status='Active').count(),
         'materials_inactive': giver_materials.filter(status='Inactive').count(),
-        'msg': request.GET.get('msg')
+        'msg': request.GET.get('msg'), 
+        'pending_items' : pending_items
     }
     return render(request, 'account/summary.html', context)
 
