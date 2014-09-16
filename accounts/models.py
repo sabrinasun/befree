@@ -100,7 +100,7 @@ class Profile(UserenaBaseProfile):
           raise ValidationError("Zipcode is required. ")
             
     def validate_giver(self, local_pickup, domestic_pay_shipping,domestic_free_shipping,international_free_shipping,pickup_description, paypal_email, payment_description):
-        if not local_pickup and not domestic_pay_shipping \
+        if not local_pickup and not domestic_free_shipping \
             and not domestic_pay_shipping and not international_free_shipping: 
             raise ValidationError("Please choose at least one distribution method. ")
         if domestic_pay_shipping and domestic_free_shipping:
