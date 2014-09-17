@@ -220,6 +220,8 @@ class EditProfileForm(UserenaEditProfileForm):
        
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['username'].initial = self.instance.user.username
+        self.fields['first_name'].initial = self.instance.user.first_name
+        self.fields['last_name'].initial = self.instance.user.last_name
 
     def clean_username(self):
         """
@@ -277,6 +279,8 @@ class EditProfileForm(UserenaEditProfileForm):
     def save(self):
         profile = super(UserenaEditProfileForm, self).save()
         profile.user.username = self.cleaned_data['username']
+        profile.user.first_name = self.cleaned_data['first_name']
+        profile.user.last_name = self.cleaned_data['last_name']
         profile.user.save()
     
     class Meta:

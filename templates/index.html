@@ -2,8 +2,8 @@
 {% load readmore endless %}
 
 {% block subheader %}
-    <div style="float:left;"><span style="color:#996633;font-size:14px;"> </div>
-	<div style="position:absolute;right:10px;color:#996633">
+    <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;"> </div>
+	<span style="color:#996633;">
 	Location: <select style="color:black;font-weight:normal;font:12px;width:100px;">
 				<option selected="selected" value="all">-----All-----</option>
 				<option value="AL">Alabama</option>
@@ -77,7 +77,8 @@
     <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
     </select>
 
-	</div>
+	</span>
+
 {% endblock subheader %}
 
 {% block main %}
@@ -130,7 +131,7 @@
 				    {% if inventory.material.pdf %}
 				    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">Download PDF</a>
 				    {% endif %}
-				    {% if inventory.material.website %} &nbsp;
+				    {% if inventory.material.website %}
 				    	<a href="{{inventory.material.website}}" target="_blank">Web Link</a>					    
 				    {% endif %}                    
                     
