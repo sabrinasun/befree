@@ -33,7 +33,7 @@ from django.db.models import Q
 def send_email(template, context, title, to_address):
     template = get_template('email/' + template)
     content = template.render(context)      
-    send_mail(title, content, settings.EMAIL_HOST_USER,[to_address], fail_silently=False)  
+    send_mail(title, content, settings.DEFAULT_FROM_EMAIL,[to_address], fail_silently=False)  
                       
 def index(request):
     msg = None
