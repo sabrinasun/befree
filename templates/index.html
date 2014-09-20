@@ -158,24 +158,25 @@
                     {% endif %}
                     ">{{ inventory.material.author.name }}</a></span>
                     {% else %}
-                    {{ inventory.material.author.name }} 
+                      {{ inventory.material.author.name }} 
                     {% endif %} &nbsp; 
                     
                     
                     <i>Publisher:</i> 
 	                    {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
 		                    <span><a style="text-decoration:underline;" title="
-		                    {% if inventory.material.publisher.website %}
-		                    <a href='{{inventory.material.publisher.website}}' target="_blank">Visit Website</a>
-		                    {% endif %}
+			                    {% if inventory.material.publisher.website %}
+			                    <a href='{{inventory.material.publisher.website}}' target='_blank'>Visit Website</a>
+			                    {% endif %}
+			                    
+			                    {% if inventory.material.publisher.donate_url %}
+			                    <a href='{{inventory.material.publisher.donate_url}}' target='_blank'>Online Donation</a>
+			                    {% endif %}<br />
+			                    
+			                    {% if inventory.material.publisher.donate_note %}
+			                    How to Donate: {{inventory.material.publisher.donate_note}}
+			                    {% endif %}
 		                    
-		                    {% if inventory.material.publisher.donate_url %}
-		                    <a href='{{inventory.material.publisher.donate_url}}' target='_blank'>Online Donation</a>
-		                    {% endif %}<br />
-		                    
-		                    {% if inventory.material.publisher.donate_note %}
-		                    How to Donate: {{inventory.material.publisher.donate_note}}
-		                    {% endif %}
 		                    ">{{ inventory.material.publisher.name }}</a></span>
 		                    
 		               {% else %}
