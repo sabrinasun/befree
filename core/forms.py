@@ -34,18 +34,12 @@ class MaterialForm(forms.ModelForm):
         cleaned_data = super(MaterialForm, self).clean()
         title = cleaned_data.get('title')
         author = cleaned_data.get('author')
-        materials = Material.objects.filter(title=title)
-        authors_list = []
+        materials = Material.objects.filter(title=title).exclude(id=self.instance.pk)
+
         if materials:
             for mater in materials:
-                for auth in mater.author.values("pk"):
-                    authors_list.append(auth["pk"])
-            form_author_list = author
-            if authors_list == form_author_list:
-                if self.instance.pk:
-                    if list(self.instance.author.all()) == list(author):
-                        return cleaned_data
-                raise forms.ValidationError("The material with this title and author alredy exist.")
+                if author == mater.author:
+                    raise forms.ValidationError("The material with this title and author alredy exist.")
             
         pages = cleaned_data.get('pages')
         weight = cleaned_data.get('weight')    

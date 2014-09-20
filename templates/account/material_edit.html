@@ -18,13 +18,13 @@
 	    <div><label>Author:</label>{{ form.author }}
 	    <a href="javascript:void(0)" 
 	       class="add-another" 
-           onclick="javascript: window.open('/add/author/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=370, left=200, top=60');">Add Author</a>
+           onclick="javascript: window.open('/add/author/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=600, left=200, top=60');">Add Author</a>
 	    {{ form.author.errors }}
 	    </div> 	    
 	    <div><label>Publisher:</label>{{ form.publisher }}
 	    <a href="javascript:void(0)" 
 	       class="add-another" 
-           onclick="javascript: window.open('/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=370, left=200, top=60');">Add Publisher</a>
+           onclick="javascript: window.open('/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=600, left=200, top=60');">Add Publisher</a>
 	    {{ form.publisher.errors }}
 	    </div> 	    	    
   	    <div><label>Weight (oz):</label>{{ form.weight }} {{ form.weight.errors }}</div> 
@@ -36,7 +36,8 @@
 	    <div><label>ISBN-13:</label>{{ form.isbn_13 }}{{ form.isbn_13.errors }}</div> 	   
 	    <div><label>Publisher Book ID:</label>{{ form.publisher_book_id }}{{ form.publisher_book_id.errors }}</div> 		    
 	    <div><label>Description:</label>{{ form.description }}{{ form.description.errors }}</div> 
-	    <div><label>Web Version:</label>{{ form.website }}{{ form.website.errors }}</div> 		
+	    <div><label>Web Version:</label>{{ form.website }}{{ form.website.errors }}</div> 	
+	    <div><label>Web PDF Url:</label>{{ form.pdf_url }}{{ form.pdf_url.errors }}</div> 	    	    
 	    <div style="margin-left:160px;"><label style="margin-left:-160px;margin-top:4px">Upload Cover Picture:</label>{{ form.pic }}{{ form.pic.error }}</div> 	    	    		  	    	    	
 	    <div style="margin-left:160px;">
 	    <label style="margin-left:-160px;margin-top:4px">Upload PDF File:</label>{{ form.pdf }}{{ form.pdf.error }}</div> 	 

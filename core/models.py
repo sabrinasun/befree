@@ -8,6 +8,8 @@ class Author(models.Model):
     facebook = models.URLField(max_length=255, null=True, blank=True)
     website  = models.URLField(max_length=255, null=True, blank=True)
     description = models.TextField(blank=True)
+    donate_url = models.URLField(max_length=255, null=True, blank=True)
+    donate_note =  models.TextField(blank=True)
 
     def __unicode__(self):
         return self.name
@@ -17,6 +19,8 @@ class Publisher(models.Model):
     website = models.URLField(max_length=255, null=True, blank=True)    
     description = models.TextField(blank=True)
     publish_free_book = models.BooleanField(default=False)
+    donate_url = models.URLField(max_length=255, null=True, blank=True)
+    donate_note =  models.TextField(blank=True)
     #contact = models.ForeignKey(get_user_model(), null=True, blank=True)
 
     def __unicode__(self):
@@ -63,7 +67,7 @@ def pdf_name(instance, filename):
 
 class Material(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ManyToManyField(Author)
+    author = models.ForeignKey(Author)
     publisher = models.ForeignKey(Publisher)
     isbn_10 = models.CharField(max_length=100, blank=True, null=True)
     isbn_13 = models.CharField(max_length=100, blank=True, null=True)
@@ -77,6 +81,7 @@ class Material(models.Model):
     pic = models.ImageField(upload_to=cover_pic_name, null=True, blank=True,  verbose_name="Upload Cover Picture")
     pdf = models.FileField(upload_to=pdf_name, null=True, blank=True, verbose_name='Upload PDF File')
     website = models.URLField(max_length=255,null=True, blank=True)  
+    pdf_url  = models.URLField(max_length=255,null=True, blank=True)  
     paperback = models.BooleanField(default=False)
     publish_date = models.DateTimeField(blank=True, null = True)   
     size =  models.CharField(max_length=100, blank=True, null = True)
@@ -84,9 +89,6 @@ class Material(models.Model):
     
     def __unicode__(self):
         return u"{0}".format(self.title)
-
-    def get_author_names(self):
-        return ', '.join(a.name for a in self.author.all())
     
     @models.permalink
     def get_absolute_url(self):
