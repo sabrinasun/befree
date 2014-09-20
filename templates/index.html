@@ -161,8 +161,8 @@
                     {{ inventory.material.author.name }} 
                     {% endif %} &nbsp; 
                     
-                    {% if inventory.material.price = 0 %}
-                      <i>Publisher:</i> 
+                    
+                    <i>Publisher:</i> 
 	                    {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
 		                    <span><a style="text-decoration:underline;" title="
 		                    {% if inventory.material.publisher.website %}
@@ -177,10 +177,13 @@
 		                    How to Donate: {{inventory.material.publisher.donate_note}}
 		                    {% endif %}
 		                    ">{{ inventory.material.publisher.name }}</a></span>
-		                    {% else %}
+		                    
+		               {% else %}
 		                    {{ inventory.material.publisher.name }} 
-		                    {% endif %}                      
-                         {% endif %}
+		               {% endif %}                      
+                        
+                         
+                         
                         &nbsp; 
 					    {% if inventory.material.website %}
 					    	<a href="{{inventory.material.website}}" target="_blank">Read Online</a>					    
