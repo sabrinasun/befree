@@ -150,6 +150,11 @@
                     <b>{{ inventory.material.title }}</b> by 
                     {% if inventory.material.author.donate_url or inventory.material.author.donate_note %}
                     <span><a style="text-decoration:underline;" title="
+                    {% if inventory.material.author.website %}
+                    <a href='{{inventory.material.author.website}}' target='_blank'>Visit Website</a>
+                    <br>
+                    {% endif %}                    
+                    
                     {% if inventory.material.author.donate_url %}
                     <a href='{{inventory.material.author.donate_url}}' target='_blank'>Online Donation</a><br />
                     {% endif %}
@@ -167,6 +172,7 @@
 		                    <span><a style="text-decoration:underline;" title="
 			                    {% if inventory.material.publisher.website %}
 			                    <a href='{{inventory.material.publisher.website}}' target='_blank'>Visit Website</a>
+			                    <br>
 			                    {% endif %}
 			                    
 			                    {% if inventory.material.publisher.donate_url %}
@@ -299,7 +305,7 @@ $(function() {
 	$( "[title]" ).bind( "mouseleave", 
 			             function( event ) { event.stopImmediatePropagation(); 
 			             				     var fixed = setTimeout('$("[title]").tooltip("close")', 500); 
-			             				     $(".ui-tooltip").hover( function(){clearTimeout (fixed);}, 
+			             				     $(".ui-tooltip").hover( function(evt){clearTimeout (fixed); }, 
 			             				    		       function(){$("[title]").tooltip("close");} ); }) 
 			             				    		         .tooltip({content:function(){return $(this).prop('title');}});	
 	
