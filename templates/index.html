@@ -185,14 +185,17 @@
                         
                          
                          
-                        &nbsp; 
+                        
 					    {% if inventory.material.website %}
-					    	<a href="{{inventory.material.website}}" target="_blank">Read Online</a>					    
+					    &nbsp;
+					    	<a href="{{inventory.material.website}}" >Read Online</a>					    
 					    {% endif %}
-					    &nbsp;                            
+					                               
 					    {% if inventory.material.pdf_url %}
-					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
+					    &nbsp;
+					    	<a href="{{inventory.material.pdf_url}}" target="_blank">PDF</a>
 					    {% elif inventory.material.pdf %}
+					    &nbsp;
 					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
                             
