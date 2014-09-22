@@ -300,14 +300,19 @@ $(function() {
 	
 	$("select:eq(0) option").removeAttr('selected');
 	$("select:eq(0) option[value='{{location}}']").prop("selected", true);
-
+    
+	$("[title]").each(function( index ) {
+		var $this = $(this),
+	        tooltip = $this.attr('title') || $this.data('title');
+	    $this.prop('title', '').data('title', tooltip);
+    });
 		
 	$( "[title]" ).bind( "mouseleave", 
 			             function( event ) { event.stopImmediatePropagation(); 
 			             				     var fixed = setTimeout('$("[title]").tooltip("close")', 500); 
 			             				     $(".ui-tooltip").hover( function(evt){clearTimeout (fixed); }, 
 			             				    		       function(){$("[title]").tooltip("close");} ); }) 
-			             				    		         .tooltip({content:function(){return $(this).prop('title');}});	
+			             				    		         .tooltip({content:function(){return $(this).data('title');}});	
 	
 	
 
