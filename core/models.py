@@ -25,6 +25,10 @@ class Publisher(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+
+class Tag(models.Model):
+    name =  models.CharField(max_length=256)
 
 TYPE_CHOICES = (
     ('Book', 'Book'),
@@ -67,7 +71,7 @@ def pdf_name(instance, filename):
 
 class Material(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Author)
+    author = models.ManyToManyField(Author)
     publisher = models.ForeignKey(Publisher)
     isbn_10 = models.CharField(max_length=100, blank=True, null=True)
     isbn_13 = models.CharField(max_length=100, blank=True, null=True)
@@ -89,6 +93,9 @@ class Material(models.Model):
     
     def __unicode__(self):
         return u"{0}".format(self.title)
+
+    def get_author_names(self):
+        return ', '.join(a.name for a in self.author.all())
     
     @models.permalink
     def get_absolute_url(self):

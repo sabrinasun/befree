@@ -21,7 +21,7 @@ Thanks for giving your book to others.
     {% for item in inventory %}
     <tr>
         <td><a href="{{ item.material.get_absolute_url }}">{{ item.material.title }}</a></td>
-        <td>{{ item.material.author.name }}</td>
+        <td>{{ item.material.get_author_names }}</td>
         <td>{{ item.material.typ }}</td>
 
 	    <td>{{ item.quantity }}</td>
@@ -35,7 +35,7 @@ Thanks for giving your book to others.
     {% for material in materials %}
     <tr>
         <td><a href="{{ material.get_absolute_url }}">{{ material.title }}</a></td>
-        <td>{{ material.author.name }}</td>
+        <td>{{ material.get_author_names }}</td>
         <td>{{ material.typ }}</td>
 	    <td>-</td>
 	    <td>-</td>
