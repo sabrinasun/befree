@@ -27,7 +27,7 @@ class Publisher(models.Model):
         return self.name
     
 
-class Tag(models.Model):
+class Category(models.Model):
     name =  models.CharField(max_length=256)
 
 TYPE_CHOICES = (
