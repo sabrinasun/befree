@@ -121,6 +121,37 @@
     {% paginate inventories %}
     
     <div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div> 
+    
+<div style="position:absolute;padding-left:18px;line-height:30px;">
+
+All Tags<br>
+
+<a>Buddhism for Beginers</a> (4)<br>
+
+<a>Children's Books</a> (3)<br>
+
+<a>Sutra and explanation</a> (2)<br>
+
+<a>Buddhist Meditation</a> (1)<br>
+
+  <a>Vegan's Corner</a> (4)<br>
+
+  <a>Buddhism Q&amp;A</a> (6)<br>
+
+  <a>Buddhism Essentials</a> (5)<br>
+
+  <a>Buddha and History</a> (2)<br>
+
+  <a>Theravada Tradition</a> (0)<br>
+
+  <a>Tibetan Tradition</a> (1)<br>
+
+  <a>Mahayana Tradition</a> (3)<br>
+
+  <a>Buddhist for Life</a> (5)
+
+</div>    
+    
     {% for inventory in inventories %}
     <div class="content-outer-column">
         <div> <!--a row of book-->
@@ -274,7 +305,7 @@
             </div>
 
             <div class="leftcolumn" style="text-align:center;">
-                <div><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
+                <div style="text-align:right"><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
             </div>
 
         </div>
