@@ -1,6 +1,24 @@
+# Exclude log files:
+# ------------------
 *.log
+
+# Exclude pot files:
+# ------------------
 *.pot
+
+# Exclude all python cache files:
+# -------------------------------
 *.pyc
-local_settings.py
+
+# Exclude all sqlite DB files:
+# ----------------------------
 *.db
-email_files/*
+
+# Exclude email_files folder:
+# ---------------------------
+email_files/
+
+# Exclude all 'dot-files' except .gitignore:
+# --------------------------------------------------------------------------
+.*
+!/.gitignore
