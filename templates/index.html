@@ -2,79 +2,88 @@
 {% load readmore endless %}
 
 {% block subheader %}
-    <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;"> </div>
-	<span style="color:#996633;">
-	Location: <select style="color:black;font-weight:normal;font:12px;width:100px;">
-				<option selected="selected" value="all">-----All-----</option>
-				<option value="AL">Alabama</option>
-				<option value="AK">Alaska</option>
-				<option value="AS">American Samoa</option>
-				<option value="AZ">Arizona</option>
-				<option value="AR">Arkansas</option>
-				<option value="AA">Armed Forces Americas</option>
-				<option value="AE">Armed Forces Europe</option>
-				<option value="AP">Armed Forces Pacific</option>
-				<option value="CA">California</option>
-				<option value="CO">Colorado</option>
-				<option value="CT">Connecticut</option>
-				<option value="DE">Delaware</option>
-				<option value="DC">District of Columbia</option>
-				<option value="FM">Federated States of Micronesia</option>
-				<option value="FL">Florida</option>
-				<option value="GA">Georgia</option>
-				<option value="GU">Guam</option>
-				<option value="HI">Hawaii</option>
-				<option value="ID">Idaho</option>
-				<option value="IL">Illinois</option>
-				<option value="IN">Indiana</option>
-				<option value="IA">Iowa</option>
-				<option value="KS">Kansas</option>
-				<option value="KY">Kentucky</option>
-				<option value="LA">Louisiana</option>
-				<option value="ME">Maine</option>
-				<option value="MH">Marshall Islands</option>
-				<option value="MD">Maryland</option>
-				<option value="MA">MA</option>
-				<option value="MI">Michigan</option>
-				<option value="MN">Minnesota</option>
-				<option value="MS">Mississippi</option>
-				<option value="MO">Missouri</option>
-				<option value="MT">Montana</option>
-				<option value="NE">Nebraska</option>
-				<option value="NV">Nevada</option>
-				<option value="NH">New Hampshire</option>
-				<option value="NJ">New Jersey</option>
-				<option value="NM">New Mexico</option>
-				<option value="NY">New York</option>
-				<option value="NC">North Carolina</option>
-				<option value="ND">North Dakota</option>
-				<option value="MP">Northern Mariana Islands</option>
-				<option value="OH">Ohio</option>
-				<option value="OK">Oklahoma</option>
-				<option value="OR">Oregon</option>
-				<option value="PW">Palau</option>
-				<option value="PA">Pennsylvania</option>
-				<option value="PR">Puerto Rico</option>
-				<option value="RI">Rhode Island</option>
-				<option value="SC">South Carolina</option>
-				<option value="SD">South Dakota</option>
-				<option value="TN">Tennessee</option>
-				<option value="TX">Texas</option>
-				<option value="UM">U.S. Minor Outlying Islands</option>
-				<option value="UT">Utah</option>
-				<option value="VT">Vermont</option>
-				<option value="VI">Virgin Islands</option>
-				<option value="VA">Virginia</option>
-				<option value="WA">Washington</option>
-				<option value="WV">West Virginia</option>
-				<option value="WI">Wisconsin</option>
-				<option value="WY">Wyoming</option>
-	</select> 
-	Language: <select style="color:black;font-weight:normal;font:12px;" name="language">
-    <option value="all" {% if lang == 'all' %} selected {% endif %} >All </option>	
-    <option value="en" {% if lang == 'en' %} selected {% endif %} >English  </option>
-    <option value="zh" {% if lang == 'zh' %} selected {% endif %}>Chinese </option>
-    <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
+    <div style="float:left;"><span
+            style="color:#996633;font-size:14px;text-align:right;"></div>
+    <span style="color:#996633;">
+	Location: <select
+            style="color:black;font-weight:normal;font:12px;width:100px;">
+        <option selected="selected" value="all">-----All-----</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AS">American Samoa</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="AA">Armed Forces Americas</option>
+        <option value="AE">Armed Forces Europe</option>
+        <option value="AP">Armed Forces Pacific</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="DC">District of Columbia</option>
+        <option value="FM">Federated States of Micronesia</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="GU">Guam</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MH">Marshall Islands</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">MA</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="MP">Northern Mariana Islands</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PW">Palau</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="PR">Puerto Rico</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UM">U.S. Minor Outlying Islands</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VI">Virgin Islands</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+	Language: <select style="color:black;font-weight:normal;font:12px;"
+                      name="language">
+        <option value="all" {% if lang == 'all' %} selected {% endif %} >All
+        </option>
+        <option value="en" {% if lang == 'en' %} selected {% endif %} >
+            English
+        </option>
+        <option value="zh" {% if lang == 'zh' %} selected {% endif %}>
+            Chinese
+        </option>
+        <option value="o" {% if lang == 'o' %} selected {% endif %}>Other
+        </option>
     </select>
 
 	</span>
@@ -83,165 +92,168 @@
 
 {% block main %}
 
-<!-- language page isbn weblink -->
+    <!-- language page isbn weblink -->
 
-<div class ="contentwrapper" style="width:100%;">
-	<div style="margin-right:220px;  margin-bottom:4px; " id="test">
-	
-	  <div class="box info-box " ><div class="info-box-header">How to Receive</div>
-	  <div class="box-content" >All items are free, some requires shipping cost. Please treat Dharma materials with respect and care. 
-	   <br><br>If you prefer, you can give the book back to others later, to keep the chain of giving.  
-	  </div>
-	  </div>	
-	
-	  <div class="box info-box " ><div class="info-box-header">Spirit of Giving</div>
-	  <div class="box-content" >Our acts of giving are out of compassion and loving kindness.   
-	  <br><br>Our giving helps others, and cultivates merits and compassion for ourselves. <br>
+    <div class="contentwrapper" style="width:100%;">
+    <div style="margin-right:220px;  margin-bottom:4px; " id="test">
 
-	  </div>
-	  
-	  </div>
+        <div class="box info-box ">
+            <div class="info-box-header">How to Receive</div>
+            <div class="box-content">All items are free, some requires
+                shipping cost. Please treat Dharma materials with respect and
+                care.
+                <br><br>If you prefer, you can give the book back to others
+                later, to keep the chain of giving.
+            </div>
+        </div>
 
-	  <div class="box info-box " ><div class="info-box-header">How to Give</div>
-	  <div class="box-content" >Rather than absorb a Buddhist book and place it away on a bookshelf,  you can offer that book to others.
-	   <br><br> You can offer pickup at your temple, or even cover shipping cost. 
-	  </div>
-	  </div>
+        <div class="box info-box ">
+            <div class="info-box-header">Spirit of Giving</div>
+            <div class="box-content">Our acts of giving are out of compassion
+                and loving kindness.
+                <br><br>Our giving helps others, and cultivates merits and
+                compassion for ourselves. <br>
+
+            </div>
+
+        </div>
+
+        <div class="box info-box ">
+            <div class="info-box-header">How to Give</div>
+            <div class="box-content">Rather than absorb a Buddhist book and
+                place it away on a bookshelf, you can offer that book to
+                others.
+                <br><br> You can offer pickup at your temple, or even cover
+                shipping cost.
+            </div>
+        </div>
 
 
- 
-	    <img src="{{ MEDIA_URL }}img/monk.jpg" style="width:10%;" >
+        <img src="{{ MEDIA_URL }}img/monk.jpg" style="width:10%;">
 
-	  <div style="clear:both;"></div>
-	</div>
+        <div style="clear:both;"></div>
+    </div>
 
-	{% if msg == "signup_success" %}
-	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div> 
-	{% endif %}
+    {% if msg == "signup_success" %}
+        <div class="msg">Thanks for signing up! Please check your email and
+            follow the instruction to login.
+        </div>
+    {% endif %}
     {% paginate inventories %}
-    
-    <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div--> 
-    
-<div style="position:absolute;padding-left:18px;line-height:30px;">
 
-All Categories (6)<br> 
+    <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div-->
 
-<a>Buddhism for Beginers</a> (4)<br>
+    <div style="position:absolute;padding-left:18px;line-height:30px;">
 
-<a>Children's Books</a> (3)<br>
+        All Categories ({{ categories.count }})<br />
+        {% for category in categories.items %}
+            <a href="">{{ category.title }} ({{ category.materials }})</a> <br />
+        {% endfor %}
 
-<a>Sutra and explanation</a> (2)<br>
+    </div>
 
-<a>Buddhist Meditation</a> (1)<br>
-
-  <a>Vegan's Corner</a> (4)<br>
-
-  <a>Buddhism Q&amp;A</a> (6)<br>
-
-  <a>Buddhism Essentials</a> (5)<br>
-
-  <a>Buddha and History</a> (2)<br>
-
-  <a>Theravada Tradition</a> (0)<br>
-
-  <a>Tibetan Tradition</a> (1)<br>
-
-  <a>Mahayana Tradition</a> (3)<br>
-
-  <a>Buddhist for Life</a> (5)
-
-</div>    
-    
     {% for inventory in inventories %}
-    <div class="content-outer-column">
-        <div> <!--a row of book-->
+        <div class="content-outer-column">
+            <div> <!--a row of book-->
 
-            <div class ="contentwrapper">
-                <div class="content-inner-column">
-                    {% if  inventory.quantity %}
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <input type="hidden" name="inventory_id" value="{{ inventory.id }}" />
-                        
-						<div style="float:right">
-						    <button class="button" type="submit" style="float:none;width:120px;">Add To Bag</button><br>
+                <div class="contentwrapper">
+                    <div class="content-inner-column">
+                        {% if  inventory.quantity %}
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="inventory_id"
+                                       value="{{ inventory.id }}"/>
 
-						</div>                        
-                                                
-                        <!-- div style="float:right; margin-top:3px; margin-right:2px;">
+                                <div style="float:right">
+                                    <button class="button" type="submit"
+                                            style="float:none;width:120px;">
+                                        Add To Bag
+                                    </button>
+                                    <br>
+
+                                </div>
+
+                                <!-- div style="float:right; margin-top:3px; margin-right:2px;">
                             <select name="quantity">
                             {% for i in inventory.get_quantity_nums %}
                                 <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
                             </select>
                         </div-->
-                    </form>
-                    {% endif %}
-                    
-                    <b>{{ inventory.material.title }}</b> by 
-                    {% if inventory.material.author.donate_url or inventory.material.author.donate_note %}
-                    <span><a style="text-decoration:underline;" title="
+                            </form>
+                        {% endif %}
+
+                        <b>{{ inventory.material.title }}</b> by
+                        {% if inventory.material.author.donate_url or inventory.material.author.donate_note %}
+                            <span><a style="text-decoration:underline;"
+                                     title="
                     {% if inventory.material.author.website %}
-                    <a href='{{inventory.material.author.website}}' target='_blank'>Visit Website</a>
+                    <a href='{{ inventory.material.author.website }}' target='_blank'>Visit Website</a>
                     <br>
                     {% endif %}                    
                     
                     {% if inventory.material.author.donate_url %}
-                    <a href='{{inventory.material.author.donate_url}}' target='_blank'>Online Donation</a><br />
+                    <a href='{{ inventory.material.author.donate_url }}' target='_blank'>Online Donation</a><br />
                     {% endif %}
                     {% if inventory.material.author.donate_note %}
-                    How to Donate: {{inventory.material.author.donate_note}}
+                    How to Donate: {{ inventory.material.author.donate_note }}
                     {% endif %}
                     ">{{ inventory.material.author.name }}</a></span>
-                    {% else %}
-                      {{ inventory.material.author.name }} 
-                    {% endif %} &nbsp; 
-                    
-                    
-                    <i>Publisher:</i> 
-	                    {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
-		                    <span><a style="text-decoration:underline;" title="
+                        {% else %}
+                            {{ inventory.material.author.name }}
+                        {% endif %} &nbsp;
+
+
+                        <i>Publisher:</i>
+                        {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
+                            <span><a style="text-decoration:underline;"
+                                     title="
 			                    {% if inventory.material.publisher.website %}
-			                    <a href='{{inventory.material.publisher.website}}' target='_blank'>Visit Website</a>
+			                    <a href='{{ inventory.material.publisher.website }}' target='_blank'>Visit Website</a>
 			                    <br>
 			                    {% endif %}
 			                    
 			                    {% if inventory.material.publisher.donate_url %}
-			                    <a href='{{inventory.material.publisher.donate_url}}' target='_blank'>Online Donation</a>
+			                    <a href='{{ inventory.material.publisher.donate_url }}' target='_blank'>Online Donation</a>
 			                    {% endif %}<br />
 			                    
 			                    {% if inventory.material.publisher.donate_note %}
-			                    How to Donate: {{inventory.material.publisher.donate_note}}
+			                    How to Donate: {{ inventory.material.publisher.donate_note }}
 			                    {% endif %}
 		                    
 		                    ">{{ inventory.material.publisher.name }}</a></span>
-		                    
-		               {% else %}
-		                    {{ inventory.material.publisher.name }} 
-		               {% endif %}                      
-                        
-                         
-                         
-                        
-					    {% if inventory.material.website %}
-					    &nbsp;
-					    	<a href="{{inventory.material.website}}" >Read Online</a>					    
-					    {% endif %}
-					                               
-					    {% if inventory.material.pdf_url %}
-					    &nbsp;
-					    	<a href="{{inventory.material.pdf_url}}" target="_blank">PDF</a>
-					    {% elif inventory.material.pdf %}
-					    &nbsp;
-					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
-					    {% endif %}
-                            
-                      
+
+                        {% else %}
+                            {{ inventory.material.publisher.name }}
+                        {% endif %}
 
 
-                    
-                    <!--  
-                    {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+
+
+                        {% if inventory.material.website %}
+                            &nbsp;
+                            <a href="{{ inventory.material.website }}">Read
+                                Online</a>
+                        {% endif %}
+
+                        {% if inventory.material.pdf_url %}
+                            &nbsp;
+                            <a href="{{ inventory.material.pdf_url }}"
+                               target="_blank">PDF</a>
+                        {% elif inventory.material.pdf %}
+                            &nbsp;
+                            <a href="
+                                    {{ MEDIA_URL }}{{ inventory.material.pdf }}"
+                               target="_blank">PDF</a>
+                        {% endif %}
+
+
+
+
+
+                        <!--
+
+                                {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
                     <span><a style="text-decoration:underline;" title="
                     {% if inventory.giver.get_profile.donate_url %}
                     <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Online Donation</a>
@@ -252,146 +264,173 @@ All Categories (6)<br>
                     ">Donate</a></span>
                     {% endif %}                    
                     -->
-                    
-                    <br>
-                    <i>Condition:</i> {{ inventory.condition|title }} 
-                    &nbsp;            
-                    <i>Copies:</i> {{ inventory.quantity }}
-                    &nbsp;
-                    <!--i>Price:</i> <span class="success">Free</span-->     	
-                    <i>Local Pickup:</i> <span>{% if inventory.giver.get_profile.local_pickup %}
-                    <span title="{{inventory.giver.get_profile.pickup_description}}"><a style="text-decoration:underline;">Yes</a></span>
+
+                        <br>
+                        <i>Condition:</i> {{ inventory.condition|title }}
+                        &nbsp;
+                        <i>Copies:</i> {{ inventory.quantity }}
+                        &nbsp;
+                        <!--i>Price:</i> <span class="success">Free</span-->
+                        <i>Local
+                            Pickup:</i> <span>{% if inventory.giver.get_profile.local_pickup %}
+                        <span title="{{ inventory.giver.get_profile.pickup_description }}"><a
+                                style="text-decoration:underline;">Yes</a></span>
                     {% else %}
-                    No
+                        No
                     {% endif %}
                     </span>
-                    <i>Shipping:</i>{% if inventory.giver.get_profile.international_free_shipping %} Free Internationally
-                    {% else %}
-                       {% if inventory.giver.get_profile.domestic_free_shipping %} Free domestically 
-                       {% else %}
-                         {% if inventory.giver.get_profile.domestic_pay_shipping %}
-                           Standard
-                         {% else %}
-                           No
-                         {% endif %}
-                       {% endif %}                     
-                    {% endif %}
-                    &nbsp;
-                    <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->
-                    {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
-                    <span><a style="text-decoration:underline;" title="
+                        <i>Shipping:</i>
+                        {% if inventory.giver.get_profile.international_free_shipping %}
+                            Free Internationally
+                        {% else %}
+                            {% if inventory.giver.get_profile.domestic_free_shipping %}
+                                Free domestically
+                            {% else %}
+                                {% if inventory.giver.get_profile.domestic_pay_shipping %}
+                                    Standard
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        &nbsp;
+                        <i>From:</i>
+                        <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->
+                        {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+                            <span><a style="text-decoration:underline;"
+                                     title="
                     {% if inventory.giver.get_profile.donate_url %}
-                    <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Donate to Giver's Local Temple</a><br></br>
+                    <a href='{{ inventory.giver.get_profile.donate_url }}' target='_blank'>Donate to Giver's Local Temple</a><br></br>
                     {% endif %} 
                     {% if inventory.giver.get_profile.donation %}
-                    How to Donate: {{inventory.giver.get_profile.donation}}
+                    How to Donate: {{ inventory.giver.get_profile.donation }}
                     {% endif %}
-                    ">{{ inventory.giver.get_profile.get_display_name}}</a></span>
-                    {% else %}   
-                    {{ inventory.giver.get_profile.get_display_name}}
-                    {% endif %},
-                    <!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
+                    ">{{ inventory.giver.get_profile.get_display_name }}</a></span>
+                        {% else %}
+                            {{ inventory.giver.get_profile.get_display_name }}
+                        {% endif %},
+                        <!--/a-->
+                        &nbsp;{{ inventory.giver.get_profile.get_location }}
 
-                    {% if inventory.note %}
-                    <span><a style="text-decoration:underline;" title="
+                        {% if inventory.note %}
+                            <span><a style="text-decoration:underline;"
+                                     title="
                     {{ inventory.note|readmore:40 }}
                     ">Comments</a></span>
-                     
-                    {% endif %}
-                    {% if inventory.material.description %}
-                    <div style="margin-top:4px;"><i>Description:</i>{{ inventory.material.description|readmore:40 }}</div>
-                    {% endif %}
+
+                        {% endif %}
+                        {% if inventory.material.description %}
+                            <div style="margin-top:4px;">
+                                <i>Description:</i>{{ inventory.material.description|readmore:40 }}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
 
-            <div class="leftcolumn" style="text-align:center;">
-                <div style="text-align:right"><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
-            </div>
+                <div class="leftcolumn" style="text-align:center;">
+                    <div style="text-align:right"><img src="
+                            {{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}"
+                                                       height="100px"></div>
+                </div>
 
+            </div>
         </div>
-    </div>
     {% endfor %}
-    
-
-</div>
-
-<script language ="javascript">
-$(function() {
-	$("select").eq(0).change(function() {
-	    var location = $("select:eq(0) option:selected").val();
-		document.location = "/?loc="+location;
-	});
-	
-	$("select").eq(1).change(function(){
-	    var language = $("select:eq(1) option:selected").val();
-		document.location = "/?lang="+language;	     	
-	});
 
 
-	
-	$("select:eq(0) option").removeAttr('selected');
-	$("select:eq(0) option[value='{{location}}']").prop("selected", true);
-    
-	$("[title]").each(function( index ) {
-		var $this = $(this),
-	        tooltip = $this.attr('title') || $this.data('title');
-	    $this.prop('title', '').data('title', tooltip);
-    });
-		
-	$( "[title]" ).bind( "mouseleave", 
-			             function( event ) { event.stopImmediatePropagation(); 
-			             				     var fixed = setTimeout('$("[title]").tooltip("close")', 500); 
-			             				     $(".ui-tooltip").hover( function(evt){clearTimeout (fixed); }, 
-			             				    		       function(){$("[title]").tooltip("close");} ); }) 
-			             				    		         .tooltip({content:function(){return $(this).data('title');}});	
-	
-	
+    </div>
 
-});
+    <script language="javascript">
+        $(function () {
+            $("select").eq(0).change(function () {
+                var location = $("select:eq(0) option:selected").val();
+                document.location = "/?loc=" + location;
+            });
 
-</script>
+            $("select").eq(1).change(function () {
+                var language = $("select:eq(1) option:selected").val();
+                document.location = "/?lang=" + language;
+            });
+
+
+            $("select:eq(0) option").removeAttr('selected');
+            $("select:eq(0) option[value='{{location}}']").prop("selected", true);
+
+            $("[title]").each(function (index) {
+                var $this = $(this),
+                        tooltip = $this.attr('title') || $this.data('title');
+                $this.prop('title', '').data('title', tooltip);
+            });
+
+            $("[title]").bind("mouseleave",
+                    function (event) {
+                        event.stopImmediatePropagation();
+                        var fixed = setTimeout('$("[title]").tooltip("close")', 500);
+                        $(".ui-tooltip").hover(function (evt) {
+                                    clearTimeout(fixed);
+                                },
+                                function () {
+                                    $("[title]").tooltip("close");
+                                });
+                    })
+                    .tooltip({content: function () {
+                        return $(this).data('title');
+                    }});
+
+
+        });
+
+    </script>
 
 {% endblock main %}
 
-    {% block right %}
-        <div class="rightcolumn">
-   
-            
-		<div class="box">
-                {% if not user.is_authenticated %}
-			<div class="header">Login</div>
-			<div class="box-content">
-                    <form method="post" action="{% url 'userena_signin' %}" id="login_form">
+{% block right %}
+    <div class="rightcolumn">
+
+
+        <div class="box">
+            {% if not user.is_authenticated %}
+                <div class="header">Login</div>
+                <div class="box-content">
+                    <form method="post" action="{% url 'userena_signin' %}"
+                          id="login_form">
                         {% csrf_token %}
-				<div class="row">
-					<label>Email: </label><input type="text" name="identification" > </input>
-				</div>
-				<div class="row">
-					<label>Password:  </label><input type="password" name="password" value="" > </input>
-				</div>
+                        <div class="row">
+                            <label>Email: </label><input type="text"
+                                                         name="identification"> </input>
+                        </div>
+                        <div class="row">
+                            <label>Password: </label><input type="password"
+                                                            name="password"
+                                                            value=""> </input>
+                        </div>
 
-				<div class="row" style="text-align:right">
-					<div class="button"><a href="#" onclick="document.getElementById('login_form').submit();return false">Login</a></div>
-				</div>
-				<div style="clear:both;text-align:right;">
-				<a href="{% url 'userena_signup' %}">Register</a>
-				 <a href="/accounts/password/reset/">Reset Password</a>
-				</div>
+                        <div class="row" style="text-align:right">
+                            <div class="button"><a href="#"
+                                                   onclick="document.getElementById('login_form').submit();return false">Login</a>
+                            </div>
+                        </div>
+                        <div style="clear:both;text-align:right;">
+                            <a href="{% url 'userena_signup' %}">Register</a>
+                            <a href="/accounts/password/reset/">Reset
+                                Password</a>
+                        </div>
                     </form>
-			</div>
-                {% else %}
-                    <div class="header">Welcome {{ user.get_profile.get_display_name }}</div>
-                    <div class="box-content">
-                        <div class="row">
-					You name: {{ user.get_profile.get_display_name }}
-				</div>
-                        <div class="row">
-					<a href="{% url 'userena_signout' %}">Log out</a>
-				</div>
+                </div>
+            {% else %}
+                <div class="header">
+                    Welcome {{ user.get_profile.get_display_name }}</div>
+                <div class="box-content">
+                    <div class="row">
+                        You name: {{ user.get_profile.get_display_name }}
                     </div>
-                {% endif %}
-		</div>
+                    <div class="row">
+                        <a href="{% url 'userena_signout' %}">Log out</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
 
 
-	</div>
-    {% endblock right %}
+    </div>
+{% endblock right %}

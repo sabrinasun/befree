@@ -1,5 +1,6 @@
+# coding=utf-8
 # Django settings for buddhist_exchange project.
-#/home/befree/webapps/buddhistexchange_app/myproject/static/admin/js
+# /home/befree/webapps/buddhistexchange_app/myproject/static/admin/js
 
 from os.path import dirname, abspath, join
 
@@ -14,16 +15,19 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-"""
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': join(ROOT, 'dev.db'),                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',
+        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': join(ROOT, 'dev.db'),
+        # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'HOST': '',
+        # Empty for localhost through domain sockets or '127.0.0.1' for
+        # localhost through TCP.
+        'PORT': '',  # Set to empty string for default.
     }
 }
 """
@@ -37,6 +41,7 @@ DATABASES = {
         'HOST': '127.0.0.1'
     }
 }
+"""
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -65,7 +70,8 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Absolute filesystem path to the directory that will hold user-uploaded
+# files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = join(ROOT, 'media')
 
@@ -96,7 +102,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -106,7 +112,7 @@ SECRET_KEY = 'pa)=1fntapwgdrx%=tuonq2$t)mt*o6a&**46k5lnpm^5fl*5i'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -163,10 +169,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'core.context_processors.order',
 )
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = join(ROOT, 'email_files')
-
 
 """
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -182,9 +186,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'sabrinanyu@gmail.com'
 EMAIL_HOST_PASSWORD = 'montclair'
 
-DEFAULT_FROM_EMAIL = 'sabrinanyu@gmail.com'
 SERVER_EMAIL = 'sabrinanyu@gmail.com'
-
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.Profile'
@@ -198,6 +200,7 @@ USERENA_SIGNIN_AFTER_SIGNUP = False
 USERENA_REDIRECT_ON_SIGNOUT = '/'
 USERENA_SIGNIN_REDIRECT_URL = '/account/summary'
 USERENA_USE_MESSAGES = False
+# DEFAULT_FROM_EMAIL = 'sabrinanyu@gmail.com'
 DEFAULT_FROM_EMAIL = 'support@buddhistexchange.com'
 
 
