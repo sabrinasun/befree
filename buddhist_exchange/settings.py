@@ -15,6 +15,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -30,8 +31,8 @@ DATABASES = {
         'PORT': '',  # Set to empty string for default.
     }
 }
-"""
 
+"""
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql_psycopg2',
@@ -41,7 +42,7 @@ DATABASES = {
         'HOST': '127.0.0.1'
     }
 }
-"""
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
