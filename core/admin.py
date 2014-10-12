@@ -3,7 +3,7 @@ from django.contrib import admin
 from core.models import *
 
 class MaterialAdmin(admin.ModelAdmin):
-    filter_horizontal = ('author', 'publisher')
+    filter_horizontal = ('author', 'publisher','category')
     #~ save_as = True
 
 admin.site.register(Material, MaterialAdmin,
