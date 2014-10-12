@@ -92,8 +92,8 @@ class Category(models.Model):
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author)
-    publisher = models.ManyToManyField(Publisher, null=True)
-    category = models.ManyToManyField(Category)
+    publisher = models.ManyToManyField(Publisher, null=True, blank=True)
+    category = models.ManyToManyField(Category, null=True, blank=True)
     isbn_10 = models.CharField(max_length=100, blank=True, null=True)
     isbn_13 = models.CharField(max_length=100, blank=True, null=True)
     publisher_book_id = models.CharField(max_length=100, null=True,
