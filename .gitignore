@@ -16,7 +16,7 @@
 
 # Exclude email_files folder:
 # ---------------------------
-email_files/
+email_files
 
 # Exclude all 'dot-files' except .gitignore:
 # --------------------------------------------------------------------------
