@@ -114,7 +114,7 @@ class Material(models.Model):
     publish_date = models.DateTimeField(blank=True, null=True)
     size = models.CharField(max_length=100, blank=True, null=True)
     create_date = models.DateTimeField(default=timezone.now)
-    editor_pick = models.PositiveIntegerField(default=0)
+    editor_pick = models.PositiveIntegerField(default=1, blank=True, null=True)
 
 
     def __unicode__(self):

@@ -338,6 +338,7 @@ div {
 .account-right {
 	margin-left: 260px; /*Set left margin to LeftColumnWidth*/
 	padding: 20px;
+	float:left;
 }
 
 .account-right .msg {
