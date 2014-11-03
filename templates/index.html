@@ -366,10 +366,8 @@ $(function() {
 		</div>
 
 		<div class="box">
-                {% if not user.is_authenticated %}
 			<div class="header">Free Books Distributors</div>
 			<div class="box-content">
-                        {% csrf_token %}
                 <div class="row">
 					<b>Free Shipping Internationally:</b>
 				</div>
@@ -400,17 +398,7 @@ $(function() {
 				
 
 			</div>
-                {% else %}
-                    <div class="header">Welcome {{ user.get_profile.get_display_name }}</div>
-                    <div class="box-content">
-                        <div class="row">
-					You name: {{ user.get_profile.get_display_name }}
-				</div>
-                        <div class="row">
-					<a href="{% url 'userena_signout' %}">Log out</a>
-				</div>
-                    </div>
-                {% endif %}
+
 		</div>
 
 	</div>
