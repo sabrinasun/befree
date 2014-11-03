@@ -286,6 +286,10 @@ div {
 	margin:3px 0;
 }
 
+.box-content .section {
+	border-bottom: solid 2px #DAD1B2;	
+}
+
 
 .footer {
   clear: both; 
@@ -411,4 +415,9 @@ ul.messagelist li.error{
 
 .success {
   color: green;
+}
+
+.highlight {
+  color: #630e0e;
+}
 }
