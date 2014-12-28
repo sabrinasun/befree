@@ -183,12 +183,12 @@
                     {% if inventory.material.author.donate_note %}
                     How to Donate: {{inventory.material.author.donate_note}}
                     {% endif %}
-                    ">{{ inventory.material.author.name }}</a></span>
+                    ">{{ inventory.material.get_author_names }}</a></span>
                     {% else %}
-                      {{ inventory.material.author.name }} 
+                      {{ inventory.material.get_author_names }} 
                     {% endif %} &nbsp; 
                     
-                    
+                    <!--  
                     <i>Publisher:</i> 
 	                    {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
 		                    <span><a style="text-decoration:underline;" title="
@@ -212,7 +212,7 @@
 		               {% endif %}                      
                         
                          
-                         
+                         -->
                         
 					    {% if inventory.material.website %}
 					    &nbsp;
@@ -244,18 +244,21 @@
                     {% endif %}                    
                     -->
                     
+                    
                     <br>
+                    <!--  
                     <i>Condition:</i> {{ inventory.condition|title }} 
                     &nbsp;            
                     <i>Copies:</i> {{ inventory.quantity }}
                     &nbsp;
-                    <!--i>Price:</i> <span class="success">Free</span-->     	
+                    <i>Price:</i> <span class="success">Free</span>     	
                     <i>Local Pickup:</i> <span>{% if inventory.giver.get_profile.local_pickup %}
                     <span title="{{inventory.giver.get_profile.pickup_description}}"><a style="text-decoration:underline;">Yes</a></span>
                     {% else %}
                     No
                     {% endif %}
                     </span>
+                    -->
                     <i>Shipping:</i>{% if inventory.giver.get_profile.international_free_shipping %} Free Internationally
                     {% else %}
                        {% if inventory.giver.get_profile.domestic_free_shipping %} Free domestically 
@@ -302,6 +305,49 @@
         </div>
     </div>
     {% endfor %}
+
+
+   {% for ebook in ebooks %}
+    <div class="content-outer-column">
+        <div> <!--a row of book-->
+
+            <div class ="contentwrapper">
+                <div class="content-inner-column">                    
+                    <b>{{ ebook.title }}</b> by 
+                      {{ ebook.get_author_names }} 
+          
+                                                 
+					    {% if ebook.website %}
+					    &nbsp;
+					    	<a href="{{inventory.material.website}}" >Read Online</a>					    
+					    {% endif %}
+					                               
+					    {% if ebook.pdf_url %}
+					    &nbsp;
+					    	<a href="{{inventory.material.pdf_url}}" target="_blank">PDF</a>
+					    {% elif ebook.pdf %}
+					    &nbsp;
+					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
+					    {% endif %}
+                    
+                    <br>
+
+
+                    {% if ebook.description %}
+                    <div style="margin-top:4px;"><i>Description:</i>{{ ebook.description|readmore:40 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="leftcolumn" style="text-align:right;">
+                <div><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+
+
     
 
 </div>

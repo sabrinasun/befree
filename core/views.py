@@ -109,7 +109,7 @@ def index(request):
     
     context['categories'] = categories
     context['category'] = category
-
+    context['ebooks'] = Material.objects.all().filter (givermaterial__isnull=True)  
 
 
     return render(request, 'index.html', context)
