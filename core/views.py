@@ -40,6 +40,7 @@ def index(request):
     inventories = None
     lang = ""
     location = ""
+    cat = ""
 
     if request.method == 'POST':
         inventory = get_object_or_404(GiverMaterial,
@@ -57,6 +58,7 @@ def index(request):
         request.session["cart"] = cart
     else:
         msg = request.GET.get('msg', '')
+        cat = request.GET.get('cat', '')
         lang = request.GET.get('lang', None) or request.session.get('lang',
                                                                     '')
         location = request.GET.get('loc', None) or request.session.get(
@@ -64,6 +66,13 @@ def index(request):
 
     inventories = GiverMaterial.objects.all().order_by(
         'material__title').filter(quantity__gt=0, status='ACTIVE')
+        
+    category = None
+        
+    if cat != 'all' and cat != '':
+        inventories = inventories.filter(material__category = cat)
+        category = Category.objects.get(pk = cat)    
+        
     if lang != 'all' and lang != '':
         inventories = inventories.filter(material__language=lang)
 
@@ -81,6 +90,8 @@ def index(request):
 
     request.session["lang"] = lang
     request.session["location"] = location
+    request.session["cat"] = cat
+    
 
     context = {
         'inventories': inventories,
@@ -88,18 +99,22 @@ def index(request):
         'lang': lang,
         'location': location
     }
-
+    
     # get categories and books in them
-    categories = dict(count=0, items=list())
-    cats = Category.objects.all()
-    categories['count'] = cats.count()
+    #categories = dict(count=0, items=list())
+    cats = Category.objects.all() 
+    #categories['count'] = cats.count() 
+    categories = [{'item':{'name':'All Categories', 'pk':'all'}, 'count':Material.objects.count()}]
 
-    for category in cats:
-        count = Material.objects.filter(category=category).count()
-        item = dict(title=category.name, materials=count)
-        categories['items'].append(item)
-
+    for cat in cats:
+        count = Material.objects.filter(category=cat).count()
+    #    item = dict(title=category.name, materials=count)
+        categories.append( { 'item':cat, 'count':count} )
+    
     context['categories'] = categories
+    context['category'] = category
+
+
 
     return render(request, 'index.html', context)
 
