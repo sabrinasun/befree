@@ -19,7 +19,7 @@ from userena.views import signup as userena_signup
 from math import ceil
 from decimal import Decimal
 
-from core.models import Material, GiverMaterial, Order, OrderDetail
+from core.models import Material, GiverMaterial, Order, OrderDetail, Category
 from core.forms import MaterialForm, AuthorForm, PublisherForm, GiverMaterialForm, ContactForm, PayForm, ShippingCostForm
 from accounts.models import Profile
 
@@ -40,9 +40,12 @@ def index(request):
     inventories = None
     lang = ""
     location = ""
+    cat = ""
     
     if request.method == 'POST':
-        inventory = get_object_or_404(GiverMaterial, id=request.POST.get('inventory_id'))
+        inventory = get_object_or_404(GiverMaterial,
+                                      id=request.POST.get('inventory_id'))
+
         #quantity = int(request.POST.get('quantity', 0))
         quantity = 1
         """
@@ -55,21 +58,36 @@ def index(request):
         request.session["cart"] = cart
     else:
         msg = request.GET.get('msg','')
-        lang=request.GET.get('lang',None) or request.session.get('lang','')
-        location=request.GET.get('loc',None) or request.session.get("location",'')
+        cat = request.GET.get('cat', '')
+        lang = request.GET.get('lang', None) or request.session.get('lang',
+                                                                    '')
+        location = request.GET.get('loc', None) or request.session.get(
+            "location", '')
+
+    inventories = GiverMaterial.objects.all().order_by(
+        'material__title').filter(quantity__gt=0, status='ACTIVE')
+        
+    category = None
+        
+    if cat != 'all' and cat != '':
+        inventories = inventories.filter(material__category = cat)
+        category = Category.objects.get(pk = cat)    
     
-    inventories =  GiverMaterial.objects.all().order_by('material__title').filter(quantity__gt=0, status='ACTIVE')
     if lang != 'all' and lang != '': 
         inventories = inventories.filter(material__language=lang)
     
     if location != 'all' and location != '':
         #users = [p.user for p in Profile.objects.all().filter( Q(state=location) | Q(domestic_pay_shipping='TRUE') | Q(domestic_free_shipping='TRUE') | Q(international_free_shipping='TRUE') )]
         #inventories = inventories.filter(giver__in=users)
-        inventories = inventories.filter(Q(giver__profile__state=location) | Q(giver__profile__domestic_pay_shipping='TRUE') | Q(giver__profile__domestic_free_shipping='TRUE') | Q(giver__profile__international_free_shipping='TRUE'))
-            
+        inventories = inventories.filter(
+            Q(giver__profile__state=location) | Q(
+                giver__profile__domestic_pay_shipping='TRUE') | Q(
+                giver__profile__domestic_free_shipping='TRUE') | Q(
+                giver__profile__international_free_shipping='TRUE'))
             
     request.session["lang"] = lang
     request.session["location"] = location
+    request.session["cat"] = cat
     
     context = {
         'inventories': inventories,
@@ -77,6 +95,23 @@ def index(request):
         'lang':lang, 
         'location':location
     }
+    
+    # get categories and books in them
+    #categories = dict(count=0, items=list())
+    cats = Category.objects.all() 
+    #categories['count'] = cats.count() 
+    categories = [{'item':{'name':'All Categories', 'pk':'all'}, 'count':Material.objects.count()}]
+
+    for cat in cats:
+        count = Material.objects.filter(category=cat).count()
+    #    item = dict(title=category.name, materials=count)
+        categories.append( { 'item':cat, 'count':count} )
+    
+    context['categories'] = categories
+    context['category'] = category
+
+
+
     return render(request, 'index.html', context)
 
 def user_profile(request, username):

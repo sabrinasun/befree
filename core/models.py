@@ -1,5 +1,7 @@
+# coding=utf-8
 from django.db import models
 from django.utils import timezone
+from django_countries import CountryField
 from userena.utils import get_user_model
 #from accounts.models import Profile
  
@@ -63,16 +65,32 @@ ORDER_STATUS_CHOICES = (
     ('SHIPPED','Shipped'),
 )
 
+GROUP_TYPE_CHOICES = (
+    ('LOCAL', 'Local Temple'),
+    ('INTERNET', 'Internet Group')
+)
+
+
 def cover_pic_name(instance, filename):
     return "pic/book_"+str(instance.pk)+"_cover_"+filename
 
 def pdf_name(instance, filename):
     return "pdf/book_"+str(instance.pk)+"_pdf_"+filename
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    order = models.PositiveIntegerField(default=0)
+    descr = models.CharField(max_length=255, null=False)
+
+    def __unicode__(self):
+        return u"{0}".format(self.name)
+
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author)
-    publisher = models.ForeignKey(Publisher)
+    publisher = models.ManyToManyField(Publisher, null=True, blank=True)
+    category = models.ManyToManyField(Category, null=True, blank=True)
     isbn_10 = models.CharField(max_length=100, blank=True, null=True)
     isbn_13 = models.CharField(max_length=100, blank=True, null=True)
     publisher_book_id = models.CharField(max_length=100, null=True, blank=True)
@@ -90,6 +108,8 @@ class Material(models.Model):
     publish_date = models.DateTimeField(blank=True, null = True)   
     size =  models.CharField(max_length=100, blank=True, null = True)
     create_date = models.DateTimeField(default=timezone.now)       
+    editor_pick = models.PositiveIntegerField(default=1, blank=True, null=True)
+
     
     def __unicode__(self):
         return u"{0}".format(self.title)
@@ -150,4 +170,35 @@ class OrderDetail(models.Model):
     inventory = models.ForeignKey(GiverMaterial)
     quantity = models.PositiveIntegerField(default=1)
     
+class Group(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    admin_id = models.OneToOneField(get_user_model())
 
+    type = models.CharField(max_length=20, null=False,
+                            choices=GROUP_TYPE_CHOICES)
+    address1 = models.CharField(max_length=255, blank=True)
+    address2 = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=50, blank=True)
+    zipcode = models.CharField(max_length=50, blank=True)
+    country = CountryField(max_length=50)
+    book_order_url = models.URLField(max_length=255, blank=True)
+    book_list_url = models.URLField(max_length=255, blank=True)
+    donation_url = models.URLField(max_length=255, blank=True)
+    website_url = models.URLField(max_length=255, blank=True)
+    facebook = models.URLField(max_length=255, blank=True)
+    is_nonprofit = models.BooleanField(default=False)
+
+    local_pickup = models.BooleanField(default=False)
+    domestic_pay_shipping = models.BooleanField(default=False)
+    domestic_free_shipping = models.BooleanField(default=False)
+    international_free_shipping = models.BooleanField(default=False)
+
+    shipping_other = models.CharField(max_length=255, blank=True)
+
+
+class GroupMaterial(models.Model):
+    group = models.ForeignKey(Group)
+    material = models.ForeignKey(Material)
+    book_url = models.URLField(max_length=255, blank=True)
+    order_url = models.URLField(max_length=255, blank=True)

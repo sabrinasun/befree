@@ -124,7 +124,25 @@
 	{% endif %}
     {% paginate inventories %}
     
-    <div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div> 
+    <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div-->
+
+    <div style="position:absolute;padding-left:18px;line-height:30px;">
+
+        {% for category in categories %}
+          {% ifequal request.session.cat|add:"0" category.item.pk|add:"0" %} 
+            {{ category.item.name }} ({{category.count}}) <br />
+          {% else %}
+          <a href="/?cat={{category.item.pk}}">{{ category.item.name }} ({{category.count}})</a> <br />
+          
+          {% endifequal %}
+          
+        {% endfor %}
+
+    </div>
+     
+     <div style="margin-left: 210px;margin-bottom:5px;">
+     <b>Category:</b> {% if category.name %} {{category.name}} {% else %} All {% endif %}<br />
+     </div>
     {% for inventory in inventories %}
     <div class="content-outer-column">
         <div> <!--a row of book-->
@@ -277,7 +295,7 @@
                 </div>
             </div>
 
-            <div class="leftcolumn" style="text-align:center;">
+            <div class="leftcolumn" style="text-align:right;">
                 <div><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
             </div>
 
@@ -383,7 +401,7 @@ $(function() {
 				<div class="row section">
 					<p><a href="http://www.amitabhalibrary.org/">Amitabha Library</a> Based in Chicago. Free books with free shipping in English and Chinese.   
 					<p><a href="http://www.abhayagiri.org/books">Abhayagiri</a> Based in California. Free books with free shipping in English. 
-					<p><a href="http://www.baus.org/en/?cat=6">BAUS</a> Based in New Jersey. Free books in English and Chinese. Shipping costs $2 per item.   
+					<p><a href="http://www.baus.org/en/?cat=6">BAUS</a> Based in New York. Free books in English and Chinese. Shipping costs $2 per item.   
 					<p><a href="http://lamayeshe.com/zencart/index.php?main_page=index&cPath=22">LamaYeshe</a> Based in Massachusetts. Free books in English, pay shipping cost only.   
 
 				</div>
