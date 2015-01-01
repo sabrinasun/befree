@@ -227,12 +227,12 @@
 					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
                      
-                            
+      
                     <br><i>Request Directly:</i>
                     {% for pub in inventory.material.publisher.all %}
                       	<span><a style="text-decoration:underline;" title="
 			                    {% if pub.website %}
-			                    <a href='{{inventory.material.publisher.website}}' target='_blank'>{{ pub.name }}</a>
+			                    <a href='{{pub.website}}' target='_blank'>{{ pub.name }}</a>
 			                    <br>
 			                    {% endif %}
 			                    
@@ -346,7 +346,7 @@
 	                    {% for pub in ebook.publisher.all %}
 	                      	<span><a style="text-decoration:underline;" title="
 				                    {% if pub.website %}
-				                    <a href='{{inventory.material.publisher.website}}' target='_blank'>{{ pub.name }}</a>
+				                    <a href='{{pub.website}}' target='_blank'>{{ pub.name }}</a>
 				                    <br>
 				                    {% endif %}
 				                    
