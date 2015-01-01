@@ -226,8 +226,9 @@
 					    &nbsp;
 					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
+                     
                             
-                    <i>Request Directly:</i>
+                    <br><i>Request Directly:</i>
                     {% for pub in inventory.material.publisher.all %}
                       	<span><a style="text-decoration:underline;" title="
 			                    {% if pub.website %}
@@ -341,7 +342,7 @@
 					    	<a href="{{ MEDIA_URL }}{{ebook.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
  
-	                    <i>Request Directly:</i>
+	                    <br><i>Request Directly:</i>
 	                    {% for pub in ebook.publisher.all %}
 	                      	<span><a style="text-decoration:underline;" title="
 				                    {% if pub.website %}
