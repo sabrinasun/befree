@@ -122,7 +122,7 @@
 	{% if msg == "signup_success" %}
 	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div> 
 	{% endif %}
-    {% paginate inventories %}
+    <!--  paginate inventories  -- remove since only display 10 items-->
     
     <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div-->
 
@@ -366,7 +366,7 @@
             </div>
 
             <div class="leftcolumn" style="text-align:right;">
-                <div><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
+                <div><img src="{{ MEDIA_URL }}{{ ebook.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
             </div>
 
         </div>
