@@ -141,7 +141,7 @@
     </div>
      
      <div style="margin-left: 210px;margin-bottom:5px;">
-     <b>Category:</b> {% if category.name %} {{category.name}} {% else %} All {% endif %}<br />
+     <b>Category: {% if category.name %} {{category.name}} {% else %} All {% endif %} </b> <br />
      </div>
     {% for inventory in inventories %}
     <div class="content-outer-column">
@@ -227,7 +227,19 @@
 					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
                             
-                      
+                    <i>Request Directly:</i>
+                    {% for pub in inventory.material.publisher.all %}
+                      	<span><a style="text-decoration:underline;" title="
+			                    {% if pub.website %}
+			                    <a href='{{inventory.material.publisher.website}}' target='_blank'>{{ pub.name }}</a>
+			                    <br>
+			                    {% endif %}
+			                    
+			                    {{ pub.description }}
+		                    
+		                    ">{{ pub.name }}</a></span>
+                    
+                    {% endfor %}                      
 
 
                     
@@ -293,7 +305,7 @@
                      
                     {% endif %}
                     {% if inventory.material.description %}
-                    <div style="margin-top:4px;"><i>Description:</i>{{ inventory.material.description|readmore:40 }}</div>
+                    <div style="margin-top:4px;"><i>Description: </i>{{ inventory.material.description|readmore:40 }}</div>
                     {% endif %}
                 </div>
             </div>
@@ -315,20 +327,33 @@
                 <div class="content-inner-column">                    
                     <b>{{ ebook.title }}</b> by 
                       {{ ebook.get_author_names }} 
-          
-                                                 
+                                                           
 					    {% if ebook.website %}
 					    &nbsp;
-					    	<a href="{{inventory.material.website}}" >Read Online</a>					    
+					    	<a href="{{ebook.website}}" >Read Online</a>					    
 					    {% endif %}
 					                               
 					    {% if ebook.pdf_url %}
 					    &nbsp;
-					    	<a href="{{inventory.material.pdf_url}}" target="_blank">PDF</a>
+					    	<a href="{{ebook.pdf_url}}" target="_blank">PDF</a>
 					    {% elif ebook.pdf %}
 					    &nbsp;
-					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
+					    	<a href="{{ MEDIA_URL }}{{ebook.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
+ 
+	                    <i>Request Directly:</i>
+	                    {% for pub in ebook.publisher.all %}
+	                      	<span><a style="text-decoration:underline;" title="
+				                    {% if pub.website %}
+				                    <a href='{{inventory.material.publisher.website}}' target='_blank'>{{ pub.name }}</a>
+				                    <br>
+				                    {% endif %}
+				                    
+				                    {{ pub.description }}
+			                    
+			                    ">{{ pub.name }}</a></span>
+	                    
+	                    {% endfor %}                     
                     
                     <br>
 

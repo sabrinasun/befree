@@ -38,6 +38,7 @@ def send_email(template, context, title, to_address):
 def index(request):
     msg = None
     inventories = None
+    ebooks = None
     lang = ""
     location = ""
     cat = ""
@@ -65,13 +66,16 @@ def index(request):
             "location", '')
 
     inventories = GiverMaterial.objects.all().order_by(
-        'material__title').filter(quantity__gt=0, status='ACTIVE')
+        'material__title').filter(quantity__gt=-1, status='ACTIVE')
+        
+    ebooks = Material.objects.all().filter (givermaterial__isnull=True)
         
     category = None
         
     if cat != 'all' and cat != '':
         inventories = inventories.filter(material__category = cat)
         category = Category.objects.get(pk = cat)    
+        ebooks =  ebooks.filter( category = cat)  
     
     if lang != 'all' and lang != '': 
         inventories = inventories.filter(material__language=lang)
@@ -109,7 +113,7 @@ def index(request):
     
     context['categories'] = categories
     context['category'] = category
-    context['ebooks'] = Material.objects.all().filter (givermaterial__isnull=True)  
+    context['ebooks'] = ebooks
 
 
     return render(request, 'index.html', context)
