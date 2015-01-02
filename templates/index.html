@@ -2,11 +2,12 @@
 {% load readmore endless %}
 
 {% block subheader %}
-    <div style="float:left;"><span
-            style="color:#996633;font-size:14px;text-align:right;"></div>
+    <div style="float:left;">
+        <span style="color:#996633;font-size:14px;text-align:right;"></span>
+    </div>
     <span style="color:#996633;">
 	Location: <select
-            style="color:black;font-weight:normal;font:12px;width:100px;">
+            style="color:black;font-weight:normal;font-size:12px;width:100px;">
         <option selected="selected" value="all">-----All-----</option>
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
@@ -72,17 +73,19 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
     </select>
-	Language: <select style="color:black;font-weight:normal;font:12px;"
-                      name="language">
-        <option value="all" {% if lang == 'all' %} selected {% endif %} >All
+	Language:<select style="color:black;font-weight:normal;font-size:12px;"
+                     name="language">
+        <option value="all" {% if lang == 'all' %} selected {% endif %}>
+            All
         </option>
-        <option value="en" {% if lang == 'en' %} selected {% endif %} >
+        <option value="en" {% if lang == 'en' %} selected {% endif %}>
             English
         </option>
         <option value="zh" {% if lang == 'zh' %} selected {% endif %}>
             Chinese
         </option>
-        <option value="o" {% if lang == 'o' %} selected {% endif %}>Other
+        <option value="o" {% if lang == 'o' %} selected {% endif %}>
+            Other
         </option>
     </select>
 
@@ -95,249 +98,257 @@
     <!-- language page isbn weblink -->
 
     <div class="contentwrapper" style="width:100%;">
-    <div style="margin-right:220px;  margin-bottom:4px; " id="test">
+        <div style="margin-right:220px;  margin-bottom:4px; " id="test">
 
-        <div class="box info-box ">
-            <div class="info-box-header">How to Receive</div>
-            <div class="box-content">All items are free, some requires
-                shipping cost. Please treat Dharma materials with respect and
-                care.
-                <br><br>If you prefer, you can give the book back to others
-                later, to keep the chain of giving.
-            </div>
-        </div>
-
-        <div class="box info-box ">
-            <div class="info-box-header">Spirit of Giving</div>
-            <div class="box-content">Our acts of giving are out of compassion
-                and loving kindness.
-                <br><br>Our giving helps others, and cultivates merits and
-                compassion for ourselves. <br>
-
+            <div class="box info-box ">
+                <div class="info-box-header">How to Receive</div>
+                <div class="box-content">All items are free, some requires
+                    shipping cost. Please treat Dharma materials with respect and
+                    care.
+                    <br><br>If you prefer, you can give the book back to others
+                    later, to keep the chain of giving.
+                </div>
             </div>
 
-        </div>
+            <div class="box info-box ">
+                <div class="info-box-header">Spirit of Giving</div>
+                <div class="box-content">Our acts of giving are out of compassion
+                    and loving kindness.
+                    <br><br>Our giving helps others, and cultivates merits and
+                    compassion for ourselves. <br>
 
-        <div class="box info-box ">
-            <div class="info-box-header">How to Give</div>
-            <div class="box-content">Rather than absorb a Buddhist book and
-                place it away on a bookshelf, you can offer that book to
-                others.
-                <br><br> You can offer pickup at your temple, or even cover
-                shipping cost.
+                </div>
+
             </div>
+
+            <div class="box info-box ">
+                <div class="info-box-header">How to Give</div>
+                <div class="box-content">Rather than absorb a Buddhist book and
+                    place it away on a bookshelf, you can offer that book to
+                    others.
+                    <br><br> You can offer pickup at your temple, or even cover
+                    shipping cost.
+                </div>
+            </div>
+
+
+            <img src="{{ MEDIA_URL }}img/monk.jpg" style="width:10%;">
+
+            <div style="clear:both;"></div>
         </div>
 
+        {% if msg == "signup_success" %}
+            <div class="msg">Thanks for signing up! Please check your email and
+                follow the instruction to login.
+            </div>
+        {% endif %}
+        {% comment %}{% paginate inventories %} {% endcomment %}
 
-        <img src="{{ MEDIA_URL }}img/monk.jpg" style="width:10%;">
+        <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div-->
 
-        <div style="clear:both;"></div>
-    </div>
+        <div style="position:absolute;padding-left:18px;line-height:30px;">
+            <a href="/">All Categories</a><br/>
+            {% for category in categories.items %}
+                <a href="/category/{{ category.id }}">{{ category.title }} ({{ category.materials }})</a>
+                <br/>
+            {% endfor %}
 
-    {% if msg == "signup_success" %}
-        <div class="msg">Thanks for signing up! Please check your email and
-            follow the instruction to login.
         </div>
-    {% endif %}
-    {% paginate inventories %}
+        <!-- pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if inventories.has_previous %}
+                    <a href="?page={{ inventories.previous_page_number }}"><< Previous page</a>
+                {% endif %}
 
-    <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div-->
+                <span class="current">
+                    {{ inventories.number }} of {{ inventories.paginator.num_pages }}
+                </span>
 
-    <div style="position:absolute;padding-left:18px;line-height:30px;">
+                {% if inventories.has_next %}
+                    <a href="?page={{ inventories.next_page_number }}">Next page >></a>
+                {% endif %}
+            </span>
+        </div>
+        <!-- pagination end -->
 
-        All Categories ({{ categories.count }})<br />
-        {% for category in categories.items %}
-            <a href="">{{ category.title }} ({{ category.materials }})</a> <br />
-        {% endfor %}
+        {% for inventory in inventories %}
+            <div class="content-outer-column">
+                <div> <!--a row of book-->
+                    <div class="contentwrapper">
+                        <div class="content-inner-column">
+                            {% if  inventory.quantity %}
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="inventory_id" value="{{ inventory.id }}"/>
 
-    </div>
+                                    <div style="float:right">
+                                        <button class="button" type="submit" style="float:none;width:120px;">
+                                            Add To Bag
+                                        </button>
+                                        <br>
+                                    </div>
+                                </form>
+                            {% endif %}
+                            <div id="right"></div>
+                            <b>{{ inventory.material.title }}</b> by
 
-    {% for inventory in inventories %}
-        <div class="content-outer-column">
-            <div> <!--a row of book-->
+                            {% for author in inventory.material.author.all %}
 
-                <div class="contentwrapper">
-                    <div class="content-inner-column">
-                        {% if  inventory.quantity %}
-                            <form method="post" action="">
-                                {% csrf_token %}
-                                <input type="hidden" name="inventory_id"
-                                       value="{{ inventory.id }}"/>
-
-                                <div style="float:right">
-                                    <button class="button" type="submit"
-                                            style="float:none;width:120px;">
-                                        Add To Bag
-                                    </button>
-                                    <br>
-
-                                </div>
-
-                                <!-- div style="float:right; margin-top:3px; margin-right:2px;">
-                            <select name="quantity">
-                            {% for i in inventory.get_quantity_nums %}
-                                <option value="{{ i }}">{{ i }}</option>
+                                {% if author.donate_url or author.donate_note %}
+                                    <span>
+                                        <a style="text-decoration:underline;" title="
+                                    {% if author.website %}
+                                        <a href='{{ inventory.material.author.website }}' target='_blank'>Visit Website</a><br />
+                                    {% endif %}
+                                    {% if author.donate_url %}
+                                        <a href='{{ author.donate_url }}' target='_blank'>Online Donation</a><br />
+                                    {% endif %}
+                                    {% if author.donate_note %}
+                                        How to Donate: {{ author.donate_note }}
+                                    {% endif %}">{{ author.name }}</a></span>{% if not forloop.last %}<span>,</span>
+                                {% endif %}
+                                {% else %}
+                                    {{ author.name }}
+                                {% endif %}
                             {% endfor %}
-                            </select>
-                        </div-->
-                            </form>
-                        {% endif %}
 
-                        <b>{{ inventory.material.title }}</b> by
-                        {% if inventory.material.author.donate_url or inventory.material.author.donate_note %}
-                            <span><a style="text-decoration:underline;"
-                                     title="
-                    {% if inventory.material.author.website %}
-                    <a href='{{ inventory.material.author.website }}' target='_blank'>Visit Website</a>
-                    <br>
-                    {% endif %}                    
-                    
-                    {% if inventory.material.author.donate_url %}
-                    <a href='{{ inventory.material.author.donate_url }}' target='_blank'>Online Donation</a><br />
-                    {% endif %}
-                    {% if inventory.material.author.donate_note %}
-                    How to Donate: {{ inventory.material.author.donate_note }}
-                    {% endif %}
-                    ">{{ inventory.material.author.name }}</a></span>
-                        {% else %}
-                            {{ inventory.material.author.name }}
-                        {% endif %} &nbsp;
+                            <i>Publisher:</i>
 
+                            {% for publisher in inventory.material.publisher.all %}
 
-                        <i>Publisher:</i>
-                        {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
-                            <span><a style="text-decoration:underline;"
-                                     title="
-			                    {% if inventory.material.publisher.website %}
-			                    <a href='{{ inventory.material.publisher.website }}' target='_blank'>Visit Website</a>
-			                    <br>
-			                    {% endif %}
+                                {% if publisher.donate_url or publisher.donate_note or publisher.website %}
+                                    <span><a style="text-decoration:underline;"
+                                             title="
+                                    {% if publisher.website %}
+			                            <a href='{{ publisher.website }}' target='_blank'>Visit Website</a>
+			                            <br/>
+			                        {% endif %}
 			                    
-			                    {% if inventory.material.publisher.donate_url %}
-			                    <a href='{{ inventory.material.publisher.donate_url }}' target='_blank'>Online Donation</a>
-			                    {% endif %}<br />
+			                        {% if publisher.donate_url %}
+			                            <a href='{{ publisher.donate_url }}' target='_blank'>Online Donation</a>
+			                        {% endif %}<br />
 			                    
-			                    {% if inventory.material.publisher.donate_note %}
-			                    How to Donate: {{ inventory.material.publisher.donate_note }}
-			                    {% endif %}
-		                    
-		                    ">{{ inventory.material.publisher.name }}</a></span>
+			                        {% if publisher.donate_note %}
+			                            How to Donate: {{ publisher.donate_note }}
+			                        {% endif %}">{{ publisher.name }}</a></span>{% if not forloop.last %}<span>,</span>
+                                {% endif %}
+                                {% else %}
+                                    {{ publisher.name }}
+                                {% endif %}
+                            {% endfor %}
 
-                        {% else %}
-                            {{ inventory.material.publisher.name }}
-                        {% endif %}
+                            {% if inventory.material.website %}
+                                &nbsp;<a href="{{ inventory.material.website }}">Read Online</a>
+                            {% endif %}
 
+                            {% if inventory.material.pdf_url %}
+                                &nbsp;<a href="{{ inventory.material.pdf_url }}" target="_blank">PDF</a>
+                            {% elif inventory.material.pdf %}
+                                &nbsp;<a href="{{ MEDIA_URL }}{{ inventory.material.pdf }}" target="_blank">PDF</a>
+                            {% endif %}
 
-
-
-                        {% if inventory.material.website %}
-                            &nbsp;
-                            <a href="{{ inventory.material.website }}">Read
-                                Online</a>
-                        {% endif %}
-
-                        {% if inventory.material.pdf_url %}
-                            &nbsp;
-                            <a href="{{ inventory.material.pdf_url }}"
-                               target="_blank">PDF</a>
-                        {% elif inventory.material.pdf %}
-                            &nbsp;
-                            <a href="
-                                    {{ MEDIA_URL }}{{ inventory.material.pdf }}"
-                               target="_blank">PDF</a>
-                        {% endif %}
-
-
-
-
-
-                        <!--
-
-                                {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
-                    <span><a style="text-decoration:underline;" title="
-                    {% if inventory.giver.get_profile.donate_url %}
-                    <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Online Donation</a>
-                    {% endif %}
-                    {% if inventory.giver.get_profile.donation %}
-                    Details: {{inventory.giver.get_profile.donation}}
-                    {% endif %}
-                    ">Donate</a></span>
-                    {% endif %}                    
-                    -->
-
-                        <br>
-                        <i>Condition:</i> {{ inventory.condition|title }}
-                        &nbsp;
-                        <i>Copies:</i> {{ inventory.quantity }}
-                        &nbsp;
-                        <!--i>Price:</i> <span class="success">Free</span-->
-                        <i>Local
-                            Pickup:</i> <span>{% if inventory.giver.get_profile.local_pickup %}
-                        <span title="{{ inventory.giver.get_profile.pickup_description }}"><a
-                                style="text-decoration:underline;">Yes</a></span>
-                    {% else %}
-                        No
-                    {% endif %}
-                    </span>
-                        <i>Shipping:</i>
-                        {% if inventory.giver.get_profile.international_free_shipping %}
-                            Free Internationally
-                        {% else %}
-                            {% if inventory.giver.get_profile.domestic_free_shipping %}
-                                Free domestically
-                            {% else %}
-                                {% if inventory.giver.get_profile.domestic_pay_shipping %}
-                                    Standard
+                            {% comment %}
+                            {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+                                <span><a style="text-decoration:underline;" title="
+                                {% if inventory.giver.get_profile.donate_url %}
+                                    <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Online Donation</a>
+                                {% endif %}
+                                {% if inventory.giver.get_profile.donation %}
+                                    Details: {{inventory.giver.get_profile.donation}}
+                                {% endif %}
+                                ">Donate</a></span>
+                            {% endif %}-->
+                            {% endcomment %}
+                            <br>
+                            <i>Condition:</i> {{ inventory.condition|title }}
+                            <i>Copies:</i> {{ inventory.quantity }}
+                            <!--i>Price:</i> <span class="success">Free</span-->
+                            <i>Local Pickup:</i>
+                            <span>
+                                {% if inventory.giver.get_profile.local_pickup %}
+                                    <span title="{{ inventory.giver.get_profile.pickup_description }}">
+                                        <a style="text-decoration:underline;">Yes</a></span>
                                 {% else %}
                                     No
                                 {% endif %}
+                            </span>
+                            <i>Shipping:</i>
+                            {% if inventory.giver.get_profile.international_free_shipping %}
+                                Free Internationally
+                            {% else %}
+                                {% if inventory.giver.get_profile.domestic_free_shipping %}
+                                    Free domestically
+                                {% else %}
+                                    {% if inventory.giver.get_profile.domestic_pay_shipping %}
+                                        Standard
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                        &nbsp;
-                        <i>From:</i>
-                        <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->
-                        {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
-                            <span><a style="text-decoration:underline;"
-                                     title="
-                    {% if inventory.giver.get_profile.donate_url %}
-                    <a href='{{ inventory.giver.get_profile.donate_url }}' target='_blank'>Donate to Giver's Local Temple</a><br></br>
-                    {% endif %} 
-                    {% if inventory.giver.get_profile.donation %}
-                    How to Donate: {{ inventory.giver.get_profile.donation }}
-                    {% endif %}
-                    ">{{ inventory.giver.get_profile.get_display_name }}</a></span>
-                        {% else %}
-                            {{ inventory.giver.get_profile.get_display_name }}
-                        {% endif %},
-                        <!--/a-->
-                        &nbsp;{{ inventory.giver.get_profile.get_location }}
 
-                        {% if inventory.note %}
-                            <span><a style="text-decoration:underline;"
-                                     title="
-                    {{ inventory.note|readmore:40 }}
-                    ">Comments</a></span>
+                            <i>From:</i>
 
-                        {% endif %}
-                        {% if inventory.material.description %}
-                            <div style="margin-top:4px;">
-                                <i>Description:</i>{{ inventory.material.description|readmore:40 }}
-                            </div>
-                        {% endif %}
+                            {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+                                <span><a style="text-decoration:underline;" title="
+
+                                {% if inventory.giver.get_profile.donate_url %}
+                                    <a href='{{ inventory.giver.get_profile.donate_url }}'
+                                        target='_blank'>Donate to Giver's Local Temple</a><br></br>
+                                {% endif %}
+
+                                {% if inventory.giver.get_profile.donation %}
+                                    How to Donate: {{ inventory.giver.get_profile.donation }}
+                                {% endif %}">
+                                    {{ inventory.giver.get_profile.get_display_name }}</a>,
+                                </span>
+                            {% else %}
+                                {{ inventory.giver.get_profile.get_display_name }},
+                            {% endif %}
+
+
+                            {{ inventory.giver.get_profile.get_location }}
+
+                            {% if inventory.note %}
+                                <span><a style="text-decoration:underline;" title="
+                                    {{ inventory.note|readmore:40 }}">Comments</a>
+                                </span>
+                            {% endif %}
+
+                            {% if inventory.material.description %}
+                                <div style="margin-top:4px;">
+                                    <i>Description:</i> {{ inventory.material.description|readmore:40 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="leftcolumn" style="text-align:center;">
+                        <div style="text-align:right">
+                            <img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}"
+                                 height="100px"/></div>
                     </div>
                 </div>
-
-                <div class="leftcolumn" style="text-align:center;">
-                    <div style="text-align:right"><img src="
-                            {{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}"
-                                                       height="100px"></div>
-                </div>
-
             </div>
+        {% endfor %}
+        <!-- pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if inventories.has_previous %}
+                    <a href="?page={{ inventories.previous_page_number }}"><< Previous page</a>
+                {% endif %}
+
+                <span class="current">
+                    {{ inventories.number }} of {{ inventories.paginator.num_pages }}
+                </span>
+
+                {% if inventories.has_next %}
+                    <a href="?page={{ inventories.next_page_number }}">Next page >></a>
+                {% endif %}
+            </span>
         </div>
-    {% endfor %}
-
-
+        <!-- pagination end -->
     </div>
 
     <script language="javascript">
@@ -357,8 +368,7 @@
             $("select:eq(0) option[value='{{location}}']").prop("selected", true);
 
             $("[title]").each(function (index) {
-                var $this = $(this),
-                        tooltip = $this.attr('title') || $this.data('title');
+                var $this = $(this), tooltip = $this.attr('title') || $this.data('title');
                 $this.prop('title', '').data('title', tooltip);
             });
 
@@ -371,13 +381,15 @@
                                 },
                                 function () {
                                     $("[title]").tooltip("close");
-                                });
-                    })
-                    .tooltip({content: function () {
-                        return $(this).data('title');
-                    }});
-
-
+                                }
+                        );
+                    }
+            ).tooltip({
+                        content: function () {
+                            return $(this).data('title');
+                        }
+                    }
+            );
         });
 
     </script>
@@ -430,7 +442,5 @@
                 </div>
             {% endif %}
         </div>
-
-
     </div>
 {% endblock right %}

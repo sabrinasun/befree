@@ -22,3 +22,12 @@ email_files
 # --------------------------------------------------------------------------
 .*
 !/.gitignore
+
+# Exclude local setting:
+# ----------------------
+settings/dev.py
+
+
+# Exclude settings module:
+# ------------------------
+settings/__init__.py

@@ -1,33 +1,38 @@
 {% load staticfiles %}
 <html>
 <head>
-<title>Contact {{user.get_profile.get_display_name}} </title>
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />
+    <title>Contact {{ user.get_profile.get_display_name }} </title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ MEDIA_URL }}css/style.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css"/>
     <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
-<style>
-label {
-  width:80px;
-}
-</style>    
+    <style>
+        label {
+            width: 80px;
+        }
+    </style>
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">Contact {{user.get_profile.get_display_name}}:</h2>
-    <div style="padding-right:20px;">
-    <form method="POST" action="/contact_user/" name="addForm" >
+<h2 style="margin-left:15px;margin-top:10px;">
+    Contact {{ user.get_profile.get_display_name }}:</h2>
+
+<div style="padding-right:20px;">
+    <form method="POST" action="/contact_user/" name="addForm">
         {% csrf_token %}
         <table>
-        {{ form.as_p }}
+            {{ form.as_p }}
         </table>
-        <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>         
-        <input type="submit" class="button" value="Send" /> 
+        <input type="button" class="button" value="Cancel"
+               onclick="javascript:window.close()"/>
+        <input type="submit" class="button" value="Send"/>
 
     </form>
-    </div>
+</div>
 </body>
 <script language="javascript">
-window.onblur = function() {
-	window.close();
-};
+    window.onblur = function () {
+        window.close();
+    };
 </script>
 </html>

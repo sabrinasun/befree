@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
@@ -14,9 +16,11 @@ urlpatterns = patterns('core.views',
     url(r'^to-reader/$', to_template('to-reader.html'), name='to_reader'),
     url(r'^shipping/$', to_template('shipping.html'), name='shipping'),
     url(r'^help/$', to_template('help.html'), name='help'),
-    
-    url(r'^tos/$', to_template('tos.html'), name='tos'),    
-    
+
+    url(r'^category/(?P<cat_id>\d+)/$', 'index', name='category'),
+
+    url(r'^tos/$', to_template('tos.html'), name='tos'),
+
     url(r'^account/summary/$', 'account_summary', name='account_summary'),
     url(r'^account/orders/reading/$', 'account_reading_orders', name='account_reading_orders'),
     url(r'^account/orders/giving/$', 'account_giving_orders', name='account_giving_orders'),
@@ -34,10 +38,10 @@ urlpatterns = patterns('core.views',
     url(r'^add/(?P<model_name>\w+)/?$', 'add_new_model', name="add_new_model"),
     url(r'^users/(?P<username>[\w.@+-]+)/$', 'user_profile', name='user_profile'),
     url(r'^check_out/$', 'check_out', name='check_out'),
-    url(r'^view_bag/$', 'view_bag', name='view_bag'),    
-    url(r'^view_bag/delete/(?P<inventory_id>\d+)/$', 'view_bag_delete', name='view_bag_delete'),        
-    url(r'^contact_user/$', 'contact_user', name='contact_user'),           
-    url(r'^pay_giver/$', 'pay_giver', name='pay_giver'), 
-    url(r'^file_claim/$', 'file_claim', name='file_claim'), 
+    url(r'^view_bag/$', 'view_bag', name='view_bag'),
+    url(r'^view_bag/delete/(?P<inventory_id>\d+)/$', 'view_bag_delete', name='view_bag_delete'),
+    url(r'^contact_user/$', 'contact_user', name='contact_user'),
+    url(r'^pay_giver/$', 'pay_giver', name='pay_giver'),
+    url(r'^file_claim/$', 'file_claim', name='file_claim'),
 
 )

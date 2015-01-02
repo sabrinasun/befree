@@ -412,3 +412,10 @@ ul.messagelist li.error{
 .success {
   color: green;
 }
+
+/* paginator styles */
+.pagination {
+	width: 100%;
+	text-align: center;
+	margin: 10px;
+}

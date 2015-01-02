@@ -3,19 +3,22 @@
 
 <html>
 <head>
-<title>Pay {{order.giver.get_profile.get_display_name}} </title>
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />
+    <title>Pay {{ order.giver.get_profile.get_display_name }} </title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ MEDIA_URL }}css/style.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css"/>
     <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
-<style>
-label {
-  width:80px; 
-}
-</style>    
+    <style>
+        label {
+            width: 80px;
+        }
+    </style>
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">Pay {{order.giver.get_profile.get_display_name}}:</h2>
-    
+<h2 style="margin-left:15px;margin-top:10px;">
+    Pay {{ order.giver.get_profile.get_display_name }}:</h2>
+
 <!--  div id="form-error">
 	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
 	<ul>
@@ -24,47 +27,58 @@ label {
 	{% endfor %}
 	</ul>
 </div-->
-    
-    <div style="padding:0 20px 20px 20px;">
-    Please pay the giver directly, and then inform the giver about the payment below. 
+
+<div style="padding:0 20px 20px 20px;">
+    Please pay the giver directly, and then inform the giver about the payment
+    below.
     <br><br>
     Please choose the payment method you used: <br>
-    <form method="POST" action="{% url 'pay_giver' %}" >
-    {% csrf_token %}
-    {% if order.giver.get_profile.paypal_email %}
-    {{ form.order_id }}
 
-    {% if form.pay_method.errors %}
-    	{{ form.pay_method.errors }} <br>  
-    {% endif %}
-    
+    <form method="POST" action="{% url 'pay_giver' %}">
+        {% csrf_token %}
+        {% if order.giver.get_profile.paypal_email %}
+            {{ form.order_id }}
 
-    <input type="radio" name = "pay_method" value="paypal">Paid by Paypal to {{ order.giver.get_profile.paypal_email }}: <br> &nbsp; &nbsp; &nbsp; &nbsp; Pay ${{ order.get_paypal_cost | floatformat:2}} (${{ order.get_total_cost }} + paypal fees )   <br>
-    {% endif %}
+            {% if form.pay_method.errors %}
+                {{ form.pay_method.errors }} <br>
+            {% endif %}
 
-    {% if order.giver.get_profile.pay_url %} 
-    <input type="radio" name = "pay_method" value="payurl">Paid though <a href="{{order.giver.get_profile.pay_url}}" target="_blank">Online Payment</a><br>
-    {% endif %}    
-    
-    {% if order.giver.get_profile.payment_description %}
-    <input type="radio" name = "pay_method" value="other">Paid by Other Means:<br>
-    <textarea cols=40 rows=3 readonly style="vertical-align:top;">{{ order.giver.get_profile.payment_description }} </textarea>
-     <br> 
-    {% endif %}
-    Additional information about your payment:<br>
-    {{ form.message }}
-	<br>
-    
-    <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>     
-    <input type="submit" class="button" value="Inform Payment" /> 
+
+            <input type="radio" name="pay_method" value="paypal">Paid by
+            Paypal to {{ order.giver.get_profile.paypal_email }}: <br> &nbsp;
+            &nbsp; &nbsp; &nbsp; Pay $
+            {{ order.get_paypal_cost | floatformat:2 }} ($
+            {{ order.get_total_cost }} + paypal fees )   <br>
+        {% endif %}
+
+        {% if order.giver.get_profile.pay_url %}
+            <input type="radio" name="pay_method" value="payurl">Paid though
+            <a href="{{ order.giver.get_profile.pay_url }}" target="_blank">Online
+                Payment</a><br>
+        {% endif %}
+
+        {% if order.giver.get_profile.payment_description %}
+            <input type="radio" name="pay_method" value="other">Paid by Other
+            Means:<br>
+            <textarea cols=40 rows=3 readonly
+                      style="vertical-align:top;">{{ order.giver.get_profile.payment_description }} </textarea>
+            <br>
+        {% endif %}
+        Additional information about your payment:<br>
+        {{ form.message }}
+        <br>
+
+        <input type="button" class="button" value="Cancel"
+               onclick="javascript:window.close()"/>
+        <input type="submit" class="button" value="Inform Payment"/>
 
     </form>
-    </div>
+</div>
 </body>
 <script language="javascript">
 
-window.onblur = function() {
-	//window.close();
-};
+    window.onblur = function () {
+        //window.close();
+    };
 </script>
 </html>

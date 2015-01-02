@@ -36,3 +36,5 @@ admin.site.register(Group,
 admin.site.register(Category,
     list_display = ('id', 'name')
 )
+
+admin.site.register(GroupMaterial)

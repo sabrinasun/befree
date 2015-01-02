@@ -210,9 +210,14 @@ class Group(models.Model):
 
     shipping_other = models.CharField(max_length=255, blank=True)
 
+    def __unicode__(self):
+        return u"{0}".format(self.name)
 
 class GroupMaterial(models.Model):
     group = models.ForeignKey(Group)
     material = models.ForeignKey(Material)
     book_url = models.URLField(max_length=255, blank=True)
     order_url = models.URLField(max_length=255, blank=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.group.name, self.material.title)

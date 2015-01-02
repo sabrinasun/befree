@@ -21,9 +21,10 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from core.models import Material, GiverMaterial, Order, OrderDetail, Category
-from core.forms import MaterialForm, AuthorForm, PublisherForm, \
+from core.forms import MaterialForm, PublisherForm, \
     GiverMaterialForm, ContactForm, PayForm, ShippingCostForm
 from accounts.models import Profile
 
@@ -35,7 +36,7 @@ def send_email(template, context, title, to_address):
               fail_silently=False)
 
 
-def index(request):
+def index(request, cat_id=None):
     msg = None
     inventories = None
     lang = ""
@@ -64,6 +65,10 @@ def index(request):
 
     inventories = GiverMaterial.objects.all().order_by(
         'material__title').filter(quantity__gt=0, status='ACTIVE')
+
+    if cat_id:
+        inventories = inventories.filter(material__category__pk=cat_id)
+
     if lang != 'all' and lang != '':
         inventories = inventories.filter(material__language=lang)
 
@@ -72,7 +77,7 @@ def index(request):
         # state=location) | Q(domestic_pay_shipping='TRUE') | Q(
         # domestic_free_shipping='TRUE') | Q(
         # international_free_shipping='TRUE') )]
-        #inventories = inventories.filter(giver__in=users)
+        # inventories = inventories.filter(giver__in=users)
         inventories = inventories.filter(
             Q(giver__profile__state=location) | Q(
                 giver__profile__domestic_pay_shipping='TRUE') | Q(
@@ -81,6 +86,15 @@ def index(request):
 
     request.session["lang"] = lang
     request.session["location"] = location
+
+    booksPaginator = Paginator(inventories, 20)
+    page = request.GET.get('page')
+    try:
+        inventories = booksPaginator.page(page)
+    except PageNotAnInteger:
+        inventories = booksPaginator.page(1)
+    except EmptyPage:
+        inventories = booksPaginator.page(booksPaginator.num_pages)
 
     context = {
         'inventories': inventories,
@@ -91,12 +105,12 @@ def index(request):
 
     # get categories and books in them
     categories = dict(count=0, items=list())
-    cats = Category.objects.all()
+    cats = Category.objects.all().order_by('-order')
     categories['count'] = cats.count()
 
     for category in cats:
         count = Material.objects.filter(category=category).count()
-        item = dict(title=category.name, materials=count)
+        item = dict(title=category.name, id=category.id, materials=count)
         categories['items'].append(item)
 
     context['categories'] = categories
@@ -136,11 +150,11 @@ def get_shipping_cost(weight):
     packaging_cost = 0
     if weight <= 7:
         shipping_cost = \
-        {0: 0, 1: 2.53, 2: 2.98, 3: 3.43, 4: 3.88, 5: 4.33, 6: 4.78, 7: 5.23}[
-            weight]
+            {0: 0, 1: 2.53, 2: 2.98, 3: 3.43, 4: 3.88, 5: 4.33, 6: 4.78, 7: 5.23}[
+                weight]
         packaging_cost = \
-        {0: 0, 1: 0.50, 2: 0.50, 3: 1.00, 4: 1.10, 5: 1.20, 6: 1.30, 7: 1.40}[
-            weight]
+            {0: 0, 1: 0.50, 2: 0.50, 3: 1.00, 4: 1.10, 5: 1.20, 6: 1.30, 7: 1.40}[
+                weight]
     else:
         shipping_cost = 5.23 + .43 * ( weight - 7)
         packaging_cost = 1.40 + (weight - 7) * .10
@@ -206,7 +220,7 @@ def get_order_from_bag(cart, user):
                 "You ordered %s items, which are more than a small quantity "
                 "order of %s items for this giver, order will be in pending "
                 "status until the giver approves it." % (
-                free_count, max_per_order))
+                    free_count, max_per_order))
 
         ret.append({"giver": orders[key][0]['inventory'].giver,
                     "order_details": orders[key], "price": price,
@@ -304,7 +318,7 @@ def check_out(request):
     cart = request.session['cart']
     orders = get_order_from_bag(cart, request.user)
 
-    #[{'giver': <User: sunnywebtimes>,'order_details': [{'inventory':
+    # [{'giver': <User: sunnywebtimes>,'order_details': [{'inventory':
     # <GiverMaterial: GiverMaterial object>,'quantity': 1}],'price': 20}
     reader = request.user
     for one_order in orders:
@@ -364,19 +378,19 @@ def check_out(request):
 
             giver = one_order['giver']
             context = Context({
-            'shipping_address': order.reader.get_profile(
+                'shipping_address': order.reader.get_profile(
 
-            ).get_shipping_address(),
-            'total_free_item': total_free_item,
-            'max_per_order': max_per_order,
-            'giver_name': giver.get_profile().get_display_name(),
-            'reader_name': reader.get_profile().get_display_name(),
-            'order_number': order.pk,
-            'shipping_cost': order.shipping_cost,
-            'order_details': OrderDetail.objects.filter(order=order)})
+                ).get_shipping_address(),
+                'total_free_item': total_free_item,
+                'max_per_order': max_per_order,
+                'giver_name': giver.get_profile().get_display_name(),
+                'reader_name': reader.get_profile().get_display_name(),
+                'order_number': order.pk,
+                'shipping_cost': order.shipping_cost,
+                'order_details': OrderDetail.objects.filter(order=order)})
 
             title = 'Order %s was placed by %s via BuddhistExchange.' % (
-            order.pk, reader.get_profile().get_display_name())
+                order.pk, reader.get_profile().get_display_name())
             send_email('email-giver-order-placed.txt', context, title,
                        giver.email)
 
@@ -479,7 +493,7 @@ def account_reading_orders(request):
            for order in orders]
 
     # {'orders': [{'details': [<OrderDetail: OrderDetail object>], 'order':
-    #  <Order: Order object>}]}
+    # <Order: Order object>}]}
     context = {
         'orders': ret
     }
@@ -531,7 +545,7 @@ def account_giving_orders(request):
             send_email('email-giver-order-approved.txt', context, title,
                        order.giver.email)
 
-            #below happens when pending
+            # below happens when pending
     shipping_form = None
     if request.method == "POST":
         shipping_form = ShippingCostForm(data=request.POST)
@@ -561,7 +575,7 @@ def account_giving_orders(request):
                  'order_status': order.status
                 })
             title = "The shipping cost for your order %s is $%s. " % (
-            order.pk, order.shipping_cost)
+                order.pk, order.shipping_cost)
             send_email('email-reader-order-shipping-cost.txt', context, title,
                        order.reader.email)
 
@@ -572,7 +586,7 @@ def account_giving_orders(request):
            for order in orders]
 
     # {'orders': [{'details': [<OrderDetail: OrderDetail object>], 'order':
-    #  <Order: Order object>}]}
+    # <Order: Order object>}]}
     context = {
         'orders': ret
     }
@@ -719,24 +733,24 @@ def pay_giver(request):
             message = pay_form.cleaned_data['message']
             giver_email = order.giver.email
             order.payment_detail = "Type: %s. Message: %s " % (
-            pay_method, message)
+                pay_method, message)
             order.status = 'PAID'
             order.save()
 
             context = Context({
-            'shipping_address': order.reader.get_profile(
+                'shipping_address': order.reader.get_profile(
 
-            ).get_shipping_address(),
-            'giver_name': order.giver.get_profile().get_display_name(),
-            'order_number': order.pk,
-            'reader_name': user_display_name,
-            'payment_method': pay_method,
-            'payment_note': message,
-            'shipping_cost': order.shipping_cost,
-            'order_details': OrderDetail.objects.filter(order=order)})
+                ).get_shipping_address(),
+                'giver_name': order.giver.get_profile().get_display_name(),
+                'order_number': order.pk,
+                'reader_name': user_display_name,
+                'payment_method': pay_method,
+                'payment_note': message,
+                'shipping_cost': order.shipping_cost,
+                'order_details': OrderDetail.objects.filter(order=order)})
 
             title = 'Order No.%s is paid per reader %s ' % (
-            order.pk, user_display_name )
+                order.pk, user_display_name )
 
             send_email('email-giver-order-paid.txt', context, title,
                        giver_email)

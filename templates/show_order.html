@@ -3,104 +3,116 @@
 {% block main %}
 
 
-<h2>Orders in Your Cart:</h2>
+    <h2>Orders in Your Cart:</h2>
 
 
-{% if action = "view_bag" %}
-<!--  Please view your order and then confirm the order. If the giver offers free shipping, you need to check Please wave shipping cost, to get free shipping. 
-<br>If you use paypal to pay, you will need to pay additional paypal fees of 2.9% + 0.3. If you shipping cost is about $3, the paypal fee is about 38 cents.   
--->
+    {% if action == "view_bag" %}
+        <!--  Please view your order and then confirm the order. If the giver offers free shipping, you need to check Please wave shipping cost, to get free shipping.
+        <br>If you use paypal to pay, you will need to pay additional paypal fees of 2.9% + 0.3. If you shipping cost is about $3, the paypal fee is about 38 cents.
+        -->
 
-{% else %}
-You orders have been successfully processed. If require a payment, kindly pay as soon as you can so that the giver will ship it.  
-{% endif %}
-<div id="message"></div>
-
-
-<form action="{% url 'check_out' %}" method="POST">
-{% csrf_token %}
-<div class="order-box">
-{% for order in orders %}
-    {% for warning in order.warning %}
-    <div class = "warning" style="display:inline;">	{{warning}} </div>
-    {% endfor %}
-    
-    <div style="display:inline;float:right;">
-       <a href="javascript:void(0)" class="add-another" 
-          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=450,height=280, left=200, top=60');">Contact Giver {{ order.giver.get_profile.get_display_name }}</a> 		    	
-   	</div>    
-    {% if order.order_details|length > details.inventory.giver.%}
+    {% else %}
+        You orders have been successfully processed. If require a payment,
+        kindly pay as soon as you can so that the giver will ship it.
     {% endif %}
-    <div class="contentwrapper">
-        <div class="right">
-         	{% for details in order.order_details %}
-         	    <div style="clear:both;">
-         	    	<div style="display:inline;">
-		          		{{ details.inventory.material.title }}  &nbsp; by {{ details.inventory.material.get_author_names }} 
-		          		&nbsp; &nbsp; 
-				    </div>
-		    	</div>   		
-          		<div style="clear:both;">
-          			<div style="display:inline;">
-	         			Quantity: {{ details.quantity }}&nbsp; &nbsp; 
-	         			{% if details.inventory.id == outofstock_id %}
-	         			  <span class="error">Sorry only {{ details.inventory.quantity }} copy left in stock.  </span>
-	         			{% endif %}
-	         		</div>
-			        {% if action = "view_bag" %}
-			        <div style="display:inline;float:right;">
-			       		<a href="{% url 'view_bag_delete' inventory_id=details.inventory.pk %}">Delete</a> 	  
-			    	</div>
-			    	{% endif %} 
-			    </div>
-			    
-		    	        		
-         	{% endfor %}
+    <div id="message"></div>
 
-         	{% if order.order_details|length == 1 and order.shipping_cost_wave %}
-         	<br>
-         	{% endif %}
+
+    <form action="{% url 'check_out' %}" method="POST">
+        {% csrf_token %}
+        <div class="order-box">
+            {% for order in orders %}
+                {% for warning in order.warning %}
+                    <div class="warning"
+                         style="display:inline;">    {{ warning }} </div>
+                {% endfor %}
+
+                <div style="display:inline;float:right;">
+                    <a href="javascript:void(0)" class="add-another"
+                       onclick="window.open('{% url 'contact_user' %}?user_id={{ order.giver.id }}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=450,height=280, left=200, top=60');">Contact
+                        Giver {{ order.giver.get_profile.get_display_name }}</a>
+                </div>
+                {% if order.order_details|length > details.inventory.giver %}
+                {% endif %}
+                <div class="contentwrapper">
+                    <div class="right">
+                        {% for details in order.order_details %}
+                            <div style="clear:both;">
+                                <div style="display:inline;">
+                                    {{ details.inventory.material.title }}
+                                    &nbsp;
+                                    by {{ details.inventory.material.get_author_names }}
+                                    &nbsp; &nbsp;
+                                </div>
+                            </div>
+                            <div style="clear:both;">
+                                <div style="display:inline;">
+                                    Quantity: {{ details.quantity }}&nbsp;
+                                    &nbsp;
+                                    {% if details.inventory.id == outofstock_id %}
+                                        <span class="error">Sorry only {{ details.inventory.quantity }} copy left in stock.  </span>
+                                    {% endif %}
+                                </div>
+                                {% if action == "view_bag" %}
+                                    <div style="display:inline;float:right;">
+                                        <a href="{% url 'view_bag_delete' inventory_id=details.inventory.pk %}">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+
+                        {% endfor %}
+
+                        {% if order.order_details|length == 1 and order.shipping_cost_wave %}
+                            <br>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="left">
+                    Ship From: {{ order.giver.get_profile.get_location }}<br>
+                    {% if order.shipping_cost == -1 %}
+                        Can't determine shipping cost, giver will advise.
+                    {% else %}
+                        Total: Shipping ${{ order.shipping_cost }}
+                    {% endif %}
+
+                    <br>
+                    {% if action == "view_bag" and order.shipping_cost_wave %}
+                        <label><input type="checkbox"
+                                      value="{{ order.giver.id }}"
+                                      name="shipping_wave"> Please wave
+                            shipping</label>
+                        cost. <br>
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+                You currently have no order.
+            {% endfor %}
         </div>
 
-    </div>
-    
-    <div class="left">  
-        Ship From: {{ order.giver.get_profile.get_location }}<br>
-        {% if order.shipping_cost == -1 %} 
-          Can't determine shipping cost, giver will advise. 
-        {% else %}
-          Total: Shipping ${{order.shipping_cost}}  
+
+        <input type="button" class="button" value="Continue Browsing"
+               onclick="document.location='/';"/>
+
+        {% if orders|length > 0 %}
+            {% if action == "view_bag" %}
+                <input type="submit" value="Confirm Order"/>
+            {% else %}
+                <input type="button" class="button" value="Pay Now"
+                       onclick="document.location='/account/orders/reading/';"/>
+            {% endif %}
         {% endif %}
-        
-        <br>
-        {% if action == "view_bag" and order.shipping_cost_wave %}
-        <input type="checkbox" value="{{order.giver.id}}" name="shipping_wave"> Please wave shipping cost. <br>
-		{% endif %}	
 
-    </div>
-    
-{% empty %}
-    You currently have no order.
-{% endfor %}
-</div>
+    </form>
 
-
-	<input type="button" class="button" value="Continue Browsing" onclick="javascript: document.location='/';" />
-
-    {% if orders|length > 0 %}
-	    {% if action = "view_bag"  %}
-		<input type="submit" value="Confirm Order"/>
-		{% else  %}
-		<input type="button" class="button" value="Pay Now" onclick="javascript: document.location='/account/orders/reading/';" />
-	    {% endif %}
-	{% endif %}
-
-</form>
-
-<script language = "javascript">
-function showMessage(msg) {
-	$( "#message" ).text(msg);
-}
-</script>
+    <script language="javascript">
+        function showMessage(msg) {
+            $("#message").text(msg);
+        }
+    </script>
 
 {% endblock main %}
