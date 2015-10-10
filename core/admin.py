@@ -3,17 +3,16 @@ from core.models import *
 
 class MaterialAdmin(admin.ModelAdmin):
     filter_horizontal = ('author', 'publisher','category')
-    #~ save_as = True
 
 admin.site.register(Material, MaterialAdmin,
     list_display = ('id','title','weight','price','language','create_date')
 )
-admin.site.register(GiverMaterial, 
+admin.site.register(GiverMaterial,
     list_display = ('id','giver', 'material','condition','price','quantity','status', 'create_date'),
 )
 
 admin.site.register(Author,
-    list_display = ('id','name')                    
+    list_display = ('id','name')
 )
 
 admin.site.register(Order,
@@ -25,7 +24,7 @@ admin.site.register(OrderDetail,
 )
 
 admin.site.register(Publisher,
-    list_display = ('id','name')                    
+    list_display = ('id','name')
 )
 
 admin.site.register(Group,
