@@ -7,4 +7,10 @@ class IndexView(View):
     template_name = 'network/index.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+
+        context = {
+            'prompt': 'Post a general message:',
+            'keywords': ['a', 'b', 'c', 'd']
+        }
+
+        return render(request, self.template_name, context)

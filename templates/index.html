@@ -3,7 +3,7 @@
 
 {% block subheader %}
 	<div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;"></span></div>
-	<span style="color:#996633;">  
+	<span style="color:#996633;">
 	Location: <select style="color:black;font-weight:normal;font-size:12px;width:100px;">
 		<option selected="selected" value="all">-----All-----</option>
 		<option value="AL">Alabama</option>
@@ -304,18 +304,19 @@
 
 						{% if inventory.note %}
 							<span><a style="text-decoration:underline;" title="
-                    {{ inventory.note|readmore:40 }}
+                    {{ inventory.note|readmore }}
                     ">Comments</a></span>
 
 						{% endif %}
 						{% if inventory.material.description %}
-							<div style="margin-top:4px;"><i>Description: </i>{{ inventory.material.description|readmore:40 }}</div>
+							<div style="margin-top:4px;"><i>Description: </i>{{ inventory.material.description|readmore }}</div>
 						{% endif %}
 					</div>
 				</div>
 
 				<div class="leftcolumn" style="text-align:right;">
-					<div><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px">
+					<div>
+						<img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px">
 					</div>
 				</div>
 

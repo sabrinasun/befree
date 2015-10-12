@@ -214,7 +214,6 @@ div {
 .msg {
     margin: 0 12px 6px 12px;
     color: #996633;
-
 }
 
 .content {
@@ -393,6 +392,66 @@ ul.errorlist li {
     color: #630e0e;
 }
 
-.categories-box {
 
+/* Network Application Styles */
+
+.align-center {
+    text-align: center;
+}
+
+.keywords-box {
+    display: inline-block;
+    width: 270px;
+    float:left;
+    padding-left: 20px;
+}
+
+.keywords-box-title {
+    width: 100%;
+}
+
+.posts-box {
+    width: calc(100% - 470px);
+    float: left;
+    display: inline-block;
+    padding-right: 50px;
+}
+
+.posts-box-header {
+    width: 100%;
+}
+
+.posts-box-header .selected-category {
+    text-decoration: none;
+    color: black;
+    cursor: default;
+}
+
+.sub-header label {
+    width: auto;
+}
+
+.main-color {
+    color: #996633;
+}
+
+.keywords-box ul {
+    padding: 0;
+}
+
+.keywords-box ul li {
+    list-style: none;
+}
+
+.keyword-link {
+    font-size: 14px;
+}
+
+.new-post-form form textarea#post-body {
+    width: 100%;
+    font-size: 12px;
+}
+
+.new-post-form form #btn-add-post {
+    font-size: 18px;
 }
