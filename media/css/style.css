@@ -452,6 +452,31 @@ ul.errorlist li {
     font-size: 12px;
 }
 
+.new-post-form form table tr:nth-child(odd) {
+    background-color: white;
+}
+
+.new-post-form form table {
+    width: 100%;
+}
+
 .new-post-form form #btn-add-post {
-    font-size: 18px;
+    font-size: 14px;
+    padding: 5px 50px;
+}
+
+.new-post-form form input {
+    float: right;
+    width: 81%;
+}
+
+.new-post-form form select {
+    margin-left: 10px;
+}
+
+.new-post-form form .prompt {
+    padding-top: 4px;
+    width: 60px;
+    display: inline-block;
+    text-align: right;
 }

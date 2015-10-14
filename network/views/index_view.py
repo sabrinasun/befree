@@ -1,16 +1,15 @@
-from django.views.generic import View
-from django.shortcuts import render
+from network.views.common.common_base_view import CommonBaseView
 
 
-class IndexView(View):
+class IndexView(CommonBaseView):
 
     template_name = 'network/index.html'
 
     def get(self, request):
 
-        context = {
+        self.update_context({
             'prompt': 'Post a general message:',
             'keywords': ['a', 'b', 'c', 'd']
-        }
+        })
 
-        return render(request, self.template_name, context)
+        return self.response()

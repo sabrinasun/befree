@@ -15,6 +15,10 @@ class Post(models.Model):
         return unicode(self.user.username + " | " + self.title)
 
 
+class Keyword(models.Model):
+    pass
+
+
 class Category(models.Model):
     name = models.CharField(max_length=255)
     posts = models.ManyToManyField(Post)
