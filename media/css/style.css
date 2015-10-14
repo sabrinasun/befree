@@ -401,7 +401,7 @@ ul.errorlist li {
 
 .keywords-box {
     display: inline-block;
-    width: 270px;
+    width: 230px;
     float:left;
     padding-left: 20px;
 }
@@ -411,7 +411,7 @@ ul.errorlist li {
 }
 
 .posts-box {
-    width: calc(100% - 470px);
+    width: calc(100% - 430px);
     float: left;
     display: inline-block;
     padding-right: 50px;
@@ -441,6 +441,7 @@ ul.errorlist li {
 
 .keywords-box ul li {
     list-style: none;
+    padding: 3px 0;
 }
 
 .keyword-link {

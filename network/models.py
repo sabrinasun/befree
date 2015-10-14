@@ -7,7 +7,7 @@ class Post(models.Model):
     user = models.OneToOneField(get_user_model(), unique=True)
     content = models.TextField()
     title = models.CharField(max_length=255)
-    link = models.SlugField()
+    link = models.URLField()
     lang = models.CharField(max_length=5)
     last_update = models.DateTimeField(auto_now=True, auto_now_add=True)
 
@@ -16,8 +16,11 @@ class Post(models.Model):
 
 
 class Keyword(models.Model):
-    pass
+    name = models.CharField(max_length=255)
+    posts = models.ManyToManyField(Post)
 
+    def __str__(self):
+        return unicode(self.name)
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
