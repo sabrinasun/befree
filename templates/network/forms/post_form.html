@@ -1,6 +1,7 @@
 <div class="new-post-form">
-	<form action="" method="post">
-		<p>{{ prompt }}</p>
+	<form action="" method="post" id="new-post-form">
+		{% csrf_token %}
+		<p>{{ prompt }}:</p>
 		<div>
 						<textarea name="post_body" id="post-body" rows="5"
 											placeholder="Inspired by a book, a talk, a link? Introduce it to the others with a quote from the book/video/link."></textarea>
@@ -26,6 +27,7 @@
 		</div>
 		<div>
 			<div class="button" id="btn-add-post"><a href="#">Post</a></div>
+			<input type="hidden" name="category" value="{{ category }}" />
 		</div>
 	</form>
 </div>

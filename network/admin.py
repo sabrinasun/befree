@@ -4,7 +4,7 @@ from network.models import Post, Category, Keyword
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    fields = ('name', )
+    fields = ('name', 'code' )
     ordering = ('id', )
 
 class KeywordAdmin(admin.ModelAdmin):
