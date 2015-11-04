@@ -8,44 +8,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Post'
-        db.create_table(u'network_post', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('link', self.gf('django.db.models.fields.SlugField')(max_length=50)),
-            ('lang', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('last_update', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal(u'network', ['Post'])
-
-        # Adding model 'Category'
-        db.create_table(u'network_category', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-        ))
-        db.send_create_signal(u'network', ['Category'])
-
-        # Adding M2M table for field posts on 'Category'
-        m2m_table_name = db.shorten_name(u'network_category_posts')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('category', models.ForeignKey(orm[u'network.category'], null=False)),
-            ('post', models.ForeignKey(orm[u'network.post'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['category_id', 'post_id'])
+        # Adding index on 'Category', fields ['code']
+        db.create_index(u'network_category', ['code'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Post'
-        db.delete_table(u'network_post')
-
-        # Deleting model 'Category'
-        db.delete_table(u'network_category')
-
-        # Removing M2M table for field posts on 'Category'
-        db.delete_table(db.shorten_name(u'network_category_posts'))
+        # Removing index on 'Category', fields ['code']
+        db.delete_index(u'network_category', ['code'])
 
 
     models = {
@@ -87,6 +56,13 @@ class Migration(SchemaMigration):
         },
         u'network.category': {
             'Meta': {'object_name': 'Category'},
+            'code': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'db_index': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'posts': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['network.Post']", 'symmetrical': 'False'})
+        },
+        u'network.keyword': {
+            'Meta': {'object_name': 'Keyword'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'posts': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['network.Post']", 'symmetrical': 'False'})
@@ -97,7 +73,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lang': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'auto_now_add': 'True', 'blank': 'True'}),
-            'link': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
+            'link': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }

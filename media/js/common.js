@@ -39,22 +39,7 @@
 
     // here we will init all the things that we need for this module
 
-    $(document).ready(function () {
-
-        $("#login-button").click(function () {
-            $("#login-form").trigger("submit");
-            return false;
-        });
-
-        $(".new-post-form, .ui-autocomplete").click(function (event) {
-            $("#post-additional-panel").show();
-            return event.stopPropagation();
-        });
-
-        $(":not(.new-post-form, .ui-autocomplete)").click(function () {
-            $("#post-additional-panel").hide();
-        });
-
+    function initKeywordsAutocomplete() {
         var availableKeywords = [];
         $(".keywords-list").find('a').each(function (index, link) {
             availableKeywords.push(link.innerText);
@@ -68,8 +53,7 @@
             minLength: 0,
             source: function (request, response) {
                 // delegate back to autocomplete, but extract the last term
-                response($.ui.autocomplete.filter(
-                    availableKeywords, extractLast(request.term)));
+                response($.ui.autocomplete.filter(availableKeywords, extractLast(request.term)));
             },
             focus: function () {
                 // prevent value inserted on focus
@@ -87,6 +71,24 @@
                 return false;
             }
         });
+    }
+
+    $(document).ready(function () {
+
+        $("#login-button").click(function () {
+            $("#login-form").trigger("submit");
+            return false;
+        });
+
+        $(".new-post-form").click(function (event) {
+            $("#post-additional-panel").show();
+        });
+
+        $("#btn-add-post").click(function() {
+            $("#new-post-form").trigger('submit');
+        });
+
+        initKeywordsAutocomplete();
     });
 
 })(jQuery);

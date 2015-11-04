@@ -24,6 +24,7 @@ class Keyword(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    code = models.CharField(max_length=255, default='', db_index=True)
     posts = models.ManyToManyField(Post)
 
     class Meta:

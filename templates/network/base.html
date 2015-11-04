@@ -94,9 +94,9 @@
 
 		<div class="posts-box">
 			<div class="posts-box-header">
-				<a href="#" class="selected-category">All</a>
+				<a href="{% url 'network_index' %}" class="selected-category">All</a>
 				{% for category in categories %}
-					| <a href="#">{{ category.name }}</a>
+					| <a href="{% url 'network_index' %}?category={{ category.code }}">{{ category.name }}</a>
 				{% endfor %}
 			</div>
 			{% include 'network/forms/post_form.html' %}
