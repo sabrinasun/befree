@@ -143,8 +143,7 @@ INSTALLED_APPS = (
     'endless_pagination',
     'accounts',
     'core',
-    'network',
-    'autofixture'
+    'network'
 )
 
 AUTHENTICATION_BACKENDS = (
