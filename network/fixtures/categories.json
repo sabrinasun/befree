@@ -1,0 +1,50 @@
+[
+  {
+    "pk": 1,
+    "model": "network.category",
+    "fields": {
+      "code": "teachings",
+      "name": "Teachings"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "network.category",
+    "fields": {
+      "code": "book-recommendations",
+      "name": "Book Recommendations"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "network.category",
+    "fields": {
+      "code": "quotes",
+      "name": "Quotes"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "network.category",
+    "fields": {
+      "code": "my-thoughts",
+      "name": "My thoughts"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "network.category",
+    "fields": {
+      "code": "events",
+      "name": "Events"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "network.category",
+    "fields": {
+      "code": "qa",
+      "name": "Q&A"
+    }
+  }
+]

@@ -3,59 +3,56 @@
 <!doctype html>
 <html>
 <head>
-	<title>Buddhist Book Exchange</title>
-	<meta name="Keywords"
-				content="Free Buddhist books, CD and DVD. Online Buddhist community. Free services for Buddhist temples.">
-	<meta name="Description"
-				content="Buddhist exchange provide an exchange platform for Buddhist individuals and temples, to get and give Dharma materials for free. Provide products and services at low cost to serve the community. ">
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css"/>
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-	<meta http-equiv="Pragma" content="no-cache"/>
-	<meta http-equiv="Expires" content="0"/>
+  <title>Buddhist Book Exchange</title>
+  <meta name="Keywords" content="Free Buddhist books, CD and DVD. Online Buddhist community. Free services for Buddhist temples.">
+  <meta name="Description" content="Buddhist exchange provide an exchange platform for Buddhist individuals and temples, to get and give Dharma materials for free. Provide products and services at low cost to serve the community. ">
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ui-lightness/jquery-ui-1.10.3.custom.min.css"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
 
-	<script src="{{ MEDIA_URL }}js/jquery-1.10.2.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-	<script src="{{ MEDIA_URL }}js/common.js"></script>
-	<script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
-<head>
+  <script src="{{ MEDIA_URL }}js/jquery-1.10.2.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <script src="{{ MEDIA_URL }}js/common.js"></script>
+  <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
+</head>
 <body>
 {% block body %}
-	<div class="main-header">
-		<div class="title" onclick="window.location.href = '/';"></div>
-		<div class="small-menu">
-			<a href="/">Home</a> |
-			{% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">My Account</a> |{% endif %}
-			<div class="cart-menu" onclick="document.location='{% url 'view_bag' %}';">
-				<div class="cart"><img src="{{ MEDIA_URL }}img/cart.png"/>
-					<div class="cart-number">{{ order_items_count }}</div>
-				</div>
-				<div class="cart-title">Cart</div>
-			</div>
-			| <a href="{% url 'help' %}">Help</a>
+  <div class="main-header">
+    <div class="title" onclick="window.location.href = '/';"></div>
+    <div class="small-menu">
+      <a href="/">Home</a> |
+      {% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">My Account</a> |{% endif %}
+      <div class="cart-menu" onclick="document.location='{% url 'view_bag' %}';">
+        <div class="cart"><img src="{{ MEDIA_URL }}img/cart.png"/>
+          <div class="cart-number">{{ order_items_count }}</div>
+        </div>
+        <div class="cart-title">Cart</div>
+      </div>
+      | <a href="{% url 'help' %}">Help</a>
+      <div style="position:relative;left:5px;display:none;">
+        <div class="arrow-content"></div>
+        <div class="arrow-up-border"></div>
+        <div class="arrow-up"></div>
+      </div>
+    </div>
 
-			<div style="position:relative;left:5px;display:none;">
-				<div class="arrow-content"></div>
-				<div class="arrow-up-border"></div>
-				<div class="arrow-up"></div>
-			</div>
-		</div>
+  </div>
+  <div class="sub-header">
+    {% block subheader %}
+    {% endblock subheader %}
+  </div>
 
-	</div>
-	<div class="sub-header">
-		{% block subheader %}
-		{% endblock subheader %}
-	</div>
-
-	<div class="content">
-		{% block content %}
-			{% block main %}{% endblock main %}
-			{% block right %}{% endblock right %}
-		{% endblock content %}
-	</div>
-	<div class='footer'>
-		Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a>
-	</div>
+  <div class="content">
+    {% block content %}
+      {% block main %}{% endblock main %}
+      {% block right %}{% endblock right %}
+    {% endblock content %}
+  </div>
+  <div class='footer'>
+    Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a>
+  </div>
 {% endblock body %}
 </body>
 </html>

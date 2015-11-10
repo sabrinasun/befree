@@ -2,6 +2,8 @@ from abc import ABCMeta
 
 from django.views.generic import View
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.http import QueryDict
 
 
 class CommonBaseView(View):
@@ -19,3 +21,8 @@ class CommonBaseView(View):
 
     def response(self):
         return render(self.request, self.template_name, self.context)
+
+    def redirect_to(self, url, **query_params):
+        query_dict = QueryDict('', mutable=True)
+        query_dict.update(**query_params)
+        return HttpResponseRedirect(url + '?' + query_dict.urlencode())

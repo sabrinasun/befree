@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Adding field 'Category.code'
-        db.add_column(u'network_category', 'code',
-                      self.gf('django.db.models.fields.CharField')(default='', max_length=255),
-                      keep_default=False)
-
+        "Write your forwards methods here."
+        # Note: Don't use "from appname.models import ModelName". 
+        # Use orm.ModelName to refer to models in this application,
+        # and orm['appname.ModelName'] for models in other applications.
 
     def backwards(self, orm):
-        # Deleting field 'Category.code'
-        db.delete_column(u'network_category', 'code')
-
+        from django.core.management import call_command
+        call_command("loaddata", "categories.json")
 
     models = {
         u'auth.group': {
@@ -58,27 +55,29 @@ class Migration(SchemaMigration):
         },
         u'network.category': {
             'Meta': {'object_name': 'Category'},
-            'code': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
+            'code': ('django.db.models.fields.CharField', [], {'default': "''", 'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'posts': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['network.Post']", 'symmetrical': 'False'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'network.keyword': {
             'Meta': {'object_name': 'Keyword'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
             'posts': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['network.Post']", 'symmetrical': 'False'})
         },
         u'network.post': {
             'Meta': {'object_name': 'Post'},
+            'category': ('django.db.models.fields.related.ForeignKey', [], {'default': '1', 'to': u"orm['network.Category']"}),
             'content': ('django.db.models.fields.TextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lang': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'language': ('django.db.models.fields.CharField', [], {'default': "'en'", 'max_length': '5', 'db_index': 'True'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'auto_now_add': 'True', 'blank': 'True'}),
-            'link': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'link': ('django.db.models.fields.URLField', [], {'default': 'None', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'link_http_mode': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }
     }
 
     complete_apps = ['network']
+    symmetrical = True

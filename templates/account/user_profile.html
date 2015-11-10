@@ -1,30 +1,25 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class ="contentwrapper">
+  <div class="contentwrapper">
     <div class="content-outer-column">
-        <div>
-            
-            <h2>{{ user.get_profile.get_display_name }} from {{ profile.get_location }}</h2>
-            {% if website %}
-              Website: <a href="{{ profile.website }}">{{ profile.website }}</a></br>
-            {% endif %}
-            {% if facebook %}
-              <p>Facebook: <a href="{{ profile.facebook }}">{{ profile.facebook }}</a></p>
-            {% endif %}
-            <p>{{ profile.description }}</p>
-            
-            <!--b>Donation:</b>
+      <div>
+        <h2>{{ user.get_profile.get_display_name }} from {{ profile.get_location }}</h2>
+        {% if website %}
+          Website: <a href="{{ profile.website }}">{{ profile.website }}</a><br />
+        {% endif %}
+        {% if facebook %}
+          <p>Facebook: <a href="{{ profile.facebook }}">{{ profile.facebook }}</a></p>
+        {% endif %}
+        <p>{{ profile.description }}</p>
+        <!--b>Donation:</b>
             {% if profile.is_nonprofit %}
-                <p>We are regestired non-profit organization, and provide receipts for donation.</p>
+                <p>We are registered non-profit organization, and provide receipts for donation.</p>
             {% endif %}
-
             Paypal Email: {{ profile.paypal_email }}<br>
             Other Means:
             -->
-            
-            
-        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}

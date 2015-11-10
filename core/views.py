@@ -132,8 +132,6 @@ def user_profile(request, username):
         'inventory': inventory
     }
     return render(request, 'account/user_profile.html', context)
-
-
 """
 up to 1 pound: $2.53 + Packaging: $0.50
 Up to 2 pounds: $2.98 + Packaging: $0.50

@@ -8,44 +8,57 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Category'
+        db.create_table(u'network_category', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('code', self.gf('django.db.models.fields.CharField')(default='', unique=True, max_length=255, db_index=True)),
+        ))
+        db.send_create_signal(u'network', ['Category'])
+
         # Adding model 'Post'
         db.create_table(u'network_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('content', self.gf('django.db.models.fields.TextField')()),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('link', self.gf('django.db.models.fields.SlugField')(max_length=50)),
-            ('lang', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('link', self.gf('django.db.models.fields.URLField')(default=None, max_length=255, null=True, blank=True)),
+            ('link_http_mode', self.gf('django.db.models.fields.CharField')(default=None, max_length=255, null=True, blank=True)),
+            ('language', self.gf('django.db.models.fields.CharField')(default='en', max_length=5, db_index=True)),
             ('last_update', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, auto_now_add=True, blank=True)),
+            ('category', self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['network.Category'])),
         ))
         db.send_create_signal(u'network', ['Post'])
 
-        # Adding model 'Category'
-        db.create_table(u'network_category', (
+        # Adding model 'Keyword'
+        db.create_table(u'network_keyword', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255, db_index=True)),
         ))
-        db.send_create_signal(u'network', ['Category'])
+        db.send_create_signal(u'network', ['Keyword'])
 
-        # Adding M2M table for field posts on 'Category'
-        m2m_table_name = db.shorten_name(u'network_category_posts')
+        # Adding M2M table for field posts on 'Keyword'
+        m2m_table_name = db.shorten_name(u'network_keyword_posts')
         db.create_table(m2m_table_name, (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('category', models.ForeignKey(orm[u'network.category'], null=False)),
+            ('keyword', models.ForeignKey(orm[u'network.keyword'], null=False)),
             ('post', models.ForeignKey(orm[u'network.post'], null=False))
         ))
-        db.create_unique(m2m_table_name, ['category_id', 'post_id'])
+        db.create_unique(m2m_table_name, ['keyword_id', 'post_id'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Post'
-        db.delete_table(u'network_post')
-
         # Deleting model 'Category'
         db.delete_table(u'network_category')
 
-        # Removing M2M table for field posts on 'Category'
-        db.delete_table(db.shorten_name(u'network_category_posts'))
+        # Deleting model 'Post'
+        db.delete_table(u'network_post')
+
+        # Deleting model 'Keyword'
+        db.delete_table(u'network_keyword')
+
+        # Removing M2M table for field posts on 'Keyword'
+        db.delete_table(db.shorten_name(u'network_keyword_posts'))
 
 
     models = {
@@ -87,18 +100,26 @@ class Migration(SchemaMigration):
         },
         u'network.category': {
             'Meta': {'object_name': 'Category'},
+            'code': ('django.db.models.fields.CharField', [], {'default': "''", 'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        u'network.keyword': {
+            'Meta': {'object_name': 'Keyword'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
             'posts': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['network.Post']", 'symmetrical': 'False'})
         },
         u'network.post': {
             'Meta': {'object_name': 'Post'},
+            'category': ('django.db.models.fields.related.ForeignKey', [], {'default': '1', 'to': u"orm['network.Category']"}),
             'content': ('django.db.models.fields.TextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lang': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'language': ('django.db.models.fields.CharField', [], {'default': "'en'", 'max_length': '5', 'db_index': 'True'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'auto_now_add': 'True', 'blank': 'True'}),
-            'link': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'link': ('django.db.models.fields.URLField', [], {'default': 'None', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'link_http_mode': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }
     }

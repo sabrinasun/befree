@@ -1,34 +1,73 @@
+from django.core.urlresolvers import reverse
 from network.views.common.common_base_view import CommonBaseView
-
+from network.forms.post_form import PostForm
 from network.models import Keyword
 from network.models import Category
+from network.models import Post
+
+DEFAULT_CATEGORY_ID = 1
+DEFAULT_CATEGORY_CODE = 'teachings'
 
 
 class IndexView(CommonBaseView):
     template_name = 'network/index.html'
-    category = 'general'
+    category_code = 'teachings'
+    form = PostForm
 
     def get(self, request):
         self.pre_populate_context()
         return self.response()
 
     def post(self, request):
-        return self.response()
+        form = self.form(request.POST)
+        if not form.is_valid():
+            self.pre_populate_context()
+            self.update_context({
+                'form': form
+            })
+            return self.response()
+
+        post = form.save()
+        post.user = request.user
+
+        keywords = self.process_keywords(request.POST.get('keywords', []))
+
+        post.save()
+        post.keyword_set.add(*keywords)
+
+        return self.redirect_to(reverse('network-index'))
 
     def pre_populate_context(self):
-        self.category = self.request.GET.get('category', 'general')
+        self.category_code = self.request.GET.get('category', '') or self.request.POST.get('category', '') or DEFAULT_CATEGORY_CODE
+        category_id = DEFAULT_CATEGORY_ID if self.category_code == DEFAULT_CATEGORY_CODE else Category.objects.get(code=self.category_code).pk
         self.update_context({
             'keywords': Keyword.objects.all(),
             'categories': Category.objects.all(),
-            'category': self.category,
-            'prompt': self.get_prompt_message()
+            'category_code': self.category_code,
+            'category': category_id,
+            'prompt': self.get_prompt_message(),
+            'posts': Post.objects.all()
         })
 
     def get_prompt_message(self):
         available_prompt_messages = {
-            'general': 'Post a general message',
-            'quote': 'Post a Quote'
+            DEFAULT_CATEGORY_CODE: 'Post a general message',
+            'quotes': 'Post a Quote',
+            'book-recommendations': 'Post a book recommendation'
             # to be continue ...
         }
 
-        return available_prompt_messages.get(self.category, 'Enter a message')
+        return available_prompt_messages.get(self.category_code, 'Post a general message')
+
+    def process_keywords(self, keywords_string=''):
+        if not keywords_string:
+            return []
+
+        keywords = keywords_string.split(',')
+
+        if not keywords:
+            return []
+
+        keywords = [keyword.strip().lower() for keyword in keywords if keyword]
+        keywords = [keyword for keyword in keywords if Keyword.objects.filter(name=keyword).count() == 0]
+        return [Keyword.objects.create(name=keyword) for keyword in keywords]
