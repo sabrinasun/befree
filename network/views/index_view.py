@@ -27,15 +27,15 @@ class IndexView(CommonBaseView):
             })
             return self.response()
 
+        self.crate_new_post(request, form)
+        return self.redirect_to(reverse('network-index'))
+
+    def crate_new_post(self, request, form):
         post = form.save()
         post.user = request.user
-
         keywords = self.process_keywords(request.POST.get('keywords', []))
-
         post.save()
         post.keyword_set.add(*keywords)
-
-        return self.redirect_to(reverse('network-index'))
 
     def pre_populate_context(self):
         self.category_code = self.request.GET.get('category', '') or self.request.POST.get('category', '') or DEFAULT_CATEGORY_CODE
@@ -64,10 +64,9 @@ class IndexView(CommonBaseView):
             return []
 
         keywords = keywords_string.split(',')
-
         if not keywords:
             return []
 
-        keywords = [keyword.strip().lower() for keyword in keywords if keyword]
+        keywords = [keyword.strip().lower() for keyword in keywords if keyword.strip()]
         keywords = [keyword for keyword in keywords if Keyword.objects.filter(name=keyword).count() == 0]
         return [Keyword.objects.create(name=keyword) for keyword in keywords]

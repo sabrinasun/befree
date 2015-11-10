@@ -15,7 +15,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    user = models.OneToOneField(get_user_model())
+    user = models.ForeignKey(get_user_model(), db_index=True)
     content = models.TextField()
     title = models.CharField(max_length=255, db_index=True)
     link = models.URLField(max_length=255, default=None, null=True, blank=True)
@@ -25,7 +25,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, db_index=True, default=1)
 
     def __str__(self):
-        return unicode(self.user.username + " | " + self.title)
+        return unicode(str(self.pk) + " | " + self.user.username + " | " + self.title)
 
     def __repr__(self):
         return str(self)
