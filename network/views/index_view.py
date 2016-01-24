@@ -37,12 +37,13 @@ class IndexView(CommonBaseView):
         post.save()
         post.keyword_set.add(*keywords)
 
+
     def pre_populate_context(self):
         self.category_code = self.request.GET.get('category', '') or self.request.POST.get('category', '') or DEFAULT_CATEGORY_CODE
         category_id = DEFAULT_CATEGORY_ID if self.category_code == DEFAULT_CATEGORY_CODE else Category.objects.get(code=self.category_code).pk
         self.update_context({
-            'keywords': Keyword.objects.all(),
-            'categories': Category.objects.all(),
+            'keywords': Keyword.all_with_posts_count(),
+            'categories': Category.all_with_posts_count(),
             'category_code': self.category_code,
             'category': category_id,
             'prompt': self.get_prompt_message(),
@@ -68,5 +69,5 @@ class IndexView(CommonBaseView):
             return []
 
         keywords = [keyword.strip().lower() for keyword in keywords if keyword.strip()]
-        keywords = [keyword for keyword in keywords if Keyword.objects.filter(name=keyword).count() == 0]
-        return [Keyword.objects.create(name=keyword) for keyword in keywords]
+        keywords = [Keyword.objects.get_or_create(name=keyword)[0] for keyword in keywords]
+        return keywords

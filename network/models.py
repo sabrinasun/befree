@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from userena.utils import get_user_model
 
 
@@ -13,6 +14,11 @@ class Category(models.Model):
     def __str__(self):
         return unicode(self.name)
 
+    @staticmethod
+    def all_with_posts_count():
+        return Category.objects.all()\
+            .values('name', 'code') \
+            .annotate(posts_count=Count('post'))
 
 class Post(models.Model):
     user = models.ForeignKey(get_user_model(), db_index=True)
@@ -37,3 +43,10 @@ class Keyword(models.Model):
 
     def __str__(self):
         return unicode(self.name)
+
+    @staticmethod
+    def all_with_posts_count():
+        return Keyword.objects.all()\
+            .values('name')\
+            .annotate(posts_count=Count('posts'))\
+            .order_by('-posts_count')

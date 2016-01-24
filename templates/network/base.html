@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
-
+{% block scripts %}
+  <script src="{{ MEDIA_URL }}js/post_form.js"></script>
+  <script src="{{ MEDIA_URL }}js/notify.min.js"></script>
+{% endblock %}
 {% block subheader %}
   <div>
     <label for="location" class="main-color">Location:</label>
@@ -86,7 +89,7 @@
         <a href="#" class="main-color">All Keywords</a>
         <ul class="keywords-list">
           {% for keyword in keywords %}
-            <li><a href="#">{{ keyword|capfirst }}</a></li>
+            <li><a href="#" title="Posts: {{ keyword.posts_count }}">{{ keyword.name|capfirst }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -96,7 +99,7 @@
       <div class="posts-box-header">
         <a href="{% url 'network-index' %}" class="{% if not request.GET.category %}selected-category{% endif %}">All</a>
         {% for category in categories %}
-          | <a href="{% url 'network-index' %}?category={{ category.code }}" class="{% if request.GET.category and category_code == category.code %}selected-category{% endif %}">{{ category.name }}</a>
+          | <a href="{% url 'network-index' %}?category={{ category.code }}" title="Posts: {{ category.posts_count }}" class="{% if request.GET.category and category_code == category.code %}selected-category{% endif %}">{{ category.name }}</a>
         {% endfor %}
       </div>
       {% include 'network/forms/post-form.html' %}
