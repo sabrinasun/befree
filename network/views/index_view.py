@@ -1,4 +1,7 @@
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator
+
+
 from network.views.common.common_base_view import CommonBaseView
 from network.forms.post_form import PostForm
 from network.models import Keyword
@@ -36,7 +39,6 @@ class IndexView(CommonBaseView):
         keywords = self.process_keywords(request.POST.get('keywords', []))
         post.save()
         post.keyword_set.add(*keywords)
-
 
     def pre_populate_context(self):
         self.category_code = self.request.GET.get('category', '') or self.request.POST.get('category', '') or DEFAULT_CATEGORY_CODE
