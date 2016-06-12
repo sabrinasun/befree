@@ -34,6 +34,7 @@ var PostForm = (function () {
         return true;
     };
     isValidTitle = function() {
+    	/*
         var $title = $("#title"),
             title = $title.val();
         if (!title) {
@@ -43,7 +44,7 @@ var PostForm = (function () {
                 setElementBorder($title, DEFAULT_BORDER);
             });
             return false;
-        }
+        }*/
         return true;
     };
     isPostFormValid = function () {
@@ -93,13 +94,18 @@ var PostForm = (function () {
                 event.preventDefault();
                 return false;
             }
-            var postBody = $("#post-body").val();
-            $("#post-body").val(postBody.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+            //var postBody = $("#post-body").val();
+            //$("#post-body").val(postBody.replace(/(?:\r\n|\r|\n)/g, '<br />'));
         });
     };
 
+    submitForm = function(category) {
+
+    }
+    
     return {
-        init: init
+        init: init,
+        submitForm: submitForm
     }
 
 })();

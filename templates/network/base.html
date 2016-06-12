@@ -99,7 +99,7 @@
       <div class="posts-box-header">
         <a href="{% url 'network-index' %}" class="{% if not request.GET.category %}selected-category{% endif %}">All</a>
         {% for category in categories %}
-          | <a href="{% url 'network-index' %}?category={{ category.code }}" title="Posts: {{ category.posts_count }}" class="{% if request.GET.category and category_code == category.code %}selected-category{% endif %}">{{ category.name }}</a>
+          | <a href="{% url 'network-index' %}?category={{ category.code }}" title="Posts: {{ category.posts_count }}" class="{% if request.GET.category and category_code == category.code %}selected-category{% endif %}">{{ category.code | capfirst }}</a>
         {% endfor %}
       </div>
       {% include 'network/forms/post-form.html' %}

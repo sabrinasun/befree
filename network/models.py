@@ -17,16 +17,16 @@ class Category(models.Model):
     @staticmethod
     def all_with_posts_count():
         return Category.objects.all()\
-            .values('name', 'code') \
+            .values('name', 'code', 'id') \
             .annotate(posts_count=Count('post'))
 
 class Post(models.Model):
     user = models.ForeignKey(get_user_model(), db_index=True)
     content = models.TextField()
-    title = models.CharField(max_length=255, db_index=True)
-    link = models.URLField(max_length=255, default=None, null=True, blank=True)
-    link_http_mode = models.CharField(max_length=255, default=None, null=True, blank=True)
-    language = models.CharField(max_length=5, default='en', db_index=True)
+    title = models.CharField(max_length=255, db_index=True, blank=True, default="")
+    #link = models.URLField(max_length=255, default=None, null=True, blank=True)
+    #link_http_mode = models.CharField(max_length=255, default=None, null=True, blank=True)
+    language = models.CharField(max_length=5, default='en', blank=True, db_index=True)
     last_update = models.DateTimeField(auto_now=True, auto_now_add=True)
     category = models.ForeignKey(Category, db_index=True, default=1)
 

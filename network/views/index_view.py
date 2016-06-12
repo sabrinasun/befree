@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 
-
 from network.views.common.common_base_view import CommonBaseView
 from network.forms.post_form import PostForm
 from network.models import Keyword
@@ -10,7 +9,6 @@ from network.models import Post
 
 DEFAULT_CATEGORY_ID = 1
 DEFAULT_CATEGORY_CODE = 'teachings'
-
 
 class IndexView(CommonBaseView):
     template_name = 'network/index.html'
@@ -22,23 +20,27 @@ class IndexView(CommonBaseView):
         return self.response()
 
     def post(self, request):
-        form = self.form(request.POST)
+        form = PostForm(request.POST, initial={'language' : "en"})
+        
         if not form.is_valid():
             self.pre_populate_context()
             self.update_context({
                 'form': form
             })
             return self.response()
-
-        self.crate_new_post(request, form)
-        return self.redirect_to(reverse('network-index'))
+        
+        return self.crate_new_post(request, form)
+        
 
     def crate_new_post(self, request, form):
-        post = form.save()
-        post.user = request.user
-        keywords = self.process_keywords(request.POST.get('keywords', []))
-        post.save()
-        post.keyword_set.add(*keywords)
+        if not request.user.is_authenticated():
+            return self.redirect_to('/accounts/signup/')
+        else: 
+            cleaned_data = form.cleaned_data
+            post = Post.objects.create(user = request.user, content= cleaned_data['content'])
+            keywords = self.process_keywords(request.POST.get('keywords', []))
+            post.keyword_set.add(*keywords)
+            return self.redirect_to(reverse('network-index'))
 
     def pre_populate_context(self):
         self.category_code = self.request.GET.get('category', '') or self.request.POST.get('category', '') or DEFAULT_CATEGORY_CODE

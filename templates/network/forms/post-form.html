@@ -9,30 +9,31 @@
     <div id="post-additional-panel" style="display: none">
       <table>
         <tr>
-          <td><span class="prompt">Title: </span><input type="text" name="title" id="title" value="{{ form.title.value | default_if_none:'' }}"/></td>
-          <td><span class="prompt">Link: </span><input type="text" name="link" placeholder="http://www..." value="{{ form.link.value | default_if_none:'' }}"/></td>
-        </tr>
-        <tr>
           <td><span class="prompt">Keywords: </span><input type="text" id="keywords" value="{{ form.keywords.value | default_if_none:'' }}" name="keywords" placeholder="Separate keywords by comma ,"/></td>
-          <td>
-            <span class="prompt">Language:</span>
-            <select name="language">
-              <option value="en" selected="selected">English</option>
-              <option value="zh">Chinese</option>
-              <option value="o">Other</option>
-            </select>
-          </td>
         </tr>
       </table>
     </div>
-    <div>
-      <div class="button" id="btn-add-post"><a href="#">Post</a></div>
-      <input type="hidden" name="category" value="{{ category }}"/>
-    </div>
+    
+    {% for field, errors in form.errors.items %}
+      {% for error in errors %}
+        {{field}}{{error}}
+      {% endfor %}
+    {% endfor %}
+    
+     <div class="button dropdown-menu" id="btn-add-post"><a href="javascript:void(0);" onClick="PostForm.submitForm();">Share Something</a>
+      <div class="dropdown-menu-content">
+        {% for cat in categories %}
+         <a href="javascript:void(0);" onClick="PostForm.submitForm('{{cat.id}}');" title="Posts: {{ cat.posts_count }}" class="{% if request.GET.category and category_code == cat.code %}selected-category{% endif %}">{{ cat.name }}</a>
+        {% endfor %}
+      </div>
+     </div>
+     <input type="hidden" name="category" value="{{ category }}"/>
+
   </form>
 </div>
 <script>
   $(document).ready(function () {
+	//debugger;
     PostForm.init();
   });
 </script>
