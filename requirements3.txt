@@ -1,0 +1,10 @@
+# Requirement for Django 1.10 and Python 3
+Django
+#South==0.8.1
+django-guardian
+django-userena
+easy-thumbnails
+Pillow
+django-countries
+django-endless-pagination
+django-el-pagination

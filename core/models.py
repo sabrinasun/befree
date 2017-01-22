@@ -1,8 +1,10 @@
 # coding=utf-8
 from django.db import models
 from django.utils import timezone
-from django_countries import CountryField
-from userena.utils import get_user_model
+from django_countries.fields import CountryField
+#from userena.utils import get_user_model
+from userena.utils import user_model_label
+
 #from accounts.models import Profile
  
 class Author(models.Model):
@@ -123,7 +125,7 @@ class Material(models.Model):
 
 
 class GiverMaterial(models.Model):
-    giver = models.ForeignKey(get_user_model())
+    giver = models.ForeignKey(user_model_label)
     material = models.ForeignKey(Material)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES, default="Good")
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
@@ -143,8 +145,8 @@ class GiverMaterial(models.Model):
 
 
 class Order(models.Model):
-    reader = models.ForeignKey(get_user_model(), related_name = 'reader')
-    giver = models.ForeignKey(get_user_model(), related_name = 'giver')
+    reader = models.ForeignKey(user_model_label, related_name = 'reader')
+    giver = models.ForeignKey(user_model_label, related_name = 'giver')
         
     shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_price =   models.DecimalField(max_digits=8, decimal_places=2, default=0)   
@@ -172,7 +174,7 @@ class OrderDetail(models.Model):
     
 class Group(models.Model):
     name = models.CharField(max_length=100, null=False)
-    admin_id = models.OneToOneField(get_user_model())
+    admin_id = models.OneToOneField(user_model_label)
 
     type = models.CharField(max_length=20, null=False,
                             choices=GROUP_TYPE_CHOICES)

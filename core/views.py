@@ -5,7 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.utils.html import escape
 from django.forms.models import modelform_factory
-from django.db.models.loading import get_models, get_app, get_apps
+
+try:
+    from django.db.models.loading import get_models
+except ImportError:
+    from django.apps import apps
+    get_model = apps.get_model
+
+
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.utils import timezone
@@ -30,6 +37,10 @@ from django.template import Context
 
 from django.db.models import Q
                      
+
+def get_apps():
+    return settings.INSTALLED_APPS
+
 def send_email(template, context, title, to_address):
     template = get_template('email/' + template)
     content = template.render(context)      

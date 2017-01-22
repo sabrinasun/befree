@@ -112,7 +112,7 @@ class UserenaSignupFormBase(UserenaSignupForm):
     state = forms.CharField(max_length = 50)
 
         
-    country = forms.ChoiceField(choices = countries.COUNTRIES, initial="US", required = True)  
+    country = forms.ChoiceField(choices = list(countries), initial="US", required = True)  
     
     def save(self):
         user = super(UserenaSignupFormBase, self).save()

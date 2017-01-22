@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils import timezone
-from django_countries import CountryField
+from django_countries.fields import CountryField
 
-from userena.utils import get_user_model
+#from userena.utils import get_user_model
+from userena.utils import user_model_label
+
 from userena.models import UserenaBaseProfile
 from core.models import Publisher
 from django.core.exceptions import ValidationError
@@ -22,7 +24,7 @@ STATUS_CHOICES = (
 
 
 class Profile(UserenaBaseProfile):
-    user = models.OneToOneField(get_user_model(), unique=True)
+    user = models.OneToOneField(user_model_label, unique=True)
     #screen_name = models.CharField(max_length=100, blank=True, default='')
     state = models.CharField(max_length=50)
     country = CountryField(max_length=50)    

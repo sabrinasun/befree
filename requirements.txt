@@ -1,4 +1,6 @@
-Django==1.5.1
+#Django==1.5.1
+#Django>=1.8,<1.9
+Django
 South==0.8.1
 django-guardian==1.1.1
 django-userena==1.2.1

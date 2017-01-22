@@ -28,7 +28,7 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
-        exclude = ('create_date')
+        exclude = ('create_date',)
         
     def clean(self):
         cleaned_data = super(MaterialForm, self).clean()
@@ -73,7 +73,7 @@ class GiverMaterialForm(forms.ModelForm):
         
     class Meta:
         model = GiverMaterial
-        exclude = ('create_date')
+        exclude = ('create_date',)
         widgets = {
         'giver': forms.HiddenInput(attrs={'readonly':'True'}),
         'price': forms.HiddenInput(attrs={'readonly':'True'})
@@ -84,8 +84,10 @@ class AuthorForm(forms.ModelForm):
     
     class Meta:
         model = Author
+        exclude = ()
 
 class PublisherForm(forms.ModelForm):
     
     class Meta:
         model = Publisher
+        exclude = ()
