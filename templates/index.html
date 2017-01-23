@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load readmore el_pagination_tags %}
+{% load readmore el_pagination_tags staticfiles %}
 
 {% block subheader %}
     <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;"> </div>
@@ -114,7 +114,7 @@
 
 
  
-	    <img src="{{ MEDIA_URL }}img/monk.jpg" style="width:10%;" >
+	    <img src="{% static 'img/monk.jpg' %}" style="width:10%;" >
 
 	  <div style="clear:both;"></div>
 	</div>
@@ -224,7 +224,7 @@
 					    	<a href="{{inventory.material.pdf_url}}" target="_blank">PDF</a>
 					    {% elif inventory.material.pdf %}
 					    &nbsp;
-					    	<a href="{{ MEDIA_URL }}{{inventory.material.pdf}}" target="_blank">PDF</a>
+					    	<a href="{{ MEDIA_URL }}/{{inventory.material.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
                      
       
@@ -312,7 +312,13 @@
             </div>
 
             <div class="leftcolumn" style="text-align:right;">
-                <div><img src="{{ MEDIA_URL }}{{ inventory.material.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
+                <div>
+                {% if inventory.material.pic %}
+                <img src="{{ MEDIA_URL }}{{ inventory.material.pic }}" height="100px">
+                {% else %}
+                <img src="{% static 'img/common-cover.jpg' %}" height="100px">
+                {% endif %}
+                </div>
             </div>
 
         </div>
@@ -339,7 +345,7 @@
 					    	<a href="{{ebook.pdf_url}}" target="_blank">PDF</a>
 					    {% elif ebook.pdf %}
 					    &nbsp;
-					    	<a href="{{ MEDIA_URL }}{{ebook.pdf}}" target="_blank">PDF</a>
+					    	<a href="{% static '{{ebook.pdf}}' %}" target="_blank">PDF</a>
 					    {% endif %}
  
 	                    <br><i>Request Directly:</i>
@@ -366,7 +372,7 @@
             </div>
 
             <div class="leftcolumn" style="text-align:right;">
-                <div><img src="{{ MEDIA_URL }}{{ ebook.pic | default:'img/common-cover.jpg' }}" height="100px"></div>
+                <div><img src="{% static ebook.pic | default:'img/common-cover.jpg' %}" height="100px"></div>
             </div>
 
         </div>
