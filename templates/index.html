@@ -372,7 +372,14 @@
             </div>
 
             <div class="leftcolumn" style="text-align:right;">
-                <div><img src="{% static ebook.pic | default:'img/common-cover.jpg' %}" height="100px"></div>
+                <div>
+                {% if ebook.pic %}
+	                <img src="{{ MEDIA_URL }}{{ ebook.pic }}" height="100px">
+                {% else %}
+	                <img src="{% static 'img/common-cover.jpg' %}" height="100px">
+
+                {% endif %}
+                </div>
             </div>
 
         </div>
