@@ -245,13 +245,13 @@
 
                     
                     <!--  
-                    {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+                    {% if inventory.giver.profile.donation or inventory.giver.profile.donate_url %}
                     <span><a style="text-decoration:underline;" title="
-                    {% if inventory.giver.get_profile.donate_url %}
-                    <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Online Donation</a>
+                    {% if inventory.giver.profile.donate_url %}
+                    <a href='{{inventory.giver.profile.donate_url}}' target='_blank'>Online Donation</a>
                     {% endif %}
-                    {% if inventory.giver.get_profile.donation %}
-                    Details: {{inventory.giver.get_profile.donation}}
+                    {% if inventory.giver.profile.donation %}
+                    Details: {{inventory.giver.profile.donation}}
                     {% endif %}
                     ">Donate</a></span>
                     {% endif %}                    
@@ -265,18 +265,18 @@
                     <i>Copies:</i> {{ inventory.quantity }}
                     &nbsp;
                     <i>Price:</i> <span class="success">Free</span>     	
-                    <i>Local Pickup:</i> <span>{% if inventory.giver.get_profile.local_pickup %}
-                    <span title="{{inventory.giver.get_profile.pickup_description}}"><a style="text-decoration:underline;">Yes</a></span>
+                    <i>Local Pickup:</i> <span>{% if inventory.giver.profile.local_pickup %}
+                    <span title="{{inventory.giver.profile.pickup_description}}"><a style="text-decoration:underline;">Yes</a></span>
                     {% else %}
                     No
                     {% endif %}
                     </span>
                     -->
-                    <i>Shipping:</i>{% if inventory.giver.get_profile.international_free_shipping %} Free Internationally
+                    <i>Shipping:</i>{% if inventory.giver.profile.international_free_shipping %} Free Internationally
                     {% else %}
-                       {% if inventory.giver.get_profile.domestic_free_shipping %} Free domestically 
+                       {% if inventory.giver.profile.domestic_free_shipping %} Free domestically 
                        {% else %}
-                         {% if inventory.giver.get_profile.domestic_pay_shipping %}
+                         {% if inventory.giver.profile.domestic_pay_shipping %}
                            Standard
                          {% else %}
                            No
@@ -285,19 +285,19 @@
                     {% endif %}
                     &nbsp;
                     <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->
-                    {% if inventory.giver.get_profile.donation or inventory.giver.get_profile.donate_url %}
+                    {% if inventory.giver.profile.donation or inventory.giver.profile.donate_url %}
                     <span><a style="text-decoration:underline;" title="
-                    {% if inventory.giver.get_profile.donate_url %}
-                    <a href='{{inventory.giver.get_profile.donate_url}}' target='_blank'>Donate to Giver's Local Temple</a><br></br>
+                    {% if inventory.giver.profile.donate_url %}
+                    <a href='{{inventory.giver.profile.donate_url}}' target='_blank'>Donate to Giver's Local Temple</a><br></br>
                     {% endif %} 
-                    {% if inventory.giver.get_profile.donation %}
-                    How to Donate: {{inventory.giver.get_profile.donation}}
+                    {% if inventory.giver.profile.donation %}
+                    How to Donate: {{inventory.giver.profile.donation}}
                     {% endif %}
-                    ">{{ inventory.giver.get_profile.get_display_name}}</a></span>
+                    ">{{ inventory.giver.profile.get_display_name}}</a></span>
                     {% else %}   
-                    {{ inventory.giver.get_profile.get_display_name}}
+                    {{ inventory.giver.profile.get_display_name}}
                     {% endif %},
-                    <!--/a-->  &nbsp;{{ inventory.giver.get_profile.get_location }}
+                    <!--/a-->  &nbsp;{{ inventory.giver.profile.get_location }}
 
                     {% if inventory.note %}
                     <span><a style="text-decoration:underline;" title="
@@ -456,10 +456,10 @@ $(function() {
                     </form>
 			</div>
                 {% else %}
-                    <div class="header">Welcome {{ user.get_profile.get_display_name }}</div>
+                    <div class="header">Welcome {{ user.profile.get_display_name }}</div>
                     <div class="box-content">
                         <div class="row">
-					You name: {{ user.get_profile.get_display_name }}
+					You name: {{ user.profile.get_display_name }}
 				</div>
                         <div class="row">
 					<a href="{% url 'userena_signout' %}">Log out</a>

@@ -51,7 +51,7 @@
 
     <!-- div><label>Show my public profile:</label>{{ form.is_public }}{{ form.is_public.errors }} * Complete public profile to let users know more about you.</div-->               
           
-    <h3>Section 2. <input type="checkbox" name="check_receiver" id="id_check_receiver" {% if validate_receiver or user.get_profile.has_reader_profile %} checked {% endif %}>
+    <h3>Section 2. <input type="checkbox" name="check_receiver" id="id_check_receiver" {% if validate_receiver or user.profile.has_reader_profile %} checked {% endif %}>
     Receiver - Mailing Information:</h3>
     <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }}</div> 
     <div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>    
@@ -60,7 +60,7 @@
     <div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>       
     <div><label>Zip Code:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>             
     
-    <h3>Section 3. <input type="checkbox" name="check_giver" id="id_check_giver" {% if validate_giver or user.get_profile.has_giver_profile %} checked {% endif %}>Giver - Distribution Information:</h3>     
+    <h3>Section 3. <input type="checkbox" name="check_giver" id="id_check_giver" {% if validate_giver or user.profile.has_giver_profile %} checked {% endif %}>Giver - Distribution Information:</h3>     
 
 	<div><label>Distribution Methods:</label>{{ form.local_pickup }} Local Pickup: Receiver picks up books from your location. <br>
 	<label> </label>{{ form.domestic_free_shipping }} Free Domestic Shipping: Sender covers domestic shipping expenses. <br>  

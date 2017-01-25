@@ -141,7 +141,7 @@ class GiverMaterial(models.Model):
         return range(1, self.quantity + 1)
     
     def __unicode__(self):
-        return "%s - %s " % (self.giver.get_profile().get_display_name() , self.material )
+        return "%s - %s " % (self.giver.profile.get_display_name() , self.material )
 
 
 class Order(models.Model):

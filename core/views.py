@@ -95,10 +95,10 @@ def index(request):
         #users = [p.user for p in Profile.objects.all().filter( Q(state=location) | Q(domestic_pay_shipping='TRUE') | Q(domestic_free_shipping='TRUE') | Q(international_free_shipping='TRUE') )]
         #inventories = inventories.filter(giver__in=users)
         inventories = inventories.filter(
-            Q(giver__profile__state=location) | Q(
-                giver__profile__domestic_pay_shipping='TRUE') | Q(
-                giver__profile__domestic_free_shipping='TRUE') | Q(
-                giver__profile__international_free_shipping='TRUE'))
+            Q(giver__profile__state=location) & (Q(
+                giver__profile__domestic_pay_shipping=True) | Q(
+                giver__profile__domestic_free_shipping=True) | Q(
+                giver__profile__international_free_shipping=True)))
             
     request.session["lang"] = lang
     request.session["location"] = location
@@ -171,7 +171,7 @@ def get_order_from_bag(cart, user):
     for item in inventories:
         username = item.giver.username    
         order_details = orders.get(username)
-        detail = {"inventory": item, "quantity": cart[item.pk]}
+        detail = {"inventory": item, "quantity": cart[str(item.pk)]}
         if order_details: 
             order_details.append(detail)
         else:
@@ -195,24 +195,24 @@ def get_order_from_bag(cart, user):
         #shipping cost according to location
         giver = detail['inventory'].giver
         shipping_cost = -1
-        giver_country = giver.get_profile().country
-        user_country = user.get_profile().country
+        giver_country = giver.profile.country
+        user_country = user.profile.country
         
         if giver_country == 'US' and  user_country == 'US':
             shipping_cost = get_shipping_cost(weight)
 
         shipping_cost_wave = False            
         if giver_country == user_country:
-            if giver.get_profile().domestic_free_shipping:
+            if giver.profile.domestic_free_shipping:
                 shipping_cost_wave = True
-        elif giver.get_profile().international_free_shipping:
+        elif giver.profile.international_free_shipping:
             shipping_cost_wave = True
         
         warning = []
         if shipping_cost == -1: 
             warning.append("We can't determine shipping cost. Wait for giver's advice after placing order. ")
         
-        max_per_order = giver.get_profile().max_per_order
+        max_per_order = giver.profile.max_per_order
         if max_per_order != 0 and free_count > max_per_order:
             warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (free_count,max_per_order)  )
             
@@ -229,7 +229,7 @@ def view_bag(request):
         
     if not request.user.is_authenticated():
         return redirect('/accounts/signup_reader/')
-    elif not request.user.get_profile().has_reader_profile(): 
+    elif not request.user.profile.has_reader_profile(): 
         return redirect(reverse_lazy('userena_profile_edit_from_view_bag', args=[request.user.username]) )
         
     orders = get_order_from_bag(cart, request.user)
@@ -257,12 +257,12 @@ def contact_user(request):
         if contact_form.is_valid(): 
             to_user = get_object_or_404(get_user_model(), id = contact_form.cleaned_data['user_id'] )       
             message =  contact_form.cleaned_data['message']
-            context = Context({'to_user': to_user.get_profile().get_display_name(), 
-                               'from_user': request.user.get_profile().get_display_name(), 
+            context = Context({'to_user': to_user.profile.get_display_name(), 
+                               'from_user': request.user.profile.get_display_name(), 
                                'from_user_id': request.user.pk,
                                'message': message
                               })
-            title = "User %s has sent you a message via BuddhistExchange. " % request.user.get_profile().get_display_name()
+            title = "User %s has sent you a message via BuddhistExchange. " % request.user.profile.get_display_name()
             send_email('contact-user.txt', context, title, to_user.email)
             return HttpResponse('<script type="text/javascript">document.write("Your message has been sent.");window.close();opener.alert("You email message has been sent.");</script>')
 
@@ -340,22 +340,22 @@ def check_out(request):
                 detail = OrderDetail.objects.create(order=order, inventory=inventory, quantity=quantity)
                 detail.save()
             
-            max_per_order = giver.get_profile().max_per_order
+            max_per_order = giver.profile.max_per_order
             if max_per_order != 0 and total_free_item > max_per_order: 
                 order.status = "PENDING"
                 order.save() 
     
             giver = one_order['giver']
-            context = Context({ 'shipping_address': order.reader.get_profile().get_shipping_address(),
+            context = Context({ 'shipping_address': order.reader.profile.get_shipping_address(),
                                 'total_free_item': total_free_item, 
                                 'max_per_order': max_per_order,
-                                'giver_name': giver.get_profile().get_display_name(),
-                                'reader_name': reader.get_profile().get_display_name(), 
+                                'giver_name': giver.profile.get_display_name(),
+                                'reader_name': reader.profile.get_display_name(), 
                                 'order_number': order.pk,
                                 'shipping_cost': order.shipping_cost, 
                                 'order_details': OrderDetail.objects.filter(order=order)})
 
-            title = 'Order %s was placed by %s via BuddhistExchange.' % ( order.pk , reader.get_profile().get_display_name())                
+            title = 'Order %s was placed by %s via BuddhistExchange.' % ( order.pk , reader.profile.get_display_name())                
             send_email('email-giver-order-placed.txt', context, title,giver.email)
             
             title = 'You have placed an order via BuddhistExchange.'
@@ -423,9 +423,9 @@ def account_reading_orders(request):
         order.save()
 
         context = Context(
-                  {'reader_name': order.reader.get_profile().get_display_name(),
+                  {'reader_name': order.reader.profile.get_display_name(),
                    'order_number': order_id,
-                   'giver_name': order.giver.get_profile().get_display_name(),
+                   'giver_name': order.giver.profile.get_display_name(),
                    'shipping_cost': order.shipping_cost,
                    'order_details': OrderDetail.objects.filter(order=order)
                     })
@@ -464,9 +464,9 @@ def account_giving_orders(request):
         order.save() #order.save(update_fields=['ship_date'])
         
         context = Context(
-                  {'reader_name': order.reader.get_profile().get_display_name(),
+                  {'reader_name': order.reader.profile.get_display_name(),
                    'order_number': order_id,
-                   'giver_name': request.user.get_profile().get_display_name(),
+                   'giver_name': request.user.profile.get_display_name(),
                    'shipping_cost': order.shipping_cost,
                    'order_details': OrderDetail.objects.filter(order=order)
                     })
@@ -500,7 +500,7 @@ def account_giving_orders(request):
             for detail in OrderDetail.objects.filter(order=order): 
                 quantity += detail.quantity
             
-            max_per_order = order.giver.get_profile().max_per_order
+            max_per_order = order.giver.profile.max_per_order
             if max_per_order != 0 and quantity > max_per_order:
                 order.status = 'PENDING'
             else:
@@ -508,9 +508,9 @@ def account_giving_orders(request):
             order.save()
             
             context = Context(
-                      {'reader_name': order.reader.get_profile().get_display_name(),
+                      {'reader_name': order.reader.profile.get_display_name(),
                        'order_number': order.pk,
-                       'giver_name': order.giver.get_profile().get_display_name(),
+                       'giver_name': order.giver.profile.get_display_name(),
                        'shipping_cost': order.shipping_cost,
                        'order_details': OrderDetail.objects.filter(order=order), 
                        'order_status': order.status
@@ -539,7 +539,7 @@ def account_giving_orders(request):
 @login_required
 def account_material(request):
 
-    if not request.user.get_profile().has_giver_profile():
+    if not request.user.profile.has_giver_profile():
         return redirect(reverse_lazy('userena_profile_edit_from_inventory', args=[request.user.username]))    
     inventory = GiverMaterial.objects.filter(giver=request.user)
     inventory_ids = [item.material.id for item in inventory]
@@ -647,7 +647,7 @@ class GiverMaterialEditView(UpdateView):
 def pay_giver(request):
     pay_form =  None 
     order = None
-    user_display_name = request.user.get_profile().get_display_name()
+    user_display_name = request.user.profile.get_display_name()
     
     if request.method == "POST": 
         pay_form = PayForm(data = request.POST)
@@ -663,8 +663,8 @@ def pay_giver(request):
             order.status = 'PAID'
             order.save()
             
-            context = Context({'shipping_address': order.reader.get_profile().get_shipping_address(),
-                       'giver_name': order.giver.get_profile().get_display_name(), 
+            context = Context({'shipping_address': order.reader.profile.get_shipping_address(),
+                       'giver_name': order.giver.profile.get_display_name(), 
                        'order_number':order.pk,
                        'reader_name': user_display_name,
                        'payment_method': pay_method ,

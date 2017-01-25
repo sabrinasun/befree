@@ -15,10 +15,10 @@
 	    You need to ship this order. 
 	    {% endif %}	    
 	    </div>
-	    <div style="display:inline;">Ship To: {{order.order.reader.get_profile.get_shipping_address}}</div>
+	    <div style="display:inline;">Ship To: {{order.order.reader.profile.get_shipping_address}}</div>
 	    <div style="display:inline;float:right;">
 	       <a href="javascript:void(0)" class="add-another" 
-	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.reader.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Reader {{ order.order.reader.get_profile.get_display_name }}</a> 		    	
+	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.reader.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Reader {{ order.order.reader.profile.get_display_name }}</a> 		    	
 	   	</div>  
 	    <div class="contentwrapper">
 	        <div class="right" >
@@ -75,7 +75,7 @@
 	    </div>
 	</div>
 {% empty %}
-    {% if user.get_profile.has_giver_profile %} 
+    {% if user.profile.has_giver_profile %} 
 	  No book found. 
 	{% else %}
 	  You need to first update your profile with giver's information, before you can post your inventory. You will then

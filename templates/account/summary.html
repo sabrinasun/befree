@@ -19,7 +19,7 @@
 			{% endif %}								
 			
             {% block account_right %}
-            <b>Welcome {{ user.get_profile.get_display_name }}!</b>
+            <b>Welcome {{ user.profile.get_display_name }}!</b>
 			<br>
 		
 			{% if pending_items %}
@@ -29,7 +29,7 @@
 			{% endif %}
 			<br>			
 			
-			{% if user.get_profile.has_giver_profile %}
+			{% if user.profile.has_giver_profile %}
 			   You can add books to <a href="{% url 'account_material' %}">My Inventory</a>. You may receive emails when readers place orders, and you can check your orders in <a href="{% url 'account_giving_orders' %}">Books I need to Send.</a>.
 			{% else %}
 			   Want to give books to others? Please complete giver's profile in <a href="{% url 'userena_profile_edit_from_inventory' username=user.username %}">profile</a> to start giving. 
@@ -38,7 +38,7 @@
 			
 
 			
-			{% if user.get_profile.has_reader_profile %}
+			{% if user.profile.has_reader_profile %}
 			<p><b><a href="{% url 'account_reading_orders' %}">Books I am receiving</a></b>
 			<ul>
 			<li>New Orders: {{ reading_orders_new }}</li>
@@ -48,7 +48,7 @@
 			</p>
 			{% endif %}
 			
-			{% if user.get_profile.has_giver_profile %}			
+			{% if user.profile.has_giver_profile %}			
 			<p><b><a href="{% url 'account_material' %}">My Inventory</a></b><br>
 			BuddhistExchange maintains a public index of books, so please check if you book has already been entered by others. 
 			If nobody has entered your book, you can enter it  

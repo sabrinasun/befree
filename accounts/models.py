@@ -24,7 +24,7 @@ STATUS_CHOICES = (
 
 
 class Profile(UserenaBaseProfile):
-    user = models.OneToOneField(user_model_label, unique=True)
+    user = models.OneToOneField(user_model_label, unique=True, related_name='profile')
     #screen_name = models.CharField(max_length=100, blank=True, default='')
     state = models.CharField(max_length=50)
     country = CountryField(max_length=50)    
