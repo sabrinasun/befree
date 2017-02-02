@@ -2,10 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
 
+from django.contrib.auth.models import User
 #from userena.utils import get_user_model
 from userena.utils import user_model_label
 
-from userena.models import UserenaBaseProfile
+from userena.models import UserenaBaseProfile, UserenaSignup
 from core.models import Publisher
 from django.core.exceptions import ValidationError
 
@@ -130,3 +131,7 @@ class Profile(UserenaBaseProfile):
             return False
         
         return True
+
+# Vaim : To fix https://github.com/sabrinasun/befree/issues/46
+# Automagically create the user UserenaSignup object when referenced
+User.userena_signup = property(lambda u: UserenaSignup.objects.get_or_create(user=u)[0])

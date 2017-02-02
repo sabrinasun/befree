@@ -1,5 +1,5 @@
 from django import http
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, render
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
@@ -308,7 +308,7 @@ def check_out(request):
     cart = request.session.pop('cart', {})
     
     for one_order in orders: 
-        with transaction.commit_on_success():
+        with transaction.atomic():
             giver = one_order['giver']
             order = Order.objects.create(reader=reader, giver = giver)
             
@@ -575,16 +575,16 @@ def account_material_edit(request, material_id=None):
 
 @login_required
 def add_new_model(request, model_name):
-
+    from django.apps import apps
     if (model_name.lower() == model_name):
             normal_model_name = model_name.capitalize()
     else:
         normal_model_name = model_name
     app_list = get_apps()
     for app in app_list:
-        for model in get_models(app):
+        for model in apps.get_models(app):
             if model.__name__ == normal_model_name:
-                form = modelform_factory(model)
+                form = modelform_factory(model, exclude=())
             
                 if request.method == 'POST':
                     form = form(request.POST)
@@ -599,7 +599,7 @@ def add_new_model(request, model_name):
                 else:
                     form = form()
                 page_context = {'form': form, 'field': normal_model_name}
-                return render_to_response('popup.html', page_context, context_instance=RequestContext(request))
+                return render(request, 'popup.html', page_context)
 
 @login_required
 def account_add_publisher(request):
