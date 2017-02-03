@@ -1,4 +1,7 @@
 # coding=utf-8
+from __future__ import unicode_literals
+from django.utils.encoding import python_2_unicode_compatible
+
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
@@ -6,7 +9,8 @@ from django_countries.fields import CountryField
 from userena.utils import user_model_label
 
 #from accounts.models import Profile
- 
+
+@python_2_unicode_compatible 
 class Author(models.Model):
     name = models.CharField(max_length=100, unique=True)
     facebook = models.URLField(max_length=255, null=True, blank=True)
@@ -15,9 +19,10 @@ class Author(models.Model):
     donate_url = models.URLField(max_length=255, null=True, blank=True)
     donate_note =  models.TextField(blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
+@python_2_unicode_compatible
 class Publisher(models.Model):
     name    = models.CharField(max_length=100, unique=True)
     website = models.URLField(max_length=255, null=True, blank=True)    
@@ -27,7 +32,7 @@ class Publisher(models.Model):
     donate_note =  models.TextField(blank=True)
     #contact = models.ForeignKey(get_user_model(), null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
 
@@ -79,15 +84,16 @@ def cover_pic_name(instance, filename):
 def pdf_name(instance, filename):
     return "pdf/book_"+str(instance.pk)+"_pdf_"+filename
 
-
+@python_2_unicode_compatible
 class Category(models.Model):
     name = models.CharField(max_length=100, null=False)
     order = models.PositiveIntegerField(default=0)
     descr = models.CharField(max_length=255, null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"{0}".format(self.name)
 
+@python_2_unicode_compatible
 class Material(models.Model):
     title = models.CharField(max_length=255)
     author = models.ManyToManyField(Author)
@@ -113,7 +119,7 @@ class Material(models.Model):
     editor_pick = models.PositiveIntegerField(default=1, blank=True, null=True)
 
     
-    def __unicode__(self):
+    def __str__(self):
         return u"{0}".format(self.title)
 
     def get_author_names(self):
@@ -123,7 +129,7 @@ class Material(models.Model):
     def get_absolute_url(self):
         return ('account_material_edit', (), dict(material_id=self.id))
 
-
+@python_2_unicode_compatible
 class GiverMaterial(models.Model):
     giver = models.ForeignKey(user_model_label)
     material = models.ForeignKey(Material)
@@ -140,10 +146,10 @@ class GiverMaterial(models.Model):
     def get_quantity_nums(self):
         return range(1, self.quantity + 1)
     
-    def __unicode__(self):
+    def __str__(self):
         return "%s - %s " % (self.giver.profile.get_display_name() , self.material )
 
-
+@python_2_unicode_compatible
 class Order(models.Model):
     reader = models.ForeignKey(user_model_label, related_name = 'reader')
     giver = models.ForeignKey(user_model_label, related_name = 'giver')
@@ -164,7 +170,7 @@ class Order(models.Model):
     def get_paypal_cost(self):       
         return float ( self.shipping_cost ) * 1.029 + 0.3
     
-    def __unicode__(self):
+    def __str__(self):
         return str(self.id)
 
 class OrderDetail(models.Model):
