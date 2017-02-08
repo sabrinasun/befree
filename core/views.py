@@ -66,7 +66,7 @@ def index(request):
         else:
         """
         cart = request.session.get("cart", {})
-        cart[inventory.pk] = quantity + cart.get(inventory.pk, 0)
+        cart[str(inventory.pk)] = quantity + cart.get(str(inventory.pk), 0)
         request.session["cart"] = cart
     else:
         msg = request.GET.get('msg','')
@@ -241,7 +241,7 @@ def view_bag(request):
 def view_bag_delete(request, inventory_id):
     #delete everything from cart that has inventory id 1
     cart = request.session.get("cart", {})
-    del cart[int(inventory_id)] 
+    del cart[str(inventory_id)] 
     request.session["cart"] = cart    
     orders = get_order_from_bag(cart, request.user)
     context = { "orders": orders, "action":"view_bag" }     
