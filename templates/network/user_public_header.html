@@ -1,0 +1,13 @@
+{% load staticfiles %}
+<div class="title" onclick="javascript:  window.location.href = '/';">
+</div>
+
+<div class="small-menu" style="top: 30px;">
+    <a href="{% url 'user_public' view_user.pk %}">{{ view_user.profile.get_display_name }}'s Dharma Page</a> |
+    <a href="#">Message Board</a>
+    <div style="position:relative;left:5px;display:none;">
+        <div class="arrow-content"></div>
+        <div class="arrow-up-border"></div>
+        <div class="arrow-up"></div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<div class="title" onclick="javascript:  window.location.href = '/';">
+</div>
+
+<div class="small-menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'user_public' user.pk %}">{{ user.profile.get_display_name }}</a> |
+    <a href="#">Messages</a> | {% endif %}
+    <a href="{% url 'index' %}">Free Book</a> | {% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">My Account</a> | {% endif %}
+    <div class="cart-menu" onclick="document.location='{% url 'view_bag' %}'; ">
+        <div class="cart">
+            <img src="{% static 'img/cart.png' %}">
+            <!--a href="{% url 'view_bag' %}"></a-->
+            <div class="cart-number">{{ order_items_count }}</div>
+        </div>
+        <div class="cart-title"> Cart</div>
+    </div>
+
+    | <a href="{% url 'help' %}">Help</a>
+
+
+    <div style="position:relative;left:5px;display:none;">
+        <div class="arrow-content"></div>
+        <div class="arrow-up-border"></div>
+        <div class="arrow-up"></div>
+    </div>
+</div>

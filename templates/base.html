@@ -5,58 +5,39 @@
 <head>
 	<title>Buddhist Book Exchange</title>
 	<meta name="Keywords" content="Free Buddhist books, CD and DVD. Online Buddhist community. Free services for Buddhist temples.">
-	<meta name="Description" content="Buddhist exchange provide an exchange platform for Buddhist individuals and temples, 
+	<meta name="Description" content="Buddhist exchange provide an exchange platform for Buddhist individuals and temples,
    to get and give Dharma materials for free. Provide products and services at low cost to serve the community. ">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/ui-lightness/jquery-ui-1.10.3.custom.min.css' %}" />
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="{% static 'js/common.js' %}"></script>
-    
 	<script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
-    
+	{% block extra_css %}{% endblock %}
+
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Expires" content="0" />    
+	<meta http-equiv="Expires" content="0" />
 <head>
 
 {% block body %}
 <body>
 
 <!--  div class="main-header menu">
-   
+
 	<a href="/"><img src="{{ STATIC_URL }}img/logo.png"></a>
         <div style="text-align:right;margin-right:50px;margin-top:-40px; margin-bottom:40px;""></div>
 	<ul>
 	    <li><a href="/">Home</a></li>
 		<li><a href="{% url 'help' %}">How it works</a></li>
-		{% if user.is_authenticated %}<li><a href="{% url 'account_summary' %} ">My Account</a></li>{% endif %} 
+		{% if user.is_authenticated %}<li><a href="{% url 'account_summary' %} ">My Account</a></li>{% endif %}
 	</ul>
 </div-->
 
 <div class="main-header">
-  <div class="title" onclick="javascript:  window.location.href = '/';">
-  </div>
-
-  <div class="small-menu" >
-    <a href="/">Home</a> |
-    {% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">My Account</a> | {% endif %} 
-	<div class="cart-menu" onclick="document.location='{% url 'view_bag' %}'; ">
-		<div class="cart">
-		  <img src="{% static 'img/cart.png' %}"> <!--a href="{% url 'view_bag' %}"></a-->
-		  <div class="cart-number">{{ order_items_count }}</div>
-		</div><div class="cart-title"> Cart</div>
-	</div>  
-    
-    | <a href="{% url 'help' %}">Help</a>
-
-    
-	<div style="position:relative;left:5px;display:none;">
-      <div class="arrow-content"></div>
-      <div class="arrow-up-border"></div>
-	  <div class="arrow-up"></div>
-    </div>
-  </div>
+	{% block header %}
+	   {% include 'base_header.html' %}
+    {% endblock %}
 
   <!-- div class="header-input">
       <div style="display:inline-block"><input placeholder="Search" style="height:18px;border:solid 1px white;"></input></div><div style="display:inline-block;border:1px solid white;background:#FFFFFF;height:20px;width:20px;vertical-align: top;"><img src="{{ STATIC_URL }}img/search.png" style="width:16px;height:16px;margin:2px;"></img></div>
@@ -81,17 +62,17 @@
 
 {% block content %}
     {% block main %}{% endblock main %}
-    
+
     {% block right %}{% endblock right %}
-    
+
 </div>
 {% endblock content %}
 
 <div class='footer' >
-Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a> 
+Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a>
 </div>
 
-
+{% block extra_js %}{% endblock %}
 </body>
 {% endblock body %}
 

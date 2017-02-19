@@ -145,7 +145,8 @@ INSTALLED_APPS = (
     'el_pagination',
     'accounts',
     'core',
-    #'network'
+    'timeline',
+    'network'
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -256,7 +257,7 @@ TEMPLATES = [
             'loaders': [
                 # insert your TEMPLATE_LOADERS here
                 'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',                
+                'django.template.loaders.app_directories.Loader',
             ]
         },
 

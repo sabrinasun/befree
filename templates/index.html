@@ -3,7 +3,7 @@
 
 {% block subheader %}
     <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;"> </div>
-	<span style="color:#996633;">  
+	<span style="color:#996633;">
 	Location: <select style="color:black;font-weight:normal;font:12px;width:100px;">
 				<option selected="selected" value="all">-----All-----</option>
 				<option value="AL">Alabama</option>
@@ -69,12 +69,12 @@
 				<option value="WV">West Virginia</option>
 				<option value="WI">Wisconsin</option>
 				<option value="WY">Wyoming</option>
-	</select> 
+	</select>
 	Language: <select style="color:black;font-weight:normal;font:12px;" name="language">
-    <option value="all" {% if lang == 'all' %} selected {% endif %} >All </option>	
+    <option value="all" {% if lang == 'all' %} selected {% endif %} >All </option>
     <option value="en" {% if lang == 'en' %} selected {% endif %} >English  </option>
     <option value="zh" {% if lang == 'zh' %} selected {% endif %}>Chinese </option>
-    <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option> 
+    <option value="o" {% if lang == 'o' %} selected {% endif %}>Other </option>
     </select>
 
 	</span>
@@ -87,59 +87,59 @@
 
 <div class ="contentwrapper" style="width:calc(100% - 220px);">
 	<div style="margin-bottom:4px; " id="test">
-	
+
 	  <div class="box info-box " ><div class="info-box-header">How to Receive</div>
-	  <div class="box-content" >All items are free, some requires shipping cost. Please treat Dharma materials with respect and care. 
-	   <br><br>If you prefer, you can give the book back to others later, to keep the chain of giving.  
+	  <div class="box-content" >All items are free, some requires shipping cost. Please treat Dharma materials with respect and care.
+	   <br><br>If you prefer, you can give the book back to others later, to keep the chain of giving.
 	  </div>
-	  </div>	
-	
+	  </div>
+
 	  <!--  div class="box info-box " ><div class="info-box-header">Spirit of Giving</div>
-	  <div class="box-content" >Our acts of giving are out of compassion and loving kindness.   
+	  <div class="box-content" >Our acts of giving are out of compassion and loving kindness.
 	  <br><br>Our giving helps others, and cultivates merits and compassion for ourselves. <br-->
- 
+
 	  <div class="box info-box " ><div class="info-box-header highlight">Free Books by Mail</div>
-	  <div class="box-content" >We are establishing a platform for exchanging/recommending buddhist books.    
+	  <div class="box-content" >We are establishing a platform for exchanging/recommending buddhist books.
 	  <br><br>Please check for update while we are building. In the mean time you can request books directly from <span class="highlight">Free Books Distributors</span>. <br>
 
 	  </div>
-	  
+
 	  </div>
 
 	  <div class="box info-box " ><div class="info-box-header">How to Give</div>
 	  <div class="box-content" >Rather than absorb a Buddhist book and place it away on a bookshelf,  you can offer that book to others.
-	   <br><br> You can offer pickup at your temple, or even cover shipping cost. 
+	   <br><br> You can offer pickup at your temple, or even cover shipping cost.
 	  </div>
 	  </div>
 
 
- 
+
 	    <img src="{% static 'img/monk.jpg' %}" style="width:10%;" >
 
 	  <div style="clear:both;"></div>
 	</div>
 
 	{% if msg == "signup_success" %}
-	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div> 
+	<div class="msg">Thanks for signing up! Please check your email and follow the instruction to login.</div>
 	{% endif %}
     <!--  paginate inventories  -- remove since only display 10 items-->
-    
+
     <!-- div class="msg">Total {{ inventories.count }} free book{{ inventories.count|pluralize }}. </div-->
 
     <div style="position:absolute;padding-left:18px;line-height:30px;">
 
         {% for category in categories %}
-          {% ifequal request.session.cat|add:"0" category.item.pk|add:"0" %} 
+          {% ifequal request.session.cat|add:"0" category.item.pk|add:"0" %}
             {{ category.item.name }} ({{category.count}}) <br />
           {% else %}
           <a href="/?cat={{category.item.pk}}">{{ category.item.name }} ({{category.count}})</a> <br />
-          
+
           {% endifequal %}
-          
+
         {% endfor %}
 
     </div>
-     
+
      <div style="margin-left: 210px;margin-bottom:5px;">
      <b>Category: {% if category.name %} {{category.name}} {% else %} All {% endif %} </b> <br />
      </div>
@@ -153,12 +153,12 @@
                     <form method="post" action="">
                         {% csrf_token %}
                         <input type="hidden" name="inventory_id" value="{{ inventory.id }}" />
-                        
+
 						<div style="float:right">
 						    <button class="button" type="submit" style="float:none;width:120px;">Add To Bag</button><br>
 
-						</div>                        
-                                                
+						</div>
+
                         <!-- div style="float:right; margin-top:3px; margin-right:2px;">
                             <select name="quantity">
                             {% for i in inventory.get_quantity_nums %}
@@ -168,15 +168,15 @@
                         </div-->
                     </form>
                     {% endif %}
-                    
-                    <b>{{ inventory.material.title }}</b> by 
+
+                    <b>{{ inventory.material.title }}</b> by
                     {% if inventory.material.author.donate_url or inventory.material.author.donate_note %}
                     <span><a style="text-decoration:underline;" title="
                     {% if inventory.material.author.website %}
                     <a href='{{inventory.material.author.website}}' target='_blank'>Visit Website</a>
                     <br>
-                    {% endif %}                    
-                    
+                    {% endif %}
+
                     {% if inventory.material.author.donate_url %}
                     <a href='{{inventory.material.author.donate_url}}' target='_blank'>Online Donation</a><br />
                     {% endif %}
@@ -185,40 +185,40 @@
                     {% endif %}
                     ">{{ inventory.material.get_author_names }}</a></span>
                     {% else %}
-                      {{ inventory.material.get_author_names }} 
-                    {% endif %} &nbsp; 
-                    
-                    <!--  
-                    <i>Publisher:</i> 
+                      {{ inventory.material.get_author_names }}
+                    {% endif %} &nbsp;
+
+                    <!--
+                    <i>Publisher:</i>
 	                    {% if inventory.material.publisher.donate_url or inventory.material.publisher.donate_note or inventory.material.publisher.website %}
 		                    <span><a style="text-decoration:underline;" title="
 			                    {% if inventory.material.publisher.website %}
 			                    <a href='{{inventory.material.publisher.website}}' target='_blank'>Visit Website</a>
 			                    <br>
 			                    {% endif %}
-			                    
+
 			                    {% if inventory.material.publisher.donate_url %}
 			                    <a href='{{inventory.material.publisher.donate_url}}' target='_blank'>Online Donation</a>
 			                    {% endif %}<br />
-			                    
+
 			                    {% if inventory.material.publisher.donate_note %}
 			                    How to Donate: {{inventory.material.publisher.donate_note}}
 			                    {% endif %}
-		                    
+
 		                    ">{{ inventory.material.publisher.name }}</a></span>
-		                    
+
 		               {% else %}
-		                    {{ inventory.material.publisher.name }} 
-		               {% endif %}                      
-                        
-                         
+		                    {{ inventory.material.publisher.name }}
+		               {% endif %}
+
+
                          -->
-                        
+
 					    {% if inventory.material.website %}
 					    &nbsp;
-					    	<a href="{{inventory.material.website}}" >Read Online</a>					    
+					    	<a href="{{inventory.material.website}}" >Read Online</a>
 					    {% endif %}
-					                               
+
 					    {% if inventory.material.pdf_url %}
 					    &nbsp;
 					    	<a href="{{inventory.material.pdf_url}}" target="_blank">PDF</a>
@@ -226,8 +226,8 @@
 					    &nbsp;
 					    	<a href="{{ MEDIA_URL }}/{{inventory.material.pdf}}" target="_blank">PDF</a>
 					    {% endif %}
-                     
-      
+
+
                     <br><i>Request Directly:</i>
                     {% for pub in inventory.material.publisher.all %}
                       	<span><a style="text-decoration:underline;" title="
@@ -235,16 +235,16 @@
 			                    <a href='{{pub.website}}' target='_blank'>{{ pub.name }}</a>
 			                    <br>
 			                    {% endif %}
-			                    
+
 			                    {{ pub.description }}
-		                    
+
 		                    ">{{ pub.name }}</a></span>
-                    
-                    {% endfor %}                      
+
+                    {% endfor %}
 
 
-                    
-                    <!--  
+
+                    <!--
                     {% if inventory.giver.profile.donation or inventory.giver.profile.donate_url %}
                     <span><a style="text-decoration:underline;" title="
                     {% if inventory.giver.profile.donate_url %}
@@ -254,17 +254,17 @@
                     Details: {{inventory.giver.profile.donation}}
                     {% endif %}
                     ">Donate</a></span>
-                    {% endif %}                    
+                    {% endif %}
                     -->
-                    
-                    
+
+
                     <br>
-                    <!--  
-                    <i>Condition:</i> {{ inventory.condition|title }} 
-                    &nbsp;            
+                    <!--
+                    <i>Condition:</i> {{ inventory.condition|title }}
+                    &nbsp;
                     <i>Copies:</i> {{ inventory.quantity }}
                     &nbsp;
-                    <i>Price:</i> <span class="success">Free</span>     	
+                    <i>Price:</i> <span class="success">Free</span>
                     <i>Local Pickup:</i> <span>{% if inventory.giver.profile.local_pickup %}
                     <span title="{{inventory.giver.profile.pickup_description}}"><a style="text-decoration:underline;">Yes</a></span>
                     {% else %}
@@ -274,14 +274,14 @@
                     -->
                     <i>Shipping:</i>{% if inventory.giver.profile.international_free_shipping %} Free Internationally
                     {% else %}
-                       {% if inventory.giver.profile.domestic_free_shipping %} Free domestically 
+                       {% if inventory.giver.profile.domestic_free_shipping %} Free domestically
                        {% else %}
                          {% if inventory.giver.profile.domestic_pay_shipping %}
                            Standard
                          {% else %}
                            No
                          {% endif %}
-                       {% endif %}                     
+                       {% endif %}
                     {% endif %}
                     &nbsp;
                     <i>From:</i> <!-- a href="{{ inventory.giver.get_absolute_url  }}" -->
@@ -289,12 +289,12 @@
                     <span><a style="text-decoration:underline;" title="
                     {% if inventory.giver.profile.donate_url %}
                     <a href='{{inventory.giver.profile.donate_url}}' target='_blank'>Donate to Giver's Local Temple</a><br></br>
-                    {% endif %} 
+                    {% endif %}
                     {% if inventory.giver.profile.donation %}
                     How to Donate: {{inventory.giver.profile.donation}}
                     {% endif %}
                     ">{{ inventory.giver.profile.get_display_name}}</a></span>
-                    {% else %}   
+                    {% else %}
                     {{ inventory.giver.profile.get_display_name}}
                     {% endif %},
                     <!--/a-->  &nbsp;{{ inventory.giver.profile.get_location }}
@@ -303,7 +303,7 @@
                     <span><a style="text-decoration:underline;" title="
                     {{ inventory.note|readmore:40 }}
                     ">Comments</a></span>
-                     
+
                     {% endif %}
                     {% if inventory.material.description %}
                     <div style="margin-top:4px;"><i>Description: </i>{{ inventory.material.description|readmore:40 }}</div>
@@ -331,15 +331,15 @@
         <div> <!--a row of book-->
 
             <div class ="contentwrapper">
-                <div class="content-inner-column">                    
-                    <b>{{ ebook.title }}</b> by 
-                      {{ ebook.get_author_names }} 
-                                                           
+                <div class="content-inner-column">
+                    <b>{{ ebook.title }}</b> by
+                      {{ ebook.get_author_names }}
+
 					    {% if ebook.website %}
 					    &nbsp;
-					    	<a href="{{ebook.website}}" >Read Online</a>					    
+					    	<a href="{{ebook.website}}" >Read Online</a>
 					    {% endif %}
-					                               
+
 					    {% if ebook.pdf_url %}
 					    &nbsp;
 					    	<a href="{{ebook.pdf_url}}" target="_blank">PDF</a>
@@ -347,7 +347,7 @@
 					    &nbsp;
 					    	<a href="{% static '{{ebook.pdf}}' %}" target="_blank">PDF</a>
 					    {% endif %}
- 
+
 	                    <br><i>Request Directly:</i>
 	                    {% for pub in ebook.publisher.all %}
 	                      	<span><a style="text-decoration:underline;" title="
@@ -355,13 +355,13 @@
 				                    <a href='{{pub.website}}' target='_blank'>{{ pub.name }}</a>
 				                    <br>
 				                    {% endif %}
-				                    
+
 				                    {{ pub.description }}
-			                    
+
 			                    ">{{ pub.name }}</a></span>
-	                    
-	                    {% endfor %}                     
-                    
+
+	                    {% endfor %}
+
                     <br>
 
 
@@ -387,7 +387,7 @@
     {% endfor %}
 
 
-    
+
 
 </div>
 
@@ -397,31 +397,31 @@ $(function() {
 	    var location = $("select:eq(0) option:selected").val();
 		document.location = "/?loc="+location;
 	});
-	
+
 	$("select").eq(1).change(function(){
 	    var language = $("select:eq(1) option:selected").val();
-		document.location = "/?lang="+language;	     	
+		document.location = "/?lang="+language;
 	});
 
 
-	
+
 	$("select:eq(0) option").removeAttr('selected');
 	$("select:eq(0) option[value='{{location}}']").prop("selected", true);
-    
+
 	$("[title]").each(function( index ) {
 		var $this = $(this),
 	        tooltip = $this.attr('title') || $this.data('title');
 	    $this.prop('title', '').data('title', tooltip);
     });
-		
-	$( "[title]" ).bind( "mouseleave", 
-			             function( event ) { event.stopImmediatePropagation(); 
-			             				     var fixed = setTimeout('$("[title]").tooltip("close")', 500); 
-			             				     $(".ui-tooltip").hover( function(evt){clearTimeout (fixed); }, 
-			             				    		       function(){$("[title]").tooltip("close");} ); }) 
-			             				    		         .tooltip({content:function(){return $(this).data('title');}});	
-	
-	
+
+	$( "[title]" ).bind( "mouseleave",
+			             function( event ) { event.stopImmediatePropagation();
+			             				     var fixed = setTimeout('$("[title]").tooltip("close")', 500);
+			             				     $(".ui-tooltip").hover( function(evt){clearTimeout (fixed); },
+			             				    		       function(){$("[title]").tooltip("close");} ); })
+			             				    		         .tooltip({content:function(){return $(this).data('title');}});
+
+
 
 });
 
@@ -431,42 +431,8 @@ $(function() {
 
     {% block right %}
         <div class="rightcolumn">
-   
-            
-		<div class="box">
-                {% if not user.is_authenticated %}
-			<div class="header">Login</div>
-			<div class="box-content">
-                    <form method="post" action="{% url 'userena_signin' %}" id="login_form">
-                        {% csrf_token %}
-				<div class="row">
-					<label>Email: </label><input type="text" name="identification" > </input>
-				</div>
-				<div class="row">
-					<label>Password:  </label><input type="password" name="password" value="" > </input>
-				</div>
 
-				<div class="row" style="text-align:right">
-					<div class="button"><a href="#" onclick="document.getElementById('login_form').submit();return false">Login</a></div>
-				</div>
-				<div style="clear:both;text-align:right;">
-				<a href="{% url 'userena_signup' %}">Register</a>
-				 <a href="/accounts/password/reset/">Reset Password</a>
-				</div>
-                    </form>
-			</div>
-                {% else %}
-                    <div class="header">Welcome {{ user.profile.get_display_name }}</div>
-                    <div class="box-content">
-                        <div class="row">
-					You name: {{ user.profile.get_display_name }}
-				</div>
-                        <div class="row">
-					<a href="{% url 'userena_signout' %}">Log out</a>
-				</div>
-                    </div>
-                {% endif %}
-		</div>
+        {% include "login_logout_box.html"%}
 
 		<div class="box">
 			<div class="header">Free Books Distributors</div>
@@ -475,8 +441,8 @@ $(function() {
 					<b>Free Shipping Internationally:</b>
 				</div>
 				<div class="row section">
-					<p><a href="http://www.budaedu.org/en/book/">Budaedu</a> Based in Taiwan. Free books in multiple languages. Allow two months for the book to arrive in US.  
-				    <p><a href="http://www.justbegood.net">Just be good</a> Based in Singapore. Free books in multiple languages. 
+					<p><a href="http://www.budaedu.org/en/book/">Budaedu</a> Based in Taiwan. Free books in multiple languages. Allow two months for the book to arrive in US.
+				    <p><a href="http://www.justbegood.net">Just be good</a> Based in Singapore. Free books in multiple languages.
 				    <p><a href="http://www.putiguang.org/">Pu Ti Guang</a> Based in Taiwan. Free books in Chinese.
 				</div>
 
@@ -484,21 +450,21 @@ $(function() {
 					<b>Free Books in USA:</b>
 				</div>
 				<div class="row section">
-					<p><a href="http://www.amitabhalibrary.org/">Amitabha Library</a> Based in Chicago. Free books with free shipping in English and Chinese.   
-					<p><a href="http://www.abhayagiri.org/books">Abhayagiri</a> Based in California. Free books with free shipping in English. 
-					<p><a href="http://www.baus.org/en/?cat=6">BAUS</a> Based in New York. Free books in English and Chinese. Shipping costs $2 per item.   
-					<p><a href="http://lamayeshe.com/zencart/index.php?main_page=index&cPath=22">LamaYeshe</a> Based in Massachusetts. Free books in English, pay shipping cost only.   
+					<p><a href="http://www.amitabhalibrary.org/">Amitabha Library</a> Based in Chicago. Free books with free shipping in English and Chinese.
+					<p><a href="http://www.abhayagiri.org/books">Abhayagiri</a> Based in California. Free books with free shipping in English.
+					<p><a href="http://www.baus.org/en/?cat=6">BAUS</a> Based in New York. Free books in English and Chinese. Shipping costs $2 per item.
+					<p><a href="http://lamayeshe.com/zencart/index.php?main_page=index&cPath=22">LamaYeshe</a> Based in Massachusetts. Free books in English, pay shipping cost only.
 
 				</div>
-				
-				
+
+
                 <div class="row">
 					<b>Free Books in Malaysia:</b>
 				</div>
 				<div class="row">
-                    <p><a href="http://www.inwardpath.org">Inward Path</a> Based in Malaysia. Free books in English and Chinese, pay shipping cost only. 
-				</div>				
-				
+                    <p><a href="http://www.inwardpath.org">Inward Path</a> Based in Malaysia. Free books in English and Chinese, pay shipping cost only.
+				</div>
+
 
 			</div>
 

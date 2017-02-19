@@ -1,0 +1,154 @@
+{% extends 'base.html' %} {% block header %} {% include 'network/user_public_header.html' %} {% endblock %} {% load readmore el_pagination_tags staticfiles %} {% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" /> {% endblock %} {% block subheader %} {% include "subheader.html"%} {% endblock subheader %} {% block main %}
+<div class="content-left keywords-list">
+    All Keywords<br>
+    <a href="http://localhost:8000/#" title="Posts: 3">retreat</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 2">meditation</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 2">chinese</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 1">chan</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 1">mind</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 0">joy</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 0">general introduction</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 0">beginner</a> &nbsp;
+    <a href="http://localhost:8000/#" title="Posts: 0">happiness</a> &nbsp;
+</div>
+
+<div class="content-center network">
+    <span style="font-size:12px;">  Category:All, Keyword: All Keywords,  Posted By: Everyone, Language: English </span>
+    <div>
+        <div class="page-body" style="text-align:left;">
+            <div class="post-title">
+                <div style="float:left;"></div>
+                <div style="float:right"> Quote | Master Sheng Yen</div>
+            </div>
+            <div class="post-content" style="clear:both;">
+                When you can keep your mindunruffled by the ups and downs in life, you will experience true joy.
+                <br><a>mind, joy</a> &nbsp; &nbsp;
+            </div>
+            <div class="page-icon">
+                Sep 1, 2016 by <a>Tom</a> <a>Comments(3)</a> <a>Reblog(2)</a> <a>Like(2)</a>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+
+    <div>
+        <div class="page-body" style="text-align:left;">
+            <div class="post-title">
+                <div style="float:left;"><b style="color:black">Are there Gods in Buddhism?</b></div>
+                <div style="float:right"> Question</div>
+            </div>
+            <div class="post-content" style="clear:both;">
+                Is there a heaven in buddhism<br><br>
+
+            </div>
+            <div class="page-icon">
+                Aug 21, 2016 by <a>Sabrina</a> <a>Edit</a> <a>Comments(3)</a> <a>Reblog(2)</a> <a>Like(2)</a>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div>
+        <div class="page-body" style="text-align:left;">
+            <div class="post-title">
+                <div style="float:left;"><a href="https://www.youtube.com/watch?v=H94Dz4Iq2d4" style="text-decoration:none;"><b>How to be Happy</b></a></div>
+                <div style="float:right"> Audio/Vedio | Ajahn Brahm </div>
+            </div>
+            <div class="post-content" style="clear:both;">
+                If you've enjoyed this talk and would like to support the Buddhist Society of Western Australia to make these talks available to a wider audience, please consider making a donation
+                <br><a>happiness</a> &nbsp; &nbsp;
+
+            </div>
+            <div class="page-icon">
+                Aug 20, 2016 by <a>Sabrina</a> <a>Edit</a> <a>Comments(3)</a> <a>Reblog(2)</a> <a>Like(2)</a>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+
+
+    <div class="page-footer"><a>Next Page</a></div>
+
+</div>
+
+{% endblock main %} {% block right %}
+<div class="content-right">
+    <div class="box">
+        <div class="header">{{ view_user.profile.get_display_name }}</div>
+        <div class="box-content">
+            <div class="row">Member since: {{view_user.profile.create_date |date:"M d, Y"}}</div>
+            <div class="row"> Posts: 150 </div>
+            <div class="row"> Following: {{following_count}}</div>
+            <div id="follower_count" class="row"> Followers: {{follower_count}}</div>
+        </div>
+    </div>
+   {% if user.id != view_user.id  %}
+    <div class="button" style="width:98px;text-align:center;">
+        Send a Note
+    </div>
+
+
+
+    <form id="unfollow" action="{% url 'user_unfollow' view_user.pk %}">
+        {% csrf_token %}
+        <div id="unfollow_button" class="button" style="width:98px;text-align:center;">
+            Unfollow</div>
+    </form>
+
+    <form id="follow" action="{% url 'user_follow' view_user.pk %}">
+        {% csrf_token %}
+        <div id="follow_button" class="button" style="width:98px;text-align:center;">
+            Follow</div>
+    </form>
+    {% endif %}
+
+
+    <div class="clear-both"></div>
+</div>
+
+{% endblock right %} {% block extra_js %}
+<script type="text/javascript">
+    $(function() {
+        var hasFollowed = "{{ has_followed }}";
+        if (hasFollowed.toUpperCase() === 'TRUE') {
+            $('#unfollow').show();
+            $('#follow').hide();
+        } else {
+            $('#unfollow').hide();
+            $('#follow').show();
+        }
+
+        $('#follow_button').click(function() {
+            var form = $('#follow');
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data) {
+                    $('#unfollow').show();
+                    $('#follow').hide();
+                    $('#follower_count').html( 'Followers: ' +data.follower_count);
+                }
+            });
+        });
+
+        $('#unfollow_button').click(function() {
+            var form = $('#unfollow');
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(data) {
+                    $('#unfollow').hide();
+                    $('#follow').show();
+                    $('#follower_count').html( 'Followers: ' +data.follower_count);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
