@@ -2,12 +2,9 @@
 
 <div>
     <a href="index.html" class="selected-link">All</a> &nbsp;
-    <a href="#" title="Posts: 0"  >Articles</a> &nbsp;
-    <a href="#" title="Posts: 0" class="">Quotes</a> &nbsp;
-    <a href="#" title="Posts: 0" class="">Books</a> &nbsp;
-    <a href="#" title="Posts: 1" class="">Audios/Videos</a> &nbsp;
-    <a href="#" title="Posts: 0" class="">Websites/Apps</a> &nbsp;
-
+    {% for item_catergory in categories %}
+        <a href="#" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    {% endfor %}
 </div>
 
  </span></div>

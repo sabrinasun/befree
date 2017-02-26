@@ -6,9 +6,10 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from timeline.views import SubHeaderCategoryMixin
 
 
-class UserPublicPage(TemplateView):
+class UserPublicPage(SubHeaderCategoryMixin, TemplateView):
     template_name = 'network/user_public.html'
 
     def get_context_data(self, **kwargs):
