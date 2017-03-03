@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load readmore el_pagination_tags staticfiles %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
+{% endblock %}
+{% block subheader %}
+    {% include "subheader.html"%}
+{% endblock subheader %}
+{% block main %}
+<div class="content-center network">
+    <div>
+        <div class="page-body" style="text-align:left;">
+            <div class="post-title">
+                <div style="float:left;"><b style="color:black;">{{ timelineitem.title }} </b></div>
+            </div>
+            <div class="post-content" style="clear:both;">
+                {{ timelineitem.content }}
+                <br>
+            </div>
+
+            <font style="font-size:12px;">Reblogs({{ timelineitem.total_reblogs }}):
+                {% for reblog_user in timelineitem.users.all %}
+                 {% if reblog_user.id != timelineitem.created_user.id %}
+                <a  href="{% url 'user_public' user.id %}">{{ reblog_user.username }}</a>
+                {% endif %}
+                {% endfor %}
+            </font>
+                 <br>
+            <font style="font-size:12px;">Likes({{ timelineitem.total_likes }}):
+                {% for like_user in timelineitem.likes.all %}
+                <a  href="{% url 'user_public' like_user.id %}">{{ like_user.username }}</a>
+                {% endfor %}
+
+            </font> <br>
+
+            <div class="page-icon">
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div>
+        <p><b>All comments</b></p>
+        {% for comment in timelineitem.comments.all %}
+        <a href="{% url 'user_public' comment.comment_user.id %}">{{ comment.comment_user.username }}</a> on {{comment.created |date:"M d, Y"}}  : <br>{{ text.username }}<br>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock main %}

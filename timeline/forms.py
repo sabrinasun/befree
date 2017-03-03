@@ -1,6 +1,6 @@
 # coding=utf-8
 from django import forms
-from .models import TimelineItem, ItemCategory, Language, Teacher, ItemTopic, UserTimelineItem
+from .models import TimelineItem, ItemCategory, Language, Teacher, ItemTopic
 
 
 class PostBaseForm(forms.ModelForm):
@@ -15,8 +15,8 @@ class PostBaseForm(forms.ModelForm):
         self.topics = current_request.POST.getlist('topic_list')
         self.user = current_request.user
         super(PostBaseForm, self).__init__(*args, **kwargs)
-        if self.user.language_set.filter(users=self.user).exists():
-            self.fields['language'].queryset = self.user.language_set.filter(
+        if self.user.languages.filter(users=self.user).exists():
+            self.fields['language'].queryset = self.user.languages.filter(
                 users=self.user)
         else:
             self.fields[
@@ -44,8 +44,7 @@ class PostBaseForm(forms.ModelForm):
                 name=topic_name)
             instance.topics.add(topic)
 
-        utl, created = UserTimelineItem.objects.get_or_create(
-            user=self.user, item=instance)
+        instance.users.add(self.user)
 
         return instance
 
@@ -60,11 +59,17 @@ class LinkForm(PostBaseForm):
         fields = PostBaseForm.Meta.fields + ('title_link',)
 
 
-
 class TextForm(PostBaseForm):
 
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_text_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
 
+    def clean_uploaded_file(self):
+        uploaded_file = self.cleaned_data['uploaded_file']
+        if not uploaded_file.name.endswith(('.htm', '.html', '.pdf', '.gif', '.jpg', '.bmp', '.png', '.tiff', '.svg')):
+            raise forms.ValidationError("Unsupported file extension type")
+        return uploaded_file
+
     class Meta(PostBaseForm.Meta):
         model = TimelineItem
+        fields = PostBaseForm.Meta.fields + ('uploaded_file',)

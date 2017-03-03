@@ -11,7 +11,7 @@
 {% block content %}
 <div class="content-center">
     <div class="new-post-form">
-        <form action="{% url 'text_form'  %}" method="post" id="new-post-form" stye="width: 900px;">
+        <form action="{% url 'text_form'  %}" method="post" id="new-post-form" stye="width: 900px;" enctype="multipart/form-data">
             {% csrf_token %}
             <div style="float:left;border-right:1px dashed black;">
                 <div>
@@ -25,14 +25,14 @@
                 <div>
                     <label>Title or Quote: </label>{{ form.title }}{{ form.title.errors }}</textarea>
                 </div>
-                <div>
+                <div id="div_text_id">
                     <label>Expanded Text: </label>{{ form.content }}{{ form.content.errors }}</textarea>
                 </div>
                 <div>
                     <label>Is Original:</label>{{ form.is_original }}The main content of this post is my own writing or artistic creation.{{ form.is_original.errors }}
                     </select>
                 </div>
-                <div>
+                <div id="div_teacher_id">
                     <label>Teacher(Optional):</label>{{ form.teacher_name }}{{ form.teacher_name.errors }}
                 </div>
                 <div>
@@ -44,7 +44,7 @@
                 <div>
                     <label>Topics:</label>{{ form.topic_list }}, {{ form.topic_list }}, {{ form.topic_list }}
                 <div>
-                    <label>Upload a Picture/HTML/PDF: </label><input type="file" name="pic" accept="image/*">
+                    <label>Upload a Picture/HTML/PDF: </label>{{ form.uploaded_file }}{{ form.uploaded_file.errors }}
                 </div>
             </div>
             <div style="clear:both;text-align:center;">
@@ -54,4 +54,19 @@
     </div>
 </div>
 
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript">
+$(function() {
+$("input[name='item_category']").click(function(){
+    if($('input:radio[name=item_category]:checked').val() == "2"){
+        $('#div_text_id').hide();
+    }else{
+        $('#div_text_id').show();
+    }
+});
+
+
+    });
+</script>
 {% endblock %}

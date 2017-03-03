@@ -1,24 +1,25 @@
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 
 <div>
-    <a href="index.html" class="selected-link">All</a> &nbsp;
+    <a href="{% url 'home' %}?language={{request.GET.language}}&usertype={{request.GET.usertype }}">All</a> &nbsp;
     {% for item_catergory in categories %}
-        <a href="#" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+        <a href="{% url 'home' %}?category={{ item_catergory.id }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
 </div>
 
  </span></div>
 
 <b>Posted By:</b>
-<select style="color:black;font-weight:normal;font:12px;width:100px;">
-     <option>Everyone</option>
-     <option>People I Follow</option>
+<select id='item_usertype' style="color:black;font-weight:normal;font:12px;width:100px;" onchange="showSelected()">
+     <option value="everyone">Everyone</option>
+     <option value="following">People I Follow</option>
    </select>
 
-<b>Language:</b> <select name="language">
+<b>Language:</b> <select id='item_language' name="language" onchange="showSelected()">
    <option value="all">All</option>
-   <option value="en">English</option>
-   <option value="zh">Chinese</option>
+   {% for language in languages %}
+   <option value="{{ language.id }}">{{ language.name }}</option>
+   {% endfor %}
 </select>
 
 <div class="clear-both"></div>

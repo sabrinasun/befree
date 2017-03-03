@@ -1,9 +1,15 @@
 # coding=utf-8
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import CreateView, ListView, DetailView
 from django.views.generic.base import ContextMixin
-from .models import ItemCategory, TimelineItem
+from django.db.models import Count
+from .models import ItemCategory, TimelineItem, ItemTopic, Language
 from .forms import LinkForm, TextForm
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from network.models import UserNetwork
 
 
 class SubHeaderCategoryMixin(ContextMixin):
@@ -12,11 +18,51 @@ class SubHeaderCategoryMixin(ContextMixin):
         context = super(SubHeaderCategoryMixin,
                         self).get_context_data(**kwargs)
         context['categories'] = ItemCategory.objects.get_all_catergories()
+        if self.request.user.is_authenticated:
+            context['languages'] = self.request.user.languages.all()
+        else:
+            context['languages'] = Language.objects.all().order_by('order')
         return context
 
 
-class Home(SubHeaderCategoryMixin, TemplateView):
+class TopTopicMixin(ContextMixin):
+
+    def get_context_data(self, **kwargs):
+        context = super(TopTopicMixin,
+                        self).get_context_data(**kwargs)
+        context['top_topics'] = ItemTopic.objects.annotate(topic_count=Count(
+            'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+        return context
+
+
+class TimeLineItemListView(ListView):
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = TimelineItem.objects.all().order_by('-created')
+
+        if 'category' in self.request.GET and self.request.GET['category']:
+            queryset = queryset.filter(
+                item_category__id=self.request.GET['category'])
+
+        if 'topic' in self.request.GET and self.request.GET['topic']:
+            queryset = queryset.filter(
+                topics__id=self.request.GET['topic'])
+
+        if 'usertype' in self.request.GET and self.request.GET['usertype'] == 'following' and self.request.user.is_authenticated:
+            following_users = UserNetwork.objects.get_following_users(
+                self.request.user)
+            queryset = queryset.filter(created_user__in=following_users)
+
+        if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
+            queryset = queryset.filter(
+                language__id=self.request.GET['language'])
+        return queryset
+
+
+class Home(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView):
     template_name = 'home.html'
+    paginate_by = 20
 
 
 class ShareLink(SubHeaderCategoryMixin, CreateView):
@@ -41,3 +87,45 @@ class ShareText(SubHeaderCategoryMixin, CreateView):
         kwargs = super(ShareText, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
+
+class TimeLineItemView(SubHeaderCategoryMixin, DetailView):
+    template_name = 'timeline/timelineitem_detail.html'
+    model = TimelineItem
+
+    def get_context_data(self, **kwargs):
+        context = super(TimeLineItemView, self).get_context_data(**kwargs)
+        return context
+
+    def get_context_object_name(self, obj):
+        return 'timelineitem'
+
+
+@login_required
+@require_POST
+def reblog(request, timelineitem_id):
+    timeline_item = get_object_or_404(TimelineItem, pk=timelineitem_id)
+    timeline_item.reblog(request.user)
+    response_data = {}
+    response_data['reblog_count'] = timeline_item.total_reblogs
+    return JsonResponse(response_data)
+
+
+@login_required
+@require_POST
+def like_timelineitem(request, timelineitem_id):
+    timeline_item = get_object_or_404(TimelineItem, pk=timelineitem_id)
+    timeline_item.like(request.user)
+    response_data = {}
+    response_data['likes_count'] = timeline_item.total_likes
+    return JsonResponse(response_data)
+
+
+@login_required
+@require_POST
+def unlike_timelineitem(request, timelineitem_id):
+    timeline_item = get_object_or_404(TimelineItem, pk=timelineitem_id)
+    timeline_item.unlike(request.user)
+    response_data = {}
+    response_data['likes_count'] = timeline_item.total_likes
+    return JsonResponse(response_data)
