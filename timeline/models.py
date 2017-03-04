@@ -77,7 +77,7 @@ class TimelineItem(models.Model):
     item_category = models.ForeignKey(ItemCategory)
     content = models.TextField(blank=True, null=True)
     language = models.ForeignKey(Language)
-    teacher = models.ForeignKey(Teacher)
+    teacher = models.ForeignKey(Teacher, null=True)
     is_original = models.BooleanField()
     uploaded_file = models.FileField(
         upload_to=text_form_file_name, null=True, blank=True)
@@ -85,7 +85,7 @@ class TimelineItem(models.Model):
     users = models.ManyToManyField(
         user_model_label, related_name='users')
     likes = models.ManyToManyField(
-        user_model_label, related_name='like_users')
+        user_model_label, related_name='like_items')
 
     @property
     def total_likes(self):
@@ -106,6 +106,10 @@ class TimelineItem(models.Model):
             return self.users.count() - 1
         else:
             return 0
+
+    @property
+    def total_comments(self):
+        return self.comments.count()
 
     def like(self, user):
         self.likes.add(user)

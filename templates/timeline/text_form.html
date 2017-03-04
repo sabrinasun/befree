@@ -11,7 +11,11 @@
 {% block content %}
 <div class="content-center">
     <div class="new-post-form">
-        <form action="{% url 'text_form'  %}" method="post" id="new-post-form" stye="width: 900px;" enctype="multipart/form-data">
+            {% if form.instance.pk  %}
+                <form action="{% url 'timelineitem_edit_text'  form.instance.pk %}" method="post" id="new-post-form" stye="width: 900px;" enctype="multipart/form-data">
+            {% else %}
+                <form action="{% url 'text_form'  %}" method="post" id="new-post-form" stye="width: 900px;" enctype="multipart/form-data">
+            {% endif %}
             {% csrf_token %}
             <div style="float:left;border-right:1px dashed black;">
                 <div>
@@ -47,7 +51,7 @@
                     <label>Upload a Picture/HTML/PDF: </label>{{ form.uploaded_file }}{{ form.uploaded_file.errors }}
                 </div>
             </div>
-            <div style="clear:both;text-align:center;">
+            <div style="clear:both;text-align:right;">
                 <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">Submit</a></button>
             </div>
         </form>
@@ -58,15 +62,39 @@
 {% block extra_js %}
 <script type="text/javascript">
 $(function() {
-$("input[name='item_category']").click(function(){
+    var topiclist ={{form.existing_topic|safe}};
+    $('input[name="topic_list"]').each( function( index, element ){
+        if(topiclist.length >= index){
+            $( this ).val(topiclist[index]);
+        }
+    });
+
+    toggleTextContent();
+    toggleTeacherName();
+
+    $("input[name='item_category']").click(function(){
+        toggleTextContent()
+    });
+
+    $('#id_is_original').click(function() {
+        toggleTeacherName()
+    });
+
+});
+function toggleTextContent(){
     if($('input:radio[name=item_category]:checked').val() == "2"){
         $('#div_text_id').hide();
     }else{
         $('#div_text_id').show();
     }
-});
+}
 
-
-    });
+function toggleTeacherName(){
+    if ($('#id_is_original').is(':checked')) {
+        $('#div_teacher_id').hide();
+    }else{
+        $('#div_teacher_id').show();
+    }
+}
 </script>
 {% endblock %}

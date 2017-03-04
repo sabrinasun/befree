@@ -7,6 +7,7 @@ from userena.forms import EditProfileForm as UserenaEditProfileForm
 from accounts.models import Profile
 from django_countries import countries
 from core.models import Order, GiverMaterial
+from timeline.models import Language, UserLanguage
 
 USERNAME_RE = r'^[\.\w]+$'
 
@@ -96,8 +97,39 @@ STATE_CHOICES = (
 
 )
 
+class LanguageFormMixin(forms.Form):
+    language = forms.ModelChoiceField(
+        queryset=None, empty_label='--Choose One--', required=False)
+    language1 = forms.ModelChoiceField(
+        queryset=None, empty_label='--Choose One--', required=False)
+    language2 = forms.ModelChoiceField(
+        queryset=None, empty_label='--Choose One--', required=False)
+    language3 = forms.ModelChoiceField(
+        queryset=None, empty_label='--Choose One--', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(LanguageFormMixin, self).__init__(*args, **kwargs)
+        queryset = Language.objects.all().order_by('order')
+        self.fields['language'].queryset = queryset
+        self.fields['language1'].queryset = queryset
+        self.fields['language2'].queryset = queryset
+        self.fields['language3'].queryset = queryset
+
+    def save_userlanguage(self, user):
+        languages = [self.cleaned_data['language'], self.cleaned_data[
+            'language1'], self.cleaned_data['language2'], self.cleaned_data['language3']]
+        for language in languages:
+            if language and user:
+                ul, created = UserLanguage.objects.get_or_create(
+                    user=user, language=language)
+
+    def update_userlanguage(self, user):
+        UserLanguage.objects.all().filter(user=self.instance.user).delete()
+        self.save_userlanguage(user)
+
+
 attrs_dict = {'class': 'required'}
-class UserenaSignupFormBase(UserenaSignupForm):
+class UserenaSignupFormBase(LanguageFormMixin, UserenaSignupForm):
     def __init__(self, *args, **kwargs):
         super(UserenaSignupFormBase, self).__init__(*args, **kwargs)
         self.fields['country'].initial = "US"
@@ -111,7 +143,6 @@ class UserenaSignupFormBase(UserenaSignupForm):
     us_state = forms.ChoiceField(choices = STATE_CHOICES, required = False)
     state = forms.CharField(max_length = 50)
 
-
     country = forms.ChoiceField(choices = list(countries), initial="US", required = True)
 
     def save(self):
@@ -120,8 +151,9 @@ class UserenaSignupFormBase(UserenaSignupForm):
         profile.state = self.cleaned_data['state']
         profile.country = self.cleaned_data['country']
         profile.save()
-
+        self.save_userlanguage(user)
         return user
+
 
 class SignupReaderForm(UserenaSignupFormBase):
     first_name = forms.CharField()
@@ -200,9 +232,9 @@ from userena import settings as userena_settings
 from userena.models import UserenaSignup
 from userena.utils import get_profile_model, get_user_model
 
-class EditProfileForm(UserenaEditProfileForm):
+class EditProfileForm(LanguageFormMixin, UserenaEditProfileForm):
     max_per_order = forms.ChoiceField(choices = NUM_CHOICES, initial='5')
-    us_state = forms.ChoiceField(choices = STATE_CHOICES, required=False)    
+    us_state = forms.ChoiceField(choices = STATE_CHOICES, required=False)
     username = forms.RegexField(regex=USERNAME_RE,
                                 max_length=30,
                                 widget=forms.TextInput(attrs=attrs_dict),
@@ -222,6 +254,15 @@ class EditProfileForm(UserenaEditProfileForm):
         self.fields['username'].initial = self.instance.user.username
         self.fields['first_name'].initial = self.instance.user.first_name
         self.fields['last_name'].initial = self.instance.user.last_name
+        user_langs = UserLanguage.objects.all().filter(user=self.instance.user)
+        i = 0
+        for lang in user_langs:
+            if i == 0:
+                self.fields['language'].initial = lang.pk
+            else:
+                self.fields['language' + str(i)].initial = lang.pk
+            i += 1
+
 
     def clean_username(self):
         """
@@ -282,6 +323,7 @@ class EditProfileForm(UserenaEditProfileForm):
         profile.user.first_name = self.cleaned_data['first_name']
         profile.user.last_name = self.cleaned_data['last_name']
         profile.user.save()
+        self.update_userlanguage(profile.user)
 
     class Meta:
         model = Profile

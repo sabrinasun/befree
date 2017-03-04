@@ -14,7 +14,11 @@
             <div class="post-title">
                 <div style="float:left;"><b style="color:black;">{{ timelineitem.title }} </b></div>
             </div>
+
             <div class="post-content" style="clear:both;">
+                {% if timelineitem.uploaded_file %}
+                <img class="post-img" src="{{ timelineitem.uploaded_file.url }}"/><br>
+                {% endif %}
                 {{ timelineitem.content }}
                 <br>
             </div>
@@ -42,9 +46,18 @@
     <div>
         <p><b>All comments</b></p>
         {% for comment in timelineitem.comments.all %}
-        <a href="{% url 'user_public' comment.comment_user.id %}">{{ comment.comment_user.username }}</a> on {{comment.created |date:"M d, Y"}}  : <br>{{ text.username }}<br>
+        <a href="{% url 'user_public' comment.comment_user.id %}">{{ comment.comment_user.username }}</a> on {{comment.created |date:"M d, Y"}}  : <br>{{ comment.text }}<br>
         {% endfor %}
     </div>
-
+    <form action="{% url 'timelineitem_comment' timelineitem.pk %}" method="post">
+        {% csrf_token %}
+    <div>
+        <p><b>Comment:</b></p>
+        {{ form.text }}{{ form.text.errors }}
+    </div>
+    <div>
+        <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">Submit</a></button>
+    </div>
+    </form>
 </div>
 {% endblock main %}

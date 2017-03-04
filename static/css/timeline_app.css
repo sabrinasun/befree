@@ -645,6 +645,12 @@ ul.errorlist li {
 	border: 1px solid #c2b999;
 }
 
+.post-img{
+    max-height:500px;
+    max-width:500px;
+    height:auto;
+    width:auto;
+}
 .dropdown-menu {
     position: relative;
     display: inline-block;

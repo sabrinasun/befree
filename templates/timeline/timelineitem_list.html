@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <div class="content-left keywords-list">
-    All Topics<br>
+    <a href="{% url 'home' %}?topic=all&language={{request.GET.language}}&usertype={{request.GET.usertype }}">All Topics</a><br>
 
 	{% for topic in top_topics %}
 	<a href="{% url 'home' %}?topic={{ topic.id }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
@@ -21,7 +21,7 @@
 				{% endif %}
 				</div>
                 <div style="float:right">
-				{% if timelineitem.has_pdf_html%}<a>PDF</a>|{% endif %}
+				{% if timelineitem.has_pdf_html%}<a href="{{ timelineitem.uploaded_file.url }}">PDF</a>|{% endif %}
 					 {% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} |  <a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a> </div>
             </div>
             <div class="post-content" style="clear:both;">
@@ -35,12 +35,27 @@
             <div class="page-icon">
                  {{timelineitem.created |date:"M d, Y"}} by <a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a>
 				{% if user.is_authenticated %}
-				<a href="{% url 'timelineitem_detail' timelineitem.pk%}">Comments(3)</a>
-				<a id="reblog_{{timelineitem.pk}}" href="{% url 'timelineitem_reblog' timelineitem.pk %}" onclick="return reblog({{timelineitem.pk}});">Reblog(<span id="reblog_count_{{timelineitem.pk}}">{{ timelineitem.total_reblogs }}</span>)</a>
-				<a id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">Like(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
-				<a id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">UnLike(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
-			    {% else %}
-				<a href="{% url 'userena_signin' %}">Comments(3)</a>
+                    {% if user ==  timelineitem.created_user  %}
+                        {% if timelineitem.title_link  %}
+                        <a href="{% url 'timelineitem_edit_link' timelineitem.pk%}">Edit</a>
+                        {% else %}
+                        <a href="{% url 'timelineitem_edit_text' timelineitem.pk%}">Edit</a>
+                        {% endif %}
+                    {% endif %}
+
+				    <a href="{% url 'timelineitem_detail' timelineitem.pk%}">Comments({{ timelineitem.total_comments }})</a>
+                    {% if user !=  timelineitem.created_user  %}
+                        <a id="reblog_{{timelineitem.pk}}" href="{% url 'timelineitem_reblog' timelineitem.pk %}" onclick="return reblog({{timelineitem.pk}});">Reblog(<span id="reblog_count_{{timelineitem.pk}}">{{ timelineitem.total_reblogs }}</span>)</a>
+                        {% if timelineitem.pk in likes_ids  %}
+                            <a id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">UnLike(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                            <a style="display: none;" id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">Like(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                        {% else %}
+                            <a style="display: none;" id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">UnLike(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                            <a id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">Like(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+				<a href="{% url 'userena_signin' %}">Comments({{ timelineitem.total_comments }})</a>
 				<a href="{% url 'userena_signin' %}">Reblog({{ timelineitem.total_reblogs }})</a>
 				<a href="{% url 'userena_signin' %}">Like({{ timelineitem.total_likes }})</a>
 				{% endif %}

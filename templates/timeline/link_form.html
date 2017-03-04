@@ -11,7 +11,11 @@
 {% block content %}
 <div class="content-center">
     <div class="new-post-form">
-        <form action="{% url 'link_form'  %}" method="post" id="new-post-form" stye="width: 900px;">
+        {% if form.instance.pk  %}
+            <form action="{% url 'timelineitem_edit_link'  form.instance.pk %}" method="post" id="new-post-form" stye="width: 900px;">
+        {% else %}
+            <form action="{% url 'link_form'  %}" method="post" id="new-post-form" stye="width: 900px;">
+        {% endif %}
 	        {% csrf_token %}
             <div style="float:left;border-right:1px dashed black;">
                 <div>
@@ -50,7 +54,7 @@
                     {{ form.is_original }}The main content of this post is my own writing or artistic creation.{{ form.is_original.errors }}
                 </div>
             </div>
-            <div style="clear:both;text-align:center;">
+            <div style="clear:both;text-align:right;">
                 <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">Submit</a></button>
             </div>
         </form>
@@ -58,5 +62,16 @@
 </div>
 
 
-
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript">
+$(function() {
+    var topiclist ={{form.existing_topic|safe}};
+    $('input[name="topic_list"]').each( function( index, element ){
+        if(topiclist.length >= index){
+            $( this ).val(topiclist[index]);
+        }
+    });
+});
+</script>
 {% endblock %}
