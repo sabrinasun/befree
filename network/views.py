@@ -28,7 +28,6 @@ class UserPublicPage(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView
 
     def get_queryset(self):
         queryset = super(UserPublicPage, self).get_queryset()
-        print(self.kwargs['pk'])
         queryset.filter(users__id=self.kwargs['pk'])
         return queryset
 

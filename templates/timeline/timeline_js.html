@@ -13,7 +13,14 @@
 	function showSelected() {
 		var item_language = $("#item_language option:selected").val();
 		var item_usertype = $("#item_usertype option:selected").val();
-		window.location = "{% url 'home' %}" + '?language=' + item_language + '&usertype=' + item_usertype
+		var item_category = "{{ request.GET.category }}";
+		var item_topic = "{{ request.GET.topic }}";
+		var baseUrl = [window.location.protocol, '//', window.location.host, window.location.pathname].join('');
+
+		url = baseUrl +'?language=' + item_language+'&category=' + item_category+'&topic=' + item_topic;
+		if( item_usertype )
+			url = url + '&usertype=' + item_usertype
+		window.location = url
 	}
 
 

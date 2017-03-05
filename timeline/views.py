@@ -12,8 +12,6 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from network.models import UserNetwork
-from dal import autocomplete
-
 
 
 class SubHeaderCategoryMixin(ContextMixin):
@@ -47,23 +45,36 @@ class TimeLineItemListView(ListView):
         if self.request.user.is_authenticated:
             like_items = TimelineItem.objects.all().filter(likes=self.request.user)
             context['likes_ids'] = [like_item.id for like_item in like_items]
+        if 'category' in self.request.GET and self.request.GET['category']:
+            context['search_category'] = ItemCategory.objects.get(
+                id=self.request.GET['category']).name
+        else:
+            context['search_category'] = 'All'
+
+        if 'language' in self.request.GET and self.request.GET['language']and self.request.GET['language'] != 'all':
+            context['search_language'] = Language.objects.get(
+                id=self.request.GET['language']).name
+        else:
+            context['search_language'] = 'All'
+
+        if 'topic' in self.request.GET and self.request.GET['topic']:
+            context['search_topic'] = ItemTopic.objects.get(
+                id=self.request.GET['topic']).name
+        else:
+            context['search_topic'] = 'All'
+
         return context
 
     def get_queryset(self):
         queryset = TimelineItem.objects.all().order_by('-created')
 
-        if 'category' in self.request.GET and self.request.GET['category']:
+        if 'category' in self.request.GET and self.request.GET['category'] and self.request.GET['category'] != 'all':
             queryset = queryset.filter(
                 item_category__id=self.request.GET['category'])
 
-        if 'topic' in self.request.GET and self.request.GET['topic']:
+        if 'topic' in self.request.GET and self.request.GET['topic'] and self.request.GET['topic'] != 'all':
             queryset = queryset.filter(
                 topics__id=self.request.GET['topic'])
-
-        if 'usertype' in self.request.GET and self.request.GET['usertype'] == 'following' and self.request.user.is_authenticated:
-            following_users = UserNetwork.objects.get_following_users(
-                self.request.user)
-            queryset = queryset.filter(created_user__in=following_users)
 
         if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
             queryset = queryset.filter(
@@ -73,7 +84,23 @@ class TimeLineItemListView(ListView):
 
 class Home(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView):
     template_name = 'home.html'
-    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super(Home, self).get_context_data(**kwargs)
+
+        if 'usertype' in self.request.GET and self.request.GET['usertype'] and self.request.GET['usertype'] == 'following':
+            context['search_usertype'] = 'People I Follow'
+        else:
+            context['search_usertype'] = 'Everyone'
+        return context
+
+    def get_queryset(self):
+        queryset = super(Home, self).get_queryset()
+        if 'usertype' in self.request.GET and self.request.GET['usertype'] == 'following' and self.request.user.is_authenticated:
+            following_users = UserNetwork.objects.get_following_users(
+                self.request.user)
+            queryset = queryset.filter(created_user__in=following_users)
+        return queryset
 
 
 class ShareLink(SubHeaderCategoryMixin, CreateView):
@@ -155,22 +182,6 @@ class TimeLineItemComment(SingleObjectMixin, FormView):
         form.instance.item = self.get_object()
         form.save()
         return super(TimeLineItemComment, self).form_valid(form)
-
-
-
-class CountryAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return Country.objects.none()
-
-        qs = Country.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs
-
 
 
 @login_required

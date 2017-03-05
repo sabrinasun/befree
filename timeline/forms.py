@@ -2,6 +2,20 @@
 from django import forms
 from .models import TimelineItem, ItemCategory, Language, Teacher, ItemTopic, TimelineItemComment
 import json
+import magic
+
+
+ALLOWED_UPLOAD_FILE_TYPES = [
+    'application/pdf',
+    'text/html',
+    'text/htm',
+    'image/jpeg',
+    'image/gif',
+    'image/bmp',
+    'image/png',
+    'image/tiff',
+    'image/svg+xml',
+]
 
 
 class PostBaseForm(forms.ModelForm):
@@ -16,12 +30,6 @@ class PostBaseForm(forms.ModelForm):
         self.topics = current_request.POST.getlist('topic_list')
         self.user = current_request.user
         super(PostBaseForm, self).__init__(*args, **kwargs)
-        self.existing_topic = json.dumps([])
-        if self.instance.pk:
-            if self.instance.teacher:
-                self.fields['teacher_name'].initial = self.instance.teacher.name
-            itemtopics = [topic.name for topic in self.instance.topics.all()]
-            self.existing_topic = json.dumps(itemtopics)
 
         if self.user.languages.filter(users=self.user).exists():
             self.fields['language'].queryset = self.user.languages.filter(
@@ -29,6 +37,17 @@ class PostBaseForm(forms.ModelForm):
         else:
             self.fields[
                 'language'].queryset = Language.objects.filter(id=1)
+
+        self.existing_topic = json.dumps([])
+        # update case
+        if self.instance.pk:
+            if self.instance.teacher:
+                self.fields[
+                    'teacher_name'].initial = self.instance.teacher.name
+                itemtopics = [
+                    topic.name for topic in self.instance.topics.all()]
+                self.existing_topic = json.dumps(itemtopics)
+            self.fields['item_category'].initial = self.instance.item_category
 
     class Meta:
         model = TimelineItem
@@ -72,6 +91,7 @@ class TextForm(PostBaseForm):
 
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_text_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
+    uploaded_file = forms.FileField(widget=forms.FileInput)
 
     def __init__(self, *args, **kwargs):
         super(TextForm, self).__init__(*args, **kwargs)
@@ -79,10 +99,19 @@ class TextForm(PostBaseForm):
 
     def clean_uploaded_file(self):
         uploaded_file = self.cleaned_data['uploaded_file']
-        if uploaded_file and not uploaded_file.name.endswith(('.htm', '.html', '.pdf', '.gif', '.jpg', '.bmp', '.png', '.tiff', '.svg')):
-            raise forms.ValidationError("Unsupported file extension type")
-        print(uploaded_file)
+        self.file_type = magic.from_buffer(uploaded_file.read(), mime=True)
+        if uploaded_file and not self.file_type in ALLOWED_UPLOAD_FILE_TYPES:
+            raise forms.ValidationError("Unsupported file type")
+        self.file_name = uploaded_file.name
         return uploaded_file
+
+    def save(self, commit=True):
+        instance = super(PostBaseForm, self).save(commit=False)
+        instance.file_name = self.file_name
+        instance.file_type = self.file_type
+        if commit:
+            instance.save()
+        return instance
 
     class Meta(PostBaseForm.Meta):
         model = TimelineItem

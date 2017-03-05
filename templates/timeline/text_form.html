@@ -48,7 +48,11 @@
                 <div>
                     <label>Topics:</label>{{ form.topic_list }}, {{ form.topic_list }}, {{ form.topic_list }}
                 <div>
-                    <label>Upload a Picture/HTML/PDF: </label>{{ form.uploaded_file }}{{ form.uploaded_file.errors }}
+                    <label>Upload a Picture/HTML/PDF: </label>
+                    {% if form.instance.pk and form.instance.uploaded_file  %}
+                    <a href="{{ form.instance.uploaded_file.url }}">{{ form.instance.file_name }}</a>
+                    {% endif %}
+                    {{ form.uploaded_file }}{{ form.uploaded_file.errors }}
                 </div>
             </div>
             <div style="clear:both;text-align:right;">

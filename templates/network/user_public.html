@@ -1,6 +1,39 @@
-{% extends 'base.html' %} {% block header %} {% include 'network/user_public_header.html' %} {% endblock %} {% load readmore el_pagination_tags staticfiles %} {% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" /> {% endblock %} {% block subheader %} {% include "subheader.html"%} {% endblock subheader %}
+{% extends 'base.html' %} {% block header %}
+{% include 'network/user_public_header.html' %}
+{% endblock %} {% load readmore el_pagination_tags staticfiles %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
+{% endblock %}
+{% block subheader %}
+<div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
+
+<div>
+    <a href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&topic={{request.GET.topic }}">All</a> &nbsp;
+    {% for item_catergory in categories %}
+    <a href="{% url 'user_public' view_user.pk %}?category={{ item_catergory.id }}&language={{request.GET.language}}&topic={{request.GET.topic }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    {% endfor %}
+</div>
+
+ </span></div>
+
+<b>Language:</b> <select id='item_language' name="language" onchange="showSelected()">
+   <option value="all">All</option>
+   {% for language in languages %}
+   <option value="{{ language.id }}">{{ language.name }}</option>
+   {% endfor %}
+</select>
+
+<div class="clear-both"></div>
+{% endblock subheader %}
 {% block main %}
+    <div class="content-left keywords-list">
+    <a href="{% url 'user_public' view_user.pk %}?topic=all&language={{request.GET.language}}&category={{request.GET.category }}">All Topics</a><br>
+
+	{% for topic in top_topics %}
+	<a href="{% url 'user_public' view_user.pk %}?topic={{ topic.id }}&language={{request.GET.language}}&category={{request.GET.category }}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
+	{% endfor %}
+    </div>
+
     {% include 'timeline/timelineitem_list.html' %}
 {% endblock main %}
 {% block right %}

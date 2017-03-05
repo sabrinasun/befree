@@ -12,11 +12,21 @@
     <div>
         <div class="page-body" style="text-align:left;">
             <div class="post-title">
-                <div style="float:left;"><b style="color:black;">{{ timelineitem.title }} </b></div>
+                <div style="float:left;"><b style="color:black;">{{ timelineitem.title }} </b>
+                    {% if timelineitem.uploaded_file and timelineitem.is_uploaded_file_pdfhtml%}
+                        <a href="{{ timelineitem.uploaded_file.url }}">
+                            {% if timelineitem.is_uploaded_file_pdf%}
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                            {% else %}
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="post-content" style="clear:both;">
-                {% if timelineitem.uploaded_file %}
+                {% if timelineitem.uploaded_file and not timelineitem.is_uploaded_file_pdfhtml %}
                 <img class="post-img" src="{{ timelineitem.uploaded_file.url }}"/><br>
                 {% endif %}
                 {{ timelineitem.content }}
