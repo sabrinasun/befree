@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load readmore el_pagination_tags staticfiles %}
+{% load i18n umessages_tags %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
+{% endblock %}
+{% block subheader %}
+<div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
+<div>
+    <a href="{% url 'home' %}">All</a> &nbsp;
+    {% for item_catergory in categories %}
+    <a href="{% url 'home' %}?category={{ item_catergory.id }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    {% endfor %}
+</div>
+ </span>
+</div>
+
+<div class="clear-both"></div>
+{% endblock subheader %}
+{% block main %}
+<div class="content-left keywords-list">
+    {% include  'message/messaging_users.html' %}
+
+</div>
+  <div class="content-center network">
+     <form action="{% url 'userena_umessages_compose' %}" method="post" id="compose_message_form">
+         {% csrf_token %}
+
+         Send a message to {{ to_username }}:
+         <input type="hidden" value="{{ to_username }}" name="to"/>
+         <textarea style="width:100%;" name="body"></textarea>
+         <input type="submit" name="send" value="{% trans " Submit " %}" /><br><br>
+     </form>
+     {% for message in message_list %}
+     <div>
+       <div class="page-body" style="text-align:left;">
+        From {{ message.sender.username  }} on {{ message.sent_at }}: <br> {{ message }}
+        <hr>
+       </div>
+     </div>
+     {% endfor %}
+  </div>
+
+
+{% endblock main %}
+{% block right %}
+<div class="content-right">
+    <div class="clear-both"></div>
+</div>
+
+{% endblock right %}
+{% block extra_js %}
+
+{% endblock %}

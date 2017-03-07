@@ -8,3 +8,4 @@ Pillow
 django-countries
 django-endless-pagination
 django-el-pagination
+python-magic

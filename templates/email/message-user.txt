@@ -1,0 +1,8 @@
+Dear {{to_user}}:
+{{from_user}} sent you below message from buddhistexchange.com.
+
+
+With Metta,
+BuddhistExchange.com
+--------------------------------------------------------------------------------------
+{{message}}

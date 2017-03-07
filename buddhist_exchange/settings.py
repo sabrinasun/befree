@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     #'south',
     'userena',
+    'userena.contrib.umessages',
     'guardian',
     'easy_thumbnails',
     #'endless_pagination',
@@ -146,7 +147,8 @@ INSTALLED_APPS = (
     'accounts',
     'core',
     'timeline',
-    'network'
+    'network',
+    'message'
 )
 
 AUTHENTICATION_BACKENDS = (

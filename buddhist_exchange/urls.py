@@ -49,6 +49,9 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('timeline.urls')),
     url(r'^', include('network.urls')),
+    # message app over contrib.umessage
+    url(r'^message/', include('message.urls')),
+    url(r'^message/', include('userena.contrib.umessages.urls')),
 
     url(r'^(?P<username>[\.\w-]+)/password/$',
        userena_views_password_change,{'success_url':"/account/summary/?msg=password_success", "template_name": "userena/password_form.html"},

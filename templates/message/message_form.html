@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load readmore el_pagination_tags staticfiles %}
+{% load i18n umessages_tags %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
+{% endblock %}
+{% block subheader %}
+<div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
+<div>
+    <a href="{% url 'home' %}">All</a> &nbsp;
+    {% for item_catergory in categories %}
+    <a href="{% url 'home' %}?category={{ item_catergory.id }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    {% endfor %}
+</div>
+ </span>
+</div>
+
+<div class="clear-both"></div>
+{% endblock subheader %}
+{% block main %}
+<div class="content-left keywords-list">
+     <a href="{% url 'userena_umessages_compose'%}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a><br>
+   {% for to_from_user in to_from_users %}
+        {% get_unread_message_count_between user and to_from_user as unread_between_count %}
+        <a href="{% url 'user_message_list_detail' to_from_user.username %}">{{ to_from_user.username }}  {% if unread_between_count > 0 %}({{ unread_between_count }}) {% endif %}</a>
+        <br>
+  {% endfor %}
+  {% for follow_user in following_users %}
+   {% if follow_user not in to_from_users %}
+    <a href="{% url 'user_message_list_detail' follow_user.username %}">{{follow_user.username}}</a> <br>
+   {% endif %}
+  {% endfor %}
+
+</div>
+<div class="content-center network">
+    <form action="" method="post" id="compose_message_form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" name="send" value="{% trans " Submit " %}" />
+    </form>
+</div>
+
+
+{% endblock main %}
+{% block right %}
+<div class="content-right">
+    <div class="clear-both"></div>
+</div>
+
+{% endblock right %}
+{% block extra_js %}
+
+{% endblock %}
