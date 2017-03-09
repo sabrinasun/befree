@@ -42,7 +42,7 @@
         <div class="header">{{ view_user.profile.get_display_name }}</div>
         <div class="box-content">
             <div class="row">Member since: {{view_user.profile.create_date |date:"M d, Y"}}</div>
-            <div class="row"> Posts: 150 </div>
+            <div class="row"> Posts: {{post_count}} </div>
             <div class="row"> Following: {{following_count}}</div>
             <div id="follower_count" class="row"> Followers: {{follower_count}}</div>
         </div>

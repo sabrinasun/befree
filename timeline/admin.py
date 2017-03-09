@@ -1,7 +1,12 @@
 from django.contrib import admin
+from .models import Language, ItemCategory, ItemTopic, Teacher
 
-from .models import Language
 # Register your models here.
+admin.site.register(ItemTopic)
+admin.site.register(Teacher)
 admin.site.register(Language,
-    list_display = ('order','name',)
-)
+                    list_display=('order', 'name',)
+                    )
+admin.site.register(ItemCategory,
+                    list_display=('order', 'name', 'link_form', 'text_form')
+                    )

@@ -17,6 +17,10 @@ class Language(models.Model):
     users = models.ManyToManyField(
         user_model_label, through='UserLanguage', related_name='languages')
 
+    class Meta:
+        verbose_name = "Language"
+        verbose_name_plural = "Languages"
+
     def __str__(self):
         return self.name
 
@@ -48,6 +52,10 @@ class ItemCategory(models.Model):
     order = models.IntegerField()
     objects = ItemCategoryManager()
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.name
 
@@ -55,11 +63,26 @@ class ItemCategory(models.Model):
 class ItemTopic(models.Model):
     name = models.CharField(max_length=50, null=False, blank=True)
 
+    class Meta:
+        verbose_name = "Topic"
+        verbose_name_plural = "Topics"
+
+    def __str__(self):
+        return self.name
+
 
 class Teacher(models.Model):
     name = models.CharField(max_length=200, null=False, blank=True)
     teacher_type = models.CharField(
         max_length=200, choices=TEACHER_TYPE_CHOICES, default=TEACHER_TEACHER)
+
+    class Meta:
+        verbose_name = "Teacher"
+        verbose_name_plural = "Teachers"
+
+    def __str__(self):
+        return self.name
+
 
 
 def text_form_file_name(instance, filename):
@@ -94,6 +117,13 @@ class TimelineItem(models.Model):
         user_model_label, related_name='user_items')
     likes = models.ManyToManyField(
         user_model_label, related_name='like_items')
+
+    class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
+
+    def __str__(self):
+        return self.title
 
     @property
     def total_likes(self):

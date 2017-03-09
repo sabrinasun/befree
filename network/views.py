@@ -24,6 +24,7 @@ class UserPublicPage(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView
             view_user)
         context['following_count'] = UserNetwork.objects.get_following_count(
             view_user)
+        context['post_count'] = view_user.user_items.count()
         return context
 
     def get_queryset(self):
