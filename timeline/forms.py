@@ -4,7 +4,6 @@ from .models import TimelineItem, ItemCategory, Language, Teacher, ItemTopic, Ti
 import json
 import magic
 
-
 ALLOWED_UPLOAD_FILE_TYPES = [
     'application/pdf',
     'text/html',
@@ -91,7 +90,6 @@ class TextForm(PostBaseForm):
 
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_text_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
-    uploaded_file = forms.FileField(widget=forms.FileInput)
 
     def __init__(self, *args, **kwargs):
         super(TextForm, self).__init__(*args, **kwargs)
@@ -99,18 +97,19 @@ class TextForm(PostBaseForm):
 
     def clean_uploaded_file(self):
         uploaded_file = self.cleaned_data['uploaded_file']
-        self.file_type = magic.from_buffer(uploaded_file.read(), mime=True)
-        if uploaded_file and not self.file_type in ALLOWED_UPLOAD_FILE_TYPES:
-            raise forms.ValidationError("Unsupported file type")
-        self.file_name = uploaded_file.name
+        if uploaded_file:
+            if not self.file_type in ALLOWED_UPLOAD_FILE_TYPES:
+                raise forms.ValidationError("Unsupported file type")
+            self.file_type = magic.from_buffer(uploaded_file.read(), mime=True)
+            self.file_name = uploaded_file.name
         return uploaded_file
 
-    def save(self, commit=True):
-        instance = super(PostBaseForm, self).save(commit=False)
-        instance.file_name = self.file_name
-        instance.file_type = self.file_type
-        if commit:
-            instance.save()
+    def save(self):
+        instance = super(TextForm, self).save(commit=True)
+        if instance.uploaded_file:
+            instance.file_name = self.file_name
+            instance.file_type = self.file_type
+        instance.save()
         return instance
 
     class Meta(PostBaseForm.Meta):

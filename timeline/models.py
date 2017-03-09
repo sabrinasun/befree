@@ -84,7 +84,6 @@ class Teacher(models.Model):
         return self.name
 
 
-
 def text_form_file_name(instance, filename):
     return '/'.join(['timeline', str(uuid.uuid4()) + '_' + filename])
 
