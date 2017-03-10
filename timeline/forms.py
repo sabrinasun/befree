@@ -90,6 +90,7 @@ class TextForm(PostBaseForm):
 
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_text_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
+    uploaded_file = forms.FileField(widget=forms.FileInput)
 
     def __init__(self, *args, **kwargs):
         super(TextForm, self).__init__(*args, **kwargs)
@@ -98,9 +99,9 @@ class TextForm(PostBaseForm):
     def clean_uploaded_file(self):
         uploaded_file = self.cleaned_data['uploaded_file']
         if uploaded_file:
-            if not self.file_type in ALLOWED_UPLOAD_FILE_TYPES:
-                raise forms.ValidationError("Unsupported file type")
             self.file_type = magic.from_buffer(uploaded_file.read(), mime=True)
+            if not getattr(self, 'file_type', None) in ALLOWED_UPLOAD_FILE_TYPES:
+                raise forms.ValidationError("Unsupported file type")
             self.file_name = uploaded_file.name
         return uploaded_file
 
