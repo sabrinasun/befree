@@ -64,14 +64,9 @@
 
 {% endblock %}
 {% block extra_js %}
+{% include "timeline/timeline_post_js.html"%}
 <script type="text/javascript">
 $(function() {
-    var topiclist ={{form.existing_topic|safe}};
-    $('input[name="topic_list"]').each( function( index, element ){
-        if(topiclist.length >= index){
-            $( this ).val(topiclist[index]);
-        }
-    });
 
     toggleTextContent();
     toggleTeacherName();

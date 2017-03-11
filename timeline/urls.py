@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import Home, ShareLink, ShareText, reblog, like_timelineitem, unlike_timelineitem,\
-    TimeLineItemView, TimeLineItemComment, ShareTextUpdateView, ShareLinkUpdateView
+    TimeLineItemView, TimeLineItemComment, ShareTextUpdateView, ShareLinkUpdateView,\
+    retrieve_titles, retrieve_topics, retrieve_teachers
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
@@ -14,7 +15,8 @@ urlpatterns = [
     url(r'^timeline/timelineitem/(?P<pk>\d+)/comment$', TimeLineItemComment.as_view(), name='timelineitem_comment'),
     url(r'^timeline/timelineitem/(?P<pk>\d+)/edit/sharetext$', ShareTextUpdateView.as_view(), name='timelineitem_edit_text'),
     url(r'^timeline/timelineitem/(?P<pk>\d+)/edit/sharelink$', ShareLinkUpdateView.as_view(), name='timelineitem_edit_link'),
-
-
+    url(r'^timeline/timelineitem/titles$', retrieve_titles, name='timelineitem_titles'),
+    url(r'^timeline/timelineitem/teachers$', retrieve_teachers, name='timelineitem_teachers'),
+    url(r'^timeline/timelineitem/topics$', retrieve_topics, name='timelineitem_topics'),
 
 ]

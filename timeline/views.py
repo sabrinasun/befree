@@ -4,11 +4,11 @@ from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponseForbidden
 from django.db.models import Count
-from .models import ItemCategory, TimelineItem, ItemTopic, Language
+from .models import ItemCategory, TimelineItem, ItemTopic, Language, Teacher
 from .forms import LinkForm, TextForm, CommentForm
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from network.models import UserNetwork
@@ -211,4 +211,37 @@ def unlike_timelineitem(request, timelineitem_id):
     timeline_item.unlike(request.user)
     response_data = {}
     response_data['likes_count'] = timeline_item.total_likes
+    return JsonResponse(response_data)
+
+
+@require_GET
+def retrieve_titles(request):
+    title = request.GET.get('title', None)
+    response_data = {}
+    if title:
+        titles = TimelineItem.objects.filter(
+            title__istartswith=title).values_list('title', flat=True).distinct()[:10]
+        response_data['titles'] = list(titles)
+    return JsonResponse(response_data)
+
+
+@require_GET
+def retrieve_topics(request):
+    topic = request.GET.get('topic', None)
+    response_data = {}
+    if topic:
+        topics = ItemTopic.objects.filter(
+            name__istartswith=topic).values_list('name', flat=True).distinct()
+        response_data['topics'] = list(topics)
+    return JsonResponse(response_data)
+
+
+@require_GET
+def retrieve_teachers(request):
+    teacher = request.GET.get('teacher', None)
+    response_data = {}
+    if teacher:
+        teachers = Teacher.objects.filter(
+            name__istartswith=teacher).values_list('name', flat=True).distinct()
+        response_data['teachers'] = list(teachers)
     return JsonResponse(response_data)

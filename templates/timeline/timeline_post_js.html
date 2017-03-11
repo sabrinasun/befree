@@ -1,0 +1,52 @@
+<script type="text/javascript">
+$(function() {
+    var topiclist ={{form.existing_topic|safe}};
+    $('input[name="topic_list"]').each( function( index, element ){
+        if(topiclist.length >= index){
+            $( this ).val(topiclist[index]);
+        }
+    });
+
+    $("#id_title").autocomplete({
+        minLength: 5,
+        source: function (request, response) {
+             $.ajax({
+                 url: "{% url 'timelineitem_titles' %}",
+                 type: "GET",
+                 data: {title: request.term},
+                 success: function (data) {
+                     response(data.titles);
+                 }
+             });
+         }
+    });
+
+    $("#id_teacher_name").autocomplete({
+        source: function (request, response) {
+             $.ajax({
+                 url: "{% url 'timelineitem_teachers' %}",
+                 type: "GET",
+                 data: {teacher: request.term},
+                 success: function (data) {
+                     response(data.teachers);
+                 }
+             });
+         }
+    });
+
+    $( "input[name='topic_list']" ).each( function( index, element ){
+        $(this).autocomplete({
+            source: function (request, response) {
+                 $.ajax({
+                     url: "{% url 'timelineitem_topics' %}",
+                     type: "GET",
+                     data: {topic: request.term},
+                     success: function (data) {
+                         response(data.topics);
+                     }
+                 });
+             }
+        });
+ });
+ });
+ </script>

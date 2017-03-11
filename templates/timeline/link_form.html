@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
 {% endblock %}
 
+
 {% block subheader %}
     {% include "subheader.html"%}
 {% endblock subheader %}
@@ -64,14 +65,5 @@
 
 {% endblock %}
 {% block extra_js %}
-<script type="text/javascript">
-$(function() {
-    var topiclist ={{form.existing_topic|safe}};
-    $('input[name="topic_list"]').each( function( index, element ){
-        if(topiclist.length >= index){
-            $( this ).val(topiclist[index]);
-        }
-    });
-});
-</script>
+    {% include "timeline/timeline_post_js.html"%}
 {% endblock %}
