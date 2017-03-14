@@ -13,7 +13,10 @@
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="{% static 'js/common.js' %}"></script>
-	<script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
+
+		<script src="{% static 'admin' %}/js/vendor/jquery/jquery.min.js"></script>		
+		<script src="{% static 'admin' %}/js/jquery.init.js"></script>
+	 	<script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
 	{% block extra_css %}{% endblock %}
 
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
