@@ -43,10 +43,17 @@ class PostBaseForm(forms.ModelForm):
             if self.instance.teacher:
                 self.fields[
                     'teacher_name'].initial = self.instance.teacher.name
-                itemtopics = [
-                    topic.name for topic in self.instance.topics.all()]
-                self.existing_topic = json.dumps(itemtopics)
+            itemtopics = [topic.name for topic in self.instance.topics.all()]
+            self.existing_topic = json.dumps(itemtopics)
             self.fields['item_category'].initial = self.instance.item_category
+
+    def clean_topic_list(self):
+        topics = [e for e in self.topics if e]
+        original_len = len(topics)
+        self.existing_topic = json.dumps(topics)
+        if len(set(topics)) < original_len:
+            raise forms.ValidationError("Duplicate topic name")
+        self.topics = topics
 
     class Meta:
         model = TimelineItem
@@ -67,9 +74,10 @@ class PostBaseForm(forms.ModelForm):
             instance.save()
 
         for topic_name in self.topics:
-            topic, created = ItemTopic.objects.get_or_create(
-                name=topic_name)
-            instance.topics.add(topic)
+            if topic_name:
+                topic, created = ItemTopic.objects.get_or_create(
+                    name=topic_name)
+                instance.topics.add(topic)
 
         instance.users.add(self.user)
 
@@ -90,7 +98,7 @@ class TextForm(PostBaseForm):
 
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_text_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
-    uploaded_file = forms.FileField(widget=forms.FileInput)
+    uploaded_file = forms.FileField(widget=forms.FileInput, required=False)
 
     def __init__(self, *args, **kwargs):
         super(TextForm, self).__init__(*args, **kwargs)

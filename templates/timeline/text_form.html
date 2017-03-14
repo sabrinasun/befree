@@ -46,7 +46,7 @@
             <div style="float:left;">
                 <label><b>Extended:</b></label>Add additional information to give your content more exposure. All Optional.<br><br>
                 <div>
-                    <label>Topics:</label>{{ form.topic_list }}, {{ form.topic_list }}, {{ form.topic_list }}
+                    <label>Topics:</label>{{ form.topic_list }}, {{ form.topic_list }}, {{ form.topic_list }} {{ form.topic_list.errors }}
                 <div>
                     <label>Upload a Picture/HTML/PDF: </label>
                     {% if form.instance.pk and form.instance.uploaded_file  %}
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div style="clear:both;text-align:right;">
-                <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">Submit</a></button>
+                <button class="button" style="float:none;" type="submit">Submit</button>
             </div>
         </form>
     </div>
@@ -83,6 +83,7 @@ $(function() {
 function toggleTextContent(){
     if($('input:radio[name=item_category]:checked').val() == "2"){
         $('#div_text_id').hide();
+        $('#id_content').val('');
     }else{
         $('#div_text_id').show();
     }
@@ -91,6 +92,7 @@ function toggleTextContent(){
 function toggleTeacherName(){
     if ($('#id_is_original').is(':checked')) {
         $('#div_teacher_id').hide();
+        $('#id_teacher_name').val('');
     }else{
         $('#div_teacher_id').show();
     }
