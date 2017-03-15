@@ -77,7 +77,8 @@ class PostBaseForm(forms.ModelForm):
             if topic_name:
                 topic, created = ItemTopic.objects.get_or_create(
                     name=topic_name)
-                instance.topics.add(topic)
+                if topic not in instance.topics.all():
+                    instance.topics.add(topic)
 
         instance.users.add(self.user)
 

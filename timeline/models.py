@@ -61,7 +61,7 @@ class ItemCategory(models.Model):
 
 
 class ItemTopic(models.Model):
-    name = models.CharField(max_length=50, null=False, blank=True)
+    name = models.CharField(max_length=50, null=False, blank=True, unique=True)
 
     class Meta:
         verbose_name = "Topic"
