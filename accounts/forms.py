@@ -258,9 +258,9 @@ class EditProfileForm(LanguageFormMixin, UserenaEditProfileForm):
         i = 0
         for lang in user_langs:
             if i == 0:
-                self.fields['language'].initial = lang.pk
+                self.fields['language'].initial = lang.language_id
             else:
-                self.fields['language' + str(i)].initial = lang.pk
+                self.fields['language' + str(i)].initial = lang.language_id
             i += 1
 
 

@@ -73,10 +73,12 @@ class PostBaseForm(forms.ModelForm):
         if commit:
             instance.save()
 
+        instance.topics.clear()
+
         for topic_name in self.topics:
             if topic_name:
                 topic, created = ItemTopic.objects.get_or_create(
-                    name=topic_name)
+                    name=topic_name.strip())
                 if topic not in instance.topics.all():
                     instance.topics.add(topic)
 
@@ -111,7 +113,13 @@ class TextForm(PostBaseForm):
             self.file_type = magic.from_buffer(uploaded_file.read(), mime=True)
             if not getattr(self, 'file_type', None) in ALLOWED_UPLOAD_FILE_TYPES:
                 raise forms.ValidationError("Unsupported file type")
-            self.file_name = uploaded_file.name
+            if self.instance.pk:
+                self.file_name = self.instance.file_name
+            else:
+                self.file_name = uploaded_file.name
+            if len(self.file_name) > 50:
+                raise forms.ValidationError(
+                    "File Name is longer than 50 letters")
         return uploaded_file
 
     def save(self):

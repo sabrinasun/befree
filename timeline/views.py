@@ -79,6 +79,12 @@ class TimeLineItemListView(ListView):
         if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
             queryset = queryset.filter(
                 language__id=self.request.GET['language'])
+
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(
+                language__in=self.request.user.languages.all())
+            print(queryset.query)
+
         return queryset
 
 

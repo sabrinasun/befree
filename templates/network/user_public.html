@@ -49,9 +49,11 @@
     </div>
  {% if user.is_authenticated %}
  {% if user.id != view_user.id %}
+    <a href="{% url 'user_message_list_detail' view_user.username %}">
     <div class="button" style="width:98px;text-align:center;">
         Send a Note
     </div>
+    </a>
 
     <form id="unfollow" action="{% url 'user_unfollow' view_user.pk %}">
         {% csrf_token %}
