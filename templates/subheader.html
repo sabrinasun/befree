@@ -1,9 +1,11 @@
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 
 <div>
-    <a href="{% url 'home' %}?language={{request.GET.language}}&usertype={{request.GET.usertype }}&topic={{request.GET.topic }}">All</a> &nbsp;
+    <a href="{% url 'home' %}?language={{request.GET.language}}&usertype={{request.GET.usertype }}&topic={{request.GET.topic }}"
+        {% if not request.GET.category %}class="selected-link"{% endif %}>All</a> &nbsp;
     {% for item_catergory in categories %}
-        <a href="{% url 'home' %}?category={{ item_catergory.id }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&topic={{request.GET.topic }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+        <a href="{% url 'home' %}?category={{ item_catergory.id }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&topic={{request.GET.topic }}" title="Posts: 0"
+            {% if item_catergory.id == request.GET.category|add:0 %}class="selected-link"{% endif %} >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
 </div>
 

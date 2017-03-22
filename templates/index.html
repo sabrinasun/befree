@@ -132,7 +132,7 @@
           {% ifequal request.session.cat|add:"0" category.item.pk|add:"0" %}
             {{ category.item.name }} ({{category.count}}) <br />
           {% else %}
-          <a href="/?cat={{category.item.pk}}">{{ category.item.name }} ({{category.count}})</a> <br />
+          <a href="{% url 'index' %}?cat={{category.item.pk}}">{{ category.item.name }} ({{category.count}})</a> <br />
 
           {% endifequal %}
 
@@ -395,12 +395,12 @@
 $(function() {
 	$("select").eq(0).change(function() {
 	    var location = $("select:eq(0) option:selected").val();
-		document.location = "/?loc="+location;
+		document.location = "{% url 'index' %}"+"?loc="+location;
 	});
 
 	$("select").eq(1).change(function(){
 	    var language = $("select:eq(1) option:selected").val();
-		document.location = "/?lang="+language;
+		document.location = "{% url 'index' %}"+"?lang="+language;
 	});
 
 

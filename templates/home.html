@@ -9,10 +9,12 @@
 
 {% block main %}
 	<div class="content-left keywords-list">
-    <a href="{% url 'home' %}?category={{request.GET.category }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}">All Topics</a><br>
+    <a href="{% url 'home' %}?category={{request.GET.category }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}"
+		{% if not request.GET.topic %} class="selected-link"{% endif %}>All Topics</a><br>
 
 	{% for topic in top_topics %}
-	<a href="{% url 'home' %}?topic={{ topic.id }}&category={{request.GET.category}}&language={{request.GET.language}}&usertype={{request.GET.usertype }}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
+	<a href="{% url 'home' %}?topic={{ topic.id }}&category={{request.GET.category}}&language={{request.GET.language}}&usertype={{request.GET.usertype }}" title="Posts: {{ topic.topic_count }}"
+		{% if topic.id == request.GET.topic|add:0 %}class="selected-link"{% endif %}>{{ topic.name }}</a> &nbsp;
 	{% endfor %}
 	</div>
 

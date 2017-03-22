@@ -618,7 +618,7 @@ ul.errorlist li {
 
 .selected-link {
 	pointer-events: none;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .new-post-form form textarea#post-body {
