@@ -1,6 +1,8 @@
 # coding=utf-8
 from django import forms
 from .models import TimelineItem, ItemCategory, Language, Teacher, ItemTopic, TimelineItemComment
+from django.core.validators import URLValidator
+from urllib.parse import urlparse
 import json
 import magic
 
@@ -19,7 +21,7 @@ ALLOWED_UPLOAD_FILE_TYPES = [
 
 class PostBaseForm(forms.ModelForm):
     language = forms.ModelChoiceField(queryset=None, empty_label=None)
-    teacher_name = forms.CharField(max_length=200, widget=forms.TextInput(
+    teacher_name = forms.CharField(max_length=200, required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Enter the name of the teacher who gave the teaching', 'class': 'ui-autocomplete-input', 'autocomplete': 'off'}))
     topic_list = forms.CharField(max_length=12, required=False, widget=forms.TextInput(
         attrs={'style': 'width:80px;', 'class': 'ui-autocomplete-input', 'autocomplete': 'off'}))
@@ -91,10 +93,16 @@ class LinkForm(PostBaseForm):
 
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_link_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
+    title_link = forms.CharField(
+        max_length=500, widget=forms.TextInput(attrs={'style': 'width:200px;'}))
 
     class Meta(PostBaseForm.Meta):
         model = TimelineItem
         fields = PostBaseForm.Meta.fields + ('title_link',)
+
+    def clean_title_link(self):
+        title_link = self.cleaned_data['title_link']
+        return validate_url(title_link)
 
 
 class TextForm(PostBaseForm):
@@ -105,7 +113,6 @@ class TextForm(PostBaseForm):
 
     def __init__(self, *args, **kwargs):
         super(TextForm, self).__init__(*args, **kwargs)
-        self.fields['teacher_name'].required = False
 
     def clean_uploaded_file(self):
         uploaded_file = self.cleaned_data['uploaded_file']
@@ -146,3 +153,22 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = TimelineItemComment
         fields = ('text',)
+
+
+def validate_url(url):
+    msg = "Invalid url"
+    validate = URLValidator(message=msg)
+    try:
+        validate(url)
+    except:
+        o = urlparse(url)
+        if o.path:
+            path = o.path
+            while path.endswith('/'):
+                path = path[:-1]
+            path = "http://" + path
+            validate(path)
+            return path
+        else:
+            raise forms.ValidationError("Invalid url")
+    return url

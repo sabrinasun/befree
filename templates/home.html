@@ -14,7 +14,7 @@
 
 	{% for topic in top_topics %}
 	<a href="{% url 'home' %}?topic={{ topic.id }}&category={{request.GET.category}}&language={{request.GET.language}}&usertype={{request.GET.usertype }}" title="Posts: {{ topic.topic_count }}"
-		{% if topic.id == request.GET.topic|add:0 %}class="selected-link"{% endif %}>{{ topic.name }}</a> &nbsp;
+		{% if topic.id == request.GET.topic|add:0 %}class="selected-link"{% endif %} style="margin-right: 5px;">{{ topic.name }}</a>
 	{% endfor %}
 	</div>
 

@@ -99,7 +99,7 @@ class TimelineItem(models.Model):
 
     title = models.CharField(
         max_length=500, db_index=True)
-    title_link = models.URLField(max_length=500)
+    title_link = models.CharField(max_length=500)
     item_category = models.ForeignKey(ItemCategory)
     content = models.TextField(blank=True, null=True)
     language = models.ForeignKey(Language)
