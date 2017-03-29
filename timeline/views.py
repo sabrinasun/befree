@@ -23,7 +23,7 @@ class SubHeaderCategoryMixin(ContextMixin):
         if self.request.user.is_authenticated:
             context['languages'] = self.request.user.languages.all()
         else:
-            context['languages'] = Language.objects.all().order_by('order')
+            context['languages'] = Language.objects.filter(id=1)
         return context
 
 
@@ -32,8 +32,16 @@ class TopTopicMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super(TopTopicMixin,
                         self).get_context_data(**kwargs)
-        context['top_topics'] = ItemTopic.objects.annotate(topic_count=Count(
-            'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+        if self.request.user.is_authenticated:
+            if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
+                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__id=self.request.GET['language']).annotate(topic_count=Count(
+                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+            else:
+                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=self.request.user.languages.all()).annotate(topic_count=Count(
+                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+        else:
+            context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.filter(id=1)).annotate(topic_count=Count(
+                'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
         return context
 
 
@@ -82,6 +90,9 @@ class TimeLineItemListView(ListView):
         elif self.request.user.is_authenticated:
             queryset = queryset.filter(
                 language__in=self.request.user.languages.all())
+        else:
+            queryset = queryset.filter(
+                language__in=Language.objects.filter(id=1))
 
         return queryset
 
