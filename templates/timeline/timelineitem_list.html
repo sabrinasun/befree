@@ -22,14 +22,17 @@
                 {% endif %}
 				</div>
                 <div style="float:right">
-				{% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} |  <a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a> </div>
+				{% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} |  <a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a>
+                </div>
             </div>
             <div class="post-content" style="clear:both;">
 				{% if timelineitem.content_length  > 700 %}
-                     {{ timelineitem.content |truncatechars_html:700 }}
+                     {{ timelineitem.content| linebreaks| truncatechars_html:700 }}
 					 <a href="{% url 'timelineitem_detail' timelineitem.pk%}">more</a>
-			    {% else %}
-				      {{ timelineitem.content}}
+			    {% elif timelineitem.content_length == 0 %}
+                    <br>
+                {% else %}
+				      {{ timelineitem.content| linebreaks| urlize}}
 				{% endif %}
             </div>
             <div class="page-icon">

@@ -29,7 +29,7 @@
                 {% if timelineitem.uploaded_file and not timelineitem.is_uploaded_file_pdfhtml %}
                 <img class="post-img" src="{{ timelineitem.uploaded_file.url }}"/><br>
                 {% endif %}
-                {{ timelineitem.content }}
+                {{ timelineitem.content | linebreaks | urlize}}
                 <br>
             </div>
 
