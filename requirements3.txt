@@ -9,3 +9,10 @@ django-countries
 django-endless-pagination
 django-el-pagination
 python-magic
+django-rosetta==0.7.12
+polib==1.0.8
+microsofttranslator==0.8
+requests==2.13.0
+django-autotranslate==1.0.2
+futures==3.0.5
+goslate==1.5.1

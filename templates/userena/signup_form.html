@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 
 
@@ -17,7 +17,7 @@
 <form method="post" action="{% url 'userena_signup' %}" id="register_form">
 {% csrf_token %}
 
-<h2>Register</h2>
+<h2>{% trans "Register" %}</h2>
 
 {% if form.non_field_errors %}
 <ul class="errorlist">
@@ -27,21 +27,21 @@
 </ul>
 {% endif %}
 
-	<h3>Basic information:</h3>
-	<div><label>Email:</label>{{ form.email }} {{ form.email.errors }} </div>
-	<div><label>User Name:</label>{{ form.username }} {{ form.username.errors }} </div>
-	<div><label>Password:</label>{{ form.password1 }} {{ form.password1.errors }} </div>
-	<div><label>Password(again):</label>{{ form.password2 }} {{ form.password2.errors }}</div>
-	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>
-    <div><label>State:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>
-    <div><label>Language:</label>{{ form.language }}{{ form.language.errors}} {{ form.language1 }}{{ form.language1.errors}} {{ form.language2 }}{{ form.language2.errors}} {{ form.language3}}{{ form.language3.errors}}</div>   
+	<h3>{% trans "Basic information" %}:</h3>
+	<div><label>{% trans "Email" %}:</label>{{ form.email }} {{ form.email.errors }} </div>
+	<div><label>{% trans "User Name" %}:</label>{{ form.username }} {{ form.username.errors }} </div>
+	<div><label>{% trans "Password" %}:</label>{{ form.password1 }} {{ form.password1.errors }} </div>
+	<div><label>{% trans "Password(again)" %}:</label>{{ form.password2 }} {{ form.password2.errors }}</div>
+	<div><label>{% trans "Country" %}:</label>{{ form.country }}{{ form.country.errors }}</div>
+    <div><label>{% trans "State" %}:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>
+    <div><label>{% trans "Language" %}:</label>{{ form.language }}{{ form.language.errors}} {{ form.language1 }}{{ form.language1.errors}} {{ form.language2 }}{{ form.language2.errors}} {{ form.language3}}{{ form.language3.errors}}</div>
 
 	<br />
 
 
-	<div><label></label>{{form.tos}} I agree to <a href="{% url 'tos' %}">Term of Service</a>.{{form.tos.errors}}</div>
+	<div><label></label>{{form.tos}} {% trans "I agree to" %} <a href="{% url 'tos' %}">{% trans "Term of Service" %}</a>.{{form.tos.errors}}</div>
 
-	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
+	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">{% trans "Complete Registration" %}</a></div>
 
 </form>
 

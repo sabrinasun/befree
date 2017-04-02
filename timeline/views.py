@@ -12,6 +12,8 @@ from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from network.models import UserNetwork
+from django.utils.translation import ugettext as _
+from django.utils.translation import activate
 
 
 class SubHeaderCategoryMixin(ContextMixin):
@@ -57,19 +59,19 @@ class TimeLineItemListView(ListView):
             context['search_category'] = ItemCategory.objects.get(
                 id=self.request.GET['category']).name
         else:
-            context['search_category'] = 'All'
+            context['search_category'] = _('All')
 
         if 'language' in self.request.GET and self.request.GET['language']and self.request.GET['language'] != 'all':
             context['search_language'] = Language.objects.get(
                 id=self.request.GET['language']).name
         else:
-            context['search_language'] = 'All'
+            context['search_language'] = _('All')
 
         if 'topic' in self.request.GET and self.request.GET['topic']:
             context['search_topic'] = ItemTopic.objects.get(
                 id=self.request.GET['topic']).name
         else:
-            context['search_topic'] = 'All'
+            context['search_topic'] = _('All')
 
         return context
 
@@ -87,6 +89,9 @@ class TimeLineItemListView(ListView):
         if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
             queryset = queryset.filter(
                 language__id=self.request.GET['language'])
+            language = Language.objects.get(
+                id=self.request.GET['language'])
+            activate(language.lang_code)
         elif self.request.user.is_authenticated:
             queryset = queryset.filter(
                 language__in=self.request.user.languages.all())
@@ -104,9 +109,9 @@ class Home(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView):
         context = super(Home, self).get_context_data(**kwargs)
 
         if 'usertype' in self.request.GET and self.request.GET['usertype'] and self.request.GET['usertype'] == 'following':
-            context['search_usertype'] = 'People I Follow'
+            context['search_usertype'] = _('People I Follow')
         else:
-            context['search_usertype'] = 'Everyone'
+            context['search_usertype'] = _('Everyone')
         return context
 
     def get_queryset(self):

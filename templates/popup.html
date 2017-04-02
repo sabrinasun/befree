@@ -1,7 +1,8 @@
 {% load staticfiles %}
+{% load i18n %}
 <html>
 <head>
-<title>Add {{ field }}</title>
+<title>{% trans "Add" %}  {{ field }}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/ui-lightness/jquery-ui-1.10.3.custom.min.css' %}" />
     <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
@@ -9,17 +10,17 @@
 label {
   width:80px;
 }
-</style>    
+</style>
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">Add {{ field }}:</h2>
+    <h2 style="margin-left:15px;margin-top:10px;">{% trans "Add" %} {{ field }}:</h2>
     <form method="POST" action="/add/{{ field }}" name="addForm" >
         {% csrf_token %}
         <table>
         {{ form.as_p }}
         </table>
-        <input type="button" class="button" value="Save" onclick="javascript:document.forms['addForm'].submit()"/> 
-        <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/> 
+        <input type="button" class="button" value="Save" onclick="javascript:document.forms['addForm'].submit()"/>
+        <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>
 
     </form>
 </body>

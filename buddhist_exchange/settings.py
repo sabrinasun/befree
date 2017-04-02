@@ -2,6 +2,8 @@
 # /home/befree/webapps/buddhistexchange_app/myproject/static/admin/js
 
 from os.path import dirname, abspath, join
+from django.utils.translation import ugettext_lazy as _
+
 
 ROOT = dirname(dirname(abspath(__file__)))
 
@@ -111,6 +113,7 @@ SECRET_KEY = 'pa)=1fntapwgdrx%=tuonq2$t)mt*o6a&**46k5lnpm^5fl*5i'
 # )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -142,6 +145,8 @@ INSTALLED_APPS = (
     'userena.contrib.umessages',
     'guardian',
     'easy_thumbnails',
+    'rosetta',
+    'autotranslate',
     #'endless_pagination',
     'el_pagination',
     'accounts',
@@ -266,6 +271,17 @@ TEMPLATES = [
 
     },
 ]
+
+
+LOCALE_PATHS = (
+    join(ROOT, 'locale'),
+)
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('zh', _('Chinese')),
+)
+
 
 try:
     from buddhist_exchange.local_settings import *

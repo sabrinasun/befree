@@ -1,26 +1,26 @@
 {% load staticfiles %}
 {% load i18n umessages_tags %}
 
-<div class="title" onclick="javascript:  window.location.href = '/';">
+<div class="title" onclick="javascript:  window.location.href = '{% url 'home'%}';">
 </div>
 
 <div class="small-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'user_public' user.pk %}">{{ user.profile.get_display_name }}</a> |
     {% get_unread_message_count_for user as unread_message_count %}
-    <a href="{% url 'userena_umessages_compose' %}">Messages  {% if unread_message_count > 0 %}({{ unread_message_count }}) {% endif %}
+    <a href="{% url 'userena_umessages_compose' %}">{% trans "Messages" %}  {% if unread_message_count > 0 %}({{ unread_message_count }}) {% endif %}
     </a> | {% endif %}
-    <a href="{% url 'index' %}">Free Book</a> | {% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">My Account</a> | {% endif %}
+    <a href="{% url 'index' %}">{% trans "Free Book" %}</a> | {% if user.is_authenticated %}<a href="{% url 'account_summary' %} ">{% trans "My Account" %}</a> | {% endif %}
     <div class="cart-menu" onclick="document.location='{% url 'view_bag' %}'; ">
         <div class="cart">
             <img src="{% static 'img/cart.png' %}">
             <!--a href="{% url 'view_bag' %}"></a-->
             <div class="cart-number">{{ order_items_count }}</div>
         </div>
-        <div class="cart-title"> Cart</div>
+        <div class="cart-title">{% trans "Cart" %}</div>
     </div>
 
-    | <a href="{% url 'help' %}">Help</a>
+    | <a href="{% url 'help' %}">{% trans "Help" %}</a>
 
 
     <div style="position:relative;left:5px;display:none;">

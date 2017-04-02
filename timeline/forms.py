@@ -2,6 +2,7 @@
 from django import forms
 from .models import TimelineItem, ItemCategory, Language, Teacher, ItemTopic, TimelineItemComment
 from django.core.validators import URLValidator
+from django.utils.translation import ugettext as _
 from urllib.parse import urlparse
 import json
 import magic
@@ -54,7 +55,7 @@ class PostBaseForm(forms.ModelForm):
         original_len = len(topics)
         self.existing_topic = json.dumps(topics)
         if len(set(topics)) < original_len:
-            raise forms.ValidationError("Duplicate topic name")
+            raise forms.ValidationError(_("Duplicate topic name"))
         self.topics = topics
 
     class Meta:
@@ -119,14 +120,14 @@ class TextForm(PostBaseForm):
         if uploaded_file:
             self.file_type = magic.from_buffer(uploaded_file.read(), mime=True)
             if not getattr(self, 'file_type', None) in ALLOWED_UPLOAD_FILE_TYPES:
-                raise forms.ValidationError("Unsupported file type")
+                raise forms.ValidationError(_("Unsupported file type"))
             if self.instance.pk:
                 self.file_name = self.instance.file_name
             else:
                 self.file_name = uploaded_file.name
             if len(self.file_name) > 50:
                 raise forms.ValidationError(
-                    "File Name is longer than 50 letters")
+                    _("File Name is longer than 50 letters"))
         return uploaded_file
 
     def save(self):
@@ -156,7 +157,7 @@ class CommentForm(forms.ModelForm):
 
 
 def validate_url(url):
-    msg = "Invalid url"
+    msg = _("Invalid url")
     validate = URLValidator(message=msg)
     try:
         validate(url)
@@ -170,5 +171,5 @@ def validate_url(url):
             validate(path)
             return path
         else:
-            raise forms.ValidationError("Invalid url")
+            raise forms.ValidationError(_("Invalid url"))
     return url

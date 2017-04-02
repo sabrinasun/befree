@@ -1,7 +1,8 @@
 {% load staticfiles %}
+{% load i18n %}
 <html>
 <head>
-<title>Contact {{user.profile.get_display_name}} </title>
+<title>{% trans "Contact" %} {{user.profile.get_display_name}} </title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/ui-lightness/jquery-ui-1.10.3.custom.min.css' %}" />
     <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
@@ -9,18 +10,18 @@
 label {
   width:80px;
 }
-</style>    
+</style>
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">Contact {{user.profile.get_display_name}}:</h2>
+    <h2 style="margin-left:15px;margin-top:10px;">{% trans "Contact" %} {{user.profile.get_display_name}}:</h2>
     <div style="padding-right:20px;">
     <form method="POST" action="/contact_user/" name="addForm" >
         {% csrf_token %}
         <table>
         {{ form.as_p }}
         </table>
-        <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>         
-        <input type="submit" class="button" value="Send" /> 
+        <input type="button" class="button" value="{% trans "Cancel" %}"  onclick="javascript:window.close()"/>
+        <input type="submit" class="button" value="{% trans "Send" %}" />
 
     </form>
     </div>

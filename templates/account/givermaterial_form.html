@@ -1,9 +1,9 @@
 {% extends 'account/summary.html' %}
-
+{% load i18n %}
 {% block account_right %}
-<h2>Give Your Items:</h2>
+<h2>{% trans "Give Your Items" %}:</h2>
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Save" />
+    <input type="submit" value="{% trans "Save" %}" />
 </form>
 {% endblock %}

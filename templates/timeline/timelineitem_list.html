@@ -1,6 +1,7 @@
 {% load staticfiles %}
+{% load i18n %}
 <div class="content-center network">
-    <span style="font-size:12px;">  Category:{{ search_category }}, Topic: {{ search_topic }},  Posted By: {{ search_usertype }}, Language: {{ search_language }} </span>
+    <span style="font-size:12px;">  {% trans "Category" %}:{{ search_category }}, {% trans "Topic" %}: {{ search_topic }},  {% trans "Posted By" %}: {{ search_usertype }}, {% trans "Language" %}: {{ search_language }} </span>
 	{% for timelineitem in object_list %}
 	<div>
         <div class="page-body" style="text-align:left;">
@@ -28,7 +29,7 @@
             <div class="post-content" style="clear:both;">
 				{% if timelineitem.content_length  > 700 %}
                      {{ timelineitem.content| linebreaks| truncatechars_html:700 }}
-					 <a href="{% url 'timelineitem_detail' timelineitem.pk%}">more</a>
+					 <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "more" %}</a>
 			    {% elif timelineitem.content_length == 0 %}
                     <br>
                 {% else %}
@@ -40,27 +41,27 @@
 				{% if user.is_authenticated %}
                     {% if user ==  timelineitem.created_user  %}
                         {% if timelineitem.title_link  %}
-                        <a href="{% url 'timelineitem_edit_link' timelineitem.pk%}">Edit</a>
+                        <a href="{% url 'timelineitem_edit_link' timelineitem.pk%}">{% trans "Edit" %}</a>
                         {% else %}
-                        <a href="{% url 'timelineitem_edit_text' timelineitem.pk%}">Edit</a>
+                        <a href="{% url 'timelineitem_edit_text' timelineitem.pk%}">{% trans "Edit" %}</a>
                         {% endif %}
                     {% endif %}
 
-				    <a href="{% url 'timelineitem_detail' timelineitem.pk%}">Comments({{ timelineitem.total_comments }})</a>
+				    <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
                     {% if user !=  timelineitem.created_user  %}
-                        <a id="reblog_{{timelineitem.pk}}" href="{% url 'timelineitem_reblog' timelineitem.pk %}" onclick="return reblog({{timelineitem.pk}});">Reblog(<span id="reblog_count_{{timelineitem.pk}}">{{ timelineitem.total_reblogs }}</span>)</a>
+                        <a id="reblog_{{timelineitem.pk}}" href="{% url 'timelineitem_reblog' timelineitem.pk %}" onclick="return reblog({{timelineitem.pk}});">{% trans "Reblog" %}(<span id="reblog_count_{{timelineitem.pk}}">{{ timelineitem.total_reblogs }}</span>)</a>
                         {% if timelineitem.pk in likes_ids  %}
-                            <a id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">UnLike(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
-                            <a style="display: none;" id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">Like(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                            <a id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">{% trans "UnLike" %}(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                            <a style="display: none;" id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">{% trans "Like" %}(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
                         {% else %}
-                            <a style="display: none;" id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">UnLike(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
-                            <a id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">Like(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                            <a style="display: none;" id="unlike_{{timelineitem.pk}}" href="{% url 'timelineitem_unlike' timelineitem.pk %}" onclick="return unlike({{timelineitem.pk}});">{% trans "UnLike" %}(<span id="unlike_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
+                            <a id="like_{{timelineitem.pk}}" href="{% url 'timelineitem_like' timelineitem.pk %}" onclick="return like({{timelineitem.pk}});">{% trans "Like" %}(<span id="like_count_{{timelineitem.pk}}">{{ timelineitem.total_likes }}</span>)</a>
                         {% endif %}
                     {% endif %}
                 {% else %}
-				<a href="{% url 'userena_signin' %}">Comments({{ timelineitem.total_comments }})</a>
-				<a href="{% url 'userena_signin' %}">Reblog({{ timelineitem.total_reblogs }})</a>
-				<a href="{% url 'userena_signin' %}">Like({{ timelineitem.total_likes }})</a>
+				<a href="{% url 'userena_signin' %}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
+				<a href="{% url 'userena_signin' %}">{% trans "Reblog" %}({{ timelineitem.total_reblogs }})</a>
+				<a href="{% url 'userena_signin' %}">{% trans "Like" %}({{ timelineitem.total_likes }})</a>
 				{% endif %}
             </div>
             <hr>
@@ -71,10 +72,10 @@
 
     <div class="page-footer">
 		{% if page_obj.has_previous %}
-        <a href="{% url 'home' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.previous_page_number }}">< Prev</a>
+        <a href="{% url 'home' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.previous_page_number }}">< {% trans "Prev" %}</a>
 		{% endif  %}
 		{% if page_obj.has_next %}
-		<a href="{% url 'home' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.next_page_number }}">Next ></a>
+		<a href="{% url 'home' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.next_page_number }}">{% trans "Next" %} ></a>
 		{% endif %}
 	</div>
 </div>

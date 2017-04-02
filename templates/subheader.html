@@ -1,8 +1,9 @@
+{% load i18n %}
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 
 <div>
     <a href="{% url 'home' %}?language={{request.GET.language}}&usertype={{request.GET.usertype }}&topic={{request.GET.topic }}"
-        {% if not request.GET.category %}class="selected-link"{% endif %}>All</a> &nbsp;
+        {% if not request.GET.category %}class="selected-link"{% endif %}>{% trans "All" %}</a> &nbsp;
     {% for item_catergory in categories %}
         <a href="{% url 'home' %}?category={{ item_catergory.id }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&topic={{request.GET.topic }}" title="Posts: 0"
             {% if item_catergory.id == request.GET.category|add:0 %}class="selected-link"{% endif %} >{{item_catergory.name}}</a> &nbsp;
@@ -13,12 +14,12 @@
 
 <b>Posted By:</b>
 <select id='item_usertype' style="color:black;font-weight:normal;font:12px;width:100px;" onchange="showSelected()">
-     <option value="everyone">Everyone</option>
-     <option value="following">People I Follow</option>
+     <option value="everyone">{% trans "Everyone" %}</option>
+     <option value="following">{% trans "People I Follow" %}</option>
    </select>
 
 <b>Language:</b> <select id='item_language' name="language" onchange="showSelected()">
-   <option value="all">All</option>
+   <option value="all">{% trans "All" %}</option>
    {% for language in languages %}
    <option value="{{ language.id }}">{{ language.name }}</option>
    {% endfor %}

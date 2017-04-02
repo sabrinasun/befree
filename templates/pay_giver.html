@@ -1,22 +1,22 @@
 {% load staticfiles %}
 {% load readmore el_pagination_tags %}
-
+{% load i18n %}
 <html>
 <head>
-<title>Pay {{order.giver.profile.get_display_name}} </title>
+<title>{% trans "Pay" %} {{order.giver.profile.get_display_name}} </title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/ui-lightness/jquery-ui-1.10.3.custom.min.css' %}" />
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="{% static 'admin' %}/js/admin/RelatedObjectLookups.js"></script>
 <style>
 label {
-  width:80px; 
+  width:80px;
 }
-</style>    
+</style>
 </head>
 <body>
-    <h2 style="margin-left:15px;margin-top:10px;">Pay {{order.giver.profile.get_display_name}}:</h2>
-    
+    <h2 style="margin-left:15px;margin-top:10px;">{% trans "Pay" %} {{order.giver.profile.get_display_name}}:</h2>
+
 <!--  div id="form-error">
 	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
 	<ul>
@@ -25,39 +25,39 @@ label {
 	{% endfor %}
 	</ul>
 </div-->
-    
+
     <div style="padding:0 20px 20px 20px;">
-    Please pay the giver directly, and then inform the giver about the payment below. 
+    {% trans "Please pay the giver directly, and then inform the giver about the payment below." %}
     <br><br>
-    Please choose the payment method you used: <br>
+    {% trans "Please choose the payment method you used:" %} <br>
     <form method="POST" action="{% url 'pay_giver' %}" >
     {% csrf_token %}
     {% if order.giver.profile.paypal_email %}
     {{ form.order_id }}
 
     {% if form.pay_method.errors %}
-    	{{ form.pay_method.errors }} <br>  
-    {% endif %}
-    
-
-    <input type="radio" name = "pay_method" value="paypal">Paid by Paypal to {{ order.giver.profile.paypal_email }}: <br> &nbsp; &nbsp; &nbsp; &nbsp; Pay ${{ order.get_paypal_cost | floatformat:2}} (${{ order.get_total_cost }} + paypal fees )   <br>
+    	{{ form.pay_method.errors }} <br>
     {% endif %}
 
-    {% if order.giver.profile.pay_url %} 
-    <input type="radio" name = "pay_method" value="payurl">Paid though <a href="{{order.giver.profile.pay_url}}" target="_blank">Online Payment</a><br>
-    {% endif %}    
-    
+
+    <input type="radio" name = "pay_method" value="paypal">{% trans "Paid by Paypal to" %} {{ order.giver.profile.paypal_email }}: <br> &nbsp; &nbsp; &nbsp; &nbsp; {% trans "Pay" %} ${{ order.get_paypal_cost | floatformat:2}} (${{ order.get_total_cost }} + paypal fees )   <br>
+    {% endif %}
+
+    {% if order.giver.profile.pay_url %}
+    <input type="radio" name = "pay_method" value="payurl">{% trans "Paid though" %} <a href="{{order.giver.profile.pay_url}}" target="_blank">{% trans "Online Payment" %}</a><br>
+    {% endif %}
+
     {% if order.giver.profile.payment_description %}
-    <input type="radio" name = "pay_method" value="other">Paid by Other Means:<br>
+    <input type="radio" name = "pay_method" value="other">{% trans "Paid by Other Means:" %}<br>
     <textarea cols=40 rows=3 readonly style="vertical-align:top;">{{ order.giver.profile.payment_description }} </textarea>
-     <br> 
+     <br>
     {% endif %}
-    Additional information about your payment:<br>
+    {% trans "Additional information about your payment:" %}<br>
     {{ form.message }}
 	<br>
-    
-    <input type="button" class="button" value="Cancel"  onclick="javascript:window.close()"/>     
-    <input type="submit" class="button" value="Inform Payment" /> 
+
+    <input type="button" class="button" value="{% trans "Cancel" %}"  onclick="javascript:window.close()"/>
+    <input type="submit" class="button" value="{% trans "Inform Payment" %}" />
 
     </form>
     </div>

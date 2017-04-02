@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load readmore el_pagination_tags staticfiles %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
@@ -19,36 +20,36 @@
             {% csrf_token %}
             <div style="float:left;border-right:1px dashed black;">
                 <div>
-                    <label><b>Basics:</b></label>Share Dharma teachings, resources and your own expeirences.<br><br>
-                    <label>Post is: </label>
+                    <label><b>{% trans "Basics" %}:</b></label>{% trans "Share Dharma teachings, resources and your own expeirences." %}<br><br>
+                    <label>{% trans "Post is" %}: </label>
                     {% for radio in form.item_category %}
                     {{ radio.tag }} {{ radio.choice_label }}
                     {% endfor %}
                     <br>
                 </div>
                 <div>
-                    <label>Title or Quote: </label>{{ form.title }}{{ form.title.errors }}</textarea>
+                    <label>{% trans "Title or Quote" %}: </label>{{ form.title }}{{ form.title.errors }}</textarea>
                 </div>
                 <div id="div_text_id">
-                    <label>Expanded Text: </label>{{ form.content }}{{ form.content.errors }}</textarea>
+                    <label>{% trans "Expanded Text" %}: </label>{{ form.content }}{{ form.content.errors }}</textarea>
                 </div>
                 <div>
-                    <label>Is Original:</label>{{ form.is_original }}The main content of this post is my own writing or artistic creation.{{ form.is_original.errors }}
+                    <label>{% trans "Is Original" %}:</label>{{ form.is_original }}The main content of this post is my own writing or artistic creation.{{ form.is_original.errors }}
                     </select>
                 </div>
                 <div id="div_teacher_id">
-                    <label>Teacher(Optional):</label>{{ form.teacher_name }}{{ form.teacher_name.errors }}
+                    <label>{% trans "Teacher" %}(Optional):</label>{{ form.teacher_name }}{{ form.teacher_name.errors }}
                 </div>
                 <div>
-                    <label>Language:</label>{{ form.language }}{{ form.language.errors }}
+                    <label>{% trans "Language" %}:</label>{{ form.language }}{{ form.language.errors }}
                 </div>
             </div>
             <div style="float:left;">
-                <label><b>Extended:</b></label>Add additional information to give your content more exposure. All Optional.<br><br>
+                <label><b>{% trans "Extended" %}:</b></label>{% trans "Add additional information to give your content more exposure. All Optional." %}<br><br>
                 <div>
-                    <label>Topics:</label>{{ form.topic_list }}, {{ form.topic_list }}, {{ form.topic_list }} {{ form.topic_list.errors }}
+                    <label>{% trans "Topics" %}:</label>{{ form.topic_list }}, {{ form.topic_list }}, {{ form.topic_list }} {{ form.topic_list.errors }}
                 <div>
-                    <label>Upload a Picture/HTML/PDF: </label>
+                    <label>{% trans "Upload a Picture/HTML/PDF" %}: </label>
                     {% if form.instance.pk and form.instance.uploaded_file  %}
                     <a href="{{ form.instance.uploaded_file.url }}">{{ form.instance.file_name }}</a>
                     {% endif %}
@@ -56,7 +57,7 @@
                 </div>
             </div>
             <div style="clear:both;text-align:right;">
-                <button class="button" style="float:none;" type="submit">Submit</button>
+                <button class="button" style="float:none;" type="submit">{% trans "Submit" %}</button>
             </div>
         </form>
     </div>

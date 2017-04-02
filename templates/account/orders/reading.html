@@ -1,67 +1,67 @@
 {% extends 'account/summary.html' %}
-
+{% load i18n %}
 {% block account_right %}
-<h2>Books I am Receiving</h2>
+<h2>{% trans "Books I am Receiving" %}</h2>
 
 <div class="order-box">
 {% for order in orders %}
 	<div style="clear:both;">
-	    <div class = "warning" style="display:inline;">	
-	    
+	    <div class = "warning" style="display:inline;">
+
 		{% if order.order.status == 'PAID'%}
-	    Waiting for giver to ship. 
-	    {% endif %}	    
+	    {% trans "Waiting for giver to ship." %}
+	    {% endif %}
 	    </div>
 	    <div style="display:inline;float:right;">
-	       <a href="javascript:void(0)" class="add-another" 
-	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Giver {{ order.order.giver.profile.get_display_name }}</a> 		    	
-	   	</div>  
+	       <a href="javascript:void(0)" class="add-another"
+	          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Giver {{ order.order.giver.profile.get_display_name }}</a>
+	   	</div>
 	    <div class="contentwrapper">
 	        <div class="right" >
 	        {% for detail in order.detail%}
-			        {{ detail.inventory.material.title }} &nbsp; Quantity: {{ detail.quantity }}<br>
+			        {{ detail.inventory.material.title }} &nbsp; {% trans "Quantity" %}: {{ detail.quantity }}<br>
 		    {% endfor %}
 		    <div style="text-align:right">
 		    	{% if order.order.status == 'NEW' %}
 		    	<a href="javascript:void(0)"  onclick="javascript: window.open('{% url 'pay_giver' %}?order_id={{order.order.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=350,height=430, left=200, top=60');" >Pay {{ order.order.giver.profile.get_display_name }}</a>
-		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">{% trans "Cancel" %}</a>
 		    	{% elif order.order.status == 'PENDING' %}
-		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">Cancel</a>
+		    	<a href="{% url 'account_reading_orders' %}?order_id={{order.order.id}}&status=CANCEL">{% trans "Cancel" %}</a>
 		    	{% else %}
 		    	<br>
 		    	{% endif %}
 
 		    	<!-- a href="{% url 'file_claim' %}?order_id={{order.order.id}}">File Claim</a-->
 
-		    </div> 
+		    </div>
 	        </div>
 	    </div>
 	    <div class="left">
-	        Order No.{{ order.order.id }} &nbsp; Order Placed: {{ order.order.order_date|date:"M d, Y"}}<br>
+	        {% trans "Order No" %}.{{ order.order.id }} &nbsp; {% trans "Order Placed" %}: {{ order.order.order_date|date:"M d, Y"}}<br>
 	        {% if order.order.status == 'NEW' or order.order.status == 'PENDING' %}
-	        Status: <b>{{ order.order.status|title }} </b> 
-	        {% endif %} 
-	        {% if order.order.status == 'PAID' %}	
-	        <b>Paid</b>: {{ order.order.pay_date|date:"M d, Y" }}
+	        {% trans "Status" %}: <b>{{ order.order.status|title }} </b>
 	        {% endif %}
-	        {% if order.order.status == 'SHIPPED' %} 
-	        <b>Shipped</b>: {{ order.order.ship_date|date:"M d, Y"}}
-	        {% endif %}       
-	        {% if order.order.status == 'CANCEL' %} 
-	        <b>Cancelled</b>: {{ order.order.cancel_date|date:"M d, Y"}}
-	        {% endif %} 
-	        
-	        Total: {% if order.order.get_total_cost == -1 %}TBD{% else %}${{ order.order.get_total_cost }}{% endif %} <br />
+	        {% if order.order.status == 'PAID' %}
+	        <b>{% trans "Paid" %}</b>: {{ order.order.pay_date|date:"M d, Y" }}
+	        {% endif %}
+	        {% if order.order.status == 'SHIPPED' %}
+	        <b>{% trans "Shipped" %}</b>: {{ order.order.ship_date|date:"M d, Y"}}
+	        {% endif %}
+	        {% if order.order.status == 'CANCEL' %}
+	        <b>{% trans "Cancelled" %}</b>: {{ order.order.cancel_date|date:"M d, Y"}}
+	        {% endif %}
+
+	        {% trans "Total" %}: {% if order.order.get_total_cost == -1 %}TBD{% else %}${{ order.order.get_total_cost }}{% endif %} <br />
 
 	    </div>
 	</div>
 {% empty %}
-    {% if user.profile.has_reader_profile %} 
-	  No book found. 
+    {% if user.profile.has_reader_profile %}
+	  {% trans "No book found. " %}
 	{% else %}
-	  You need to first update your profile with receiver's mailing information, before you request a book. 
+	  {% trans "You need to first update your profile with receiver's mailing information, before you request a book." %}
 	{% endif %}
-    
+
 {% endfor %}
 </div>
 

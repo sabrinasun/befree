@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block header %}
+{% load i18n %}
 {% include 'network/user_public_header.html' %}
 {% endblock %} {% load readmore el_pagination_tags staticfiles %}
 {% block extra_css %}
@@ -8,7 +9,7 @@
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 
 <div>
-    <a href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&topic={{request.GET.topic }}">All</a> &nbsp;
+    <a href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&topic={{request.GET.topic }}">{% trans "All" %}</a> &nbsp;
     {% for item_catergory in categories %}
     <a href="{% url 'user_public' view_user.pk %}?category={{ item_catergory.id }}&language={{request.GET.language}}&topic={{request.GET.topic }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
@@ -17,7 +18,7 @@
  </span></div>
 
 <b>Language:</b> <select id='item_language' name="language" onchange="showSelected()">
-   <option value="all">All</option>
+   <option value="all">{% trans "All" %}</option>
    {% for language in languages %}
    <option value="{{ language.id }}">{{ language.name }}</option>
    {% endfor %}
@@ -41,38 +42,38 @@
     <div class="box">
         <div class="header">{{ view_user.profile.get_display_name }}</div>
         <div class="box-content">
-            <div class="row">Member since: {{view_user.profile.create_date |date:"M d, Y"}}</div>
-            <div class="row"> Posts: {{post_count}} </div>
-            <div class="row"> Following: {{following_count}}</div>
-            <div id="follower_count" class="row"> Followers: {{follower_count}}</div>
+            <div class="row">{% trans "Member since" %}: {{view_user.profile.create_date |date:"M d, Y"}}</div>
+            <div class="row">{% trans "Posts" %}: {{post_count}} </div>
+            <div class="row">{% trans "Following" %} : {{following_count}}</div>
+            <div id="follower_count" class="row"> {% trans "Followers" %}: {{follower_count}}</div>
         </div>
     </div>
  {% if user.is_authenticated %}
  {% if user.id != view_user.id %}
     <a href="{% url 'user_message_list_detail' view_user.username %}">
     <div class="button" style="width:98px;text-align:center;">
-        Send a Note
+        {% trans "Send a Note" %}
     </div>
     </a>
 
     <form id="unfollow" action="{% url 'user_unfollow' view_user.pk %}">
         {% csrf_token %}
         <div id="unfollow_button" class="button" style="width:98px;text-align:center;">
-            Unfollow</div>
+            {% trans "Unfollow" %}</div>
     </form>
 
     <form id="follow" action="{% url 'user_follow' view_user.pk %}">
         {% csrf_token %}
         <div id="follow_button" class="button" style="width:98px;text-align:center;">
-            Follow</div>
+            {% trans "Follow" %}</div>
     </form>
 {% endif %}
 {% else %}
     <div class="button" style="width:98px;text-align:center;" onClick="window.location = '{%  url 'userena_signin'  %}'">
-        Send a Note
+        {% trans "Send a Note" %}
     </div>
     <div id="follow_button_login" class="button" style="width:98px;text-align:center;" onClick="window.location = '{%  url 'userena_signin'  %}'">
-        Follow</div>
+        {% trans "Follow" %}</div>
 {% endif %}
 
 

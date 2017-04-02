@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 
 <div style="width:480px;">
 
-Please login, or register if you don't have an login yet. 
-<h2>Login</h2>
+{% trans "Please login, or register if you don't have an login yet." %}
+<h2>{% trans "Login" %}</h2>
 <form method="post" action="{% url 'userena_signin' %}?next=/view_bag/" id="login_form">
      {% csrf_token %}
 	<div class="row">
-		<label>Email: </label><input type="text" name="identification" />
+		<label>{% trans "Email" %}: </label><input type="text" name="identification" />
 	</div>
 	<div class="row">
-		<label>Password:  </label><input type="password" name="password" />
+		<label>{% trans "Password" %}:  </label><input type="password" name="password" />
 	</div>
 	<br>
 	<div class="row" style="text-align:right">
-		<input type="submit" value="login" class="button">
+		<input type="submit" value="{% trans "login" %}" class="button">
 	</div>
 </form>
 
 <br><br>
-<h2>Register as Reader</h2>
+<h2>{% trans "Register as Reader" %}</h2>
 <form method="post" action="{% url 'userena_signup_reader' %}" id="register_form" style="width:600px;">
 {% csrf_token %}
 {% if form.non_field_errors %}
@@ -43,26 +43,26 @@ Please login, or register if you don't have an login yet.
 </div-->
 {% endif %}
 
-	<h3>Please enter login information:</h3>
-	<div><label>User Name:</label>{{ form.username }}{{ form.username.errors }}</div> 	    
-	<div><label>Email:</label>{{ form.email }}{{ form.email.errors }}</div> 	
-	<div><label>Password:</label>{{ form.password1 }}{{ form.password1.errors }}</div> 
-	<div><label>Password(again):</label>{{ form.password2 }}{{ form.password2.errors }}</div> 
+	<h3>{% trans "Please enter login information" %}:</h3>
+	<div><label>{% trans "User Name" %}:</label>{{ form.username }}{{ form.username.errors }}</div>
+	<div><label>{% trans "Email" %}:</label>{{ form.email }}{{ form.email.errors }}</div>
+	<div><label>{% trans "Password" %}:</label>{{ form.password1 }}{{ form.password1.errors }}</div>
+	<div><label>{% trans "Password(again)" %}:</label>{{ form.password2 }}{{ form.password2.errors }}</div>
 	<br />
-    
-	<p><h3>Please enter shipping information:</h3> 
-    <div><label>First Name:</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
-	<div><label>Last Name:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>	
-	<div><label>Country:</label>{{ form.country }}{{ form.country.errors }}</div>			
-	<div><label>Address1:</label>{{ form.address1 }}{{ form.address1.errors }}</div>	
-	<div><label>Address2:</label>{{ form.address2 }}{{ form.address2.errors }}</div>	
-	<div><label>City:</label>{{ form.city }}{{ form.city.errors }}</div>	
-    <div><label>State:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>  
-	<div><label>Zip Code:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>		
+
+	<p><h3>{% trans "Please enter shipping information" %}:</h3>
+    <div><label>{% trans "First Name" %}:</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
+	<div><label>{% trans "Last Name" %}:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>
+	<div><label>{% trans "Country" %}:</label>{{ form.country }}{{ form.country.errors }}</div>
+	<div><label>{% trans "Address1" %}:</label>{{ form.address1 }}{{ form.address1.errors }}</div>
+	<div><label>{% trans "Address2" %}:</label>{{ form.address2 }}{{ form.address2.errors }}</div>
+	<div><label>{% trans "City" %}:</label>{{ form.city }}{{ form.city.errors }}</div>
+    <div><label>{% trans "State" %}:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>
+	<div><label>{% trans "Zip Code" %}:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>
 	<br>
-	
-	<div><label></label>{{form.tos}} I agree to <a href="{% url 'tos' %}">Term of Service</a> .{{form.tos.errors}}</div>	
-	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">Complete Registration</a></div>
+
+	<div><label></label>{{form.tos}} {% trans "I agree to" %} <a href="{% url 'tos' %}">{% trans "Term of Service" %}</a> .{{form.tos.errors}}</div>
+	<div class="button"><a href="#" onclick="document.getElementById('register_form').submit();return false">{% trans "Complete Registration" %}</a></div>
 
 </form>
 

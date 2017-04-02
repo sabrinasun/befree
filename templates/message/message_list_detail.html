@@ -26,7 +26,7 @@
      <form action="{% url 'userena_umessages_compose' %}" method="post" id="compose_message_form">
          {% csrf_token %}
 
-         Send a message to {{ to_username }}:
+         {% trans "Send a message to" %}  {{ to_username }}:
          <input type="hidden" value="{{ to_username }}" name="to"/>
          <textarea style="width:100%;" name="body"></textarea>
          <input type="submit" name="send" value="{% trans " Submit " %}" /><br><br>
@@ -34,7 +34,7 @@
      {% for message in message_list %}
      <div>
        <div class="page-body" style="text-align:left;">
-        From {{ message.sender.username  }} on {{ message.sent_at }}: <br> {{ message }}
+        {% trans "From" %}  {{ message.sender.username  }} {% trans "on" %}  {{ message.sent_at }}: <br> {{ message }}
         <hr>
        </div>
      </div>

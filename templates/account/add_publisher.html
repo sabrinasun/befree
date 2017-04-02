@@ -1,14 +1,14 @@
 {% extends 'account/summary.html' %}
-
+{% load i18n %}
 {% block account_right %}
 <div style="float:left; width:50%;">
-    <h2>Add a Publisher</h2>
+    <h2>"{% trans "Add a Publisher" %}"</h2>
     <div></div>
-    
+
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Add" class="button" style="color:#fff;margin-right:30px" />
+        <input type="submit" value="{% trans "Add" %}" class="button" style="color:#fff;margin-right:30px" />
         <input type="hidden" name="next" value="{{ next }}" />
     </form>
 

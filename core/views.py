@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.utils.html import escape
 from django.forms.models import modelform_factory
+from django.utils.translation import ugettext as _
+
 
 try:
     from django.db.models.loading import get_models
@@ -45,7 +47,7 @@ def send_email(template, context, title, to_address):
     template = get_template('email/' + template)
     content = template.render(context)
     send_mail(title, content, settings.DEFAULT_FROM_EMAIL,[to_address], fail_silently=False)
-                      
+
 def index(request):
     msg = None
     inventories = None
@@ -210,11 +212,11 @@ def get_order_from_bag(cart, user):
 
         warning = []
         if shipping_cost == -1:
-            warning.append("We can't determine shipping cost. Wait for giver's advice after placing order. ")
+            warning.append(_("We can't determine shipping cost. Wait for giver's advice after placing order. "))
 
         max_per_order = giver.profile.max_per_order
         if max_per_order != 0 and free_count > max_per_order:
-            warning.append("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it." % (free_count,max_per_order)  )
+            warning.append(_("You ordered %s items, which are more than a small quantity order of %s items for this giver, order will be in pending status until the giver approves it.") % (free_count,max_per_order)  )
 
         ret.append( {"giver":orders[key][0]['inventory'].giver, "order_details":orders[key], "price":price, "shipping_cost":shipping_cost,"total":"%.2f" % (price+Decimal(shipping_cost)), "weight":weight, "warning":warning, "shipping_cost_wave":shipping_cost_wave })
 
@@ -262,7 +264,7 @@ def contact_user(request):
                                'from_user_id': request.user.pk,
                                'message': message
                               })
-            title = "User %s has sent you a message via BuddhistExchange. " % request.user.profile.get_display_name()
+            title = _("User %s has sent you a message via BuddhistExchange. ") % request.user.profile.get_display_name()
             send_email('contact-user.txt', context, title, to_user.email)
             return HttpResponse('<script type="text/javascript">document.write("Your message has been sent.");window.close();opener.alert("You email message has been sent.");</script>')
 
@@ -355,10 +357,10 @@ def check_out(request):
                                 'shipping_cost': order.shipping_cost,
                                 'order_details': OrderDetail.objects.filter(order=order)})
 
-            title = 'Order %s was placed by %s via BuddhistExchange.' % ( order.pk , reader.profile.get_display_name())
+            title = _('Order %s was placed by %s via BuddhistExchange.') % ( order.pk , reader.profile.get_display_name())
             send_email('email-giver-order-placed.txt', context, title,giver.email)
 
-            title = 'You have placed an order via BuddhistExchange.'
+            title = _('You have placed an order via BuddhistExchange.')
             send_email('email-reader-order-placed.txt', context, title, reader.email)
 
     context = {
@@ -472,19 +474,19 @@ def account_giving_orders(request):
                     })
         #here send email for changing status.
         if status == "SHIPPED":
-            title = "Your order %s has been shipped. " % order.pk
+            title = _("Your order %s has been shipped. ") % order.pk
             send_email('email-reader-order-shipped.txt', context, title, order.reader.email)
 
         elif status == "CANCEL":
-            title = "Your order %s has been cancelled. " % order.pk
+            title = _("Your order %s has been cancelled. ") % order.pk
             send_email('email-reader-order-cancelled-by-giver.txt', context, title, order.reader.email)
-            title = "You have cancelled order %s. " % order.pk
+            title = _("You have cancelled order %s. ") % order.pk
             send_email('email-giver-order-cancelled-by-giver.txt', context, title, order.giver.email)
 
         elif status == "NEW":
-            title = "Your order %s has been approved. " % order.pk
+            title = _("Your order %s has been approved. ") % order.pk
             send_email('email-reader-order-approved.txt', context, title, order.reader.email)
-            title = "You have approved order %s. " % order.pk
+            title = _("You have approved order %s. ") % order.pk
             send_email('email-giver-order-approved.txt', context, title, order.giver.email)
 
     #below happens when pending
@@ -515,7 +517,7 @@ def account_giving_orders(request):
                        'order_details': OrderDetail.objects.filter(order=order),
                        'order_status': order.status
                         })
-            title = "The shipping cost for your order %s is $%s. " % ( order.pk, order.shipping_cost)
+            title = _("The shipping cost for your order %s is $%s. ") % ( order.pk, order.shipping_cost)
             send_email('email-reader-order-shipping-cost.txt', context, title, order.reader.email)
 
 
@@ -616,7 +618,7 @@ def account_add_publisher(request):
 def signup(request, **kwargs):
     response = userena_signup(request, **kwargs)
     if response.status_code == 302:
-        messages.success(request, 'You have been signed up.')
+        messages.success(request, _('You have been signed up.'))
     return response
 
 

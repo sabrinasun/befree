@@ -13,6 +13,7 @@ PDF_HTML_HTM_FILE_TYPES = [
 
 class Language(models.Model):
     name = models.CharField(max_length=50, null=False, blank=True)
+    lang_code = models.CharField(max_length=10, unique=True)
     order = models.IntegerField()
     users = models.ManyToManyField(
         user_model_label, through='UserLanguage', related_name='languages')

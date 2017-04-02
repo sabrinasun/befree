@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% load readmore el_pagination_tags staticfiles %}
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
@@ -54,19 +54,22 @@
         </div>
     </div>
     <div>
-        <p><b>All comments</b></p>
+        <p><b>{% trans "All comments" %}</b></p>
         {% for comment in timelineitem.comments.all %}
-        <a href="{% url 'user_public' comment.comment_user.id %}">{{ comment.comment_user.username }}</a> on {{comment.created |date:"M d, Y"}}  : <br>{{ comment.text }}<br>
+        <a href="{% url 'user_public' comment.comment_user.id %}">
+        {% blocktrans with comment.comment_user.username as username and comment.text as comment and comment.created|date:"M d, Y" as comment_date %}
+            {{ username }}</a> on  {{comment_date }}  : <br>{{ comment }}<br>
+        {% endblocktrans %}
         {% endfor %}
     </div>
     <form action="{% url 'timelineitem_comment' timelineitem.pk %}" method="post">
         {% csrf_token %}
     <div>
-        <p><b>Comment:</b></p>
+        <p><b>{% trans "Comment" %}:</b></p>
         {{ form.text }}{{ form.text.errors }}
     </div>
     <div>
-        <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">Submit</a></button>
+        <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">{% trans "Submit" %}</a></button>
     </div>
     </form>
 </div>

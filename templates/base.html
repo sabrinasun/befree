@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 {#% load url %#}
 <!doctype html>
 <html>
@@ -73,7 +74,7 @@
 </div>
 
 <div class='footer' >
-Report Bug to support@buddhistexchange.com | <a href="{% url 'tos' %}">Term of Service</a>
+{% trans "Report Bug to support@buddhistexchange.com" %}  | <a href="{% url 'tos' %}">{% trans "Term of Service" %}</a>
 </div>
 
 {% block extra_js %}{% endblock %}

@@ -1,31 +1,32 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block main %}
 <div class ="contentwrapper">
 	<div style="margin-right:240px;margin-left:10px;">
-	Welcome to BuddhistExchange and thanks for considering using BuddhistExchange! 
-	
-	<p>There are many buddhist practitioners and organizations are happy to 
-	give brand new buddhist books for free. There are many people want to give away their used books 
+	{% blocktrans %}
+	Welcome to BuddhistExchange and thanks for considering using BuddhistExchange!
+
+	<p>There are many buddhist practitioners and organizations are happy to
+	give brand new buddhist books for free. There are many people want to give away their used books
 	as well. BuddhistExchange is a platform to make the exchange happen. </p>
-	
+
 	<hr>
 	<b>To Receiver</b>
 
-	<br>All books are free you just pay for shipping, some givers even provide free shipping option, or provide local pickup. After you ordered the book, you need to send the 
-	payment for shipping to the giver, if shipping cost is not waived. You inform the giver about your payment through your account. 
-	
-	<p>You can re-list the book to give to others after reading it, so that you become a giver too! You need to complete giver profile to give. 
-	
+	<br>All books are free you just pay for shipping, some givers even provide free shipping option, or provide local pickup. After you ordered the book, you need to send the
+	payment for shipping to the giver, if shipping cost is not waived. You inform the giver about your payment through your account.
+
+	<p>You can re-list the book to give to others after reading it, so that you become a giver too! You need to complete giver profile to give.
+
 	<hr>
 	<b>To Giver</b>
 	<br>
-	Different from ebay where sellers make money, givers on BuddhistExchange are Buddhism practitioners or temples who need a channel of 
-	giving. Giver gives books away for free, receivers may pay for shipping cost. The shipping cost estimate should roughly break even, if you obtain the packaging material at whole sale price. 
-	However, receiver is still expected to pay the estimated shipping cost before giver ship the book. 
-	The shipping cost includes packaging cost and paypal transaction cost. <br><br>   
-	
-	<hr>	
+	Different from ebay where sellers make money, givers on BuddhistExchange are Buddhism practitioners or temples who need a channel of
+	giving. Giver gives books away for free, receivers may pay for shipping cost. The shipping cost estimate should roughly break even, if you obtain the packaging material at whole sale price.
+	However, receiver is still expected to pay the estimated shipping cost before giver ship the book.
+	The shipping cost includes packaging cost and paypal transaction cost. <br><br>
+
+	<hr>
 	<b>Shipping</b><br>
 	Shipping rate goes by weight within USA, regardless of distance. Over 5 ounces go by MediaMail:<br>
 	up to 5 ounces: by First Class mail $2.41<br><br>
@@ -39,17 +40,17 @@
 	Up to 6 pounds: $4.78 + Packaging: $1.30<br>
 	Up to 7 pounds: $5.23 + Packaging: $1.40<br>
 	The increments for shipping cost are 43 cents per pound, plus packaging cost 10 cents, all the way up to $32.32 for the 70 lbs max. <br><br>
-	
+
 	The giver specifies the weight of each book, cost goes by total shipping cost.  <br>
-	
+
 	We currently can only support: <br>
 	International Shipping: Free or TBD by giver <br>
 	Domestic shipping in countries other than USA: Free or TBD by giver <br><br>
 
-	However, you can always contact the seller about international shipping. If you want to help establishing the domestic shipping rate for your country, please let us know. 
-		
+	However, you can always contact the seller about international shipping. If you want to help establishing the domestic shipping rate for your country, please let us know.
+
 	<br>
-	<hr>	
+	<hr>
 	<b>How to help</b>
 	<ul>
 		<li>Sharing or requesting book on BuddhistExchange.</li>
@@ -59,16 +60,16 @@
 		<li>If the website doesn't work well for you, drop us a note and we appreciate your feedback</li>
 		<li>If you want an additional feature, let us know!</li>
     </ul>
-	<hr>	
+	<hr>
 	<b>About BuddhistExchange</b>
 	<br>BuddhistExchange is created and maintained by layman Buddhism practitioners from New Jersey. The mission of BuddhistExchange
-	is to serve as an online exchange platform for the Buddhist community, so that help to spread of knowledge of Buddhism. 
+	is to serve as an online exchange platform for the Buddhist community, so that help to spread of knowledge of Buddhism.
 
 	<br>
-	<br>Please drop us a note at <b>support@buddhistexchange.com</b> if you need any help, or have any suggestion, thanks! 
+	<br>Please drop us a note at <b>support@buddhistexchange.com</b> if you need any help, or have any suggestion, thanks!
 	<hr>
-	
+	{% endblocktrans %}
+
 	</div>
 </div>
 {% endblock main %}
-	

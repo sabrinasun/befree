@@ -12,15 +12,18 @@ from userena.views import email_change as userena_views_email_change
 from userena.views import password_change as userena_views_password_change
 from userena.views import activate as userena_views_activate
 from userena.views import email_confirm as userena_views_email_confirm
-
+from django.conf.urls.i18n import i18n_patterns
 
 
 admin.autodiscover()
 
-#urlpatterns = patterns('',
 urlpatterns = [
-
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^rosetta/', include('rosetta.urls')),
+]
+
+urlpatterns += i18n_patterns(
+
     url(r'^accounts/signup/$', core_views_signup,
             {'signup_form': UserenaSignupFormBase, "success_url": "/?msg=signup_success"},
             name='userena_signup'),
@@ -44,7 +47,7 @@ urlpatterns = [
        userena_views_email_change,{'success_url':"/account/summary/?msg=email_success", "template_name": "userena/email_form.html"},
        name='userena_email_change'),
 
-
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^accounts/', include('userena.urls')),
     url(r'^', include('core.urls')),
     url(r'^', include('timeline.urls')),
@@ -63,7 +66,7 @@ urlpatterns = [
     url(r'^confirm-email/(?P<confirmation_key>\w+)/$', userena_views_email_confirm, {'success_url':"/account/summary/?msg=email_change_success"}, name='userena_email_confirm'),
 
 
-]
+)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

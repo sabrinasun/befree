@@ -26,14 +26,14 @@
   <div class="content-center network">
      <form action="{% url 'boardmessage_new' board_owner.id %}" method="post" id="compose_message_form">
          {% csrf_token %}
-         Post on {{ board_owner.username }}'s massage board:
+         {% trans " Post on" %} {{ board_owner.username }}'s {% trans "message board" %} :
          <textarea style="width:100%;" name="body"></textarea>
          <input type="submit" name="send" value="{% trans " Submit " %}" /><br><br>
      </form>
      {% for message in object_list %}
      <div>
        <div class="page-body" style="text-align:left;">
-        From {{ message.sender.username  }} on {{ message.sent_at }}: <br> {{ message }}
+        {% trans "From" %}  {{ message.sender.username  }} {% trans "Contact" %} {% trans "on" %} {{ message.sent_at }}: <br> {{ message }}
         <hr>
        </div>
      </div>
