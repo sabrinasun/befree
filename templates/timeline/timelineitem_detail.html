@@ -62,14 +62,18 @@
         {% endblocktrans %}
         {% endfor %}
     </div>
+    {% if user.is_authenticated %}
     <form action="{% url 'timelineitem_comment' timelineitem.pk %}" method="post">
+    {% else %}
+    <form action="{% url 'userena_signin' %}" method="get">
+    {% endif %}
         {% csrf_token %}
     <div>
         <p><b>{% trans "Comment" %}:</b></p>
         {{ form.text }}{{ form.text.errors }}
     </div>
     <div>
-        <button class="button" style="float:none;"><a href="javascript:void(0);" onclick="PostForm.submitForm();">{% trans "Submit" %}</a></button>
+        <button class="button" style="float:none;" type="submit">{% trans "Submit" %}</button>
     </div>
     </form>
 </div>

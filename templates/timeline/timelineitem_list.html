@@ -6,11 +6,18 @@
 	<div>
         <div class="page-body" style="text-align:left;">
             <div class="post-title">
+                <div style="float:right">
+                {% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} | {% if timelineitem.teacher %}  {{timelineitem.teacher.name}} | {% endif %}<a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a>
+                </div>
 				<div style="float:left;">
 				{% if timelineitem.title_link %}
 				<a href="{{ timelineitem.title_link }}" style="text-decoration:none;"><b>{{ timelineitem.title }}</b></a>
 				{% else %}
-				<b style="color:black;">{{ timelineitem.title }}</b>
+                {% if timelineitem.item_category.pk == 2 %}
+				    {{ timelineitem.title }}
+                {% else %}
+                    <b style="color:black;">{{ timelineitem.title }}</b>
+                {% endif %}
 				{% endif %}
                 {% if timelineitem.uploaded_file and timelineitem.is_uploaded_file_pdfhtml%}
                     <a href="{{ timelineitem.uploaded_file.url }}">
@@ -22,13 +29,11 @@
                     </a>
                 {% endif %}
 				</div>
-                <div style="float:right">
-				{% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} |  <a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a>
-                </div>
+
             </div>
             <div class="post-content" style="clear:both;">
 				{% if timelineitem.content_length  > 700 %}
-                     {{ timelineitem.content| linebreaks| truncatechars_html:700 }}
+                     {{ timelineitem.content| linebreaks| urlize |truncatechars_html:700 }}
 					 <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "more" %}</a>
 			    {% elif timelineitem.content_length == 0 %}
                     <br>
@@ -59,7 +64,7 @@
                         {% endif %}
                     {% endif %}
                 {% else %}
-				<a href="{% url 'userena_signin' %}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
+                <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
 				<a href="{% url 'userena_signin' %}">{% trans "Reblog" %}({{ timelineitem.total_reblogs }})</a>
 				<a href="{% url 'userena_signin' %}">{% trans "Like" %}({{ timelineitem.total_likes }})</a>
 				{% endif %}

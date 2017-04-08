@@ -23,18 +23,18 @@ h2 {
     color: #996633;
     display: block;
     font-size: 18px;
-    font-weight: normal; 
+    font-weight: normal;
     line-height: 1.167;
     margin: 3px;
 }
 
 h3 {
 	color: #996633;
-    font-weight: normal; 
+    font-weight: normal;
     margin-bottom:4px;
 }
 
-th { 
+th {
 	background-color: #336699;
 	height: 20px;
 	color: white;
@@ -50,7 +50,7 @@ tr:nth-child(odd) {
 label {
 	display: inline-block;
 	width: 150px;
-	text-align: right; 
+	text-align: right;
 	padding-right:10px;
 	vertical-align: top;
 }
@@ -70,11 +70,11 @@ div {
 
 .info-box {
 	display: table-cell;
-	float:left; 
-	clear:none; 
-	width:27%; 
-	height:120px; 
-	margin-right:1%; 
+	float:left;
+	clear:none;
+	width:27%;
+	height:120px;
+	margin-right:1%;
 	margin-left:1%;
 	color:#595f23;
 	font-size:1em;
@@ -192,15 +192,15 @@ div {
 }
 
 .small-menu div a img:hover {
-	color:#EDEBD6;    
+	color:#EDEBD6;
 }
 
 .title {
-   
+
 	height:20px;
 }
 
-.sub-header { 
+.sub-header {
     background-color: #EDEBD6;
     border-bottom: solid 1px #c2b999;
 	color:#003399;
@@ -213,13 +213,12 @@ div {
 
 .msg {
     margin: 0px 12px 6px 12px;
-    color: #996633;	
+    color: #996633;
 
 }
 
 .content {
 	padding:20px 6px;
-	height:100%;
 }
 
 .contentwrapper{
@@ -252,13 +251,13 @@ div {
 
 
 .box {
-    border-radius: 5px; 
+    border-radius: 5px;
 	border: solid #DAD1B2 3px;
     margin-bottom: 20px;
 	/*clear:both;*/
 }
 
-.box .header { 
+.box .header {
 	background-color: #EBEBD6;
 	border-bottom: solid 1px #DAD1B2;
 	border-top: solid 1px #DAD1B2;
@@ -266,7 +265,7 @@ div {
 	color: #996633;
 	font-weight: bold;
 	text-align: center;
-	padding: 2px;  
+	padding: 2px;
 }
 
 .box-content {
@@ -287,19 +286,19 @@ div {
 }
 
 .box-content .section {
-	border-bottom: solid 2px #DAD1B2;	
+	border-bottom: solid 2px #DAD1B2;
 }
 
- 
+
 .footer {
-  clear: both; 
+  clear: both;
   bottom: 0px;
   width:100%;
   padding: 6px 10px;
-  text-align: center; 
+  text-align: center;
   background-color: #EDEBD6;
   border-top: solid 1px #c2b999;
-  color:#996633;  
+  color:#996633;
 
 }
 
