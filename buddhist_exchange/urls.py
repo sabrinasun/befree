@@ -19,7 +19,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^rosetta/', include('rosetta.urls')),
+    url(r'^admin/buddhist_exchange/translator/', include('rosetta.urls'))
 ]
 
 urlpatterns += i18n_patterns(

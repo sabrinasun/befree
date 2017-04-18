@@ -153,7 +153,8 @@ INSTALLED_APPS = (
     'core',
     'timeline',
     'network',
-    'message'
+    'message',
+    'buddhist_exchange'
 )
 
 AUTHENTICATION_BACKENDS = (
