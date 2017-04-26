@@ -624,10 +624,21 @@ ul.errorlist li {
     color: black !important;
 }
 
-.new-post-form form textarea#post-body {
+.new-post-form form textarea#id_content {
     width: calc(100% - 170px);
     height: 200px;
     font-size: 12px;
+}
+
+.new-msg-form form textarea {
+    width: calc(100% - 500px);
+    height: 200px;
+    font-size: 12px;
+}
+
+.new-msg-form form input[type="text"]{
+    width: calc(100% - 500px);
+	border: 1px solid #c2b999;
 }
 
 .new-post-form div {

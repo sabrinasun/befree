@@ -12,7 +12,16 @@
     <div>
         <div class="page-body" style="text-align:left;">
             <div class="post-title">
-                <div style="float:left;"><b style="color:black;">{{ timelineitem.title }} </b>
+                <div style="float:left;">
+                    {% if timelineitem.title_link %}
+                    <a href="{{ timelineitem.title_link }}" style="text-decoration:none;"><b>{{ timelineitem.title }}</b></a>
+                    {% else %}
+                    {% if timelineitem.item_category.pk == 2 %}
+                        {{ timelineitem.title }}
+                    {% else %}
+                        <b style="color:black;">{{ timelineitem.title }}</b>
+                    {% endif %}
+                    {% endif %}
                     {% if timelineitem.uploaded_file and timelineitem.is_uploaded_file_pdfhtml%}
                         <a href="{{ timelineitem.uploaded_file.url }}">
                             {% if timelineitem.is_uploaded_file_pdf%}

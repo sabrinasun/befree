@@ -23,9 +23,9 @@ ALLOWED_UPLOAD_FILE_TYPES = [
 class PostBaseForm(forms.ModelForm):
     language = forms.ModelChoiceField(queryset=None, empty_label=None)
     teacher_name = forms.CharField(max_length=200, required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Enter the name of the teacher who gave the teaching', 'class': 'ui-autocomplete-input', 'autocomplete': 'off'}))
+        attrs={'placeholder': 'Enter the name of the teacher who gave the teaching'}))
     topic_list = forms.CharField(max_length=12, required=False, widget=forms.TextInput(
-        attrs={'style': 'width:80px;', 'class': 'ui-autocomplete-input', 'autocomplete': 'off'}))
+        attrs={'style': 'width:161px;'}))
 
     def __init__(self, *args, **kwargs):
         current_request = kwargs.pop('request')
@@ -95,7 +95,7 @@ class LinkForm(PostBaseForm):
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_link_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
     title_link = forms.CharField(
-        max_length=500, widget=forms.TextInput(attrs={'style': 'width:200px;'}))
+        max_length=500, widget=forms.TextInput())
 
     class Meta(PostBaseForm.Meta):
         model = TimelineItem
@@ -111,6 +111,8 @@ class TextForm(PostBaseForm):
     item_category = forms.ModelChoiceField(
         queryset=ItemCategory.objects.get_text_form_categories(), empty_label=None, widget=forms.RadioSelect, initial=1)
     uploaded_file = forms.FileField(widget=forms.FileInput, required=False)
+    title = forms.CharField(
+        widget=forms.TextInput())
 
     def __init__(self, *args, **kwargs):
         super(TextForm, self).__init__(*args, **kwargs)
@@ -129,6 +131,13 @@ class TextForm(PostBaseForm):
                 raise forms.ValidationError(
                     _("File Name is longer than 50 letters"))
         return uploaded_file
+
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if len(title) > 500:
+            raise forms.ValidationError(
+                _("Length cannot be more than 500 characters"))
+        return title
 
     def save(self):
         instance = super(TextForm, self).save(commit=True)

@@ -3,8 +3,9 @@ from django.views.generic.base import ContextMixin
 from django.views.generic import ListView, CreateView
 from network.models import UserNetwork
 from timeline.views import SubHeaderCategoryMixin
+from timeline.models import ItemCategory
 from userena.contrib.umessages.models import MessageContact
-from userena.contrib.umessages.forms import ComposeForm
+from .forms import ComposeMessageForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -54,7 +55,7 @@ def get_extra_context(extra_context, request):
 
 
 @login_required
-def send_message(request, recipients=None, compose_form=ComposeForm,
+def send_message(request, recipients=None, compose_form=ComposeMessageForm,
                  success_url=None, template_name="message/message_form.html",
                  recipient_filter=None, extra_context=None):
 
@@ -65,6 +66,10 @@ def send_message(request, recipients=None, compose_form=ComposeForm,
                 username__in=username_list)]
             success_url = reverse('user_message_list_detail', kwargs={
                 'username': recipients[0].username})
+    elif request.method == "GET":
+        if not extra_context:
+                extra_context = dict()
+        extra_context['categories'] = ItemCategory.objects.get_all_catergories()
 
     return message_compose(request, recipients, compose_form, success_url, template_name, recipient_filter, get_extra_context(extra_context, request))
 

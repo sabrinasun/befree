@@ -1,6 +1,7 @@
 {% load i18n umessages_tags %}
 
-<a href="{% url 'userena_umessages_compose'%}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a><br>
+<a href="{% url 'userena_umessages_compose'%}">{% trans "Compose a Message" %}</a><br>
+   {% trans "History:" %}<br>
    {% for to_from_user in to_from_users %}
         {% get_unread_message_count_between user and to_from_user as unread_between_count %}
         <a href="{% url 'user_message_list_detail' to_from_user.username %}">{{ to_from_user.username }}  {% if unread_between_count > 0 %}({{ unread_between_count }}) {% endif %}</a>

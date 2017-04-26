@@ -2,7 +2,7 @@
 from django.views.generic import CreateView, ListView, DetailView, FormView, UpdateView
 from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.db.models import Count
 from .models import ItemCategory, TimelineItem, ItemTopic, Language, Teacher
 from .forms import LinkForm, TextForm, CommentForm
@@ -16,6 +16,17 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import activate
 
 
+def home_index(request):
+    language_id = 1
+    if request.user.is_authenticated:
+        languages = request.user.languages.all()
+        if languages.exists():
+            language_id = languages[0].pk
+            activate(languages[0].lang_code)
+
+    return HttpResponseRedirect(reverse('home_landing') + '?language=' + str(language_id))
+
+
 class SubHeaderCategoryMixin(ContextMixin):
 
     def get_context_data(self, **kwargs):
@@ -25,7 +36,7 @@ class SubHeaderCategoryMixin(ContextMixin):
         if self.request.user.is_authenticated:
             context['languages'] = self.request.user.languages.all()
         else:
-            context['languages'] = Language.objects.filter(id=1)
+            context['languages'] = Language.objects.all()
         return context
 
 

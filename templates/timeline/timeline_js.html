@@ -2,10 +2,10 @@
 	$(function() {
 		var item_language = "{{ request.GET.language }}";
 		var item_usertype = "{{ request.GET.usertype }}";
-		if (item_language !== '' || item_language !== null) {
+		if (item_language !== '' &&  item_language !== null) {
 			$("#item_language option[value='" + item_language + "']").attr("selected", "selected");
 		}
-		if (item_usertype !== '' || item_usertype !== null) {
+		if (item_usertype !== '' &&  item_usertype !== null) {
 			$("#item_usertype option[value='" + item_usertype + "']").attr("selected", "selected");
 		}
 	});

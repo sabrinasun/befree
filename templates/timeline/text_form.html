@@ -28,10 +28,13 @@
                     <br>
                 </div>
                 <div>
-                    <label>{% trans "Title or Quote" %}: </label>{{ form.title }}{{ form.title.errors }}</textarea>
+                    <label>{% trans "Title or Quote" %}: </label>{{ form.title }}
+                        {% if form.title.errors   %}
+                        <label></label>{{ form.title.errors }}
+                        {% endif %}
                 </div>
                 <div id="div_text_id">
-                    <label>{% trans "Expanded Text" %}: </label>{{ form.content }}{{ form.content.errors }}</textarea>
+                    <label>{% trans "Expanded Text" %}: </label>{{ form.content }}{{ form.content.errors }}
                 </div>
                 <div>
                     <label>{% trans "Is Original" %}:</label>{{ form.is_original }}The main content of this post is my own writing or artistic creation.{{ form.is_original.errors }}

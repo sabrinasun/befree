@@ -19,7 +19,8 @@
 {% endblock subheader %}
 {% block main %}
 <div class="content-left keywords-list">
-     <a href="{% url 'userena_umessages_compose'%}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a><br>
+     <a href="{% url 'userena_umessages_compose'%}"> {% trans "Compose a Message" %}</a><br>
+     {% trans "History:" %}<br>
    {% for to_from_user in to_from_users %}
         {% get_unread_message_count_between user and to_from_user as unread_between_count %}
         <a href="{% url 'user_message_list_detail' to_from_user.username %}">{{ to_from_user.username }}  {% if unread_between_count > 0 %}({{ unread_between_count }}) {% endif %}</a>
@@ -33,11 +34,19 @@
 
 </div>
 <div class="content-center network">
+    <div class="new-msg-form">
     <form action="" method="post" id="compose_message_form">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div>
+            <label>{% trans "To another User" %}: </label>{{ form.to }} {{ form.to.errors }}
+        </div>
+        <br>
+        <div>
+            <label>{% trans "Message" %}: </label>{{ form.body }} {{ form.body.errors }}
+        </div>
         <input type="submit" name="send" value="{% trans " Submit " %}" />
     </form>
+    </div
 </div>
 
 

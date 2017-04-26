@@ -1,11 +1,12 @@
 from django.conf.urls import url
 from .views import Home, ShareLink, ShareText, reblog, like_timelineitem, unlike_timelineitem,\
     TimeLineItemView, TimeLineItemComment, ShareTextUpdateView, ShareLinkUpdateView,\
-    retrieve_titles, retrieve_topics, retrieve_teachers
+    retrieve_titles, retrieve_topics, retrieve_teachers, home_index
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    url(r'^$', Home.as_view(), name='home'),
+    url(r'^$', home_index, name='home'),
+    url(r'^home$', Home.as_view(), name='home_landing'),
     url(r'^timeline/timelineitem/share_text$', login_required(ShareText.as_view()), name='text_form'),
     url(r'^timeline/timelineitem/share_link$', login_required(ShareLink.as_view()), name='link_form'),
     url(r'^timeline/timelineitem/(?P<timelineitem_id>\d+)/like$', like_timelineitem, name='timelineitem_like'),

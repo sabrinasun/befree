@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'modeltranslation',
     'django.contrib.admin',
     #'south',
     'userena',
@@ -280,9 +281,9 @@ LOCALE_PATHS = (
 
 LANGUAGES = (
     ('en', _('English')),
-    ('zh', _('Chinese')),
+    ('zh-hans', _('Chinese')),
 )
-
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 
 try:
     from buddhist_exchange.local_settings import *
