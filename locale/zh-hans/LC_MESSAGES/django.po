@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 16:26-0500\n"
-"PO-Revision-Date: 2017-04-26 12:33-0500\n"
-"Last-Translator: b'  <admin@yahoo.com>'\n"
+"PO-Revision-Date: 2017-04-27 22:24-0500\n"
+"Last-Translator: b'tesst123 test <ys393nyu@yahoo.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: accounts/models.py:17
 msgid "Buddhist Teacher"
-msgstr "佛教教师"
+msgstr "法师"
 
 #: accounts/models.py:18
 msgid "Regular Buddhist"
-msgstr "定期的佛教"
+msgstr "普通的佛教"
 
 #: accounts/models.py:19 core/models.py:53 templates/index.html:78
 msgid "Other"
@@ -32,39 +32,37 @@ msgstr "其他"
 
 #: accounts/models.py:23
 msgid "Registerd"
-msgstr "Registerd"
+msgstr "已注册"
 
 #: accounts/models.py:24 core/models.py:64
 #: templates/account/material_new_from_existing.html:16
 msgid "Active"
-msgstr "活性"
+msgstr "有效"
 
 #: accounts/models.py:25
 msgid "Dead"
-msgstr "死"
+msgstr "无效"
 
 #: accounts/models.py:110
 msgid "Please choose at least one distribution method. "
-msgstr "请至少选择一个分配方法。"
+msgstr "请至少选择一个分发方法。"
 
 #: accounts/models.py:112
 msgid ""
-"Please choose either  Free Domestic Shipping or Receive Payment for Domestic "
-"Shipping, not both."
-msgstr "请选择使用免运费或收到付款为国内航运，不能同时使用。"
+"Please choose either  Free Domestic Shipping or Receive Payment for Domestic"
+" Shipping, not both."
+msgstr "请选择使用免运费或需付国内航运，不能同时都选。"
 
 #: accounts/models.py:114
 msgid ""
 "Since you allow user to pickup locally, please provide pickup instruction. "
-msgstr "既然你允许用户代局部，请提供摄像指示。"
+msgstr "既然你允许用户本人取书，请提供具体取书指示。"
 
 #: accounts/models.py:116
 msgid ""
 "Sorry receivers need to pay your for shipping. Either Paypal Email or Other "
 "Payment Methods is required for giver profile. "
-msgstr ""
-"对不起接收者需要支付运费。无论是贝宝电子邮件或者其他支付方式需要送礼者的个人"
-"资料。"
+msgstr "对不起接收者需要支付运费。请提供您的贝宝电子邮件信箱，或者其他支付方式需要的信息。"
 
 #: buddhist_exchange/settings.py:283 core/models.py:51 templates/index.html:76
 msgid "English"
@@ -89,15 +87,15 @@ msgstr "DVD"
 #: core/models.py:57 core/models.py:69
 #: templates/account/material_new_from_existing.html:10
 msgid "New"
-msgstr "新"
+msgstr "全新"
 
 #: core/models.py:58 templates/account/material_new_from_existing.html:11
 msgid "Like New"
-msgstr "像新的"
+msgstr "几乎全新"
 
 #: core/models.py:59 templates/account/material_new_from_existing.html:12
 msgid "Good"
-msgstr "好"
+msgstr "良好"
 
 #: core/models.py:60
 msgid "OK"
@@ -105,11 +103,11 @@ msgstr "好"
 
 #: core/models.py:65 templates/account/material_new_from_existing.html:17
 msgid "Inactive"
-msgstr "待用"
+msgstr "暂停"
 
 #: core/models.py:70
 msgid "Pending"
-msgstr "有待"
+msgstr "等待处理"
 
 #: core/models.py:71 templates/account/orders/giving.html:45
 #: templates/account/orders/reading.html:27
@@ -121,13 +119,13 @@ msgstr "取消"
 #: core/models.py:72 templates/account/orders/giving.html:65
 #: templates/account/orders/reading.html:45
 msgid "Paid"
-msgstr "付费"
+msgstr "已付费"
 
 #: core/models.py:73 templates/account/orders/giving.html:47
 #: templates/account/orders/giving.html:68
 #: templates/account/orders/reading.html:48
 msgid "Shipped"
-msgstr "运"
+msgstr "已发货"
 
 #: core/models.py:77
 msgid "Local Temple"
@@ -135,7 +133,7 @@ msgstr "当地寺庙"
 
 #: core/models.py:78
 msgid "Internet Group"
-msgstr "互联网集团"
+msgstr "网上组群"
 
 #: core/models.py:112 templates/account/material_edit.html:42
 msgid "Upload Cover Picture"
@@ -149,26 +147,25 @@ msgstr "上传PDF文件"
 msgid ""
 "We can't determine shipping cost. Wait for giver's advice after placing "
 "order. "
-msgstr "我们不能确定运输成本。等待订货后送礼者的意见。"
+msgstr "我们不能确定运输成本。订货后请等待赠书者的通知。"
 
 #: core/views.py:219
 #, python-format
 msgid ""
-"You ordered %s items, which are more than a small quantity order of %s items "
-"for this giver, order will be in pending status until the giver approves it."
-msgstr ""
-"您订购 %s 项目，这比 %s 项目为这个送礼者少量的订单较多，订货会，直到送礼人批"
-"准挂起状态。"
+"You ordered %s items, which are more than a small quantity order of %s items"
+" for this giver, order will be in pending status until the giver approves "
+"it."
+msgstr "您订购 %s 本书，对此赠书者而言 %s 本书超过少量订单的限量，订单需要赠书人批准。"
 
 #: core/views.py:267
 #, python-format
 msgid "User %s has sent you a message via BuddhistExchange. "
-msgstr "用户 %s 已通过BuddhistExchange您发送讯息。"
+msgstr "用户 %s 通过BuddhistExchange给您发送讯息。"
 
 #: core/views.py:360
 #, python-format
 msgid "Order %s was placed by %s via BuddhistExchange."
-msgstr "为了 %s 经BuddhistExchange放置由 %s 。"
+msgstr "订单 %s 由用户 %s经BuddhistExchange提交 。"
 
 #: core/views.py:363
 msgid "You have placed an order via BuddhistExchange."
@@ -202,15 +199,15 @@ msgstr "您已批准才能 %s。"
 #: core/views.py:520
 #, python-format
 msgid "The shipping cost for your order %s is $%s. "
-msgstr "您的订单 %s 航运成本是$%s."
+msgstr "您的订单 %s 运费是$%s."
 
 #: core/views.py:621
 msgid "You have been signed up."
-msgstr "你已经签订了协议。"
+msgstr "你已经成功交表。"
 
 #: message/apps.py:7 message/models.py:22
 msgid "message"
-msgstr "信息"
+msgstr "邮件"
 
 #: message/forms.py:10
 #, fuzzy
@@ -220,7 +217,7 @@ msgstr "用户名"
 
 #: message/models.py:8
 msgid "body"
-msgstr "身体"
+msgstr "邮件内容"
 
 #: message/models.py:11
 msgid "sender"
@@ -228,27 +225,27 @@ msgstr "寄件人"
 
 #: message/models.py:15
 msgid "recipient"
-msgstr "接受者"
+msgstr "收件者"
 
 #: message/models.py:17
 msgid "sent at"
-msgstr "在发送"
+msgstr "发送于"
 
 #: message/models.py:23
 msgid "messages"
-msgstr "消息"
+msgstr "邮件"
 
 #: network/models.py:70
 msgid "Is notified ?"
-msgstr "通知？"
+msgstr "已被通知？"
 
 #: network/models.py:71
 msgid "Is show ?"
-msgstr "是说明了什么？"
+msgstr "已经显示？"
 
 #: templates/account/add_author.html:5
 msgid "Add an Author:"
-msgstr "添加作者："
+msgstr "添加一个作者："
 
 #: templates/account/add_author.html:11
 #: templates/account/add_publisher.html:11 templates/popup.html:5
@@ -258,12 +255,12 @@ msgstr "加"
 
 #: templates/account/add_publisher.html:5
 msgid "Add a Publisher"
-msgstr "添加发布"
+msgstr "添加出版人"
 
 #: templates/account/givermaterial_form.html:4
 #: templates/account/material_new_from_existing.html:4
 msgid "Give Your Items"
-msgstr "给你的项目"
+msgstr "出赠你的图书"
 
 #: templates/account/givermaterial_form.html:7
 #: templates/account/material_new_from_existing.html:24
@@ -277,23 +274,19 @@ msgstr "库存"
 
 #: templates/account/material.html:5
 msgid ""
-"Here lists all books entered by all users, you can click on the link "
-"Register My Inventory to register your inventory.\n"
-"If you need to list a new book never listed by others yet, please click on "
-"Add Book button. After you add a book,\n"
+"Here lists all books entered by all users, you can click on the link Register My Inventory to register your inventory.\n"
+"If you need to list a new book never listed by others yet, please click on Add Book button. After you add a book,\n"
 "you can then register your inventory for that book. <br>\n"
 "Thanks for giving your book to others."
 msgstr ""
-"这里列出了所有的用户输入的所有的书，你可以点击链接注册我的清单注册您的库"
-"存。\n"
-"如果你需要列出从来没有被别人上市的新书呢，请点击添加按钮书。在添加了一本"
-"书，\n"
-"那么你可以注册你的那本书的库存。点击\n"
-"谢谢你给你的书给他人。"
+"这里列出了所有的用户输入的所有的书，您可以点击注册我的清单的链接， 来注册您的库存。\n"
+"如果你需要列出从来没有被别人输入的新书呢，请点击添加按钮书。在添加了一本书，\n"
+"之后您可以注册你新添加的那本书的库存量了。点击\n"
+"谢谢你赠书给他人。"
 
 #: templates/account/material.html:10
 msgid "Add Book"
-msgstr "新增图书"
+msgstr "添加图书"
 
 #: templates/account/material.html:13
 msgid "Material"
@@ -315,7 +308,7 @@ msgstr "数量"
 #: templates/account/material.html:17
 #: templates/account/material_new_from_existing.html:8
 msgid "Condition"
-msgstr "条件"
+msgstr "状况"
 
 #: templates/account/material.html:18
 #: templates/account/material_new_from_existing.html:14
@@ -342,20 +335,19 @@ msgstr "编辑项目"
 
 #: templates/account/material_edit.html:5
 msgid "Enter a New Item"
-msgstr "输入一个新项"
+msgstr "输入一本新书"
 
 #: templates/account/material_edit.html:6
 msgid ""
 "Buddhistexchange maintains only one book index, your book registered can be "
 "updated by other members."
-msgstr ""
-"Buddhistexchange只维护一组本书的索引，你的注册簿可以被其他成员进行更新。"
+msgstr "Buddhistexchange书目信息是公开资料，其他成员有权更新你添加的书。"
 
 #: templates/account/material_edit.html:6
 msgid ""
 "Please help us to maintain our book index with information as accurate as "
 "possible. Thanks."
-msgstr "请帮助我们保持与尽可能准确的信息图书索引。谢谢。"
+msgstr "请帮助我们保持与尽可能准确的书目信息。谢谢。"
 
 #: templates/account/material_edit.html:17
 msgid "Title"
@@ -432,15 +424,15 @@ msgstr "价钱"
 
 #: templates/account/material_new_from_existing.html:20
 msgid "Note"
-msgstr "注意"
+msgstr "标注"
 
 #: templates/account/orders/giving.html:4
 msgid "Giving Orders"
-msgstr "发号施令"
+msgstr "订单"
 
 #: templates/account/orders/giving.html:11
 msgid "Waiting for reader to pay."
-msgstr "等待读者来支付。"
+msgstr "等待读者支付运费。"
 
 #: templates/account/orders/giving.html:15
 msgid "You need to ship this order."
@@ -448,7 +440,7 @@ msgstr "您需要运送此订单。"
 
 #: templates/account/orders/giving.html:18
 msgid "Ship To"
-msgstr "运送到"
+msgstr "运送地址"
 
 #: templates/account/orders/giving.html:36
 msgid "Shipping Cost"
@@ -476,19 +468,17 @@ msgstr "取消"
 #: templates/account/orders/giving.html:73
 #: templates/account/orders/reading.html:54
 msgid "Total"
-msgstr "总"
+msgstr "总量"
 
 #: templates/account/orders/giving.html:79
 msgid "No book found."
-msgstr "没有一本书中。"
+msgstr "没有书。"
 
 #: templates/account/orders/giving.html:81
 msgid ""
 "You need to first update your profile with giver's information, before you "
 "can post your inventory. You will then see book requests in this page."
-msgstr ""
-"首先，您需要与送礼者的信息更新您的个人资料，然后才能发布您的库存。然后你会看"
-"到在这个页的书请求。"
+msgstr "首先，您需要更新您的个人资料添加赠书人所需信息，然后才能发布您的库存。然后你会在此页看到订单。"
 
 #: templates/account/orders/reading.html:4 templates/account/summary.html:88
 msgid "Books I am Receiving"
@@ -593,16 +583,13 @@ msgstr "发货的订单"
 
 #: templates/account/summary.html:53
 msgid ""
-"BuddhistExchange maintains a public index of books, so please check if you "
-"book has already been entered by others.\n"
+"BuddhistExchange maintains a public index of books, so please check if you book has already been entered by others.\n"
 "\t\t\tIf nobody has entered your book, you can enter it\n"
-"\t\t\twith Add Book action. After your book shows up in the book index, you "
-"can add or edit your own inventory of this book.\" "
+"\t\t\twith Add Book action. After your book shows up in the book index, you can add or edit your own inventory of this book.\" "
 msgstr ""
 "BuddhistExchange保持书的公开指数，因此，如果您预定已经被其他人进入请检查。\n"
 "如果没有人进入你的书，你可以输入\n"
-"与新增图书行动。在您的书在图书索引显示出来，您可以添加或编辑自己的这本书的库"
-"存“。"
+"与新增图书行动。在您的书在图书索引显示出来，您可以添加或编辑自己的这本书的库存“。"
 
 #: templates/account/summary.html:58
 msgid "Active Items"
@@ -618,8 +605,7 @@ msgstr "书我需要发送"
 
 #: templates/account/summary.html:64
 msgid ""
-" Once you entered your inventory, it will show up in the public listing. "
-"Others may start requesting books from you. Orders from\n"
+" Once you entered your inventory, it will show up in the public listing. Others may start requesting books from you. Orders from\n"
 "\t\t\treaders will show up here."
 msgstr ""
 "一旦你进入你的库存，这将在上市露面。其他人可能会开始从您请求书。从订单\n"
@@ -709,43 +695,31 @@ msgstr "发送"
 #: templates/help.html:6
 msgid ""
 "\n"
-"\tWelcome to BuddhistExchange and thanks for considering using "
-"BuddhistExchange!\n"
+"\tWelcome to BuddhistExchange and thanks for considering using BuddhistExchange!\n"
 "\n"
 "\t<p>There are many buddhist practitioners and organizations are happy to\n"
-"\tgive brand new buddhist books for free. There are many people want to give "
-"away their used books\n"
+"\tgive brand new buddhist books for free. There are many people want to give away their used books\n"
 "\tas well. BuddhistExchange is a platform to make the exchange happen. </p>\n"
 "\n"
 "\t<hr>\n"
 "\t<b>To Receiver</b>\n"
 "\n"
-"\t<br>All books are free you just pay for shipping, some givers even provide "
-"free shipping option, or provide local pickup. After you ordered the book, "
-"you need to send the\n"
-"\tpayment for shipping to the giver, if shipping cost is not waived. You "
-"inform the giver about your payment through your account.\n"
+"\t<br>All books are free you just pay for shipping, some givers even provide free shipping option, or provide local pickup. After you ordered the book, you need to send the\n"
+"\tpayment for shipping to the giver, if shipping cost is not waived. You inform the giver about your payment through your account.\n"
 "\n"
-"\t<p>You can re-list the book to give to others after reading it, so that "
-"you become a giver too! You need to complete giver profile to give.\n"
+"\t<p>You can re-list the book to give to others after reading it, so that you become a giver too! You need to complete giver profile to give.\n"
 "\n"
 "\t<hr>\n"
 "\t<b>To Giver</b>\n"
 "\t<br>\n"
-"\tDifferent from ebay where sellers make money, givers on BuddhistExchange "
-"are Buddhism practitioners or temples who need a channel of\n"
-"\tgiving. Giver gives books away for free, receivers may pay for shipping "
-"cost. The shipping cost estimate should roughly break even, if you obtain "
-"the packaging material at whole sale price.\n"
-"\tHowever, receiver is still expected to pay the estimated shipping cost "
-"before giver ship the book.\n"
-"\tThe shipping cost includes packaging cost and paypal transaction cost. "
-"<br><br>\n"
+"\tDifferent from ebay where sellers make money, givers on BuddhistExchange are Buddhism practitioners or temples who need a channel of\n"
+"\tgiving. Giver gives books away for free, receivers may pay for shipping cost. The shipping cost estimate should roughly break even, if you obtain the packaging material at whole sale price.\n"
+"\tHowever, receiver is still expected to pay the estimated shipping cost before giver ship the book.\n"
+"\tThe shipping cost includes packaging cost and paypal transaction cost. <br><br>\n"
 "\n"
 "\t<hr>\n"
 "\t<b>Shipping</b><br>\n"
-"\tShipping rate goes by weight within USA, regardless of distance. Over 5 "
-"ounces go by MediaMail:<br>\n"
+"\tShipping rate goes by weight within USA, regardless of distance. Over 5 ounces go by MediaMail:<br>\n"
 "\tup to 5 ounces: by First Class mail $2.41<br><br>\n"
 "\n"
 "\tMediaMail:<br>\n"
@@ -756,20 +730,15 @@ msgid ""
 "\tUp to 5 pounds: $4.33 + Packaging: $1.20<br>\n"
 "\tUp to 6 pounds: $4.78 + Packaging: $1.30<br>\n"
 "\tUp to 7 pounds: $5.23 + Packaging: $1.40<br>\n"
-"\tThe increments for shipping cost are 43 cents per pound, plus packaging "
-"cost 10 cents, all the way up to $32.32 for the 70 lbs max. <br><br>\n"
+"\tThe increments for shipping cost are 43 cents per pound, plus packaging cost 10 cents, all the way up to $32.32 for the 70 lbs max. <br><br>\n"
 "\n"
-"\tThe giver specifies the weight of each book, cost goes by total shipping "
-"cost.  <br>\n"
+"\tThe giver specifies the weight of each book, cost goes by total shipping cost.  <br>\n"
 "\n"
 "\tWe currently can only support: <br>\n"
 "\tInternational Shipping: Free or TBD by giver <br>\n"
-"\tDomestic shipping in countries other than USA: Free or TBD by giver "
-"<br><br>\n"
+"\tDomestic shipping in countries other than USA: Free or TBD by giver <br><br>\n"
 "\n"
-"\tHowever, you can always contact the seller about international shipping. "
-"If you want to help establishing the domestic shipping rate for your "
-"country, please let us know.\n"
+"\tHowever, you can always contact the seller about international shipping. If you want to help establishing the domestic shipping rate for your country, please let us know.\n"
 "\n"
 "\t<br>\n"
 "\t<hr>\n"
@@ -778,22 +747,17 @@ msgid ""
 "\t\t<li>Sharing or requesting book on BuddhistExchange.</li>\n"
 "\t\t<li>Telling friends to share or request books on BuddhistExchange</li>\n"
 "\t\t<li>Telling your temple to distribute books on BuddhistExchange</li>\n"
-"\t\t<li>Spreading the message on the internet, discussion forums, facebook, "
-"twiter</li>\n"
-"\t\t<li>If the website doesn't work well for you, drop us a note and we "
-"appreciate your feedback</li>\n"
+"\t\t<li>Spreading the message on the internet, discussion forums, facebook, twiter</li>\n"
+"\t\t<li>If the website doesn't work well for you, drop us a note and we appreciate your feedback</li>\n"
 "\t\t<li>If you want an additional feature, let us know!</li>\n"
 "    </ul>\n"
 "\t<hr>\n"
 "\t<b>About BuddhistExchange</b>\n"
-"\t<br>BuddhistExchange is created and maintained by layman Buddhism "
-"practitioners from New Jersey. The mission of BuddhistExchange\n"
-"\tis to serve as an online exchange platform for the Buddhist community, so "
-"that help to spread of knowledge of Buddhism.\n"
+"\t<br>BuddhistExchange is created and maintained by layman Buddhism practitioners from New Jersey. The mission of BuddhistExchange\n"
+"\tis to serve as an online exchange platform for the Buddhist community, so that help to spread of knowledge of Buddhism.\n"
 "\n"
 "\t<br>\n"
-"\t<br>Please drop us a note at <b>support@buddhistexchange.com</b> if you "
-"need any help, or have any suggestion, thanks!\n"
+"\t<br>Please drop us a note at <b>support@buddhistexchange.com</b> if you need any help, or have any suggestion, thanks!\n"
 "\t<hr>\n"
 "\t"
 msgstr ""
@@ -807,20 +771,16 @@ msgstr ""
 "<HR>\n"
 "<b>要接收器</ B>\n"
 "\n"
-"结果所有的书都是免费的，你只需支付运费，有的甚至度外提供免费的送货方式，或者"
-"提供本地拾取。您订购的书后，你需要发送\n"
+"结果所有的书都是免费的，你只需支付运费，有的甚至度外提供免费的送货方式，或者提供本地拾取。您订购的书后，你需要发送\n"
 "支付运送到送礼者，如果运费不放弃。您告知有关送礼通过您的帐户付款。\n"
 "\n"
-"<p>您可以阅读它，让你成为一个给予者太后重新列出的书给别人！您需要填写个人资料"
-"送礼给。\n"
+"<p>您可以阅读它，让你成为一个给予者太后重新列出的书给别人！您需要填写个人资料送礼给。\n"
 "\n"
 "<HR>\n"
 "<b>要员</ B>\n"
 "点击\n"
-"从易趣卖家不同的地方赚钱，在BuddhistExchange度外有佛教从业或寺庙谁需要的通"
-"道\n"
-"给予。送礼者提供了图书免费奉送，接收器可以支付运费。航运成本估计应该大致收支"
-"平衡，如果你获得在整体销售价格的包装材料。\n"
+"从易趣卖家不同的地方赚钱，在BuddhistExchange度外有佛教从业或寺庙谁需要的通道\n"
+"给予。送礼者提供了图书免费奉送，接收器可以支付运费。航运成本估计应该大致收支平衡，如果你获得在整体销售价格的包装材料。\n"
 "然而，接收器仍有望支付预计的送货费用之前出货送礼的书。\n"
 "航运成本包括包装成本，支付宝交易成本。搜索结果\n"
 "\n"
@@ -837,8 +797,7 @@ msgstr ""
 "截至5磅：$ 4.33 +包装：$ 36点击\n"
 "截至6磅：$ 4.78 +包装：$ 1.30点击\n"
 "截至7磅：$ 5.23 +包装：$ 1.40点击\n"
-"对于运输成本的增量为每磅43美分，加上包装成本10美分，一路高达$ 32.32为70磅最"
-"大。搜索结果\n"
+"对于运输成本的增量为每磅43美分，加上包装成本10美分，一路高达$ 32.32为70磅最大。搜索结果\n"
 "\n"
 "送礼者指定每本书的重量，成本推移总运输成本。点击\n"
 "\n"
@@ -846,8 +805,7 @@ msgstr ""
 "国际航运：免费或送礼点击TBD\n"
 "除在美国和其他国家的国内海运：免费或由TBD送礼搜索结果\n"
 "\n"
-"但是，您可以随时联系有关国际航运卖家。如果你想帮助建立你的国家的国内运费，请"
-"让我们知道。\n"
+"但是，您可以随时联系有关国际航运卖家。如果你想帮助建立你的国家的国内运费，请让我们知道。\n"
 "\n"
 "点击\n"
 "<HR>\n"
@@ -862,13 +820,11 @@ msgstr ""
 "    </ UL>\n"
 "<HR>\n"
 "<b>关于BuddhistExchange </ B>\n"
-"结果BuddhistExchange创建并从新泽西外行佛教从业人员维持。 BuddhistExchange的使"
-"命\n"
+"结果BuddhistExchange创建并从新泽西外行佛教从业人员维持。 BuddhistExchange的使命\n"
 "是作为佛教界的一个网上交流平台，让利于传播佛教的知识。\n"
 "\n"
 "点击\n"
-"请给我们留言，在<B> support@buddhistexchange.com </ b>如果您需要任何帮助，或"
-"者有任何建议，谢谢！\n"
+"请给我们留言，在<B> support@buddhistexchange.com </ b>如果您需要任何帮助，或者有任何建议，谢谢！\n"
 "<HR>"
 
 #: templates/home.html:14
@@ -1174,8 +1130,8 @@ msgstr "所有的项目都是免费的，有些需要运输成本。请尊重和
 
 #: templates/index.html:94
 msgid ""
-"If you prefer, you can give the book back to others later, to keep the chain "
-"of giving."
+"If you prefer, you can give the book back to others later, to keep the chain"
+" of giving."
 msgstr "如果你愿意，你可以把书背到别人以后，保持给予链。"
 
 #: templates/index.html:102
@@ -1213,8 +1169,8 @@ msgstr "你可以在你的圣殿提供皮卡，甚至包括运费。"
 
 #: templates/index.html:124
 msgid ""
-"Thanks for signing up! Please check your email and follow the instruction to "
-"login."
+"Thanks for signing up! Please check your email and follow the instruction to"
+" login."
 msgstr "感谢您注册！请检查您的电子邮件，并按照指示进行登录。"
 
 #: templates/index.html:145
@@ -1307,7 +1263,8 @@ msgid "Amitabha Library"
 msgstr "阿弥陀佛库"
 
 #: templates/index.html:454
-msgid "Based in Chicago. Free books with free shipping in English and Chinese."
+msgid ""
+"Based in Chicago. Free books with free shipping in English and Chinese."
 msgstr "总部设在芝加哥。免费书用英语和中国的免费送货服务。"
 
 #: templates/index.html:455
@@ -1346,7 +1303,8 @@ msgstr "向内帕特"
 
 #: templates/index.html:466
 msgid ""
-"Based in Malaysia. Free books in English and Chinese, pay shipping cost only."
+"Based in Malaysia. Free books in English and Chinese, pay shipping cost "
+"only."
 msgstr "总部设在马来西亚。免费书的英文和中国，只需支付运费。"
 
 #: templates/login_logout_box.html:4 templates/login_logout_box.html:16
