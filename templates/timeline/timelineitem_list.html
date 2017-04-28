@@ -77,10 +77,10 @@
 
     <div class="page-footer">
 		{% if page_obj.has_previous %}
-        <a href="{% url 'home' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.previous_page_number }}">< {% trans "Prev" %}</a>
+        <a href="{% url 'home_landing' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.previous_page_number }}">< {% trans "Prev" %}</a>
 		{% endif  %}
 		{% if page_obj.has_next %}
-		<a href="{% url 'home' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.next_page_number }}">{% trans "Next" %} ></a>
+		<a href="{% url 'home_landing' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.next_page_number }}">{% trans "Next" %} ></a>
 		{% endif %}
 	</div>
 </div>

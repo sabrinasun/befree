@@ -138,7 +138,7 @@ class ShareLink(SubHeaderCategoryMixin, CreateView):
     form_class = LinkForm
     model = TimelineItem
     template_name = 'timeline/link_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home_landing')
 
     def get_form_kwargs(self):
         kwargs = super(ShareLink, self).get_form_kwargs()
@@ -150,7 +150,7 @@ class ShareText(SubHeaderCategoryMixin, CreateView):
     template_name = 'timeline/text_form.html'
     model = TimelineItem
     form_class = TextForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home_landing')
 
     def get_form_kwargs(self):
         kwargs = super(ShareText, self).get_form_kwargs()
@@ -162,7 +162,7 @@ class ShareLinkUpdateView(SubHeaderCategoryMixin, UpdateView):
     form_class = LinkForm
     model = TimelineItem
     template_name = 'timeline/link_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home_landing')
 
     def get_form_kwargs(self):
         kwargs = super(ShareLinkUpdateView, self).get_form_kwargs()
@@ -174,7 +174,7 @@ class ShareTextUpdateView(SubHeaderCategoryMixin, UpdateView):
     template_name = 'timeline/text_form.html'
     model = TimelineItem
     form_class = TextForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home_landing')
 
     def get_form_kwargs(self):
         kwargs = super(ShareTextUpdateView, self).get_form_kwargs()
