@@ -5,29 +5,31 @@ from django.db import transaction
 from django.utils import timezone
 
 from django.contrib.auth.models import User
+from timeline.models import UserLanguage, Language
 
-from .models import UserLanguages
 
 class Command(BaseCommand):
 
     help = "Populate initial value for UserLanguages"
 
-    option_list = BaseCommand.option_list + (
-        make_option('--commit',
-                action='store_true',
-                dest='commit',
-                default=False,
-                help='Commit the transaction'),
-        )
+    def add_arguments(self, parser):
+        # Named (optional) arguments
+        parser.add_argument('--commit',
+                            action='store_true',
+                            dest='commit',
+                            default=False,
+                            help='Commit the transaction')
 
     @transaction.atomic
     def handle(self, **options):
         try:
             sid = transaction.savepoint()
 
+            language = Language.objects.get(pk=1)
             for instance in User.objects.all():
                 # create user langauges record here
-
+                ul, created = UserLanguage.objects.get_or_create(
+                    user=instance, language=language)
                 pass
 
             eid = transaction.savepoint()
