@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 16:26-0500\n"
-"PO-Revision-Date: 2017-04-27 22:24-0500\n"
+"PO-Revision-Date: 2017-05-02 15:56-0500\n"
 "Last-Translator: b'tesst123 test <ys393nyu@yahoo.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -482,27 +482,27 @@ msgstr "首先，您需要更新您的个人资料添加赠书人所需信息，
 
 #: templates/account/orders/reading.html:4 templates/account/summary.html:88
 msgid "Books I am Receiving"
-msgstr "书籍我收到"
+msgstr "我订购的书籍"
 
 #: templates/account/orders/reading.html:12
 msgid "Waiting for giver to ship."
-msgstr "等待送礼出货。"
+msgstr "等待赠书者出货。"
 
 #: templates/account/orders/reading.html:60
 msgid "No book found. "
-msgstr "没有一本书中。"
+msgstr "没有书可显示。"
 
 #: templates/account/orders/reading.html:62
 msgid ""
 "You need to first update your profile with receiver's mailing information, "
 "before you request a book."
-msgstr "首先，您需要与接收器的邮件信息来更新您的个人资料，您请求书之前。"
+msgstr "在您订书之前，请您更新个人资料里订书人的邮寄地址等信息。"
 
 #: templates/account/summary.html:9
 msgid ""
 "Your password has been successfully updated. Please use your new password "
 "from now on."
-msgstr "您的密码已成功更新。请从现在开始，使用您的新密码。"
+msgstr "您的密码已成功更新。从现在开始，请使用您的新密码。"
 
 #: templates/account/summary.html:12
 msgid ""
@@ -524,23 +524,23 @@ msgstr "欢迎"
 
 #: templates/account/summary.html:26
 msgid "You can checkout"
-msgstr "您可以检出"
+msgstr "您可以提交订单"
 
 #: templates/account/summary.html:26
 msgid "pending order"
-msgstr "挂单"
+msgstr "订单等候处理"
 
 #: templates/account/summary.html:26
 msgid "in your cart."
-msgstr "您的购物车。"
+msgstr "在您的购物车里。"
 
 #: templates/account/summary.html:28
 msgid "To request books, please enter your mailing address in"
-msgstr "要请求书，请输入您的邮件地址。"
+msgstr "要订书，请输入您的邮件地址。"
 
 #: templates/account/summary.html:28 templates/account/summary.html:35
 msgid "profile"
-msgstr "轮廓"
+msgstr "个人资料"
 
 #: templates/account/summary.html:33
 msgid " You can add books to"
@@ -549,7 +549,7 @@ msgstr "您可以添加图书"
 #: templates/account/summary.html:33 templates/account/summary.html:52
 #: templates/account/summary.html:91
 msgid "My Inventory"
-msgstr "我的清单"
+msgstr "我的库存"
 
 #: templates/account/summary.html:33
 msgid ""
@@ -559,19 +559,19 @@ msgstr "您可能会收到电子邮件，读者下订单的时候，你可以检
 
 #: templates/account/summary.html:33
 msgid "Books I need to Send."
-msgstr "书我需要发送。"
+msgstr "书我需要发送的书。"
 
 #: templates/account/summary.html:35
 msgid "Want to give books to others? Please complete giver's profile in"
-msgstr "希望给书给别人？请填写送礼者的个人资料"
+msgstr "希望给书给别人？请填写赠书人的资料"
 
 #: templates/account/summary.html:35
 msgid " to start giving."
-msgstr "开始给。"
+msgstr "开始赠书。"
 
 #: templates/account/summary.html:42
 msgid "Books I am receiving"
-msgstr "书籍我收到"
+msgstr "我的书目订单"
 
 #: templates/account/summary.html:44 templates/account/summary.html:67
 msgid "New Orders"
@@ -593,7 +593,7 @@ msgstr ""
 
 #: templates/account/summary.html:58
 msgid "Active Items"
-msgstr "活动项目"
+msgstr "有效项目"
 
 #: templates/account/summary.html:59
 msgid "Inactive Items"
@@ -601,15 +601,13 @@ msgstr "无效项目"
 
 #: templates/account/summary.html:63
 msgid "Books I Need to Send"
-msgstr "书我需要发送"
+msgstr "我需要寄送的书"
 
 #: templates/account/summary.html:64
 msgid ""
 " Once you entered your inventory, it will show up in the public listing. Others may start requesting books from you. Orders from\n"
 "\t\t\treaders will show up here."
-msgstr ""
-"一旦你进入你的库存，这将在上市露面。其他人可能会开始从您请求书。从订单\n"
-"读者会在这里显示。"
+msgstr "一旦您输入您的库存量，您的库存将出现在公共赠书书目列表上。其他人可能会开始向您请寄图书。读者订单会在这里显示。"
 
 #: templates/account/summary.html:84
 msgid "Account Summary"
@@ -617,11 +615,11 @@ msgstr "帐户汇总"
 
 #: templates/account/summary.html:92
 msgid "Books I need to Send"
-msgstr "书我需要发送"
+msgstr "我需要发送的书"
 
 #: templates/account/summary.html:96 templates/userena/profile_form.html:35
 msgid "Update Profile"
-msgstr "更新个人信息"
+msgstr "更新个人资料"
 
 #: templates/account/summary.html:97
 msgid "Change Email"
@@ -650,12 +648,12 @@ msgstr "Facebook的"
 
 #: templates/base.html:78
 msgid "Report Bug to support@buddhistexchange.com"
-msgstr "报告错误到support@buddhistexchange.com"
+msgstr "发报告错误到support@buddhistexchange.com"
 
 #: templates/base.html:78 templates/userena/signup_form.html:42
 #: templates/userena/signup_reader_form.html:64
 msgid "Term of Service"
-msgstr "服务期限"
+msgstr "服务协议"
 
 #: templates/base_header.html:11 templates/network/user_public_header.html:8
 msgid "Messages"
@@ -663,7 +661,7 @@ msgstr "消息"
 
 #: templates/base_header.html:13 templates/network/user_public_header.html:9
 msgid "Home"
-msgstr "家"
+msgstr "主页"
 
 #: templates/base_header.html:14 templates/network/user_public_header.html:10
 #, fuzzy
@@ -677,16 +675,16 @@ msgstr "我的帐户"
 
 #: templates/base_header.html:20 templates/network/user_public_header.html:16
 msgid "Cart"
-msgstr "大车"
+msgstr "购物车"
 
 #: templates/base_header.html:23 templates/network/user_public_header.html:19
 msgid "Help"
-msgstr "帮帮我"
+msgstr "帮助"
 
 #: templates/contact.html:5 templates/contact.html:16
 #: templates/message/user_board_message.html:36
 msgid "Contact"
-msgstr "联系"
+msgstr "联系我们"
 
 #: templates/contact.html:24
 msgid "Send"
@@ -837,7 +835,7 @@ msgstr "分享佛法链接"
 
 #: templates/home.html:32
 msgid "Article, Books, Vedio teaching, mp3, Website ..."
-msgstr "文章，书籍，机器视觉教学，MP3，网站..."
+msgstr "文章，书籍，视频，MP3，网站..."
 
 #: templates/home.html:37
 msgid "Share Dharma Text"
@@ -853,7 +851,7 @@ msgstr "位置："
 
 #: templates/index.html:9 templates/index.html:145
 msgid "All:"
-msgstr "所有："
+msgstr "全部："
 
 #: templates/index.html:10
 msgid "Alabama"
@@ -1116,7 +1114,7 @@ msgstr "语言："
 #: templates/subheader.html:22 timeline/views.py:73 timeline/views.py:79
 #: timeline/views.py:85
 msgid "All"
-msgstr "所有"
+msgstr "全部"
 
 #: templates/index.html:92
 msgid "How to Receive"
@@ -1126,52 +1124,52 @@ msgstr "如何接收"
 msgid ""
 "All items are free, some requires shipping cost. Please treat Dharma "
 "materials with respect and care."
-msgstr "所有的项目都是免费的，有些需要运输成本。请尊重和关怀对待佛法材料。"
+msgstr "所有的项目都是免费的，有些需要运输成本。请尊重和珍惜法本。"
 
 #: templates/index.html:94
 msgid ""
 "If you prefer, you can give the book back to others later, to keep the chain"
 " of giving."
-msgstr "如果你愿意，你可以把书背到别人以后，保持给予链。"
+msgstr "如果你愿意，你看完被人赠的结缘书，可以再把书给别人。"
 
 #: templates/index.html:102
 msgid "Free Books by Mail"
-msgstr "免费书籍通过邮件"
+msgstr "邮寄免费书籍"
 
 #: templates/index.html:103
 msgid ""
 "We are establishing a platform for exchanging/recommending buddhist books."
-msgstr "我们交换/推荐佛教书籍建立一个平台。"
+msgstr "我们建立一个平台交换/推荐佛教书籍的平台。"
 
 #: templates/index.html:104
 msgid ""
 "Please check for update while we are building. In the mean time you can "
 "request books directly from "
-msgstr "请检查是否有更新，而我们正在建设。与此同时，你可以直接请求书"
+msgstr "我们正在建设中，请检查是否有更新。与此同时，你可以直接从结缘佛书流通网站请书"
 
 #: templates/index.html:104 templates/index.html:439
 msgid "Free Books Distributors"
-msgstr "免费书籍分销商"
+msgstr "结缘佛书流通处"
 
 #: templates/index.html:110
 msgid "How to Give"
-msgstr "如何给"
+msgstr "如何赠书"
 
 #: templates/index.html:111
 msgid ""
 "Rather than absorb a Buddhist book and place it away on a bookshelf,  you "
 "can offer that book to others."
-msgstr "而不是吸收佛教的书籍，并将它走在书架上，你可以提供这本书给他人。"
+msgstr "不是把看过的书束之高阁，您可以把这本书赠给他人。"
 
 #: templates/index.html:112
 msgid "You can offer pickup at your temple, or even cover shipping cost."
-msgstr "你可以在你的圣殿提供皮卡，甚至包括运费。"
+msgstr "你可以在你的寺院提供结缘佛书流通服务，甚至包付运费。"
 
 #: templates/index.html:124
 msgid ""
 "Thanks for signing up! Please check your email and follow the instruction to"
 " login."
-msgstr "感谢您注册！请检查您的电子邮件，并按照指示进行登录。"
+msgstr "感恩您注册！请检查您的电子邮件，并按照指示进行登录。"
 
 #: templates/index.html:145
 msgid "Category:"
@@ -1179,7 +1177,7 @@ msgstr "类别："
 
 #: templates/index.html:159
 msgid "Add To Bag"
-msgstr "添加至购物袋"
+msgstr "添加至购物车"
 
 #: templates/index.html:220 templates/index.html:341
 msgid "Read Online"
@@ -1200,7 +1198,7 @@ msgstr "运输"
 
 #: templates/index.html:276
 msgid "Free Internationally"
-msgstr "免费国际"
+msgstr "免国际运费"
 
 #: templates/index.html:281
 msgid "Standard"
@@ -1218,7 +1216,7 @@ msgstr "从"
 #: templates/index.html:306 templates/timeline/timelineitem_list.html:55
 #: templates/timeline/timelineitem_list.html:67
 msgid "Comments"
-msgstr "注释"
+msgstr "评论"
 
 #: templates/index.html:310
 msgid "Description:"
@@ -1226,7 +1224,7 @@ msgstr "描述："
 
 #: templates/index.html:442
 msgid "Free Shipping Internationally"
-msgstr "免费送货国际"
+msgstr "免费国际送货"
 
 #: templates/index.html:445
 msgid "Budaedu"
@@ -1236,7 +1234,7 @@ msgstr "Budaedu"
 msgid ""
 "Based in Taiwan. Free books in multiple languages. Allow two months for the "
 "book to arrive in US."
-msgstr "总部设在台湾。免费书籍多种语言。允许两个月的书在美国的到来。"
+msgstr "总部设在台湾。免费结缘多种不同语言的书籍。寄到美国要两个月。"
 
 #: templates/index.html:446
 msgid "Just be good"
@@ -1244,11 +1242,11 @@ msgstr "只要是好的"
 
 #: templates/index.html:446
 msgid "Based in Singapore. Free books in multiple languages."
-msgstr "总部设在新加坡。免费书籍多种语言。"
+msgstr "总部设在新加坡。结缘书籍有多种语言。"
 
 #: templates/index.html:447
 msgid "Pu Ti Guang"
-msgstr "菩提广"
+msgstr "菩提光"
 
 #: templates/index.html:447
 msgid "Based in Taiwan. Free books in Chinese."
@@ -1256,28 +1254,28 @@ msgstr "总部设在台湾。免费书籍在中国。"
 
 #: templates/index.html:451
 msgid "Free Books in USA"
-msgstr "免费书籍在美国"
+msgstr "美国结缘书籍"
 
 #: templates/index.html:454
 msgid "Amitabha Library"
-msgstr "阿弥陀佛库"
+msgstr "阿弥陀佛图书馆"
 
 #: templates/index.html:454
 msgid ""
 "Based in Chicago. Free books with free shipping in English and Chinese."
-msgstr "总部设在芝加哥。免费书用英语和中国的免费送货服务。"
+msgstr "位于芝加哥。免费书用英语和中国的免费送货服务。"
 
 #: templates/index.html:455
 msgid "Abhayagiri"
-msgstr "无畏山寺"
+msgstr "Abhayagiri"
 
 #: templates/index.html:455
 msgid "Based in California. Free books with free shipping in English."
-msgstr "总部设在加利福尼亚州。免费图书与英语免费送货。"
+msgstr "位于加利福尼亚州。免费图书与英语免费送货。"
 
 #: templates/index.html:456
 msgid "BAUS"
-msgstr "BAUS"
+msgstr "美国佛教协会"
 
 #: templates/index.html:456
 msgid ""
@@ -1291,21 +1289,21 @@ msgstr "LamaYeshe"
 
 #: templates/index.html:457
 msgid "Based in Massachusetts. Free books in English, pay shipping cost only."
-msgstr "基于在马萨诸塞州。免费本英文书，只需支付运费。"
+msgstr "位于马萨诸塞州。免费本英文书，只需支付运费。"
 
 #: templates/index.html:463
 msgid "Free Books in Malaysia"
-msgstr "免费书籍在马来西亚"
+msgstr "马来西亚结缘书籍"
 
 #: templates/index.html:466
 msgid "Inward Pat"
-msgstr "向内帕特"
+msgstr "Inward Pat"
 
 #: templates/index.html:466
 msgid ""
 "Based in Malaysia. Free books in English and Chinese, pay shipping cost "
 "only."
-msgstr "总部设在马来西亚。免费书的英文和中国，只需支付运费。"
+msgstr "位于马来西亚。免费书的英文和中国，只需支付运费。"
 
 #: templates/login_logout_box.html:4 templates/login_logout_box.html:16
 #: templates/userena/signin_form.html:21
@@ -1323,7 +1321,7 @@ msgstr "密码："
 
 #: templates/login_logout_box.html:19 templates/userena/signup_form.html:20
 msgid "Register"
-msgstr "寄存器"
+msgstr "注册"
 
 #: templates/login_logout_box.html:20
 #: templates/userena/password_reset_form.html:10
@@ -1341,16 +1339,16 @@ msgstr "登出"
 #: templates/message/message_form.html:22
 #: templates/message/messaging_users.html:3
 msgid "Compose a Message"
-msgstr ""
+msgstr "写消息"
 
 #: templates/message/message_form.html:23
 #: templates/message/messaging_users.html:4
 msgid "History:"
-msgstr ""
+msgstr "历史："
 
 #: templates/message/message_form.html:41
 msgid "To another User"
-msgstr ""
+msgstr "给另外一个用户"
 
 #: templates/message/message_form.html:45
 #, fuzzy
@@ -1383,7 +1381,7 @@ msgstr "留言板"
 
 #: templates/network/user_public.html:45
 msgid "Member since"
-msgstr "会员自"
+msgstr "会员自从"
 
 #: templates/network/user_public.html:46
 msgid "Posts"
@@ -1391,15 +1389,15 @@ msgstr "帖子"
 
 #: templates/network/user_public.html:47
 msgid "Following"
-msgstr "以下"
+msgstr "已关注"
 
 #: templates/network/user_public.html:48
 msgid "Followers"
-msgstr "关注"
+msgstr "关注者"
 
 #: templates/network/user_public.html:55 templates/network/user_public.html:73
 msgid "Send a Note"
-msgstr "发纸条"
+msgstr "发消息"
 
 #: templates/network/user_public.html:62
 msgid "Unfollow"
@@ -1407,23 +1405,23 @@ msgstr "取消关注"
 
 #: templates/network/user_public.html:68 templates/network/user_public.html:76
 msgid "Follow"
-msgstr "跟随"
+msgstr "关注"
 
 #: templates/network/user_public_header.html:7
 #, python-format
 msgid "%(username)s's Dharma Page"
-msgstr "%(username)s的法门页"
+msgstr "%(username)s的主页"
 
 #: templates/pay_giver.html:6 templates/pay_giver.html:18
 #: templates/pay_giver.html:43
 msgid "Pay"
-msgstr "工资"
+msgstr "支付"
 
 #: templates/pay_giver.html:30
 msgid ""
 "Please pay the giver directly, and then inform the giver about the payment "
 "below."
-msgstr "请直接支付的送礼者，然后通知有关送礼以下付款。"
+msgstr "请直接支付的赠书者，然后通知赠书人以下付款。"
 
 #: templates/pay_giver.html:32
 msgid "Please choose the payment method you used:"
@@ -1435,7 +1433,7 @@ msgstr "通过贝宝支付给"
 
 #: templates/pay_giver.html:47
 msgid "Paid though"
-msgstr "虽然付费"
+msgstr "已付费"
 
 #: templates/pay_giver.html:47
 msgid "Online Payment"
@@ -1451,17 +1449,17 @@ msgstr "关于付款的更多信息："
 
 #: templates/pay_giver.html:60
 msgid "Inform Payment"
-msgstr "通知付款"
+msgstr "通知赠书人已 付款"
 
 #: templates/show_order.html:6
 msgid "Orders in Your Cart:"
-msgstr "令您的购物车："
+msgstr "您的购物车里的订单："
 
 #: templates/show_order.html:15
 msgid ""
 "You orders have been successfully processed. If require a payment, kindly "
 "pay as soon as you can so that the giver will ship it."
-msgstr "您的订单已成功处理。如果需要付款，请尽快支付，你可以让送礼者会出货。"
+msgstr "您的订单已成功处理。如果需要付款，请尽快支付，以便赠书者发货。"
 
 #: templates/show_order.html:45
 msgid "Quantity:"
@@ -1469,11 +1467,11 @@ msgstr "数量："
 
 #: templates/show_order.html:47
 msgid "Sorry only"
-msgstr "唯一遗憾"
+msgstr "不好意思，"
 
 #: templates/show_order.html:47
 msgid "copy left in stock."
-msgstr "副本留在股市。"
+msgstr "库存量。"
 
 #: templates/show_order.html:52
 msgid "Delete"
@@ -1485,15 +1483,15 @@ msgstr "发货方："
 
 #: templates/show_order.html:70
 msgid "Can't determine shipping cost, giver will advise."
-msgstr "无法确定运费，送礼者将建议。"
+msgstr "无法确定运费，赠书者将建议运费。"
 
 #: templates/show_order.html:72
 msgid "Total: Shipping "
-msgstr "总计：航运"
+msgstr "总计：运费"
 
 #: templates/show_order.html:77
 msgid "Please wave shipping cost."
-msgstr "请波的运输成本。"
+msgstr "请免运费。"
 
 #: templates/show_order.html:83
 msgid "You currently have no order."
@@ -1513,11 +1511,11 @@ msgstr "现在付款"
 
 #: templates/subheader.html:17 timeline/views.py:125
 msgid "Everyone"
-msgstr "大家"
+msgstr "所有人"
 
 #: templates/subheader.html:18 timeline/views.py:123
 msgid "People I Follow"
-msgstr "人们按照我"
+msgstr "关注我的人"
 
 #: templates/timeline/link_form.html:24 templates/timeline/text_form.html:23
 msgid "Basics"
@@ -1525,7 +1523,7 @@ msgstr "基本"
 
 #: templates/timeline/link_form.html:24 templates/timeline/text_form.html:23
 msgid "Share Dharma teachings, resources and your own expeirences."
-msgstr "分享佛法教导，资源和自己的画家经验。"
+msgstr "分享佛法教导，资源和您自己的经验。"
 
 #: templates/timeline/link_form.html:25
 msgid "Link Points to"
@@ -1533,7 +1531,7 @@ msgstr "链接指向"
 
 #: templates/timeline/link_form.html:32
 msgid "Title of Article/Book.."
-msgstr "文/书名.."
+msgstr "文章/书名.."
 
 #: templates/timeline/link_form.html:35
 msgid "Title Link"
@@ -1541,16 +1539,16 @@ msgstr "标题链接"
 
 #: templates/timeline/link_form.html:38
 msgid "Text(Optional)"
-msgstr "文本（可选）"
+msgstr "文字（可选）"
 
 #: templates/timeline/link_form.html:46 templates/timeline/text_form.html:51
 msgid "Extended"
-msgstr "扩展"
+msgstr "扩展表格，不是必填"
 
 #: templates/timeline/link_form.html:46 templates/timeline/text_form.html:51
 msgid ""
 "Add additional information to give your content more exposure. All Optional."
-msgstr "添加更多的信息，让您的内容更多的曝光。所有可选。"
+msgstr "添加更多的信息，可以让更多的人看到您的内容。不是必填。"
 
 #: templates/timeline/link_form.html:48 templates/timeline/text_form.html:44
 #: timeline/const.py:23
@@ -1567,7 +1565,7 @@ msgstr "是原创"
 
 #: templates/timeline/link_form.html:56
 msgid "The main content of this post is my own writing or artistic creation."
-msgstr "这篇文章的主要内容是我自己写的或艺术的创作。"
+msgstr "这篇文章内容是我自己的原创。"
 
 #: templates/timeline/link_form.html:60 templates/timeline/text_form.html:63
 #: templates/timeline/timelineitem_detail.html:85
@@ -1576,19 +1574,19 @@ msgstr "提交"
 
 #: templates/timeline/text_form.html:24
 msgid "Post is"
-msgstr "邮政是"
+msgstr "贴是"
 
 #: templates/timeline/text_form.html:31
 msgid "Title or Quote"
-msgstr "标题或报价"
+msgstr "标题或教言摘录"
 
 #: templates/timeline/text_form.html:37
 msgid "Expanded Text"
-msgstr "扩展后的文字"
+msgstr "详细内容"
 
 #: templates/timeline/text_form.html:55
 msgid "Upload a Picture/HTML/PDF"
-msgstr "上传图片/ HTML / PDF"
+msgstr "上传图片/ HTML / PDF文件"
 
 #: templates/timeline/timelineitem_detail.html:66
 msgid "All comments"
@@ -1602,7 +1600,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            %(username)s</A>上  %(comment_date)s  ：点击%(comment)s结果"
+"            %(username)s</A>在  %(comment_date)s  ：%(comment)s"
 
 #: templates/timeline/timelineitem_detail.html:81
 msgid "Comment"
@@ -1610,7 +1608,7 @@ msgstr "评论"
 
 #: templates/timeline/timelineitem_list.html:4
 msgid "Topic"
-msgstr "话题"
+msgstr "主题"
 
 #: templates/timeline/timelineitem_list.html:4
 msgid "Posted By"
@@ -1628,12 +1626,12 @@ msgstr "编辑"
 #: templates/timeline/timelineitem_list.html:57
 #: templates/timeline/timelineitem_list.html:68
 msgid "Reblog"
-msgstr "一个reblog"
+msgstr "一个转贴"
 
 #: templates/timeline/timelineitem_list.html:59
 #: templates/timeline/timelineitem_list.html:62
 msgid "UnLike"
-msgstr "不像"
+msgstr "不喜欢"
 
 #: templates/timeline/timelineitem_list.html:60
 #: templates/timeline/timelineitem_list.html:63
@@ -1647,7 +1645,7 @@ msgstr "上一页"
 
 #: templates/timeline/timelineitem_list.html:83
 msgid "Next"
-msgstr "下一个"
+msgstr "下一页"
 
 #: templates/userena/email_form.html:5 templates/userena/password_form.html:5
 #: templates/userena/profile_form.html:5
@@ -1688,11 +1686,11 @@ msgstr "%(username)s的资料。"
 #: templates/userena/profile_detail.html:16
 #: templates/userena/profile_form.html:28
 msgid "View profile"
-msgstr "查看资料"
+msgstr "查看个人资料"
 
 #: templates/userena/profile_detail.html:17
 msgid "Edit details"
-msgstr "编辑详情]"
+msgstr "编辑详情"
 
 #: templates/userena/profile_detail.html:27
 msgid "Your mugshot"
@@ -1727,7 +1725,7 @@ msgstr "编辑个人资料"
 
 #: templates/userena/profile_form.html:48
 msgid "Section 1. Membership Information"
-msgstr "第1节会员信息"
+msgstr "第1部分 用户信息"
 
 #: templates/userena/profile_form.html:49
 #: templates/userena/signup_form.html:32
@@ -1745,15 +1743,15 @@ msgstr "国家"
 #: templates/userena/signup_form.html:36
 #: templates/userena/signup_reader_form.html:60
 msgid "State"
-msgstr "州"
+msgstr "州/省"
 
 #: templates/userena/profile_form.html:57
 msgid "Section 2."
-msgstr "第2节。"
+msgstr "第2部分"
 
 #: templates/userena/profile_form.html:58
 msgid "Receiver - Mailing Information"
-msgstr "接收器 - 邮寄信息"
+msgstr "订书人 - 邮寄地址信息"
 
 #: templates/userena/profile_form.html:59
 #: templates/userena/signup_reader_form.html:54
@@ -1789,19 +1787,19 @@ msgstr "第3节"
 
 #: templates/userena/profile_form.html:68
 msgid "Distribution Methods"
-msgstr "分配方法"
+msgstr "配发方法"
 
 #: templates/userena/profile_form.html:68
 msgid "Local Pickup: Receiver picks up books from your location."
-msgstr "本地拾取：接收从您的位置拿起书本。"
+msgstr "亲自求取：请书人从您那里亲自拿书。"
 
 #: templates/userena/profile_form.html:74
 msgid "How to Pickup Locally"
-msgstr "如何本地皮卡"
+msgstr "如何亲自求取"
 
 #: templates/userena/profile_form.html:76
 msgid "Max Free Items Per shipment"
-msgstr "最大免费项目每票货"
+msgstr "一个订单最多几本书"
 
 #: templates/userena/profile_form.html:76
 msgid ""
@@ -1811,7 +1809,7 @@ msgstr "接收器是必需的，如果订货超过这个数量的免费书籍更
 
 #: templates/userena/profile_form.html:77
 msgid "How to Donate/How is receipt returned"
-msgstr "如何捐赠/收据是如何返回"
+msgstr "如何捐款及得到收据"
 
 #: templates/userena/profile_form.html:79
 msgid "Payment methods"
@@ -1847,11 +1845,11 @@ msgstr "保存更改"
 
 #: templates/userena/signin_form.html:5 templates/userena/signin_form.html:46
 msgid "Signin"
-msgstr "签到"
+msgstr "登录"
 
 #: templates/userena/signin_form.html:51
 msgid "Forgot your password?"
-msgstr "忘记密码了吗？"
+msgstr "您忘记密码了吗？"
 
 #: templates/userena/signup_complete.html:6
 msgid ""
@@ -1872,7 +1870,7 @@ msgstr "密码"
 #: templates/userena/signup_form.html:34
 #: templates/userena/signup_reader_form.html:50
 msgid "Password(again)"
-msgstr "密码（再次）"
+msgstr "密码（确认）"
 
 #: templates/userena/signup_form.html:42
 #: templates/userena/signup_reader_form.html:64
@@ -1902,7 +1900,7 @@ msgstr "请输入登录信息"
 
 #: templates/userena/signup_reader_form.html:53
 msgid "Please enter shipping information"
-msgstr "请输入发货信息"
+msgstr "请输入邮寄信息"
 
 #: templates/userena/signup_reader_form.html:57
 msgid "Address1"
@@ -1926,7 +1924,7 @@ msgstr "视频"
 
 #: timeline/const.py:24
 msgid "Master"
-msgstr "主"
+msgstr "主要 "
 
 #: timeline/forms.py:58
 msgid "Duplicate topic name"
@@ -1942,7 +1940,7 @@ msgstr "文件名长度超过50个字母"
 
 #: timeline/forms.py:139
 msgid "Length cannot be more than 500 characters"
-msgstr ""
+msgstr "长度不能超过500个字。"
 
 #: timeline/forms.py:169 timeline/forms.py:183
 msgid "Invalid url"
