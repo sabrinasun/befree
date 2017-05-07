@@ -703,3 +703,7 @@ ul.errorlist li {
 //-----------below is the line in the middle style-------
 h4.page-header-line { width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px; }
 h4.page-header-line span { background:#fff; padding:0 10px; color: #969696}
+
+.link-without-underline{
+    text-decoration:none !important;
+}

@@ -6,7 +6,7 @@
 
 <div class="small-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'user_public' user.pk %}">{{ user.profile.get_display_name }}</a> |
+    <a href="{% url 'user_public' user.pk %}?language={{request.GET.language}}">{{ user.profile.get_display_name }}</a> |
     {% get_unread_message_count_for user as unread_message_count %}
     <a href="{% url 'userena_umessages_compose' %}">{% trans "Messages" %}  {% if unread_message_count > 0 %}({{ unread_message_count }}) {% endif %}
     </a> | {% endif %}

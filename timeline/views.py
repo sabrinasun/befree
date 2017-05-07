@@ -53,8 +53,12 @@ class TopTopicMixin(ContextMixin):
                 context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=self.request.user.languages.all()).annotate(topic_count=Count(
                     'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
         else:
-            context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.filter(id=1)).annotate(topic_count=Count(
-                'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+            if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
+                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.filter(id=self.request.GET['language'])).annotate(topic_count=Count(
+                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+            else:
+                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.all()).annotate(topic_count=Count(
+                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
         return context
 
 

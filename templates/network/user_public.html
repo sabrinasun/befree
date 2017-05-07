@@ -9,9 +9,9 @@
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 
 <div>
-    <a href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&topic={{request.GET.topic }}">{% trans "All" %}</a> &nbsp;
+    <a {% if not request.GET.category %}class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&topic={{request.GET.topic }}">{% trans "All" %}</a> &nbsp;
     {% for item_catergory in categories %}
-    <a href="{% url 'user_public' view_user.pk %}?category={{ item_catergory.id }}&language={{request.GET.language}}&topic={{request.GET.topic }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    <a {% if item_catergory.id == request.GET.category|add:0 %}class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?category={{ item_catergory.id }}&language={{request.GET.language}}&topic={{request.GET.topic }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
 </div>
 
@@ -28,10 +28,10 @@
 {% endblock subheader %}
 {% block main %}
     <div class="content-left keywords-list">
-    <a href="{% url 'user_public' view_user.pk %}?topic=all&language={{request.GET.language}}&category={{request.GET.category }}">All Topics</a><br>
+    <a {% if not request.GET.topic %} class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&category={{request.GET.category }}">All Topics</a><br>
 
 	{% for topic in top_topics %}
-	<a href="{% url 'user_public' view_user.pk %}?topic={{ topic.id }}&language={{request.GET.language}}&category={{request.GET.category }}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
+	<a {% if topic.id == request.GET.topic|add:0 %}class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?topic={{ topic.id }}&language={{request.GET.language}}&category={{request.GET.category }}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
 	{% endfor %}
     </div>
 
