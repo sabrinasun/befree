@@ -1,13 +1,13 @@
 {% load staticfiles %}
 {% load i18n %}
 <div class="content-center network">
-    <span style="font-size:12px;">  {% trans "Category" %}:{{ search_category }}, {% trans "Topic" %}: {{ search_topic }},  {% trans "Posted By" %}: {{ search_usertype }}, {% trans "Language" %}: {{ search_language }} </span>
+    <span style="font-size:12px;">  {% trans "Category" %}:{{ search_category }}, {% trans "Topic" %}: {{ search_topic }},  {% trans "Posted By" %}: {{ search_usertype }}, {% trans "Language" %}: {{ search_language.name }} </span>
 	{% for timelineitem in object_list %}
 	<div>
         <div class="page-body" style="text-align:left;">
             <div class="post-title">
                 <div style="float:right">
-                {% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} | {% if timelineitem.teacher %}  {{timelineitem.teacher.name}} | {% endif %}<a  href="{% url 'user_public' timelineitem.created_user.id %}?language={{request.GET.language}}">{{ timelineitem.created_user.username }}</a>
+                {% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} | {% if timelineitem.teacher %}  {{timelineitem.teacher.name}} | {% endif %}<a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a>
                 </div>
 				<div style="float:left;">
 				{% if timelineitem.title_link %}
@@ -34,7 +34,7 @@
             <div class="post-content" style="clear:both;">
 				{% if timelineitem.content_length  > 700 %}
                      {{ timelineitem.content| linebreaks| urlize |truncatechars_html:700 }}
-					 <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "more" %}</a>
+					 <a href="{% url 'timelineitem_detail' category_slug topic_slug timelineitem.slug %}">{% trans "more" %}</a>
 			    {% elif timelineitem.content_length == 0 %}
                     <br>
                 {% else %}
@@ -43,7 +43,7 @@
 
                 <br>
                 {% for item_topic in timelineitem.topics.all %}
-                <a  class="link-without-underline" href="{% url 'home_landing' %}?topic={{ item_topic.id }}&category={{request.GET.category}}&language={{request.GET.language}}&usertype={{request.GET.usertype }}">{{item_topic.name}}</a>{%if not forloop.last%},{%endif%}
+                <a  class="link-without-underline" href="{% url 'item_list'  category_slug  item_topic.slug %}?usertype={{request.GET.usertype }}">{{item_topic.name}}</a>{%if not forloop.last%},{%endif%}
                 {% endfor %}
             </div>
             <div class="page-icon">
@@ -57,7 +57,7 @@
                         {% endif %}
                     {% endif %}
 
-				    <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
+				    <a href="{% url 'timelineitem_detail' category_slug topic_slug  timelineitem.slug %}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
                     {% if user !=  timelineitem.created_user  %}
                         <a id="reblog_{{timelineitem.pk}}" href="{% url 'timelineitem_reblog' timelineitem.pk %}" onclick="return reblog({{timelineitem.pk}});">{% trans "Reblog" %}(<span id="reblog_count_{{timelineitem.pk}}">{{ timelineitem.total_reblogs }}</span>)</a>
                         {% if timelineitem.pk in likes_ids  %}
@@ -69,7 +69,7 @@
                         {% endif %}
                     {% endif %}
                 {% else %}
-                <a href="{% url 'timelineitem_detail' timelineitem.pk%}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
+                <a href="{% url 'timelineitem_detail' category_slug topic_slug timelineitem.slug%}">{% trans "Comments" %}({{ timelineitem.total_comments }})</a>
 				<a href="{% url 'userena_signin' %}">{% trans "Reblog" %}({{ timelineitem.total_reblogs }})</a>
 				<a href="{% url 'userena_signin' %}">{% trans "Like" %}({{ timelineitem.total_likes }})</a>
 				{% endif %}
@@ -82,10 +82,10 @@
 
     <div class="page-footer">
 		{% if page_obj.has_previous %}
-        <a href="{% url 'home_landing' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.previous_page_number }}">< {% trans "Prev" %}</a>
+        <a href="{% url 'item_list' category_slug  topic_slug %}?usertype={{request.GET.usertype }}&page={{ page_obj.previous_page_number }}">< {% trans "Prev" %}</a>
 		{% endif  %}
 		{% if page_obj.has_next %}
-		<a href="{% url 'home_landing' %}?category={{ request.GET.category }}&topic={{ request.GET.topic }}&language={{request.GET.language}}&usertype={{request.GET.usertype }}&page={{ page_obj.next_page_number }}">{% trans "Next" %} ></a>
+		<a href="{% url 'item_list' category_slug  topic_slug %}?usertype={{request.GET.usertype }}&page={{ page_obj.next_page_number }}">{% trans "Next" %} ></a>
 		{% endif %}
 	</div>
 </div>

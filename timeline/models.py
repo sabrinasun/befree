@@ -52,6 +52,8 @@ class ItemCategory(models.Model):
     text_form = models.BooleanField()
     order = models.IntegerField()
     objects = ItemCategoryManager()
+    slug = models.SlugField(unique=True, max_length=225,
+                            allow_unicode=True)
 
     class Meta:
         verbose_name = "Category"
@@ -63,6 +65,8 @@ class ItemCategory(models.Model):
 
 class ItemTopic(models.Model):
     name = models.CharField(max_length=50, null=False, blank=True, unique=True)
+    slug = models.SlugField(unique=True, max_length=225,
+                            allow_unicode=True)
 
     class Meta:
         verbose_name = "Topic"
@@ -100,6 +104,8 @@ class TimelineItem(models.Model):
 
     title = models.CharField(
         max_length=500, db_index=True)
+    slug = models.SlugField(unique=True, max_length=225,
+                            allow_unicode=True)
     title_link = models.CharField(max_length=500)
     item_category = models.ForeignKey(ItemCategory)
     content = models.TextField(blank=True, null=True)

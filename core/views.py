@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.utils.html import escape
 from django.forms.models import modelform_factory
 from django.utils.translation import ugettext as _
+from django.utils.translation import activate
 
 
 try:
@@ -408,6 +409,11 @@ def account_summary(request):
         'msg': request.GET.get('msg'),
         'pending_items' : pending_items
     }
+
+    if not 'postlogin' in request.GET:
+        languages = request.user.languages.all().order_by('-id')
+        if languages.exists():
+            activate(languages[0].lang_code)
     return render(request, 'account/summary.html', context)
 
 @login_required

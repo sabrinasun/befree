@@ -9,7 +9,7 @@
 <div>
     <a href="{% url 'home' %}">All</a> &nbsp;
     {% for item_catergory in categories %}
-    <a href="{% url 'home' %}?category={{ item_catergory.id }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    <a href="{% url 'item_list' item_catergory.slug "all" %}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
 </div>
  </span>

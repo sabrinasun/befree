@@ -7,9 +7,9 @@
 {% block subheader %}
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 <div>
-    <a href="{% url 'home_landing' %}">All</a> &nbsp;
+    <a href="{% url 'home' %}">All</a> &nbsp;
     {% for item_catergory in categories %}
-    <a href="{% url 'home_landing' %}?category={{ item_catergory.id }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    <a href="{% url 'item_list' item_catergory.slug  "all" %}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
 </div>
  </span>

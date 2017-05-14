@@ -13,18 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from network.models import UserNetwork
 from django.utils.translation import ugettext as _
-from django.utils.translation import activate
-
-
-def home_index(request):
-    language_id = 1
-    if request.user.is_authenticated:
-        languages = request.user.languages.all()
-        if languages.exists():
-            language_id = languages[0].pk
-            activate(languages[0].lang_code)
-
-    return HttpResponseRedirect(reverse('home_landing') + '?language=' + str(language_id))
+from django.utils.translation import activate, get_language
 
 
 class SubHeaderCategoryMixin(ContextMixin):
@@ -37,6 +26,16 @@ class SubHeaderCategoryMixin(ContextMixin):
             context['languages'] = self.request.user.languages.all()
         else:
             context['languages'] = Language.objects.all()
+
+        if 'category_slug' in self.kwargs:
+            context['category_slug'] = self.kwargs['category_slug']
+        else:
+            context['category_slug'] = 'all'
+
+        if 'topic_slug' in self.kwargs:
+            context['topic_slug'] = self.kwargs['topic_slug']
+        else:
+            context['topic_slug'] = 'all'
         return context
 
 
@@ -45,20 +44,13 @@ class TopTopicMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super(TopTopicMixin,
                         self).get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
-                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__id=self.request.GET['language']).annotate(topic_count=Count(
-                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
-            else:
-                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=self.request.user.languages.all()).annotate(topic_count=Count(
-                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+        context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.filter(lang_code=get_language(
+        ))).annotate(topic_count=Count('timelineitems')).order_by('-topic_count')[:50].values('id', 'slug', 'name', 'topic_count')
+
+        if 'topic_slug' in self.kwargs:
+            context['topic_slug'] = self.kwargs['topic_slug']
         else:
-            if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
-                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.filter(id=self.request.GET['language'])).annotate(topic_count=Count(
-                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
-            else:
-                context['top_topics'] = ItemTopic.objects.filter(timelineitems__language__in=Language.objects.all()).annotate(topic_count=Count(
-                    'timelineitems')).order_by('-topic_count')[:50].values('id', 'name', 'topic_count')
+            context['topic_slug'] = 'all'
         return context
 
 
@@ -70,50 +62,44 @@ class TimeLineItemListView(ListView):
         if self.request.user.is_authenticated:
             like_items = TimelineItem.objects.all().filter(likes=self.request.user)
             context['likes_ids'] = [like_item.id for like_item in like_items]
-        if 'category' in self.request.GET and self.request.GET['category']:
-            context['search_category'] = ItemCategory.objects.get(
-                id=self.request.GET['category']).name
+
+        if 'category_slug' in self.kwargs and self.kwargs['category_slug'] != 'all':
+            category = ItemCategory.objects.get(
+                slug=self.kwargs['category_slug'])
+            context['search_category'] = category.name
         else:
             context['search_category'] = _('All')
 
-        if 'language' in self.request.GET and self.request.GET['language']and self.request.GET['language'] != 'all':
-            context['search_language'] = Language.objects.get(
-                id=self.request.GET['language']).name
-        else:
-            context['search_language'] = _('All')
-
-        if 'topic' in self.request.GET and self.request.GET['topic']:
+        if 'topic_slug' in self.kwargs and self.kwargs['topic_slug'] != 'all':
             context['search_topic'] = ItemTopic.objects.get(
-                id=self.request.GET['topic']).name
+                slug=self.kwargs['topic_slug'])
         else:
             context['search_topic'] = _('All')
 
+        context['search_language'] = Language.objects.get(
+            lang_code=get_language())
         return context
 
     def get_queryset(self):
         queryset = TimelineItem.objects.all().order_by('-created')
 
-        if 'category' in self.request.GET and self.request.GET['category'] and self.request.GET['category'] != 'all':
+        if 'category_slug' in self.kwargs and self.kwargs['category_slug'] != 'all':
             queryset = queryset.filter(
-                item_category__id=self.request.GET['category'])
+                item_category__slug=self.kwargs['category_slug'])
 
-        if 'topic' in self.request.GET and self.request.GET['topic'] and self.request.GET['topic'] != 'all':
+        if 'topic_slug' in self.kwargs and self.kwargs['topic_slug'] != 'all':
             queryset = queryset.filter(
-                topics__id=self.request.GET['topic'])
+                topics__slug=self.kwargs['topic_slug'])
 
-        if 'language' in self.request.GET and self.request.GET['language'] and self.request.GET['language'] != 'all':
+        if 'language' in self.request.GET and self.request.GET['language']:
             queryset = queryset.filter(
                 language__id=self.request.GET['language'])
             language = Language.objects.get(
                 id=self.request.GET['language'])
             activate(language.lang_code)
-        elif self.request.user.is_authenticated:
-            queryset = queryset.filter(
-                language__in=self.request.user.languages.all())
         else:
             queryset = queryset.filter(
-                language__in=Language.objects.filter(id=1))
-
+                language__lang_code=get_language())
         return queryset
 
 
@@ -127,6 +113,7 @@ class Home(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView):
             context['search_usertype'] = _('People I Follow')
         else:
             context['search_usertype'] = _('Everyone')
+
         return context
 
     def get_queryset(self):
@@ -142,7 +129,7 @@ class ShareLink(SubHeaderCategoryMixin, CreateView):
     form_class = LinkForm
     model = TimelineItem
     template_name = 'timeline/link_form.html'
-    success_url = reverse_lazy('home_landing')
+    success_url = reverse_lazy('home')
 
     def get_form_kwargs(self):
         kwargs = super(ShareLink, self).get_form_kwargs()
@@ -154,7 +141,7 @@ class ShareText(SubHeaderCategoryMixin, CreateView):
     template_name = 'timeline/text_form.html'
     model = TimelineItem
     form_class = TextForm
-    success_url = reverse_lazy('home_landing')
+    success_url = reverse_lazy('home')
 
     def get_form_kwargs(self):
         kwargs = super(ShareText, self).get_form_kwargs()
@@ -166,7 +153,7 @@ class ShareLinkUpdateView(SubHeaderCategoryMixin, UpdateView):
     form_class = LinkForm
     model = TimelineItem
     template_name = 'timeline/link_form.html'
-    success_url = reverse_lazy('home_landing')
+    success_url = reverse_lazy('home')
 
     def get_form_kwargs(self):
         kwargs = super(ShareLinkUpdateView, self).get_form_kwargs()
@@ -178,7 +165,7 @@ class ShareTextUpdateView(SubHeaderCategoryMixin, UpdateView):
     template_name = 'timeline/text_form.html'
     model = TimelineItem
     form_class = TextForm
-    success_url = reverse_lazy('home_landing')
+    success_url = reverse_lazy('home')
 
     def get_form_kwargs(self):
         kwargs = super(ShareTextUpdateView, self).get_form_kwargs()
@@ -189,6 +176,7 @@ class ShareTextUpdateView(SubHeaderCategoryMixin, UpdateView):
 class TimeLineItemView(SubHeaderCategoryMixin, DetailView):
     template_name = 'timeline/timelineitem_detail.html'
     model = TimelineItem
+    slug_url_kwarg = 'post_slug'
 
     def get_context_data(self, **kwargs):
         context = super(TimeLineItemView, self).get_context_data(**kwargs)
@@ -210,7 +198,7 @@ class TimeLineItemComment(SingleObjectMixin, FormView):
         return super(TimeLineItemComment, self).post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('timelineitem_detail', kwargs={'pk': self.get_object().pk})
+        return reverse('timelineitem_detail', kwargs={'post_slug': self.get_object().slug, 'category_slug': 'all', 'topic_slug': 'all'})
 
     def form_valid(self, form):
         form.instance.comment_user = self.request.user

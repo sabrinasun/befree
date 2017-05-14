@@ -198,7 +198,7 @@ SERVER_EMAIL = 'sabrinanyu@gmail.com'
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.Profile'
-LOGIN_REDIRECT_URL = '/account/summary'
+LOGIN_REDIRECT_URL = '/account/summary/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
@@ -284,6 +284,8 @@ LANGUAGES = (
     ('zh-hans', _('Chinese')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+
+ALLOW_UNICODE_SLUGS = True
 
 try:
     from buddhist_exchange.local_settings import *

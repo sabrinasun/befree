@@ -9,16 +9,15 @@
 <div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
 
 <div>
-    <a {% if not request.GET.category %}class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&topic={{request.GET.topic }}">{% trans "All" %}</a> &nbsp;
+    <a {% if category_slug == 'all'  %}class="selected-link"{% endif %} href="{% url 'user_public_list' view_user.pk "all" topic_slug %}">{% trans "All" %}</a> &nbsp;
     {% for item_catergory in categories %}
-    <a {% if item_catergory.id == request.GET.category|add:0 %}class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?category={{ item_catergory.id }}&language={{request.GET.language}}&topic={{request.GET.topic }}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    <a {% if item_catergory.slug == category_slug %}class="selected-link"{% endif %} href="{% url 'user_public_list' view_user.pk item_catergory.slug topic_slug %}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
     {% endfor %}
 </div>
 
  </span></div>
 
 <b>Language:</b> <select id='item_language' name="language" onchange="showSelected()">
-   <option value="all">{% trans "All" %}</option>
    {% for language in languages %}
    <option value="{{ language.id }}">{{ language.name }}</option>
    {% endfor %}
@@ -28,10 +27,10 @@
 {% endblock subheader %}
 {% block main %}
     <div class="content-left keywords-list">
-    <a {% if not request.GET.topic %} class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?language={{request.GET.language}}&category={{request.GET.category }}">All Topics</a><br>
+    <a {% if topic_slug == 'all' %} class="selected-link"{% endif %} href="{% url 'user_public_list' view_user.pk category_slug "all" %}">All Topics</a><br>
 
 	{% for topic in top_topics %}
-	<a {% if topic.id == request.GET.topic|add:0 %}class="selected-link"{% endif %} href="{% url 'user_public' view_user.pk %}?topic={{ topic.id }}&language={{request.GET.language}}&category={{request.GET.category }}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
+	<a {% if topic.slug == topic_slug %}class="selected-link"{% endif %} href="{% url 'user_public_list' view_user.pk category_slug topic.slug %}" title="Posts: {{ topic.topic_count }}">{{ topic.name }}</a> &nbsp;
 	{% endfor %}
     </div>
 
