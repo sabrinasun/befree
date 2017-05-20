@@ -20,7 +20,7 @@
 
 <b>Language:</b> <select id='item_language' name="language" onchange="showSelected()">
    {% for language in languages %}
-   <option value="{{ language.id }}">{{ language.name }}</option>
+   <option value="{{ language.lang_code }}">{{ language.name }}</option>
    {% endfor %}
 </select>
 

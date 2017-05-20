@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(function() {
-		var item_language = "{{ search_language.id }}";
+		var item_language = "{{ search_language.lang_code }}";
 		var item_usertype = "{{ request.GET.usertype }}";
 		if (item_language !== '' &&  item_language !== null) {
 			$("#item_language option[value='" + item_language + "']").attr("selected", "selected");
@@ -15,12 +15,13 @@
 		var item_usertype = $("#item_usertype option:selected").val();
 		var item_category = "{{ category_slug }}";
 		var item_topic = "{{ topic_slug }}";
-		var baseUrl = [window.location.protocol, '//', window.location.host, window.location.pathname].join('');
+		var current_lang_code = "{{ LANGUAGE_CODE }}"
 
 		url = "{% url 'item_list' category_slug  topic_slug %}"
-		if( item_usertype )
-			url = url + '?usertype=' + item_usertype+'&language='+item_language
-		window.location = url
+		if ( item_usertype ){
+			url = url + '?usertype=' + item_usertype
+		}
+		window.location = url.replace(current_lang_code,item_language);
 	}
 
 
