@@ -270,7 +270,11 @@ def contact_user(request):
             return HttpResponse('<script type="text/javascript">document.write("Your message has been sent.");window.close();opener.alert("You email message has been sent.");</script>')
 
     else:
-        user_id = int(request.GET.get('user_id'))
+        user_id = request.GET.get('user_id')
+
+        if user_id:
+            user_id = int(user_id)
+
         user = get_object_or_404(get_user_model(), id = user_id )
         contact_form  = ContactForm(initial = request.GET)
 
