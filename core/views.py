@@ -7,6 +7,7 @@ from django.utils.html import escape
 from django.forms.models import modelform_factory
 from django.utils.translation import ugettext as _
 from django.utils.translation import activate
+from django.core.urlresolvers import reverse
 
 
 try:
@@ -414,11 +415,16 @@ def account_summary(request):
         'pending_items' : pending_items
     }
 
-    if not 'postlogin' in request.GET:
-        languages = request.user.languages.all().order_by('-id')
-        if languages.exists():
-            activate(languages[0].lang_code)
     return render(request, 'account/summary.html', context)
+
+
+@login_required
+def account_language(request):
+    languages = request.user.languages.all().order_by('-id')
+    if languages.exists():
+        activate(languages[0].lang_code)
+    return HttpResponseRedirect(reverse('account_summary'))
+
 
 @login_required
 def account_reading_orders(request):

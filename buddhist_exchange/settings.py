@@ -198,7 +198,7 @@ SERVER_EMAIL = 'sabrinanyu@gmail.com'
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.Profile'
-LOGIN_REDIRECT_URL = '/account/summary/'
+LOGIN_REDIRECT_URL = '/account/language-detect/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
@@ -206,7 +206,7 @@ USERENA_WITHOUT_USERNAMES = False
 USERENA_ACTIVATION_REQUIRED = True
 USERENA_SIGNIN_AFTER_SIGNUP = False
 USERENA_REDIRECT_ON_SIGNOUT = '/'
-USERENA_SIGNIN_REDIRECT_URL = '/account/summary'
+USERENA_SIGNIN_REDIRECT_URL = '/account/language-detect/'
 USERENA_USE_MESSAGES = False
 DEFAULT_FROM_EMAIL = 'support@buddhistexchange.com'
 

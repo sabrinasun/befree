@@ -114,6 +114,7 @@ class Home(SubHeaderCategoryMixin, TopTopicMixin, TimeLineItemListView):
         else:
             context['search_usertype'] = _('Everyone')
 
+        context['msg'] = self.request.GET.get('msg', '')
         return context
 
     def get_queryset(self):

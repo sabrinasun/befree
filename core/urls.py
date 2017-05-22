@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^help/$', to_template('help.html'), name='help'),
 
     url(r'^tos/$', to_template('tos.html'), name='tos'),
-
+    url(r'^account/language-detect/$', account_language, name='account_language'),
     url(r'^account/summary/$', account_summary, name='account_summary'),
     url(r'^account/orders/reading/$', account_reading_orders, name='account_reading_orders'),
     url(r'^account/orders/giving/$', account_giving_orders, name='account_giving_orders'),

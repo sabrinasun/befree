@@ -13,24 +13,24 @@ from django.utils.translation import ugettext_lazy as _
 
 @python_2_unicode_compatible
 class Author(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    facebook = models.URLField(max_length=255, null=True, blank=True)
-    website  = models.URLField(max_length=255, null=True, blank=True)
-    description = models.TextField(blank=True)
-    donate_url = models.URLField(max_length=255, null=True, blank=True)
-    donate_note =  models.TextField(blank=True)
+    name = models.CharField(_("Name"), max_length=100, unique=True)
+    facebook = models.URLField(_("Facebook"), max_length=255, null=True, blank=True)
+    website  = models.URLField(_("Website"), max_length=255, null=True, blank=True)
+    description = models.TextField(_("Description"), blank=True)
+    donate_url = models.URLField(_("Donate url"), max_length=255, null=True, blank=True)
+    donate_note =  models.TextField(_("Donate note"), blank=True)
 
     def __str__(self):
         return self.name
 
 @python_2_unicode_compatible
 class Publisher(models.Model):
-    name    = models.CharField(max_length=100, unique=True)
-    website = models.URLField(max_length=255, null=True, blank=True)
-    description = models.TextField(blank=True)
-    publish_free_book = models.BooleanField(default=False)
-    donate_url = models.URLField(max_length=255, null=True, blank=True)
-    donate_note =  models.TextField(blank=True)
+    name    = models.CharField(_("Name"),max_length=100, unique=True)
+    website = models.URLField(_("Website"),max_length=255, null=True, blank=True)
+    description = models.TextField(_("Description"), blank=True)
+    publish_free_book = models.BooleanField(_("Publish Free Book"), default=False)
+    donate_url = models.URLField(_("Donate url"),max_length=255, null=True, blank=True)
+    donate_note =  models.TextField(_("Donate note"),blank=True)
     #contact = models.ForeignKey(get_user_model(), null=True, blank=True)
 
     def __str__(self):

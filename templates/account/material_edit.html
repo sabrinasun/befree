@@ -18,13 +18,13 @@
 	    <div><label>{% trans "Author" %}:</label>{{ form.author }}
 	    <a href="javascript:void(0)"
 	       class="add-another"
-           onclick="javascript: window.open('/add/author/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=600, left=200, top=60');">Add Author</a>
+           onclick="javascript: window.open('/{{LANGUAGE_CODE}}/add/author/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=600, left=200, top=60');">{% trans "Add Author" %}</a>
 	    {{ form.author.errors }}
 	    </div>
 	    <div><label>{% trans "Publisher:" %}</label>{{ form.publisher }}
 	    <a href="javascript:void(0)"
 	       class="add-another"
-           onclick="javascript: window.open('/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=600, left=200, top=60');">Add Publisher</a>
+           onclick="javascript: window.open('/{{LANGUAGE_CODE}}/add/publisher/',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=470,height=600, left=200, top=60');">{% trans "Add Publisher" %}</a>
 	    {{ form.publisher.errors }}
 	    </div>
 	    <div><label>{% trans "Category" %}:</label>{{ form.category }}

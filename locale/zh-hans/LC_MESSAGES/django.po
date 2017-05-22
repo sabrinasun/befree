@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-08 10:46-0500\n"
-"PO-Revision-Date: 2017-05-21 11:55-0500\n"
-"Last-Translator: b'tesst123 test <ys393nyu1@yahoo.com>'\n"
+"POT-Creation-Date: 2017-05-22 10:26-0500\n"
+"PO-Revision-Date: 2017-05-22 10:26-0551\n"
+"Last-Translator: b'  <admin@yahoo.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -64,13 +64,50 @@ msgid ""
 "Payment Methods is required for giver profile. "
 msgstr "对不起接收者需要支付运费。无论是贝宝电子邮件或者其他支付方式需要送礼者的个人资料。"
 
-#: buddhist_exchange/settings.py:281 core/models.py:51 templates/index.html:76
+#: buddhist_exchange/settings.py:283 core/models.py:51 templates/index.html:76
 msgid "English"
 msgstr "英语"
 
-#: buddhist_exchange/settings.py:282 core/models.py:52 templates/index.html:77
+#: buddhist_exchange/settings.py:284 core/models.py:52 templates/index.html:77
 msgid "Chinese"
 msgstr "中文"
+
+#: core/forms.py:90 core/forms.py:93 core/forms.py:105 core/forms.py:108
+#: core/models.py:16 core/models.py:28
+#: templates/userena/profile_detail.html:31
+msgid "Name"
+msgstr "名称"
+
+#: core/forms.py:91 core/models.py:17 templates/account/user_profile.html:13
+msgid "Facebook"
+msgstr "Facebook的"
+
+#: core/forms.py:92 core/forms.py:107 core/models.py:18 core/models.py:29
+#: templates/account/user_profile.html:10
+#: templates/userena/profile_detail.html:43 timeline/const.py:14
+msgid "Website"
+msgstr "网站"
+
+#: core/forms.py:94 core/forms.py:109 core/models.py:20 core/models.py:32
+msgid "Donate url"
+msgstr "捐款网址"
+
+#: core/forms.py:95 core/forms.py:110 core/models.py:21 core/models.py:33
+msgid "Donate note"
+msgstr "捐款事项"
+
+#: core/forms.py:106
+msgid "Publish free book"
+msgstr "出版商图书"
+
+#: core/models.py:19 core/models.py:30 templates/account/material_edit.html:39
+msgid "Description"
+msgstr "描述"
+
+#: core/models.py:31
+#| msgid "Publish free book"
+msgid "Publish Free Book"
+msgstr "出版商图书"
 
 #: core/models.py:44 timeline/const.py:11
 msgid "Book"
@@ -143,13 +180,13 @@ msgstr "上传封面图片"
 msgid "Upload PDF File"
 msgstr "上传PDF文件"
 
-#: core/views.py:215
+#: core/views.py:217
 msgid ""
 "We can't determine shipping cost. Wait for giver's advice after placing "
 "order. "
 msgstr "我们不能确定运输成本。等待订货后送礼者的意见。"
 
-#: core/views.py:219
+#: core/views.py:221
 #, python-format
 msgid ""
 "You ordered %s items, which are more than a small quantity order of %s items"
@@ -157,57 +194,61 @@ msgid ""
 "it."
 msgstr "您订购 %s 项目，这比 %s 项目为这个送礼者少量的订单较多，订货会，直到送礼人批准挂起状态。"
 
-#: core/views.py:267
+#: core/views.py:269
 #, python-format
 msgid "User %s has sent you a message via BuddhistExchange. "
 msgstr "用户 %s 已通过BuddhistExchange您发送讯息。"
 
-#: core/views.py:360
+#: core/views.py:366
 #, python-format
 msgid "Order %s was placed by %s via BuddhistExchange."
 msgstr "为了 %s 经BuddhistExchange放置由 %s 。"
 
-#: core/views.py:363
+#: core/views.py:369
 msgid "You have placed an order via BuddhistExchange."
 msgstr "您已通过BuddhistExchange下了订单。"
 
-#: core/views.py:477
+#: core/views.py:493
 #, python-format
 msgid "Your order %s has been shipped. "
 msgstr "您的订单 %s 已经发货。"
 
-#: core/views.py:481
+#: core/views.py:497
 #, python-format
 msgid "Your order %s has been cancelled. "
 msgstr "您的订单 %s 已被取消。"
 
-#: core/views.py:483
+#: core/views.py:499
 #, python-format
 msgid "You have cancelled order %s. "
 msgstr "您已取消订单 %s。"
 
-#: core/views.py:487
+#: core/views.py:503
 #, python-format
 msgid "Your order %s has been approved. "
 msgstr "您的订单 %s 已获批准。"
 
-#: core/views.py:489
+#: core/views.py:505
 #, python-format
 msgid "You have approved order %s. "
 msgstr "您已批准才能 %s。"
 
-#: core/views.py:520
+#: core/views.py:536
 #, python-format
 msgid "The shipping cost for your order %s is $%s. "
 msgstr "您的订单 %s 航运成本是$%s。"
 
-#: core/views.py:621
+#: core/views.py:637
 msgid "You have been signed up."
 msgstr "你已经签订了协议。"
 
 #: message/apps.py:7 message/models.py:22
 msgid "message"
 msgstr "信息"
+
+#: message/forms.py:10
+msgid "Enter a User Name"
+msgstr "用户名"
 
 #: message/models.py:8
 msgid "body"
@@ -347,12 +388,20 @@ msgstr "请帮助我们保持与尽可能准确的信息图书索引。谢谢。
 msgid "Title"
 msgstr "标题"
 
+#: templates/account/material_edit.html:21
+msgid "Add Author"
+msgstr "添加作者"
+
 #: templates/account/material_edit.html:24
 msgid "Publisher:"
 msgstr "出版商："
 
+#: templates/account/material_edit.html:27
+msgid "Add Publisher"
+msgstr "添加发布"
+
 #: templates/account/material_edit.html:30
-#: templates/timeline/timelineitem_list.html:4
+#: templates/timeline/timelineitem_list.html:8
 msgid "Category"
 msgstr "类别"
 
@@ -365,8 +414,8 @@ msgid "Publisher Price"
 msgstr "发行价格"
 
 #: templates/account/material_edit.html:34
-#: templates/timeline/link_form.html:41 templates/timeline/text_form.html:44
-#: templates/timeline/timelineitem_list.html:4
+#: templates/timeline/link_form.html:41 templates/timeline/text_form.html:47
+#: templates/timeline/timelineitem_list.html:8
 #: templates/userena/profile_form.html:52
 #: templates/userena/signup_form.html:37
 msgid "Language"
@@ -387,10 +436,6 @@ msgstr "ISBN-13"
 #: templates/account/material_edit.html:38
 msgid "Publisher Book ID"
 msgstr "出版商图书ID"
-
-#: templates/account/material_edit.html:39
-msgid "Description"
-msgstr "描述"
 
 #: templates/account/material_edit.html:40
 msgid "Web Version"
@@ -633,25 +678,16 @@ msgstr "登出"
 msgid "from"
 msgstr "从"
 
-#: templates/account/user_profile.html:10
-#: templates/userena/profile_detail.html:43 timeline/const.py:14
-msgid "Website"
-msgstr "网站"
-
-#: templates/account/user_profile.html:13
-msgid "Facebook"
-msgstr "Facebook的"
-
-#: templates/base.html:78
+#: templates/base.html:79
 msgid "Report Bug to support@buddhistexchange.com"
 msgstr "报告错误到support@buddhistexchange.com"
 
-#: templates/base.html:78 templates/userena/signup_form.html:42
+#: templates/base.html:79 templates/userena/signup_form.html:42
 #: templates/userena/signup_reader_form.html:64
 msgid "Term of Service"
 msgstr "服务期限"
 
-#: templates/base_header.html:11
+#: templates/base_header.html:11 templates/network/user_public_header.html:8
 msgid "Messages"
 msgstr "消息"
 
@@ -1104,9 +1140,7 @@ msgid "Language:"
 msgstr "语言："
 
 #: templates/index.html:75 templates/network/user_public.html:12
-#: templates/network/user_public.html:21 templates/subheader.html:6
-#: templates/subheader.html:22 timeline/views.py:62 timeline/views.py:68
-#: timeline/views.py:74
+#: templates/subheader.html:6 timeline/views.py:71 timeline/views.py:77
 msgid "All"
 msgstr "所有"
 
@@ -1159,7 +1193,7 @@ msgstr "而不是吸收佛教的书籍，并将它走在书架上，你可以提
 msgid "You can offer pickup at your temple, or even cover shipping cost."
 msgstr "你可以在你的圣殿提供皮卡，甚至包括运费。"
 
-#: templates/index.html:124
+#: templates/index.html:124 templates/timeline/timelineitem_list.html:6
 msgid ""
 "Thanks for signing up! Please check your email and follow the instruction to"
 " login."
@@ -1187,7 +1221,6 @@ msgid "Request Directly"
 msgstr "直接申请"
 
 #: templates/index.html:276
-#| msgid "Shipping:"
 msgid "Shipping"
 msgstr "运输"
 
@@ -1208,8 +1241,8 @@ msgstr "没有"
 msgid "From"
 msgstr "从"
 
-#: templates/index.html:306 templates/timeline/timelineitem_list.html:55
-#: templates/timeline/timelineitem_list.html:67
+#: templates/index.html:306 templates/timeline/timelineitem_list.html:64
+#: templates/timeline/timelineitem_list.html:76
 msgid "Comments"
 msgstr "注释"
 
@@ -1218,7 +1251,6 @@ msgid "Description:"
 msgstr "描述："
 
 #: templates/index.html:442
-#| msgid "Free Internationally"
 msgid "Free Shipping Internationally"
 msgstr "免费送货国际"
 
@@ -1249,7 +1281,6 @@ msgid "Based in Taiwan. Free books in Chinese."
 msgstr "总部设在台湾。免费书籍在中国。"
 
 #: templates/index.html:451
-#| msgid "Free Book"
 msgid "Free Books in USA"
 msgstr "免费书籍在美国"
 
@@ -1289,7 +1320,6 @@ msgid "Based in Massachusetts. Free books in English, pay shipping cost only."
 msgstr "基于在马萨诸塞州。免费本英文书，只需支付运费。"
 
 #: templates/index.html:463
-#| msgid "Free Books by Mail"
 msgid "Free Books in Malaysia"
 msgstr "免费书籍在马来西亚"
 
@@ -1334,7 +1364,25 @@ msgstr "你的名字："
 msgid "Log out"
 msgstr "登出"
 
-#: templates/message/message_form.html:39
+#: templates/message/message_form.html:22
+#: templates/message/messaging_users.html:3
+msgid "Compose a Message"
+msgstr "写信息"
+
+#: templates/message/message_form.html:23
+#: templates/message/messaging_users.html:4
+msgid "History:"
+msgstr "历史"
+
+#: templates/message/message_form.html:41
+msgid "To another User"
+msgstr "至其他用户"
+
+#: templates/message/message_form.html:45
+msgid "Message"
+msgstr "消息"
+
+#: templates/message/message_form.html:47
 #: templates/message/message_list_detail.html:32
 #: templates/message/user_board_message.html:31
 msgid " Submit "
@@ -1357,43 +1405,38 @@ msgstr "在发布"
 msgid "message board"
 msgstr "留言板"
 
-#: templates/network/user_public.html:45
+#: templates/network/user_public.html:44
 msgid "Member since"
 msgstr "会员自"
 
-#: templates/network/user_public.html:46
+#: templates/network/user_public.html:45
 msgid "Posts"
 msgstr "帖子"
 
-#: templates/network/user_public.html:47
+#: templates/network/user_public.html:46
 msgid "Following"
 msgstr "以下"
 
-#: templates/network/user_public.html:48
+#: templates/network/user_public.html:47
 msgid "Followers"
 msgstr "关注"
 
-#: templates/network/user_public.html:55 templates/network/user_public.html:73
+#: templates/network/user_public.html:54 templates/network/user_public.html:72
 msgid "Send a Note"
 msgstr "发纸条"
 
-#: templates/network/user_public.html:62
+#: templates/network/user_public.html:61
 msgid "Unfollow"
 msgstr "取消关注"
 
-#: templates/network/user_public.html:68 templates/network/user_public.html:76
+#: templates/network/user_public.html:67 templates/network/user_public.html:75
 msgid "Follow"
 msgstr "跟随"
 
 #: templates/network/user_public_header.html:7
 #, python-format
-#| msgid "'s Dharma Page"
 msgid "%(username)s's Dharma Page"
-msgstr "__username __的法门页"
-
-#: templates/network/user_public_header.html:8
-msgid "Message Board"
-msgstr "留言板"
+msgstr "%(username)s的法门页"
 
 #: templates/pay_giver.html:6 templates/pay_giver.html:18
 #: templates/pay_giver.html:43
@@ -1444,6 +1487,10 @@ msgid ""
 "pay as soon as you can so that the giver will ship it."
 msgstr "您的订单已成功处理。如果需要付款，请尽快支付，你可以让送礼者会出货。"
 
+#: templates/show_order.html:30
+msgid "Contact Giver"
+msgstr "联系"
+
 #: templates/show_order.html:45
 msgid "Quantity:"
 msgstr "数量："
@@ -1492,11 +1539,11 @@ msgstr "确认订单"
 msgid "Pay Now"
 msgstr "现在付款"
 
-#: templates/subheader.html:17 timeline/views.py:114
+#: templates/subheader.html:17 timeline/views.py:115
 msgid "Everyone"
 msgstr "大家"
 
-#: templates/subheader.html:18 timeline/views.py:112
+#: templates/subheader.html:18 timeline/views.py:113
 msgid "People I Follow"
 msgstr "人们按照我"
 
@@ -1524,25 +1571,25 @@ msgstr "标题链接"
 msgid "Text(Optional)"
 msgstr "文本（可选）"
 
-#: templates/timeline/link_form.html:46 templates/timeline/text_form.html:48
+#: templates/timeline/link_form.html:46 templates/timeline/text_form.html:51
 msgid "Extended"
 msgstr "扩展"
 
-#: templates/timeline/link_form.html:46 templates/timeline/text_form.html:48
+#: templates/timeline/link_form.html:46 templates/timeline/text_form.html:51
 msgid ""
 "Add additional information to give your content more exposure. All Optional."
 msgstr "添加更多的信息，让您的内容更多的曝光。所有可选。"
 
-#: templates/timeline/link_form.html:48 templates/timeline/text_form.html:41
+#: templates/timeline/link_form.html:48 templates/timeline/text_form.html:44
 #: timeline/const.py:23
 msgid "Teacher"
 msgstr "老师"
 
-#: templates/timeline/link_form.html:52 templates/timeline/text_form.html:50
+#: templates/timeline/link_form.html:52 templates/timeline/text_form.html:53
 msgid "Topics"
 msgstr "主题"
 
-#: templates/timeline/link_form.html:55 templates/timeline/text_form.html:37
+#: templates/timeline/link_form.html:55 templates/timeline/text_form.html:40
 msgid "Is Original"
 msgstr "是原创"
 
@@ -1550,8 +1597,8 @@ msgstr "是原创"
 msgid "The main content of this post is my own writing or artistic creation."
 msgstr "这篇文章的主要内容是我自己写的或艺术的创作。"
 
-#: templates/timeline/link_form.html:60 templates/timeline/text_form.html:60
-#: templates/timeline/timelineitem_detail.html:76
+#: templates/timeline/link_form.html:60 templates/timeline/text_form.html:63
+#: templates/timeline/timelineitem_detail.html:85
 msgid "Submit"
 msgstr "提交"
 
@@ -1563,19 +1610,19 @@ msgstr "邮政是"
 msgid "Title or Quote"
 msgstr "标题或报价"
 
-#: templates/timeline/text_form.html:34
+#: templates/timeline/text_form.html:37
 msgid "Expanded Text"
 msgstr "扩展后的文字"
 
-#: templates/timeline/text_form.html:52
+#: templates/timeline/text_form.html:55
 msgid "Upload a Picture/HTML/PDF"
 msgstr "上传图片/ HTML / PDF"
 
-#: templates/timeline/timelineitem_detail.html:57
+#: templates/timeline/timelineitem_detail.html:66
 msgid "All comments"
 msgstr "所有评论"
 
-#: templates/timeline/timelineitem_detail.html:60
+#: templates/timeline/timelineitem_detail.html:69
 #, python-format
 msgid ""
 "\n"
@@ -1585,50 +1632,48 @@ msgstr ""
 "\n"
 "            %(username)s</A>上  %(comment_date)s  ：点击%(comment)s结果"
 
-#: templates/timeline/timelineitem_detail.html:72
+#: templates/timeline/timelineitem_detail.html:81
 msgid "Comment"
 msgstr "评论"
 
-#: templates/timeline/timelineitem_list.html:4
-#| msgid "Topics"
+#: templates/timeline/timelineitem_list.html:8
 msgid "Topic"
 msgstr "话题"
 
-#: templates/timeline/timelineitem_list.html:4
-#| msgid "Post is"
+#: templates/timeline/timelineitem_list.html:8
 msgid "Posted By"
 msgstr "发布者"
 
-#: templates/timeline/timelineitem_list.html:37
+#: templates/timeline/timelineitem_list.html:41
 msgid "more"
 msgstr "更多"
 
-#: templates/timeline/timelineitem_list.html:49
-#: templates/timeline/timelineitem_list.html:51
+#: templates/timeline/timelineitem_list.html:58
+#: templates/timeline/timelineitem_list.html:60
 msgid "Edit"
 msgstr "编辑"
 
-#: templates/timeline/timelineitem_list.html:57
-#: templates/timeline/timelineitem_list.html:68
+#: templates/timeline/timelineitem_list.html:66
+#: templates/timeline/timelineitem_list.html:77
 msgid "Reblog"
 msgstr "一个reblog"
 
-#: templates/timeline/timelineitem_list.html:59
-#: templates/timeline/timelineitem_list.html:62
+#: templates/timeline/timelineitem_list.html:68
+#: templates/timeline/timelineitem_list.html:71
 msgid "UnLike"
 msgstr "不像"
 
-#: templates/timeline/timelineitem_list.html:60
-#: templates/timeline/timelineitem_list.html:63
 #: templates/timeline/timelineitem_list.html:69
+#: templates/timeline/timelineitem_list.html:72
+#: templates/timeline/timelineitem_list.html:78
 msgid "Like"
 msgstr "喜欢"
 
-#: templates/timeline/timelineitem_list.html:80
+#: templates/timeline/timelineitem_list.html:89
 msgid "Prev"
 msgstr "上一页"
 
-#: templates/timeline/timelineitem_list.html:83
+#: templates/timeline/timelineitem_list.html:92
 msgid "Next"
 msgstr "下一个"
 
@@ -1665,9 +1710,8 @@ msgstr "发送密码"
 
 #: templates/userena/profile_detail.html:5
 #, python-format
-#| msgid "'s profile."
 msgid "%(username)s's profile."
-msgstr "__username __的资料。"
+msgstr "%(username)s_的资料。"
 
 #: templates/userena/profile_detail.html:16
 #: templates/userena/profile_form.html:28
@@ -1681,10 +1725,6 @@ msgstr "编辑详情]"
 #: templates/userena/profile_detail.html:27
 msgid "Your mugshot"
 msgstr "你的面部照片"
-
-#: templates/userena/profile_detail.html:31
-msgid "Name"
-msgstr "名称"
 
 #: templates/userena/profile_detail.html:35
 #: templates/userena/signup_form.html:31
@@ -1916,25 +1956,32 @@ msgstr "主"
 msgid "Duplicate topic name"
 msgstr "重复的主题名称"
 
-#: timeline/forms.py:123
+#: timeline/forms.py:125
 msgid "Unsupported file type"
 msgstr "不支持的文件类型"
 
-#: timeline/forms.py:130
+#: timeline/forms.py:132
 msgid "File Name is longer than 50 letters"
 msgstr "文件名长度超过50个字母"
 
-#: timeline/forms.py:160 timeline/forms.py:174
+#: timeline/forms.py:139
+msgid "Length cannot be more than 500 characters"
+msgstr "长度不可超过500个字"
+
+#: timeline/forms.py:169 timeline/forms.py:183
 msgid "Invalid url"
 msgstr "无效的网址"
 
-#: timeline/models.py:98 timeline/models.py:177
+#: timeline/models.py:102 timeline/models.py:183
 msgid "Created Date Time"
 msgstr "创建日期时间"
 
-#: timeline/models.py:99 timeline/models.py:178
+#: timeline/models.py:103 timeline/models.py:184
 msgid "Modified Date Time"
 msgstr "修改日期时间"
+
+#~ msgid "Message Board"
+#~ msgstr "留言板"
 
 #~ msgid ""
 #~ "\n"
