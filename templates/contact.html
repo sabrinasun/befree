@@ -15,7 +15,7 @@ label {
 <body>
     <h2 style="margin-left:15px;margin-top:10px;">{% trans "Contact" %} {{user.profile.get_display_name}}:</h2>
     <div style="padding-right:20px;">
-    <form method="POST" action="/contact_user/" name="addForm" >
+    <form method="POST" action="{% url 'contact_user' %}" name="addForm" >
         {% csrf_token %}
         <table>
         {{ form.as_p }}
