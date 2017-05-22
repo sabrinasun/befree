@@ -27,7 +27,7 @@
 
     <div style="display:inline;float:right;">
        <a href="javascript:void(0)" class="add-another"
-          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=450,height=280, left=200, top=60');">Contact Giver {{ order.giver.profile.get_display_name }}</a>
+          onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.giver.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=450,height=280, left=200, top=60');">{% trans 'Contact Giver' %} {{ order.giver.profile.get_display_name }}</a>
    	</div>
     {% if order.order_details|length > details.inventory.giver.%}
     {% endif %}
