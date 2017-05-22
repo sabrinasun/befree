@@ -1,10 +1,10 @@
 {% load staticfiles %}
 {% load i18n %}
+<div class="msg">{% trans "Thanks for signing up! Please check your email and follow the instruction to login." %}<br><br></div>
+{% if msg == "signup_success" %}
 
+{% endif %}
 <div class="content-center network">
-    {% if msg == "signup_success" %}
-    <div class="msg">{% trans "Thanks for signing up! Please check your email and follow the instruction to login." %}<br><br></div>
-    {% endif %}
     <span style="font-size:12px;">  {% trans "Category" %}:{{ search_category }}, {% trans "Topic" %}: {{ search_topic }},  {% trans "Posted By" %}: {{ search_usertype }}, {% trans "Language" %}: {{ search_language.name }} </span>
 	{% for timelineitem in object_list %}
 	<div>
