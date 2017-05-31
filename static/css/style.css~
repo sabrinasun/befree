@@ -155,7 +155,7 @@ div {
 
 .small-menu .cart-menu {
   display: inline-block;
-  /*background-color:white;*/
+  background-color:white;
 }
 
 .small-menu .cart-menu:hover {
