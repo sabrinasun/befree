@@ -2,7 +2,7 @@
 {% load i18n umessages_tags %}
 
 <div class=" ">
-	<nav class="navbar navbar-default" style="width:100%;">
+	<nav class="navbar navbar-default top-header-nav" style="width:100%;">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,13 +19,13 @@
 			<div id="navbar" class="navbar-collapse collapse  small-menu"> 
 		    			<ul class="nav navbar-nav">
  {% if user.is_authenticated %}
-						<li class="active"><a href="{% url 'user_public' user.pk %}">{{ user.profile.get_display_name }}</a> 
+						<li class="active"><a style="display:inline-block"  href="{% url 'user_public' user.pk %}">{{ user.profile.get_display_name }}</a> 
 				    {% get_unread_message_count_for user as unread_message_count %}
-				    <a href="{% url 'userena_umessages_compose' %}">{% trans "Messages" %}  {% if unread_message_count > 0 %}({{ unread_message_count }}) {% endif %}
+				    <a style="display:inline-block"  href="{% url 'userena_umessages_compose' %}">{% trans "Messages" %}  {% if unread_message_count > 0 %}({{ unread_message_count }}) {% endif %}
 				    </a></li>
 						{% endif %}
 						<li><a href="{% url 'home' %}">{% trans "Home" %}<span class="menu-bar">|</span></a></li>
-						<li><a href="{% url 'index' %}">{% trans "Free Books" %} <span class="menu-bar">|</span> </a>   {% if user.is_authenticated %}<a href="{% url 'account_summary' %}?postlogin=">{% trans "My Account" %}<span class="menu-bar">|</span> </a>  {% endif %}</li>
+						<li><a  style="display:inline-block"  href="{% url 'index' %}">{% trans "Free Books" %} <span class="menu-bar">|</span> </a>   {% if user.is_authenticated %}<a   style="display:inline-block"  href="{% url 'account_summary' %}?postlogin=">{% trans "My Account" %}<span class="menu-bar">|</span> </a>  {% endif %}</li>
 						<li> 
 							<div class="cart-menu" style=" " onclick="document.location='{% url 'view_bag' %}'; ">
 								<div class="cart">

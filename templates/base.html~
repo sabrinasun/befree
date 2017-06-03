@@ -28,6 +28,13 @@
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
 	<style>
+		.top-header-nav, .small-menu ul .active,.top-header-nav, .small-menu  .active a{
+			background-color:#e7e7e7;
+			color:#003399 !important;
+		}
+		#item_language {	
+			color:black;
+		}
 		.cart-menu{
 			    margin-top: 13px; 
 		}
@@ -54,16 +61,83 @@
 		.navbar { 
 			margin-bottom: 0px; 
 		}
+		.subheader-navbar {
+			background-color: #EDEBD6;
+			border-bottom: solid 1px #c2b999;
+			color: #003399;
+		}
+
+
+
+		.subheader-sub-navbar li a ,.sub-header-button .navbar-brand ,.subheader-sub-navbar a:link, .subheader-sub-navbar a:visited, .subheader-sub-navbar a {
+		    color: #996633 !important;
+		} 
+		.subheader-sub-navbar li a { 
+		        text-decoration: underline;
+		}
+		.navbar-sidemenu{
+
+		}
+
+		.navbar-sidemenu a:link,.navbar-sidemenu a:visited,.navbar-sidemenu a {
+			color: #996633;
+			font-family: arial, verdana, helvetica, sans-serif;
+			font-size: 12px; 
+			font-weight: normal;
+		}
+		.side-header-nav span{
+		background-color: gray;
+		}
+		/*================ big screen ==================== */
 		@media all and (min-width : 767px) {
-			.navbar-nav > li > a { 
+			.content-right {
+			    float: right;
+			    width: 200px; 
+			}
+			.content-left {
+			    float: left;
+			    width: 200px;
+			    padding-left: 18px;
+			    padding-right: 8px;
+			    line-height: 30px;
+			    margin-left: -40px;
+			}
+			.sub-header-button, .side-header-nav{
+				display:none;
+			}
+			. top-header-nav > li > a { 
 				margin-left: -23px;
 			}
 
-			nav {
+			#navbar {
 				margin-right: -30px;
 			}
+			.network.content-center {
+				border-radius: 20px;
+				border: solid #DAD1B2 3px;
+				font-size: 14px;
+				padding: 40px;
+				background: white;
+				margin-bottom: 20px;
+				margin-left: 40px;
+				width: 93%;
+			}
 		}
+		/* ================= small screen = ==================*/
 		@media all and (max-width : 767px) {
+			.content-right {
+			    float: right;
+			    width: 100%; 
+			}
+			.network.content-center {
+				border-radius: 20px;
+				border: solid #DAD1B2 3px;
+				font-size: 14px;
+				padding: 40px;
+				background: white;
+				margin-bottom: 20px; 
+				width: 100%;
+			}
 			.small-menu  {
 				width:100%;
 			}
@@ -75,7 +149,19 @@
 			.menu-bar{
 				display:none;
 			}
+			.subheader-sub-navbar a {
+				padding-left:25px !important;
+			}
+
+			.keywords-list{
+				display:grid;
+			}
+
+			.keywords-list br {
+				display:none;
+			}
 		}
+
 
 	</style>
 <head>
@@ -86,11 +172,9 @@
 {% block header %}
 	{% include 'base_header.html' %}
 {% endblock %}
- 
-<div class="sub-header">
+  
 {% block subheader %}
-{% endblock subheader %}
-</div>
+{% endblock subheader %} 
 
 <div class="content">
 
