@@ -35,7 +35,16 @@
 					 Tags
 				</div>
 			</div>
-			<div id="SideSubNavbar" class="navbar-collapse collapse  small-menu" style="width:100%;">  
+			<div id="SideSubNavbar" class="navbar-collapse collapse  small-menu" style="width:100%;"> 
+
+
+
+
+
+
+
+
+
 				<div class="content-left keywords-list">
 					<a href="{% url 'item_list' category_slug  "all" %}?usertype={{request.GET.usertype }}"
 					{% if topic_slug == 'all' %} class="selected-link"{% endif %}>{% trans "All Topics" %}</a><br>

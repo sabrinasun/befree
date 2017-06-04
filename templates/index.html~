@@ -30,7 +30,7 @@
 
 /*================ small screen ==================== */
 		@media all and (max-width : 767px) {
-			.sub-sub-header-button, .sub-sub-header-button .icon-bar{
+			.sub-sub-header-button{
 				border:solid 1px gray;
 			}
 			.picture-monk{

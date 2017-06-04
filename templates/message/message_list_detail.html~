@@ -4,9 +4,18 @@
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
 {% endblock %}
-
 {% block subheader %}
-   {% include "subheader.html"%}
+<div style="float:left;"><span style="color:#996633;font-size:14px;text-align:right;">
+<div>
+    <a href="{% url 'home' %}">All</a> &nbsp;
+    {% for item_catergory in categories %}
+    <a href="{% url 'item_list' item_catergory.slug "all" %}" title="Posts: 0"  >{{item_catergory.name}}</a> &nbsp;
+    {% endfor %}
+</div>
+ </span>
+</div>
+
+<div class="clear-both"></div>
 {% endblock subheader %}
 {% block main %}
 <div class="content-left keywords-list">

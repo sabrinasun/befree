@@ -72,10 +72,10 @@ div {
 	display: table-cell;
 	float:left;
 	clear:none;
-	width:27%;
+	/*width:27%;*/
 	height:120px;
-	margin-right:1%;
-	margin-left:1%;
+	/*margin-right:1%;*/
+	/*margin-left:1%;*/
 	color:#595f23;
 	font-size:1em;
     background: #f2f2da; /* Old browsers */
@@ -223,16 +223,17 @@ div {
 
 .contentwrapper{
 	float: left;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 .content-outer-column{
-	margin-right: 220px;
-	height: 110px;
+	/*margin-right: 220px;
+	height: 110px;*/
+	padding-bottom:25px;
 }
 
 .content-inner-column {
-	margin-left: 300px; /*Set left margin to LeftColumnWidth*/
+	/*margin-left: 300px; Set left margin to LeftColumnWidth*/
 }
 
 .leftcolumn{
@@ -244,7 +245,7 @@ div {
 
 .rightcolumn{
 	float: left;
-	width: 200px; /*Width of left column*/
+	/*width: 200px; Width of left column*/
 
 
 }

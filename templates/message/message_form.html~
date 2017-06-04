@@ -4,7 +4,6 @@
 {% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
 <style>
-
 	.keywords-list{
 		color:black;
 		font-size: 12px;
@@ -27,13 +26,6 @@
 	.new-msg-form form input[type="text"] {
 	    width: 100%;
 	    border: 1px solid #c2b999;
-	}
-	@media all and (min-width : 767px) {
-			.box{
-				
-			    width: 200px;
-			    margin-left: 24px;
-			}
 	}
 	@media all and (max-width : 767px) {
 		.new-msg-form label {
