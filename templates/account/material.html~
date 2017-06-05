@@ -8,7 +8,6 @@ you can then register your inventory for that book. <br>
 Thanks for giving your book to others.{% endblocktrans %}
 
 <div class="button"><a href="{% url 'account_material_new' %}">{% trans "Add Book" %}</a></div>
-<div style="overflow:auto;width:100%;">
 <table width="100%" cellspacing="1px" cellpadding="6px">
     <tr>
         <th>{% trans "Material" %}</th>
@@ -46,5 +45,4 @@ Thanks for giving your book to others.{% endblocktrans %}
     </tr>
     {% endfor %}
 </table>
-</div>
 {% endblock %}

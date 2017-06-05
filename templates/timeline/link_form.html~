@@ -49,8 +49,7 @@
             </div>
 
             <div class="col-lg-6" style="float:left;">
-                 <div class="form-group">
-                <label><b>{% trans "Extended" %}:</b></label>{% trans "Add additional information to give your content more exposure. All Optional." %} </div>
+                <label><b>{% trans "Extended" %}:</b></label>{% trans "Add additional information to give your content more exposure. All Optional." %}<br><br>
                  <div class="form-group">
                     <label>{% trans "Teacher" %}:</label>{{ form.teacher_name }}{{ form.teacher_name.errors }}
                     </select>

@@ -3,13 +3,6 @@
 {% load readmore el_pagination_tags staticfiles %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_app.css' %}" />
-
-	<style>
-		.content-center {
-		    float: left;
-		    width: 100%; 
-		}
-	</style>
 {% endblock %}
 
 {% block subheader %}
