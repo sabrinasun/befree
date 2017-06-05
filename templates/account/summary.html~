@@ -24,7 +24,7 @@
 		background-color: #336699;
 	}
  	.title, .col-lg-9{
-			    margin-top: 10px;
+			    margin-top: 15px;
 		}
 /*================ big screen ==================== */
 	@media all and (min-width : 767px) { 

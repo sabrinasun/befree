@@ -4,7 +4,7 @@
 <h2>{% trans "Books I am Receiving" %}</h2>
 <style>
 	.border-grid
-	{ 
+	{1px solid #E5E5E5
 		border: 0.2px solid #E5E5E5;
 		padding-top:5px;
 	}

@@ -26,8 +26,8 @@
 	    {% endif %}
 	    </div>
 	    <div class="row">
-		<div class="col-lg-6 ">{% trans "Ship To" %}: {{order.order.reader.profile.get_shipping_address}}</div>
-		<div class="col-lg-6 ">
+		<div class="col-lg-6 border-grid">{% trans "Ship To" %}: {{order.order.reader.profile.get_shipping_address}}</div>
+		<div class="col-lg-6 border-grid">
 		<a href="javascript:void(0)" class="add-another"
 		onclick="javascript: window.open('{% url 'contact_user' %}?user_id={{order.order.reader.id}}',  'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=280, left=200, top=60');">Contact Reader {{ order.order.reader.profile.get_display_name }}</a>
 		</div>
