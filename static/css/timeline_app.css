@@ -318,8 +318,7 @@ div {
 }
 
 .content-center {
-  float: left;
-  width: calc(100% - 240px);
+  float: left; 
 }
 
 .network.content-center {
@@ -328,8 +327,7 @@ div {
   font-size: 14px;
   padding: 40px;
   background: white;
-  margin-bottom: 20px;
-  width: calc(100% - 450px);
+  margin-bottom: 20px; 
 }
 
 .network .page-body {
@@ -371,16 +369,14 @@ div {
 }
 
 .content-left {
-  float: left;
-  width: 200px;
+  float: left; 
   padding-left:18px;
   padding-right: 8px;
   line-height: 30px;
 }
 
 .content-right {
-  float: right;
-  width: 200px;
+  float: right; 
 }
 
 .content-book-img-column {
