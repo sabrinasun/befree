@@ -72,13 +72,13 @@
 	{% include "login_logout_box.html"%}
 	</div>
 	<div class="row">
-		<div class="button col-lg-6" id="btn-add-post" style="width:200px;text-align:center;" onClick="window.location = '{% url 'link_form'  %}'">
+		<div class="button col-lg-6  login-logout-box" id="btn-add-post" style=" ;text-align:center;margin-bottom:10px;" onClick="window.location = '{% url 'link_form'  %}'">
 		<span style="font-size:20px;text-shadow: 0px 1px 1px #4d4d4d;">{% trans "Share Dharma Link" %}</span><br>
 		<span style="text-decoration:italic">{% trans "Article, Books, Vedio teaching, mp3, Website ..." %}</a>
 
 		</div>
 
-		<div class="button col-lg-6" id="btn-add-post" style="width:200px;text-align:center;" onClick="window.location = '{% url 'text_form'  %}'">
+		<div class="button col-lg-6  login-logout-box" id="btn-add-post" style=" ;text-align:center;margin-bottom:10px;" onClick="window.location = '{% url 'text_form'  %}'">
 		<span style="font-size:20px;text-shadow: 0px 1px 1px #4d4d4d;">{% trans "Share Dharma Text" %}</span><br>
 		<span style="text-decoration:italic"> {% trans "Quote, Transcript, Thought, Blog, Picture ..." %} </a>
 		</div>

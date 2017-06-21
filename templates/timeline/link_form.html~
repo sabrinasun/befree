@@ -25,7 +25,7 @@
             <form class="row"  action="{% url 'link_form'  %}" method="post" id="new-post-form" stye="width: 900px;">
         {% endif %}
 	        {% csrf_token %}
-            <div class="col-lg-6" style="float:left;border-right:1px dashed black;">
+            <div class="col-lg-6" style="float:left;border-right:1px dashed black; padding-bottom:10px;">
                   <div class="form-group">
                     <label><b>{% trans "Basics" %}:</b></label>{% trans "Share Dharma teachings, resources and your own expeirences." %}<br><br>
                     <label>{% trans "Link Points to" %} : </label>
@@ -48,8 +48,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-6" style="float:left;">
-                <label><b>{% trans "Extended" %}:</b></label>{% trans "Add additional information to give your content more exposure. All Optional." %}<br><br>
+            <div class="col-lg-6" style="float:left;padding-bottom:10px;">
+                 <div class="form-group">
+                <label><b>{% trans "Extended" %}:</b></label>{% trans "Add additional information to give your content more exposure. All Optional." %} </div>
                  <div class="form-group">
                     <label>{% trans "Teacher" %}:</label>{{ form.teacher_name }}{{ form.teacher_name.errors }}
                     </select>

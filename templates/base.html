@@ -30,6 +30,10 @@
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
 	<style>
+		.login-logout-box{
+			width:250px;
+			float:right;
+		}
 		.top-header-nav, .small-menu ul .active,.top-header-nav, .small-menu  .active a{
 			background-color:#e7e7e7;
 			color:#003399 !important;
@@ -93,7 +97,7 @@
 		}
 		/*================ big screen ==================== */
 		@media all and (min-width : 767px) {
-			 
+			
 			.content-right {
 			    float: right; 
 			}
@@ -121,11 +125,15 @@
 				padding: 40px;
 				background: white;
 				margin-bottom: 20px;
+				width:100%;
 				 
 			}
 		}
 		/* ================= small screen = ==================*/
 		@media all and (max-width : 767px) {
+			 .login-logout-box{
+				width:100%;
+			}
 			.content-right {
 				float: right;
 				width: 100%;  

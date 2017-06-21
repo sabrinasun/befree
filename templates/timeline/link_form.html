@@ -25,7 +25,7 @@
             <form class="row"  action="{% url 'link_form'  %}" method="post" id="new-post-form" stye="width: 900px;">
         {% endif %}
 	        {% csrf_token %}
-            <div class="col-lg-6" style="float:left;border-right:1px dashed black;">
+            <div class="col-lg-6" style="float:left;border-right:1px dashed black; ">
                   <div class="form-group">
                     <label><b>{% trans "Basics" %}:</b></label>{% trans "Share Dharma teachings, resources and your own expeirences." %}<br><br>
                     <label>{% trans "Link Points to" %} : </label>
