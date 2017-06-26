@@ -131,6 +131,9 @@
 		}
 		/* ================= small screen = ==================*/
 		@media all and (max-width : 767px) {
+			 .login-logout-box{
+				width:100%;
+			}
 			.content-right {
 				float: right;
 				width: 100%;  

@@ -318,8 +318,7 @@ div {
 }
 
 .content-center {
-  float: left;
-  width: calc(100% - 240px);
+  float: left; 
 }
 
 .network.content-center {
