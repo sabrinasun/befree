@@ -11,7 +11,18 @@
 		    width: 200px;
 		    margin-left: 0px !important; 
 		}
+
+		.content-right {
+		    float: initial !important;
+		}
+
+		.box {
+    width: 200px;
+    margin-left: 0px !important;
+}
 	}
+
+
 </style>
 {% endblock %}
 
@@ -35,16 +46,7 @@
 					 Tags
 				</div>
 			</div>
-			<div id="SideSubNavbar" class="navbar-collapse collapse  small-menu" style="width:100%;"> 
-
-
-
-
-
-
-
-
-
+			<div id="SideSubNavbar" class="navbar-collapse collapse  small-menu" style="width:100%;">  
 				<div class="content-left keywords-list">
 					<a href="{% url 'item_list' category_slug  "all" %}?usertype={{request.GET.usertype }}"
 					{% if topic_slug == 'all' %} class="selected-link"{% endif %}>{% trans "All Topics" %}</a><br>
@@ -58,13 +60,13 @@
 		</div>
 	</nav>
 </div>
-<div class="col-lg-10">
+<div class="col-lg-9">
     {% include 'timeline/timelineitem_list.html' %}
 </div>
 {% endblock main %}
 {% block right %}
 
-<div class="col-lg-1">
+<div class="col-lg-2">
 <div class="content-right">
     <div class="box">
         <div class="header">{{ view_user.profile.get_display_name }}</div>

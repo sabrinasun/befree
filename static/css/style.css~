@@ -229,7 +229,7 @@ div {
 .content-outer-column{
 	/*margin-right: 220px;
 	height: 110px;*/
-	padding-bottom:10px;
+	padding-bottom:25px;
 }
 
 .content-inner-column {

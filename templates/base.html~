@@ -31,7 +31,7 @@
 	<meta http-equiv="Expires" content="0" />
 	<style>
 		.login-logout-box{
-			width:250px;
+			width:100%;
 			float:right;
 		}
 		.top-header-nav, .small-menu ul .active,.top-header-nav, .small-menu  .active a{
@@ -129,8 +129,21 @@
 				 
 			}
 		}
+			.link-label
+			{
+				text-align: left !important; */
+			}
+
+			
 		/* ================= small screen = ==================*/
 		@media all and (max-width : 767px) {
+			.network .page-icon {
+			position: inherit;
+			bottom: 3px;
+			right: 0px;
+			font-size: 12px;
+			}
+			
 			 .login-logout-box{
 				width:100%;
 			}

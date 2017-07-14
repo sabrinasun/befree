@@ -24,7 +24,8 @@ class PostBaseForm(forms.ModelForm):
     language = forms.ModelChoiceField(queryset=None, empty_label=None)
     teacher_name = forms.CharField(max_length=200, required=False, widget=forms.TextInput(
         attrs={'placeholder': 'Enter the name of the teacher who gave the teaching'}))
-    topic_list = forms.CharField(max_length=12, required=False, widget=forms.TextInput())
+    topic_list = forms.CharField(max_length=12, required=False, widget=forms.TextInput(
+        attrs={'style': 'width:161px;'}))
 
     def __init__(self, *args, **kwargs):
         current_request = kwargs.pop('request')

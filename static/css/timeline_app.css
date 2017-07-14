@@ -47,8 +47,7 @@ tr:nth-child(odd) {
 }
 
 label {
-    display: inline-block;
-    width: 150px;
+    display: inline-block; 
     text-align: right;
     padding-right: 10px;
     vertical-align: top;
@@ -639,7 +638,7 @@ ul.errorlist li {
 }
 
 .new-post-form div {
-  padding:4px;
+   
 }
 
 .new-post-form form table tr:nth-child(odd) {

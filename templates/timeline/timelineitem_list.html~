@@ -8,7 +8,7 @@
 	{% for timelineitem in object_list %}
 	<div>
         <div class="page-body " style="text-align:left;">
-            <div class=" post-title ">
+            <div class="col-lg-12 post-title1">
                 <div style="float:right">
                 {% if timelineitem.is_original%} Original {% endif %} {{ timelineitem.item_category.name }} | {% if timelineitem.teacher %}  {{timelineitem.teacher.name}} | {% endif %}<a  href="{% url 'user_public' timelineitem.created_user.id %}">{{ timelineitem.created_user.username }}</a>
                 </div>
