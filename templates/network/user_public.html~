@@ -17,9 +17,9 @@
 		}
 
 		.box {
-    width: 200px;
-    margin-left: 0px !important;
-}
+		    width: 100% !important;
+		    margin-left: 0px !important;
+		}
 	}
 
 
@@ -30,7 +30,7 @@
    {% include "subheader.html"%}
 {% endblock subheader %}
 {% block main %}
-    <div class="col-lg-1">
+    <div class="col-lg-1"> 
 	<nav class="navbar navbar-sidemenu " style="width:100%;">
 		<div class="container-fluid">
 
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 			<div id="SideSubNavbar" class="navbar-collapse collapse  small-menu" style="width:100%;">  
-				<div class="content-left keywords-list">
+				<div class="content-left">
 					<a href="{% url 'item_list' category_slug  "all" %}?usertype={{request.GET.usertype }}"
 					{% if topic_slug == 'all' %} class="selected-link"{% endif %}>{% trans "All Topics" %}</a><br>
 
