@@ -4,3 +4,7 @@
 local_settings.py
 *.db
 email_files/*
+
+# office temp
+~$*
+*~
