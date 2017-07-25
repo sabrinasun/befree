@@ -2,9 +2,14 @@
 {% load i18n %}
 {#% load url %#}
 
-{% block title %}{% trans "Account setup" %}{% endblock %}
+{% block title %}{% trans "Account setup" %}
+<style>
+input[type='checkbox'] {width: 30px; height: 30px;}
+</style>
+{% endblock %}
 
 {% block content_title %}<h2>{% blocktrans with profile.userget_profile.get_display_name as username %}Account &raquo; {{ username }}{% endblocktrans %}</h2>{% endblock %}
+
 
 
 {% block account_right %}
@@ -19,7 +24,6 @@
 	</ul>
 </div-->
 {% endif %}
-
 
 
 
@@ -46,43 +50,43 @@
     <input type="hidden" name="validate_giver" value="{{validate_giver}}">
 
     <h3>{% trans "Section 1. Membership Information" %}:  </h3>
-    <div><label>{% trans "User Name" %}:</label>{{ form.username }}{{ form.username.errors }}  </div>
-    <div><label>{% trans "Country" %}:</label>{{ form.country }}{{ form.country.errors }}</div>
-    <div><label>{% trans "State" %}:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>
-    <div><label>{% trans "Language" %}:</label>{{ form.language }}{{ form.language.errors}} {{ form.language1 }}{{ form.language1.errors}} {{ form.language2 }}{{ form.language2.errors}} {{ form.language3}}{{ form.language3.errors}}</div>
+    <div class="form-group"><label>{% trans "User Name" %}:</label>{{ form.username }}{{ form.username.errors }}  </div>
+    <div class="form-group"><label>{% trans "Country" %}:</label>{{ form.country }}{{ form.country.errors }}</div>
+    <div class="form-group"><label>{% trans "State" %}:</label>{{ form.us_state }}{{form.state}}{{form.state.errors}}</div>
+    <div class="form-group"><label>{% trans "Language" %}:</label>{{ form.language }}{{ form.language.errors}} {{ form.language1 }}{{ form.language1.errors}} {{ form.language2 }}{{ form.language2.errors}} {{ form.language3}}{{ form.language3.errors}}</div>
 
 
     <!-- div><label>Show my public profile:</label>{{ form.is_public }}{{ form.is_public.errors }} * Complete public profile to let users know more about you.</div-->
 
-    <h3>{% trans "Section 2." %} <input type="checkbox" name="check_receiver" id="id_check_receiver" {% if validate_receiver or user.profile.has_reader_profile %} checked {% endif %}>
+    <h3 style="font-size: 13px;">{% trans "Section 2." %} <input type="checkbox" name="check_receiver" id="id_check_receiver" {% if validate_receiver or user.profile.has_reader_profile %} checked {% endif %}>
     {% trans "Receiver - Mailing Information" %}:</h3>
-    <div><label>{% trans "First Name" %}:</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
-    <div><label>{% trans "Last Name" %}:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>
-    <div><label>{% trans "Address 1" %}:</label>{{ form.address1 }}{{ form.address1.errors }}</div>
-    <div><label>{% trans "Address 2" %}:</label>{{ form.address2 }}{{ form.address2.errors }}</div>
-    <div><label>{% trans "City" %}:</label>{{ form.city }}{{ form.city.errors }}</div>
-    <div><label>{% trans "Zip Code" %}:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>
+    <div class="form-group"><label>{% trans "First Name" %}:</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
+    <div class="form-group"><label>{% trans "Last Name" %}:</label>{{ form.last_name }}{{ form.last_name.errors }}</div>
+    <div class="form-group"><label>{% trans "Address 1" %}:</label>{{ form.address1 }}{{ form.address1.errors }}</div>
+    <div class="form-group"><label>{% trans "Address 2" %}:</label>{{ form.address2 }}{{ form.address2.errors }}</div>
+    <div class="form-group"><label>{% trans "City" %}:</label>{{ form.city }}{{ form.city.errors }}</div>
+    <div class="form-group"><label>{% trans "Zip Code" %}:</label>{{ form.zipcode }}{{ form.zipcode.errors }}</div>
 
-    <h3>{% trans "Section 3" %}. <input type="checkbox" name="check_giver" id="id_check_giver" {% if validate_giver or user.profile.has_giver_profile %} checked {% endif %}>Giver - Distribution Information:</h3>
+    <h3>{% trans "Section 3" %}. </br> <input type="checkbox" name="check_giver" id="id_check_giver" {% if validate_giver or user.profile.has_giver_profile %} checked {% endif %}>Giver - Distribution Information:</h3></br>
 
-	<div><label>{% trans "Distribution Methods" %}:</label>{{ form.local_pickup }} {% trans "Local Pickup: Receiver picks up books from your location." %} <br>
+	<div class="form-group" style="font-size: 13px;"><label>{% trans "Distribution Methods" %}:</label></br><label> </label>{{ form.local_pickup }} {% trans "Local Pickup: Receiver picks up books from your location." %} <br>
 	<label> </label>{{ form.domestic_free_shipping }} Free Domestic Shipping: Sender covers domestic shipping expenses. <br>
 	<label> </label>{{ form.domestic_pay_shipping }} Receive Payment for Domestic Shipping: Receiver pays shipping expenses upfront.  <br>
 	<label> </label>{{ form.international_free_shipping }} Free International Shipping: Sender covers international shipping expenses.
 	<label></label>{{ form.free_domestic_shipping.errors }} {{ form.free_international_shipping.errors }}
 	</div>
-    <div><label>{% trans "How to Pickup Locally" %}:</label>{{ form.pickup_description }}{{ form.pickup_description.errors }}</div>
+    <div class="form-group"><label>{% trans "How to Pickup Locally" %}:</label>{{ form.pickup_description }}{{ form.pickup_description.errors }}</div>
 
-    <div><label>{% trans "Max Free Items Per shipment" %}:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }} *{% trans "Receiver is required to contact sender if ordering more than this number of free books." %}</div>
-    <div><label>{% trans "How to Donate/How is receipt returned" %}:</label>{{ form.donation }}{{ form.donation.errors }}</div>
+    <div class="form-group"><label>{% trans "Max Free Items Per shipment" %}:</label>{{ form.max_per_order }}{{ form.max_per_order.errors }} *{% trans "Receiver is required to contact sender if ordering more than this number of free books." %}</div>
+    <div class="form-group"><label>{% trans "How to Donate/How is receipt returned" %}:</label>{{ form.donation }}{{ form.donation.errors }}</div>
     <br>
-    <div><label></label>{% trans "Payment methods" %}:</div>
+    <div class="form-group"><label></label>{% trans "Payment methods" %}:</div>
 
-    <div><label>{% trans "Paypal Email" %}:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>
-    <div><label>{% trans "Online Payment Url" %}:</label>{{ form.pay_url }}{{ form.pay_url.errors }}</div>
-    <div><label>{% trans "Online Donation Url" %}:</label>{{ form.donate_url }}{{ form.donate_url.errors }}</div>
-    <div><label>{% trans "Other payment methods" %}:</label>{{ form.payment_description }}{{ form.payment_description.errors }}</div>
-    <div><label>{% trans "Use for Donation" %}:</label>{{ form.payinfo_for_donation }}{% trans "Use above payment methods for donation." %}</div>
+    <div class="form-group"><label>{% trans "Paypal Email" %}:</label>{{ form.paypal_email }}{{ form.paypal_email.errors }}</div>
+    <div class="form-group"><label>{% trans "Online Payment Url" %}:</label>{{ form.pay_url }}{{ form.pay_url.errors }}</div>
+    <div class="form-group"><label>{% trans "Online Donation Url" %}:</label>{{ form.donate_url }}{{ form.donate_url.errors }}</div>
+    <div class="form-group"><label>{% trans "Other payment methods" %}:</label>{{ form.payment_description }}{{ form.payment_description.errors }}</div>
+    <div class="form-group" style="font-size: 13px;"><label>{% trans "Use for Donation" %}:</label>{{ form.payinfo_for_donation }}{% trans "Use above payment methods for donation." %}</div>
 
     <!--  >Section 4. Public Profile - Information required for displaying your profile to public:</h3>
     <div><label>Entity Type:</label>{{ form.type }}{{ form.type.errors }}</div>
@@ -93,9 +97,16 @@
     <div><label>The Bodhi path of your organization or yourself:</label>{{ form.description }}{{ form.description.errors }}</div-->
 
 
-  <input type="submit" value="{% trans "Save changes" %}" />
+  <input type="submit" class="btn" value="{% trans "Save changes" %}" />
 </form>
 
+<script>
+$(document).ready(function(){ 
+	$("input[type=text], input[type=email],input[type=url],select,textarea  ").attr("class","form-control");
+	$("input[type=checkbox]").css("width","30px");
+	$("input[type=checkbox]").css("height","30px");
+});
+</script>
 <script language ="javascript">
 $(function() {
 	countryStateInit();
