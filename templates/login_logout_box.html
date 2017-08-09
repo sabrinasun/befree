@@ -1,15 +1,15 @@
 {% load i18n %}
-<div class="box login-logout-box" style="">
+<div class="box login-logout-box pull-right" style="">
         {% if not user.is_authenticated %}
     <div class="header">{% trans "Login" %}</div>
     <div class="box-content">
             <form method="post" action="{% url 'userena_signin' %}" id="login_form">
                 {% csrf_token %}
         <div class="row">
-            <label>{% trans "Email:" %} </label><input type="text" name="identification" > </input>
+            <label>{% trans "Email:" %} </label><input type="text" name="identification" class="menu_login"> </input>
         </div>
         <div class="row">
-            <label>{% trans "Password:" %}  </label><input type="password" name="password" value="" > </input>
+            <label>{% trans "Password:" %}  </label><input type="password" name="password" value="" class="menu_login" > </input>
         </div>
 
         <div class="row" style="text-align:right">

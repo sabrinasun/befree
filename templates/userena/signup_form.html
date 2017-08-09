@@ -2,7 +2,15 @@
 {% load i18n %}
 {% block content %}
 
-
+<style>
+label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    padding-right: 10px;
+    vertical-align: top;
+}
+</style>
 {% if form.errors %}
 <!--  div id="form-error">
 	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>

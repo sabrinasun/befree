@@ -1,7 +1,37 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
+<style>
+label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    padding-right: 10px;
+    vertical-align: top;
+}
 
+.small-menu .cart-menu {
+    display: inline-block;
+    line-height: 0;
+}
+
+.small-menu .cart {
+    display: inline-block;
+    position: relative;
+}
+
+.small-menu img {
+    width: 34px;
+    background-color: white;
+}
+
+.small-menu .cart-number {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    text-align: center;
+}
+</style>
 <div style="width:480px;">
 
 {% trans "Please login, or register if you don't have an login yet." %}
